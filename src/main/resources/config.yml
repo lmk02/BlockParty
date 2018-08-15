@@ -1,0 +1,22 @@
+LocaleFileName: locale_en.yml
+SaveOnDisable: false
+
+MusicServer:
+  Enabled: false
+  WebSocketLibrary: WebSocket
+  Port: 8080
+
+Database:
+  #Use "MySQL" to enable MySQL
+  Method: SQL
+  TablePrefix: "bp_"
+
+  SQLOptions:
+    FileName: "database.db"
+
+  MySQLOptions:
+    Host: localhost
+    Port: 3306
+    Database: database
+    Username: username
+    Password: password
