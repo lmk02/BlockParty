@@ -30,7 +30,7 @@ import java.util.Arrays;
 /**
  * Created by Leon on 14.03.2018.
  * Project Blockparty2
- * © 2016 - Leon Koth
+ * © 2018 - Leon Koth
  */
 public class BlockParty {
 
