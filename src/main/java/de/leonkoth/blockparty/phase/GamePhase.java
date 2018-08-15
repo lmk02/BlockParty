@@ -128,9 +128,11 @@ public class GamePhase implements Runnable {
             } else {
                 if (currentTime < (currentTimeToSearch + preparingTime + stopTime)) {
                     if (firstStopEnter) {
-                        if (arena.getSongManager().getVotedSong() != null) {
+                        /*if (arena.getSongManager().getVotedSong() != null) {
                             arena.getSongManager().getVotedSong().pause(this.blockParty, arena);
-                        }
+                        }*/
+
+                        arena.getSongManager().play(this.blockParty);
 
                         arena.getFloor().removeBlocks();
                         firstStopEnter = false;
@@ -150,9 +152,11 @@ public class GamePhase implements Runnable {
                     firstDanceEnter = true;
                     firstPrepareEnter = true;
 
-                    if (arena.getSongManager().getVotedSong() != null) {
+                    /*if (arena.getSongManager().getVotedSong() != null) {
                         arena.getSongManager().getVotedSong().continuePlay(blockParty, arena);
-                    }
+                    }*/
+
+                    arena.getSongManager().continuePlay(this.blockParty);
 
                     arena.getFloor().clearInventories();
                 }
