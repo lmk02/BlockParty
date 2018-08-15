@@ -77,17 +77,25 @@ public class SongManager {
         return mostVoted;
     }
 
-    public void play(BlockParty blockParty){
-        if(intelligentShuffleModeEnabled)
-        {
-            
-        }
-        else
-        {
-            this.active = this.getMostVoted();
+    private void shiftRight(Song song)
+    {
 
-            assert this.active != null;
-            this.active.play(blockParty, this.arena);
+    }
+
+    public void play(BlockParty blockParty){
+        Song temp = this.getMostVoted();
+        if(temp != null) {
+            if (intelligentShuffleModeEnabled) {
+
+                for (Song aPipeline : pipeline) {
+                    if (temp.equals(aPipeline)) {
+
+                    }
+                }
+            } else {
+                this.active = this.getMostVoted();
+                this.active.play(blockParty, this.arena);
+            }
         }
     }
 
