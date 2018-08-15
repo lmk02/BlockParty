@@ -1,0 +1,13 @@
+name: BlockParty
+version: 2.0
+authors: [Leon167, paulhull]
+description: Official BlockParty Plugin
+main: de.leonkoth.blockparty.Main
+depend: [WorldEdit]
+softdepend: [Multiverse-Core, MCJukebox]
+
+commands:
+  blockparty:
+    aliases: [bp, bparty]
+    description: Get information on how to use this Plugin
+    usage: /blockparty to get more information

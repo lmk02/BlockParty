@@ -1,0 +1,9 @@
+language: java
+jdk:
+- openjdk8
+deploy:
+  provider: releases
+  skip_cleanup: true
+  file: out/artifacts/BlockParty/BlockParty.jar
+  on:
+    tags: true
