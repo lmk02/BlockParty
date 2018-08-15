@@ -27,10 +27,10 @@ public class GameStartListener implements Listener {
     public void onGameStart(GameStartEvent event) {
         Arena arena = event.getArena();
 
-        arena.getSongManager().setMostVoted();
-        if (arena.getSongManager().getVotedSong() != null) {
-            arena.getSongManager().getVotedSong().play(blockParty, arena);
-        }
+        //arena.getSongManager().setMostVoted();
+        //if (arena.getSongManager().getVotedSong() != null) {
+            arena.getSongManager().play(this.blockParty);
+        //}
 
         arena.getFloor().setStartFloor();
 

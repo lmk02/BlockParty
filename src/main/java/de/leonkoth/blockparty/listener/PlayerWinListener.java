@@ -30,9 +30,9 @@ public class PlayerWinListener implements Listener {
         PlayerInfo playerInfo = event.getPlayerInfo();
 
         arena.getPhaseHandler().cancelGamePhase();
-        if (arena.getSongManager().getVotedSong() != null) {
-            arena.getSongManager().getVotedSong().stop(blockParty, arena);
-        }
+        //if (arena.getSongManager().getVotedSong() != null) {
+            arena.getSongManager().stop(this.blockParty);
+        //}
 
         if (player != null) {
             arena.broadcast(Locale.GAME_WINNER_ANNOUNCE_ALL.replace("%PLAYER%", player.getName()), false, playerInfo);

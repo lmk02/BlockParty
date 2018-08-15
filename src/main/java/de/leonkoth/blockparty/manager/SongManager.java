@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Leon on 17.03.2018.
@@ -27,13 +28,19 @@ public class SongManager {
     private Song[] pipeline;
     private boolean intelligentShuffleModeEnabled;
 
-    private Song active;
-
     public SongManager(Arena arena, List<String> names) {
+        this.intelligentShuffleModeEnabled = false;
         this.arena = arena;
         songs = new ArrayList<Song>();
         int size = (int)(names.size()*0.1) + 1;
-        pipeline = new Song[size];
+        if(size <= 10)
+        {
+            pipeline = new Song[size];
+        }
+        else
+        {
+            pipeline = new Song[10];
+        }
         if (arena.isUseWebSongs()) {
             for (String name : names) {
                 songs.add(new WebSong(name));
@@ -79,44 +86,67 @@ public class SongManager {
 
     private void shiftRight(Song song)
     {
-
+        for(int i = pipeline.length - 1; i > 0; i--)
+        {
+            pipeline[i] = pipeline[i - 1];
+        }
+        pipeline[0] = song;
     }
 
     public void play(BlockParty blockParty){
         Song temp = this.getMostVoted();
         if(temp != null) {
             if (intelligentShuffleModeEnabled) {
-
-                for (Song aPipeline : pipeline) {
-                    if (temp.equals(aPipeline)) {
-
+                int per = 100;
+                boolean inPipeline = false;
+                this.quickSort();
+                for(Song s : songs) {
+                    for (int i = 0; i < pipeline.length; i++) {
+                        Song aPipeline = pipeline[i];
+                        if (temp.equals(aPipeline)) {
+                            inPipeline = true;
+                            per -= (100 - 100 * (((i + 1) / (pipeline.length + 1))));
+                        }
+                    }
+                    if (inPipeline) {
+                        Random random = new Random();
+                        int n = random.nextInt(101);
+                        if(n <= per)
+                        {
+                            this.votedSong = s;
+                            break;
+                        }
+                    } else {
+                        this.votedSong = s;
+                        break;
                     }
                 }
+                this.shiftRight(this.votedSong);
             } else {
-                this.active = this.getMostVoted();
-                this.active.play(blockParty, this.arena);
+                this.votedSong = this.getMostVoted();
             }
+            this.votedSong.play(blockParty, this.arena);
         }
     }
 
     public void pause(BlockParty blockParty){
-        if(this.active != null)
+        if(this.votedSong != null)
         {
-            this.active.pause(blockParty, this.arena);
+            this.votedSong.pause(blockParty, this.arena);
         }
     }
 
     public void continuePlay(BlockParty blockParty){
-        if(this.active != null)
+        if(this.votedSong != null)
         {
-            this.active.continuePlay(blockParty, this.arena);
+            this.votedSong.continuePlay(blockParty, this.arena);
         }
     }
 
     public void stop(BlockParty blockParty){
-        if(this.active != null)
+        if(this.votedSong != null)
         {
-            this.active.stop(blockParty, this.arena);
+            this.votedSong.stop(blockParty, this.arena);
         }
     }
 
@@ -128,7 +158,7 @@ public class SongManager {
         songs = Arrays.asList(sortedSongs);
     }
 
-    int partition(Song arr[], int low, int high)
+    private int partition(Song arr[], int low, int high)
     {
         int pivot = arr[high].getVotes();
         int i = (low-1);
