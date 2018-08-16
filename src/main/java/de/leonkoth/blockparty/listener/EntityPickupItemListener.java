@@ -6,21 +6,28 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
-public class PlayerPickupItemListener implements Listener {
+public class EntityPickupItemListener implements Listener {
 
     private BlockParty blockParty;
 
-    public PlayerPickupItemListener(BlockParty blockParty) {
+    public EntityPickupItemListener(BlockParty blockParty) {
         this.blockParty = blockParty;
 
         Bukkit.getPluginManager().registerEvents(this, blockParty.getPlugin());
     }
 
     @EventHandler
-    public void onPlayerPickupItem(PlayerPickupItemEvent event) { //TODO: deprecated
-        Player player = event.getPlayer();
+    public void onEntityPickupItem(EntityPickupItemEvent event) {
+        Player player;
+
+        if(event.getEntity() instanceof Player) {
+            player = (Player) event.getEntity();
+        } else {
+            return;
+        }
 
         if (PlayerInfo.isInArena(player)) {
             event.setCancelled(true);

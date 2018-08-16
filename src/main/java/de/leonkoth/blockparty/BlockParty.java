@@ -104,7 +104,7 @@ public class BlockParty {
         new PlayerLeaveArenaListener(this);
         new PlayerLeaveListener(this);
         new PlayerMoveListener(this);
-        new PlayerPickupItemListener(this);
+        new EntityPickupItemListener(this);
         new PlayerWinListener(this);
         new RoundPrepareListener(this);
         new RoundStartListener(this);
