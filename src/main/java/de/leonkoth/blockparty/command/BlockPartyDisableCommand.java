@@ -27,7 +27,7 @@ public class BlockPartyDisableCommand extends SubCommand {
             return false;
         }
 
-        arena.disable();
+        arena.setEnabled(false);
         MessageManager.message(sender, Locale.ARENA_DISABLE_SUCCESS, "%ARENA%", args[1]);
 
         return true;

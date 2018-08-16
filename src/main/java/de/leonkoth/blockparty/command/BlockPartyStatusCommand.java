@@ -26,6 +26,11 @@ public class BlockPartyStatusCommand extends SubCommand {
             return false;
         }
 
+        if(!arena.isEnabled()) {
+            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+            return false;
+        }
+
         MessageManager.message(sender, Locale.LOBBY_STATUS, "%ARENA%", args[1], "%STATUS%", arena.getArenaState().name());
 
         return true;

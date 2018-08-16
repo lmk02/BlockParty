@@ -29,6 +29,11 @@ public class BlockPartyAddFloorCommand extends SubCommand {
             return false;
         }
 
+        if(!arena.isEnabled()) {
+            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+            return false;
+        }
+
         if (!SchematicLoader.exists(args[2])) {
             MessageManager.message(sender, Locale.FLOOR_FILE_DOESNT_EXIST, "%FLOOR%", args[2] + ".schematic");
             return false;

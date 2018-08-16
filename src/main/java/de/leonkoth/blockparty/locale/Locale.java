@@ -18,6 +18,7 @@ public class Locale {
     public static String ARENA_DISABLE_SUCCESS = "Arena %ARENA% &cdisabled";
     public static String ARENA_DOESNT_EXIST = "&cArena %ARENA% doesn't exist";
     public static String ARENA_ENABLE_SUCCESS = "Arena %ARENA% &aenabled";
+    public static String ARENA_DISABLED = "&cThis arena is disabled";
     public static String CONFIG_RELOADED = "&aReloaded config";
     public static String FLOOR_CREATE_FAIL = "&cFailed to create floor in arena %ARENA%";
     public static String FLOOR_CREATE_SUCCESS = "&aSuccessfully created floor in arena %ARENA%";
@@ -96,18 +97,18 @@ public class Locale {
     }
 
     private static String getName(String field) { // Converts EXAMPLE_NAME to ExampleName
-        String result = "";
+        StringBuilder result = new StringBuilder();
         String[] words = field.split("_");
 
         for (String word : words) {
             char[] chars = word.toCharArray();
 
             for (int i = 0; i < chars.length; i++) {
-                result += i == 0 ? Character.toUpperCase(chars[i]) : Character.toLowerCase(chars[i]);
+                result.append(i == 0 ? Character.toUpperCase(chars[i]) : Character.toLowerCase(chars[i]));
             }
         }
 
-        return result;
+        return result.toString();
     }
 
 }

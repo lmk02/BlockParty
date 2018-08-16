@@ -42,6 +42,11 @@ public class BlockPartySetFloorCommand extends SubCommand {
             return false;
         }
 
+        if(!arena.isEnabled()) {
+            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+            return false;
+        }
+
         if (Floor.create(arena, worldEditSelection.getBounds(), worldEditSelection.getWidth(), worldEditSelection.getLength())) {
             MessageManager.message(sender, Locale.FLOOR_CREATE_SUCCESS, "%ARENA%", args[1]);
             return true;
