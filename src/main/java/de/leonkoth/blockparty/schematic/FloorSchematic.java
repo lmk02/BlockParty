@@ -2,8 +2,11 @@ package de.leonkoth.blockparty.schematic;
 
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.blocks.BaseBlock;
 import lombok.Getter;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -43,8 +46,9 @@ public class FloorSchematic {
         for (int x = 0; x < size.getBlockX(); x++) {
             for (int z = 0; z < size.getBlockZ(); z++) {
                 Location location = new Location(bounds[0].getWorld(), bounds[0].getBlockX() + x, bounds[0].getBlockY(), bounds[0].getBlockZ() + z);
-                location.getBlock().setTypeIdAndData(clipboard.getBlock(new Vector(x, 0, z)).getId(), (byte) clipboard.getBlock(new Vector(x, 0, z)).getData(), true);
-                //TODO: deprecated
+                Block block = location.getBlock();
+                BaseBlock selectionBlock = clipboard.getBlock(new Vector(x, 0, z));
+                block.setTypeIdAndData(selectionBlock.getId(), (byte) selectionBlock.getData(), true);
             }
         }
     }

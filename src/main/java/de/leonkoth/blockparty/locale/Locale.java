@@ -58,6 +58,7 @@ public class Locale {
     public static String TIME_LEFT_IN_LOBBY = "The game starts in &e%TIME% &7seconds";
     public static String FLOOR_FILE_DOESNT_EXIST = "&cCouldn't find file %FLOOR%.";
     public static String FLOOR_ISNT_CORRECT_SIZE = "&cThis schematic isn't the right size";
+    public static String WRONG_SYNTAX = "&cWrong syntax. Use /blockparty help";
 
     public static void loadLocale(File localeFile) throws Exception {
 

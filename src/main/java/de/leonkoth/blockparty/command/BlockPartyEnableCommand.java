@@ -28,7 +28,7 @@ public class BlockPartyEnableCommand extends SubCommand {
         }
 
         arena.setEnabled(true);
-        MessageManager.message(sender, Locale.ARENA_ENABLE_SUCCESS, "%ARENA%", args[1]); //TODO: add to locale
+        MessageManager.message(sender, Locale.ARENA_ENABLE_SUCCESS, "%ARENA%", args[1]);
 
         return true;
 

@@ -1,6 +1,8 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.manager.MessageManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -72,7 +74,7 @@ public class BlockPartyCommand implements CommandExecutor {
         }
 
         if (showHelp) {
-            sender.sendMessage("§cWrong syntax. Use /blockparty help"); //TODO: add to locale
+            MessageManager.message(sender, Locale.WRONG_SYNTAX);
         }
 
         return true;
