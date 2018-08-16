@@ -28,6 +28,11 @@ public class BlockPartyStartArenaCommand extends SubCommand {
             return false;
         }
 
+        if(!arena.isEnabled()) {
+            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+            return false;
+        }
+
         if (arena.getArenaState() != ArenaState.LOBBY) {
             return false;
         }

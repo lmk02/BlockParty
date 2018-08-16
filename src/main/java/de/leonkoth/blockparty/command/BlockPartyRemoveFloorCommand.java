@@ -27,6 +27,11 @@ public class BlockPartyRemoveFloorCommand extends SubCommand {
             return false;
         }
 
+        if(!arena.isEnabled()) {
+            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+            return false;
+        }
+
         if (arena.removeFloor(args[2])) {
             MessageManager.message(sender, Locale.FLOOR_REMOVED_FROM_ARENA, "%ARENA%", args[1], "%FLOOR%", args[2]);
         } else {

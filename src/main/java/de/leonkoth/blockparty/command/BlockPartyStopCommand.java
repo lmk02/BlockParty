@@ -36,6 +36,11 @@ public class BlockPartyStopCommand extends SubCommand {
             return false;
         }
 
+        if(!arena.isEnabled()) {
+            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+            return false;
+        }
+
         if (arena.getArenaState() != ArenaState.INGAME) {
             MessageManager.message(sender, Locale.GAME_NOT_RUNNING);
             return false;

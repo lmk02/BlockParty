@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: ./lib/Java-WebSocket-1.3.8.jar
-Class-Path: ./lib/Cyclone.jar
-

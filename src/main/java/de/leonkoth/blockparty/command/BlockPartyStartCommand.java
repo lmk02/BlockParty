@@ -36,6 +36,11 @@ public class BlockPartyStartCommand extends SubCommand {
             return false;
         }
 
+        if(!arena.isEnabled()) {
+            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+            return false;
+        }
+
         if (!arena.getPhaseHandler().startGamePhase()) {
             MessageManager.message(sender, Locale.GAME_START_ABORTED);
             return false;

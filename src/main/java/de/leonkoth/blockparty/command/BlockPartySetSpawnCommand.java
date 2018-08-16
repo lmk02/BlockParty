@@ -30,6 +30,11 @@ public class BlockPartySetSpawnCommand extends SubCommand {
             return false;
         }
 
+        if(!arena.isEnabled()) {
+            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+            return false;
+        }
+
         if (args[2].equalsIgnoreCase("lobby")) {
             arena.setLobbySpawn(player.getLocation());
             MessageManager.message(sender, Locale.SPAWN_LOBBY_SET, "%ARENA%", arena.getName());

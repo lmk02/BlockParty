@@ -30,6 +30,11 @@ public class BlockPartyJoinCommand extends SubCommand {
             return false;
         }
 
+        if(!arena.isEnabled()) {
+            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+            return false;
+        }
+
         if (!arena.addPlayer(player)) {
             Bukkit.getLogger().severe("[BlockParty] " + player.getName() + " couldn't join arena " + arena.getName());
             return false;
