@@ -4,7 +4,7 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import org.bukkit.command.CommandSender;
 
 public class BlockPartyStartArenaCommand extends SubCommand {
@@ -24,12 +24,12 @@ public class BlockPartyStartArenaCommand extends SubCommand {
         try {
             arena = Arena.getByName(args[1]);
         } catch (NullPointerException e) {
-            MessageManager.message(sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }
 
-        if(!arena.isEnabled()) {
-            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+        if (!arena.isEnabled()) {
+            Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
             return false;
         }
 
@@ -38,7 +38,7 @@ public class BlockPartyStartArenaCommand extends SubCommand {
         }
 
         if (!arena.getPhaseHandler().startGamePhase()) {
-            MessageManager.message(sender, Locale.GAME_START_ABORTED);
+            Messenger.message(true, sender, Locale.START_ABORTED);
             return false;
         } else {
             arena.getPhaseHandler().cancelLobbyPhase();

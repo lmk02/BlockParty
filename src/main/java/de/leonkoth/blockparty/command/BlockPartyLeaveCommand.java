@@ -3,7 +3,7 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.Bukkit;
@@ -27,7 +27,7 @@ public class BlockPartyLeaveCommand extends SubCommand {
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
 
         if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-            MessageManager.message(sender, Locale.LEAVE_ERROR_NOT_IN_AN_ARENA);
+            Messenger.message(true, sender, Locale.NOT_IN_ARENA);
             return false;
         }
 

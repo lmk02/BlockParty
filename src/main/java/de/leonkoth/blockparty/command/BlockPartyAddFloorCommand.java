@@ -3,7 +3,7 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.schematic.FloorSchematic;
 import de.leonkoth.blockparty.schematic.SchematicLoader;
 import org.bukkit.command.CommandSender;
@@ -25,31 +25,29 @@ public class BlockPartyAddFloorCommand extends SubCommand {
         try {
             arena = Arena.getByName(args[1]);
         } catch (NullPointerException e) {
-            MessageManager.message(sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }
 
-        if(!arena.isEnabled()) {
-            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+        if (!arena.isEnabled()) {
+            Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
             return false;
         }
 
         if (!SchematicLoader.exists(args[2])) {
-            MessageManager.message(sender, Locale.FLOOR_FILE_DOESNT_EXIST, "%FLOOR%", args[2] + ".schematic");
+            Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST, "%FLOOR%", args[2] + ".schematic");
             return false;
         }
 
         FloorSchematic schematic = new FloorSchematic(name, arena.getFloor().getBounds());
 
         if (schematic.getSize().getX() != arena.getFloor().getWidth() || schematic.getSize().getZ() != arena.getFloor().getLength()) {
-            MessageManager.message(sender, Locale.FLOOR_ISNT_CORRECT_SIZE);
+            Messenger.message(true, sender, Locale.FLOOR_ISNT_CORRECT_SIZE);
             return false;
         }
 
         if (arena.addFloor(schematic)) {
-            for (String message : Locale.FLOOR_ADDED_TO_ARENA) {
-                MessageManager.message(sender, message, "%ARENA%", args[1], "%FLOOR%", args[2]);
-            }
+            Messenger.message(true, sender, Locale.FLOOR_ADDED, "%ARENA%", args[1], "%FLOOR%", args[2]);
         }
 
         return true;

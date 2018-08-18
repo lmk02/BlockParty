@@ -24,7 +24,7 @@ public class BlockPickListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPick(BlockPickEvent event) {
         Arena arena = event.getArena();
-        arena.broadcast(Locale.GAME_NEXT_BLOCK, true, (PlayerInfo) null, "%BLOCK%", Util.getName(arena.getFloor().getCurrentBlock()).split(":")[0]);
+        arena.broadcast(true, Locale.NEXT_BLOCK, true, (PlayerInfo) null, "%BLOCK%", Util.getName(arena.getFloor().getCurrentBlock()).split(":")[0]);
     }
 
 }

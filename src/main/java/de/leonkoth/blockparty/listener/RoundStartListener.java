@@ -23,7 +23,7 @@ public class RoundStartListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onRoundStart(RoundStartEvent event) {
         Arena arena = event.getArena();
-        arena.broadcast(Locale.GAME_PREPARE_FOR_NEXT_ROUND, true, (PlayerInfo) null);
+        arena.broadcast(true, Locale.PREPARE, true, (PlayerInfo) null);
     }
 
 }

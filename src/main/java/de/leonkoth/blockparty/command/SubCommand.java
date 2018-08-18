@@ -2,7 +2,7 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,12 +37,12 @@ public abstract class SubCommand {
             return false;
 
         if (!sender.hasPermission(permission)) {
-            MessageManager.message(sender, Locale.NO_PERMISSIONS);
+            Messenger.message(true, sender, Locale.NO_PERMISSIONS);
             return false;
         }
 
         if (onlyPlayers && !(sender instanceof Player)) {
-            MessageManager.message(sender, Locale.ONLY_PLAYERS);
+            Messenger.message(true, sender, Locale.ONLY_PLAYERS);
             return false;
         }
 

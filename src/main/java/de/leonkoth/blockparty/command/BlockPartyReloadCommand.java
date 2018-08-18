@@ -2,7 +2,7 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import org.bukkit.command.CommandSender;
 
 public class BlockPartyReloadCommand extends SubCommand {
@@ -19,7 +19,7 @@ public class BlockPartyReloadCommand extends SubCommand {
         }
 
         blockParty.reload();
-        MessageManager.message(sender, Locale.CONFIG_RELOADED);
+        Messenger.message(true, sender, Locale.CONFIG_RELOADED);
 
         return true;
     }

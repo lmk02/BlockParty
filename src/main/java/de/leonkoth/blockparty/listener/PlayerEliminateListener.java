@@ -30,13 +30,13 @@ public class PlayerEliminateListener implements Listener {
         Player player = event.getPlayer();
         PlayerInfo playerInfo = event.getPlayerInfo();
 
-        if(arena.isEnableLightnings()) {
+        if (arena.isEnableLightnings()) {
             player.getWorld().strikeLightningEffect(player.getLocation());
         }
 
         playerInfo.setPlayerState(PlayerState.SPECTATING);
         player.teleport(arena.getLobbySpawn());
-        arena.broadcast(Locale.GAME_ELIMINATED, false, (PlayerInfo) null, "%PLAYER%", playerInfo.getName());
+        arena.broadcast(true, Locale.PLAYER_ELIMINATED, false, (PlayerInfo) null, "%PLAYER%", playerInfo.getName());
 
         if (arena.getArenaState() == ArenaState.INGAME || arena.getArenaState() == ArenaState.WINNERPHASE) {
             arena.getPhaseHandler().getGamePhase().eliminate(playerInfo);

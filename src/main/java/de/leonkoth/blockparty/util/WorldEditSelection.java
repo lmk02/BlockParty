@@ -4,7 +4,7 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -53,7 +53,7 @@ public class WorldEditSelection {
             World world = selection.getWorld();
             return new WorldEditSelection(bounds, width, length, size, pos1, pos2, world);
         } else {
-            MessageManager.message(player, Locale.FLOOR_ERROR_WORLD_EDIT_SELECT);
+            Messenger.message(true, player, Locale.WORLD_EDIT_SELECT);
             return null;
         }
     }

@@ -4,7 +4,7 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.floor.Floor;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.util.WorldEditSelection;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,7 +30,7 @@ public class BlockPartySetFloorCommand extends SubCommand {
         }
 
         if (worldEditSelection.getSize().getY() != 1) {
-            MessageManager.message(sender, Locale.FLOOR_ERROR_MAX_HEIGHT);
+            Messenger.message(true, sender, Locale.FLOOR_MIN_HEIHGT);
             return false;
         }
 
@@ -38,21 +38,21 @@ public class BlockPartySetFloorCommand extends SubCommand {
         try {
             arena = Arena.getByName(args[1]);
         } catch (NullPointerException e) {
-            MessageManager.message(sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }
 
-        if(!arena.isEnabled()) {
-            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+        if (!arena.isEnabled()) {
+            Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
             return false;
         }
 
         if (Floor.create(arena, worldEditSelection.getBounds(), worldEditSelection.getWidth(), worldEditSelection.getLength())) {
-            MessageManager.message(sender, Locale.FLOOR_CREATE_SUCCESS, "%ARENA%", args[1]);
+            Messenger.message(true, sender, Locale.FLOOR_CREATE_SUCCESS, "%ARENA%", args[1]);
             return true;
         }
 
-        MessageManager.message(sender, Locale.FLOOR_CREATE_FAIL, "%ARENA%", args[1]);
+        Messenger.message(true, sender, Locale.FLOOR_CREATE_FAIL, "%ARENA%", args[1]);
 
         return true;
     }
