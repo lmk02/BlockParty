@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 public class BlockPartyReloadCommand extends SubCommand {
 
     public BlockPartyReloadCommand(BlockParty blockParty) {
-        super(false, 1, "reload", "blockparty.admin", blockParty);
+        super(false, 1, "reload", "blockparty.admin.reload", blockParty);
     }
 
     @Override

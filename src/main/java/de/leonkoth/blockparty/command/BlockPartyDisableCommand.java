@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 public class BlockPartyDisableCommand extends SubCommand {
 
     public BlockPartyDisableCommand(BlockParty blockParty) {
-        super(false, 2, "disable", "blockparty.admin", blockParty);
+        super(false, 2, "disable", "blockparty.admin.disable", blockParty);
     }
 
     @Override

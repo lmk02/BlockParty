@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 public class BlockPartyListArenasCommand extends SubCommand {
 
     public BlockPartyListArenasCommand(BlockParty blockParty) {
-        super(false, 1, "listarenas", "blockparty.admin", blockParty);
+        super(false, 1, "listarenas", "blockparty.admin.listarenas", blockParty);
     }
 
     @Override

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 public class BlockPartyTutorialCommand extends SubCommand {
 
     public BlockPartyTutorialCommand(BlockParty blockParty) {
-        super(false, 1, "tutorial", "blockparty.admin", blockParty);
+        super(false, 1, "tutorial", "blockparty.admin.tutorial", blockParty);
     }
 
     @Override

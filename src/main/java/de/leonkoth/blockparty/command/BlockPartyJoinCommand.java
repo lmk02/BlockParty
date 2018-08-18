@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class BlockPartyJoinCommand extends SubCommand {
 
     public BlockPartyJoinCommand(BlockParty blockParty) {
-        super(true, 2, "join", "blockparty.user", blockParty);
+        super(true, 2, "join", "blockparty.user.join", blockParty);
     }
 
     @Override

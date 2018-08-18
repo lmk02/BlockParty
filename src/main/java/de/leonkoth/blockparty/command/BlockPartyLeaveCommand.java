@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class BlockPartyLeaveCommand extends SubCommand {
 
     public BlockPartyLeaveCommand(BlockParty blockParty) {
-        super(true, 1, "leave", "blockparty.user", blockParty);
+        super(true, 1, "leave", "blockparty.user.leave", blockParty);
     }
 
     @Override

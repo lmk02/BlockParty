@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 public class BlockPartyAddFloorCommand extends SubCommand {
 
     public BlockPartyAddFloorCommand(BlockParty blockParty) {
-        super(false, 3, "addfloor", "blockparty.admin", blockParty);
+        super(false, 3, "addfloor", "blockparty.admin.addfloor", blockParty);
     }
 
     @Override

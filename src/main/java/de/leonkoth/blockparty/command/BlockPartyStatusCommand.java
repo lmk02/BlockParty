@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 public class BlockPartyStatusCommand extends SubCommand {
 
     public BlockPartyStatusCommand(BlockParty blockParty) {
-        super(false, 2, "status", "blockparty.admin", blockParty);
+        super(false, 2, "status", "blockparty.admin.status", blockParty);
     }
 
     @Override
