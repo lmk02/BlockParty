@@ -5,7 +5,8 @@ import de.leonkoth.blockparty.event.PlayerEliminateEvent;
 import de.leonkoth.blockparty.event.PlayerJoinArenaEvent;
 import de.leonkoth.blockparty.event.PlayerLeaveArenaEvent;
 import de.leonkoth.blockparty.floor.Floor;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.LocaleString;
+import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.manager.SongManager;
 import de.leonkoth.blockparty.phase.PhaseHandler;
 import de.leonkoth.blockparty.player.PlayerInfo;
@@ -294,11 +295,11 @@ public class Arena {
         arenaDataManager.saveLocation("Spawns.Game", gameSpawn);
     }
 
-    public void broadcast(String message, boolean onlyIngame, PlayerInfo except, String... placeholders) {
-        broadcast(message, onlyIngame, new PlayerInfo[]{except}, placeholders);
+    public void broadcast(boolean usePrefix, LocaleString message, boolean onlyIngame, PlayerInfo except, String... placeholders) {
+        broadcast(usePrefix, message, onlyIngame, new PlayerInfo[]{except}, placeholders);
     }
 
-    public void broadcast(String message, boolean onlyIngame, PlayerInfo[] exceptions, String... placeholders) {
+    public void broadcast(boolean usePrefix, LocaleString message, boolean onlyIngame, PlayerInfo[] exceptions, String... placeholders) {
 
         playerLoop:
         for (PlayerInfo playerInfo : playersInArena) {
@@ -313,7 +314,7 @@ public class Arena {
                 continue;
             }
 
-            MessageManager.message(playerInfo.asPlayer(), message, placeholders);
+            Messenger.message(usePrefix, playerInfo.asPlayer(), message, placeholders);
         }
     }
 

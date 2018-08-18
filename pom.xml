@@ -71,6 +71,20 @@
             <version>2.6</version>
         </dependency>
 
+        <!-- Cyclone -->
+        <dependency>
+            <groupId>de.jackwhite20</groupId>
+            <artifactId>cyclone-core</artifactId>
+            <version>1.1.2-SNAPSHOT</version>
+        </dependency>
+
+        <!-- MCJukebox -->
+        <dependency>
+            <groupId>com.oliverdunk</groupId>
+            <artifactId>MCJukebox</artifactId>
+            <version>2.5.2-RELEASE</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 

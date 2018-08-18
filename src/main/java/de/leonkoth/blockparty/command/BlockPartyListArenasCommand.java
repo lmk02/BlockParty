@@ -3,7 +3,7 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import org.bukkit.command.CommandSender;
 
 public class BlockPartyListArenasCommand extends SubCommand {
@@ -22,7 +22,7 @@ public class BlockPartyListArenasCommand extends SubCommand {
         sender.sendMessage("§8§m----------§e All arenas §8§m----------");
 
         if (blockParty.getArenas().isEmpty()) {
-            MessageManager.messageWithoutPrefix(sender, Locale.NO_ARENAS);
+            Messenger.message(false, sender, Locale.NO_ARENAS);
         }
 
         for (Arena arena : blockParty.getArenas()) {

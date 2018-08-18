@@ -2,7 +2,7 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -74,7 +74,7 @@ public class BlockPartyCommand implements CommandExecutor {
         }
 
         if (showHelp) {
-            MessageManager.message(sender, Locale.WRONG_SYNTAX);
+            Messenger.message(true, sender, Locale.WRONG_SYNTAX);
         }
 
         return true;

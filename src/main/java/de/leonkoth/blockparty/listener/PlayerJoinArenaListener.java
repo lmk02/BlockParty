@@ -5,7 +5,7 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.event.PlayerJoinArenaEvent;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerData;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
@@ -33,13 +33,13 @@ public class PlayerJoinArenaListener implements Listener {
         PlayerInfo playerInfo = event.getPlayerInfo();
 
         if (playerInfo.getPlayerState() != PlayerState.DEFAULT) {
-            MessageManager.message(player, Locale.ALREADY_IN_GAME);
+            Messenger.message(true, player, Locale.ALREADY_IN_GAME);
             event.setCancelled(true);
             return;
         }
 
         if (arena.getPlayersInArena().size() >= arena.getMaxPlayers()) {
-            MessageManager.message(player, Locale.ARENA_ALREADY_FULL);
+            Messenger.message(true, player, Locale.ARENA_ALREADY_FULL);
             event.setCancelled(true);
             return;
         }
@@ -50,7 +50,7 @@ public class PlayerJoinArenaListener implements Listener {
             if (arena.isAllowJoinDuringGame()) {
                 playerInfo.setPlayerState(PlayerState.SPECTATING);
             } else {
-                MessageManager.message(player, Locale.GAME_IN_PROGRESS);
+                Messenger.message(true, player, Locale.IN_PROGRESS);
                 event.setCancelled(true);
                 return;
             }
@@ -66,9 +66,9 @@ public class PlayerJoinArenaListener implements Listener {
         player.setExp(0);
         playerInfo.setCurrentArena(arena.getName());
         arena.getPlayersInArena().add(playerInfo);
-        arena.broadcast(Locale.PLAYER_JOINED_GAME, false, playerInfo, "%PLAYER%", player.getName());
+        arena.broadcast(true, Locale.PLAYER_JOINED_GAME, false, playerInfo, "%PLAYER%", player.getName());
 
-        MessageManager.message(player, Locale.JOIN_SUCCESS, "%ARENA%", arena.getName());
+        Messenger.message(true, player, Locale.JOINED_GAME, "%ARENA%", arena.getName());
         arena.getPhaseHandler().startLobbyPhase();
 
     }

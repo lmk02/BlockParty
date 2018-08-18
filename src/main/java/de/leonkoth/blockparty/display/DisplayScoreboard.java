@@ -1,7 +1,7 @@
 package de.leonkoth.blockparty.display;
 
-import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -30,7 +30,7 @@ public class DisplayScoreboard {
         //ArrayList<Score> sc = new ArrayList<>();
 
         for (int i = 0; i < Locale.SCOREBOARD_TEXT.length - 1; i++) {
-            Score score = objective.getScore(Locale.SCOREBOARD_TEXT[i + 1].replace("%LEVEL%", level + "").replace( "%CURRENTPLAYERS%", arena.getPlayersInArena().size() + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
+            Score score = objective.getScore(Locale.SCOREBOARD_TEXT[i + 1].replace("%LEVEL%", level + "").replace("%CURRENTPLAYERS%", arena.getPlayersInArena().size() + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
             score.setScore(Locale.SCOREBOARD_TEXT.length - 1 - i);
         }
 

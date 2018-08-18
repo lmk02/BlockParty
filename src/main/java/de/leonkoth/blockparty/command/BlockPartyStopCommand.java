@@ -4,7 +4,7 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,17 +32,17 @@ public class BlockPartyStopCommand extends SubCommand {
         try {
             arena = Arena.getByName(playerInfo.getCurrentArena());
         } catch (NullPointerException e) {
-            MessageManager.message(sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }
 
-        if(!arena.isEnabled()) {
-            MessageManager.message(sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
+        if (!arena.isEnabled()) {
+            Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
             return false;
         }
 
         if (arena.getArenaState() != ArenaState.INGAME) {
-            MessageManager.message(sender, Locale.GAME_NOT_RUNNING);
+            Messenger.message(true, sender, Locale.NOT_RUNNING);
             return false;
         }
 

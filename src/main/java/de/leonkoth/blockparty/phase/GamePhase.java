@@ -87,7 +87,7 @@ public class GamePhase implements Runnable {
     @Override
     public void run() {
 
-        if(arena.isEnableParticles()) {
+        if (arena.isEnableParticles()) {
             arena.getFloor().playParticles(5, 3, 10);
         }
 

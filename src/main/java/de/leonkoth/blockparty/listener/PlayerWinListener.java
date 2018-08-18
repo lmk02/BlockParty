@@ -4,7 +4,7 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.event.PlayerWinEvent;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -31,12 +31,12 @@ public class PlayerWinListener implements Listener {
 
         arena.getPhaseHandler().cancelGamePhase();
         //if (arena.getSongManager().getVotedSong() != null) {
-            arena.getSongManager().stop(this.blockParty);
+        arena.getSongManager().stop(this.blockParty);
         //}
 
         if (player != null) {
-            arena.broadcast(Locale.GAME_WINNER_ANNOUNCE_ALL.replace("%PLAYER%", player.getName()), false, playerInfo);
-            MessageManager.message(player, Locale.GAME_WINNER_ANNOUNCE_SELF);
+            arena.broadcast(true, Locale.WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
+            Messenger.message(true, player, Locale.WINNER_ANNOUNCE_SELF);
         }
 
         arena.getFloor().clearInventories();

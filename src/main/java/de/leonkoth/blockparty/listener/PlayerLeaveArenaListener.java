@@ -4,7 +4,7 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.event.PlayerLeaveArenaEvent;
 import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.manager.MessageManager;
+import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.Bukkit;
@@ -39,8 +39,8 @@ public class PlayerLeaveArenaListener implements Listener {
             playerInfo.setPlayerData(null);
         }
 
-        arena.broadcast(Locale.PLAYER_LEFT_GAME, false, playerInfo, "%PLAYER%", player.getName());
-        MessageManager.message(player, Locale.LEAVE_SUCCESS, "%ARENA%", arena.getName());
+        arena.broadcast(true, Locale.PLAYER_LEFT_GAME, false, playerInfo, "%PLAYER%", player.getName());
+        Messenger.message(true, player, Locale.LEFT_GAME, "%ARENA%", arena.getName());
         arena.getPlayersInArena().remove(playerInfo);
     }
 

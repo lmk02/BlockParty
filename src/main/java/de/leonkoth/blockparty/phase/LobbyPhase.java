@@ -69,7 +69,7 @@ public class LobbyPhase implements Runnable {
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1, 1);
                 }
 
-                arena.broadcast(Locale.TIME_LEFT_IN_LOBBY, false, (PlayerInfo) null, "%TIME%", Integer.toString(countdown));
+                arena.broadcast(true, Locale.TIME_LEFT, false, (PlayerInfo) null, "%TIME%", Integer.toString(countdown));
             }
 
             for (Player player : players) {
@@ -78,11 +78,11 @@ public class LobbyPhase implements Runnable {
                 player.setExp(exp);
             }
 
-            Util.showActionBar(Locale.LOBBY_ACTIONBAR_COUNTDOWN.replace("%NUMBER%", Integer.toString(countdown)), arena, false);
+            Util.showActionBar(Locale.ACTIONBAR_COUNTDOWN.toString().replace("%NUMBER%", Integer.toString(countdown)), arena, false);
 
             //this.displayScoreboard.setScoreboard(i, 0, arena); TODO: show scoreboard
         } else {
-            arena.broadcast(Locale.GAME_START_ABORTED, false, (PlayerInfo) null);
+            arena.broadcast(true, Locale.START_ABORTED, false, (PlayerInfo) null);
             countdown = -1;
         }
 

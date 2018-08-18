@@ -32,13 +32,10 @@ public class SongManager {
         this.intelligentShuffleModeEnabled = false;
         this.arena = arena;
         songs = new ArrayList<Song>();
-        int size = (int)(names.size()*0.1) + 1;
-        if(size <= 10)
-        {
+        int size = (int) (names.size() * 0.1) + 1;
+        if (size <= 10) {
             pipeline = new Song[size];
-        }
-        else
-        {
+        } else {
             pipeline = new Song[10];
         }
         if (arena.isUseWebSongs()) {
@@ -84,23 +81,21 @@ public class SongManager {
         return mostVoted;
     }
 
-    private void shiftRight(Song song)
-    {
-        for(int i = pipeline.length - 1; i > 0; i--)
-        {
+    private void shiftRight(Song song) {
+        for (int i = pipeline.length - 1; i > 0; i--) {
             pipeline[i] = pipeline[i - 1];
         }
         pipeline[0] = song;
     }
 
-    public void play(BlockParty blockParty){
+    public void play(BlockParty blockParty) {
         Song temp = this.getMostVoted();
-        if(temp != null) {
+        if (temp != null) {
             if (intelligentShuffleModeEnabled) {
                 int per = 100;
                 boolean inPipeline = false;
                 this.quickSort();
-                for(Song s : songs) {
+                for (Song s : songs) {
                     for (int i = 0; i < pipeline.length; i++) {
                         Song aPipeline = pipeline[i];
                         if (temp.equals(aPipeline)) {
@@ -111,8 +106,7 @@ public class SongManager {
                     if (inPipeline) {
                         Random random = new Random();
                         int n = random.nextInt(101);
-                        if(n <= per)
-                        {
+                        if (n <= per) {
                             this.votedSong = s;
                             break;
                         }
@@ -129,43 +123,36 @@ public class SongManager {
         }
     }
 
-    public void pause(BlockParty blockParty){
-        if(this.votedSong != null)
-        {
+    public void pause(BlockParty blockParty) {
+        if (this.votedSong != null) {
             this.votedSong.pause(blockParty, this.arena);
         }
     }
 
-    public void continuePlay(BlockParty blockParty){
-        if(this.votedSong != null)
-        {
+    public void continuePlay(BlockParty blockParty) {
+        if (this.votedSong != null) {
             this.votedSong.continuePlay(blockParty, this.arena);
         }
     }
 
-    public void stop(BlockParty blockParty){
-        if(this.votedSong != null)
-        {
+    public void stop(BlockParty blockParty) {
+        if (this.votedSong != null) {
             this.votedSong.stop(blockParty, this.arena);
         }
     }
 
-    private void quickSort()
-    {
+    private void quickSort() {
         Song[] sortedSongs = new Song[songs.size()];
         sortedSongs = songs.toArray(sortedSongs);
-        this.sort(sortedSongs, 0, sortedSongs.length-1);
+        this.sort(sortedSongs, 0, sortedSongs.length - 1);
         songs = Arrays.asList(sortedSongs);
     }
 
-    private int partition(Song arr[], int low, int high)
-    {
+    private int partition(Song arr[], int low, int high) {
         int pivot = arr[high].getVotes();
-        int i = (low-1);
-        for (int j=low; j<high; j++)
-        {
-            if (arr[j].getVotes() <= pivot)
-            {
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (arr[j].getVotes() <= pivot) {
                 i++;
 
                 Song temp = arr[i];
@@ -174,21 +161,19 @@ public class SongManager {
             }
         }
 
-        Song temp = arr[i+1];
-        arr[i+1] = arr[high];
+        Song temp = arr[i + 1];
+        arr[i + 1] = arr[high];
         arr[high] = temp;
 
-        return i+1;
+        return i + 1;
     }
 
-    private void sort(Song arr[], int low, int high)
-    {
-        if (low < high)
-        {
+    private void sort(Song arr[], int low, int high) {
+        if (low < high) {
             int pi = partition(arr, low, high);
 
-            sort(arr, low, pi-1);
-            sort(arr, pi+1, high);
+            sort(arr, low, pi - 1);
+            sort(arr, pi + 1, high);
         }
     }
 

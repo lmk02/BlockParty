@@ -29,7 +29,7 @@ public class GameStartListener implements Listener {
 
         //arena.getSongManager().setMostVoted();
         //if (arena.getSongManager().getVotedSong() != null) {
-            arena.getSongManager().play(this.blockParty);
+        arena.getSongManager().play(this.blockParty);
         //}
 
         arena.getFloor().setStartFloor();
@@ -43,7 +43,7 @@ public class GameStartListener implements Listener {
             player.setExp(0);
         }
 
-        arena.broadcast(Locale.GAME_STARTED, false, (PlayerInfo) null);
+        arena.broadcast(true, Locale.GAME_STARTED, false, (PlayerInfo) null);
     }
 
 }
