@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 public class BlockPartyRemoveFloorCommand extends SubCommand {
 
     public BlockPartyRemoveFloorCommand(BlockParty blockParty) {
-        super(false, 3, "removefloor", "blockparty.admin", blockParty);
+        super(false, 3, "removefloor", "blockparty.admin.removefloor", blockParty);
     }
 
     @Override

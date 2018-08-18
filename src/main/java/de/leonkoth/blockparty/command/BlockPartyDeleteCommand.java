@@ -10,7 +10,7 @@ public class BlockPartyDeleteCommand extends SubCommand {
 
 
     public BlockPartyDeleteCommand(BlockParty blockParty) {
-        super(false, 2, "delete", "blockparty.admin", blockParty);
+        super(false, 2, "delete", "blockparty.admin.delete", blockParty);
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class BlockPartyCreateSchematicCommand extends SubCommand {
 
     public BlockPartyCreateSchematicCommand(BlockParty blockParty) {
-        super(true, 2, "createschematic", "blockparty.admin", blockParty);
+        super(true, 2, "createschematic", "blockparty.admin.createschematic", blockParty);
     }
 
     @Override

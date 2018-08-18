@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class BlockPartyStopCommand extends SubCommand {
 
     public BlockPartyStopCommand(BlockParty blockParty) {
-        super(true, 1, "stop", "blockparty.admin", blockParty);
+        super(true, 1, "stop", "blockparty.admin.stop", blockParty);
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class BlockPartySetSpawnCommand extends SubCommand {
 
     public BlockPartySetSpawnCommand(BlockParty blockParty) {
-        super(true, 2, "setspawn", "blockparty.admin", blockParty);
+        super(true, 2, "setspawn", "blockparty.admin.setspawn", blockParty);
     }
 
     @Override

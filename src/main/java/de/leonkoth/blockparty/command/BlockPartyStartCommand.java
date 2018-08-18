@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class BlockPartyStartCommand extends SubCommand {
 
     public BlockPartyStartCommand(BlockParty blockParty) {
-        super(true, 1, "start", "blockparty.admin", blockParty);
+        super(true, 1, "start", "blockparty.admin.start", blockParty);
     }
 
     @Override

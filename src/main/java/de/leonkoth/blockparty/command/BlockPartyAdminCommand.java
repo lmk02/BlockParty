@@ -7,7 +7,7 @@ public class BlockPartyAdminCommand extends SubCommand {
 
 
     public BlockPartyAdminCommand(BlockParty blockParty) {
-        super(false, 1, "admin", "blockparty.admin", blockParty);
+        super(false, 1, "admin", "blockparty.admin.help", blockParty);
     }
 
     @Override

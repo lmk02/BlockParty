@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class BlockPartySetFloorCommand extends SubCommand {
 
     public BlockPartySetFloorCommand(BlockParty blockParty) {
-        super(true, 2, "setfloor", "blockparty.admin", blockParty);
+        super(true, 2, "setfloor", "blockparty.admin.setfloor", blockParty);
     }
 
     @Override

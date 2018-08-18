@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 public class BlockPartyHelpCommand extends SubCommand {
 
     public BlockPartyHelpCommand(BlockParty blockParty) {
-        super(false, 1, "help", "blockparty.user", blockParty);
+        super(false, 1, "help", "blockparty.user.help", blockParty);
     }
 
     @Override
