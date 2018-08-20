@@ -16,7 +16,7 @@ public class BlockPartyTutorialCommand extends SubCommand {
             return false;
         }
 
-        if (args.length > 1 && args[1].equalsIgnoreCase("schematics")) {
+        if (args.length > 1 && args[1].equalsIgnoreCase("schematics")) { //TODO: update tutorial
             sender.sendMessage("§m§e----- §6BlockParty Tutorial §m§e-----");
             sender.sendMessage("§8 • §7Create a schematic of your floor using e.g. WorldEdit or MCEdit.");
             sender.sendMessage("§8 • §7Copy the schematic files to §eplugins/BlockParty/Floors§7.");

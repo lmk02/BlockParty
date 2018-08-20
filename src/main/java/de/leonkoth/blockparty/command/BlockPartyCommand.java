@@ -38,6 +38,7 @@ public class BlockPartyCommand implements CommandExecutor {
         commands.add(new BlockPartyJoinCommand(blockParty));
         commands.add(new BlockPartyLeaveCommand(blockParty));
         commands.add(new BlockPartyListArenasCommand(blockParty));
+        commands.add(new BlockPartyListSchematicsCommand(blockParty));
         commands.add(new BlockPartyReloadCommand(blockParty));
         commands.add(new BlockPartyRemoveFloorCommand(blockParty));
         commands.add(new BlockPartySetSpawnCommand(blockParty));

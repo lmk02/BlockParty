@@ -30,6 +30,7 @@ public class Locale {
     public static LocaleString PLAYER_JOINED_GAME = new LocaleString(INFO, "%PLAYER% joined the match");
     public static LocaleString PLAYER_LEFT_GAME = new LocaleString(INFO, "%PLAYER% left the match");
     public static LocaleString PREPARE = new LocaleString(INFO, "Prepare for the next round!");
+    public static LocaleString SCHEMATICS_LIST = new LocaleString(INFO, "List of all schematics: %SCHEMATICS%");
     public static LocaleString TIME_LEFT = new LocaleString(INFO, "The game starts in &e%TIME% &7seconds");
     public static LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Player %PLAYER% won the game");
     public static LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aCongratulations! You won the game");
@@ -47,6 +48,7 @@ public class Locale {
     public static LocaleString IN_PROGRESS = new LocaleString(ERROR, "The game you are trying to join is already running");
     public static LocaleString NO_ARENAS = new LocaleString(ERROR, "There are no arenas to list");
     public static LocaleString NO_PERMISSIONS = new LocaleString(ERROR, "You don't have enough permissions to do that");
+    public static LocaleString NO_SCHEMATICS = new LocaleString(ERROR, "There are no schematics installed");
     public static LocaleString NO_TYPE = new LocaleString(ERROR, "%TYPE% is no valid spawn point");
     public static LocaleString NOT_IN_ARENA = new LocaleString(ERROR, "You are not in an arena");
     public static LocaleString NOT_RUNNING = new LocaleString(ERROR, "Game is not running");
