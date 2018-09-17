@@ -121,10 +121,10 @@ public class ArenaDataManager {
         config.set("Configuration.EnableActionbarInfo", dataSet.isEnableActionbarInfo());
         config.set("Configuration.EnableFireworksOnWin", dataSet.isEnableFireworksOnWin());
         config.set("Configuration.UseNoteblockSongs", dataSet.isUseNoteblockSongs());
-        config.set("Configuration.UseWebSongs", dataSet.isUseNoteblockSongs());
+        config.set("Configuration.UseWebSongs", dataSet.isUseWebSongs());
 
         if (dataSet.getSongManager() != null) {
-            config.set("Configuration.Songs", dataSet.getSongManager().getSongs());
+            config.set("Configuration.Songs", dataSet.getSongManager().getSongNames());
         }
 
         if (dataSet.getFloor() != null) {

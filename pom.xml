@@ -16,6 +16,11 @@
         </repository>
 
         <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
+        <repository>
             <id>spigot</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
@@ -56,14 +61,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- WorldEdit -->
-        <dependency>
-            <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
-            <version>6.0</version>
-            <scope>provided</scope>
-        </dependency>
-
 
         <!-- MCJukebox -->
         <dependency>
@@ -71,6 +68,12 @@
             <artifactId>MCJukebox</artifactId>
             <version>2.5.2-RELEASE</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.koca2000</groupId>
+            <artifactId>NoteBlockAPI</artifactId>
+            <version>1.2.2.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

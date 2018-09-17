@@ -46,6 +46,16 @@ public class SongManager {
         }
     }
 
+    public ArrayList<String> getSongNames()
+    {
+        ArrayList<String> names = new ArrayList<>();
+        for(Song s : songs)
+        {
+            names.add(s.getName());
+        }
+        return names;
+    }
+
     public void addSong(String name){
         if (arena.isUseWebSongs()) {
             songs.add(new WebSong(name));

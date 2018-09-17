@@ -90,7 +90,7 @@ public class Arena {
     @Getter
     private ParticlePlayer particlePlayer;
 
-    public Arena(String name, BlockParty blockParty) {
+    public Arena(String name, BlockParty blockParty, boolean save) {
         this.name = name;
         this.blockParty = blockParty;
         this.arenaState = ArenaState.LOBBY;
@@ -123,7 +123,8 @@ public class Arena {
         this.particlePlayer = new ParticlePlayer("CLOUD");
         this.playersInArena = new ArrayList<>();
 
-        this.setDefaults();
+        if(save)
+            this.setDefaults();
     }
 
     public static boolean create(String name) {
@@ -132,7 +133,7 @@ public class Arena {
         }
 
         BlockParty blockParty = BlockParty.getInstance();
-        Arena arena = new Arena(name, blockParty);
+        Arena arena = new Arena(name, blockParty, true);
         blockParty.getArenas().add(arena);
 
         return true;
@@ -141,7 +142,7 @@ public class Arena {
     public static Arena getArenaData(String name) {
 
         BlockParty blockParty = BlockParty.getInstance();
-        Arena arena = new Arena(name, blockParty);
+        Arena arena = new Arena(name, blockParty, false);
 
         if (Arena.exists(name)) {
             arena = Arena.getByName(name);
