@@ -1,10 +1,7 @@
-package de.leonkoth.blockparty.manager;
+package de.leonkoth.blockparty.song;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.song.NoteblockSong;
-import de.leonkoth.blockparty.song.Song;
-import de.leonkoth.blockparty.song.WebSong;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
@@ -17,7 +14,6 @@ import java.util.Random;
  * Project Blockparty2
  * © 2016 - Leon Koth
  */
-@Deprecated
 public class SongManager {
 
     private List<Song> songs;

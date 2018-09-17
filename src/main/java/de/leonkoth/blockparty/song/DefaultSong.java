@@ -1,4 +1,4 @@
-package de.leonkoth.blockparty.schematic;
+package de.leonkoth.blockparty.song;
 
 import de.leonkoth.blockparty.BlockParty;
 
@@ -11,25 +11,25 @@ import java.nio.file.Files;
  * Project Blockparty2
  * © 2016 - Leon Koth
  */
-public class SchematicManager {
+public class DefaultSong {
 
-    public void copyDefaultSchematics() {
-        File file = new File(BlockParty.PLUGIN_FOLDER + "Floors/");
+    public void copyDefaultSongs() {
+        File file = new File(BlockParty.PLUGIN_FOLDER + "Songs/");
 
         if (!file.exists()) {
             file.mkdirs();
 
-            copySchematic("Floors/start.schematic");
-            copySchematic("Floors/example.schematic");
+            copySongs("Songs/LetItGo.nbs");
+            copySongs("Songs/ZeldaTheme.nbs");
         }
     }
 
-    private void copySchematic(String resourceName) {
+    private void copySongs(String resourceName) {
         File file = new File(BlockParty.PLUGIN_FOLDER + resourceName);
 
         if (!file.exists()) {
             try {
-                Files.copy(SchematicManager.class.getClassLoader().getResourceAsStream(resourceName), file.toPath());
+                Files.copy(DefaultSong.class.getClassLoader().getResourceAsStream(resourceName), file.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }

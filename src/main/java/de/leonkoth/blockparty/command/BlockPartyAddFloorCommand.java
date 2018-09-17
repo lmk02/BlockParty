@@ -39,7 +39,8 @@ public class BlockPartyAddFloorCommand extends SubCommand {
             return false;
         }
 
-        FloorSchematic schematic = new FloorSchematic(name, arena.getFloor().getBounds());
+        FloorSchematic schematic = new FloorSchematic(args[2], arena.getFloor().getBounds());
+        schematic.loadFloorSchematic();
 
         if (schematic.getSize().getX() != arena.getFloor().getWidth() || schematic.getSize().getZ() != arena.getFloor().getLength()) {
             Messenger.message(true, sender, Locale.FLOOR_ISNT_CORRECT_SIZE);

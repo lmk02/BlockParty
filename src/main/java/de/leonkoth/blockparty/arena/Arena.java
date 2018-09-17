@@ -7,7 +7,7 @@ import de.leonkoth.blockparty.event.PlayerLeaveArenaEvent;
 import de.leonkoth.blockparty.floor.Floor;
 import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
-import de.leonkoth.blockparty.manager.SongManager;
+import de.leonkoth.blockparty.song.SongManager;
 import de.leonkoth.blockparty.phase.PhaseHandler;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
