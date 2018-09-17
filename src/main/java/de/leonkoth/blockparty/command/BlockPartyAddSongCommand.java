@@ -42,6 +42,7 @@ public class BlockPartyAddSongCommand extends SubCommand {
         }
 
         arena.getSongManager().addSong(name);
+        arena.save();
         Messenger.message(true, sender, Locale.SONG_ADDED_TO_ARENA, "%SONG%", name, "%ARENA%", arena.getName());
 
         return true;
