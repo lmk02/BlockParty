@@ -27,7 +27,7 @@ public class GameEndListener implements Listener {
         arena.setArenaState(ArenaState.WINNERPHASE);
         arena.getFloor().setEndFloor();
 
-        arena.kickAllPlayers();
+        //arena.kickAllPlayers();
     }
 
 }

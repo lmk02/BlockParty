@@ -141,7 +141,7 @@ public class Database {
     public boolean exists(PlayerInfo playerInfo){
         try {
             st = con.createStatement();
-            rs = st.executeQuery("SELECT 1 FROM " + this.tableName + " WHERE uuid = " + playerInfo.getUuid().toString());
+            rs = st.executeQuery("SELECT 1 FROM " + this.tableName + " WHERE uuid = '" + playerInfo.getUuid().toString() + "'");
             if(rs.next())
                 return true;
             return false;

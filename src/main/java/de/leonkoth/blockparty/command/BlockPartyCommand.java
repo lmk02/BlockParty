@@ -47,6 +47,7 @@ public class BlockPartyCommand implements CommandExecutor {
         commands.add(new BlockPartyStatusCommand(blockParty));
         commands.add(new BlockPartyStopCommand(blockParty));
         commands.add(new BlockPartyTutorialCommand(blockParty));
+        commands.add(new BlockPartyStatsCommand(blockParty));
     }
 
     @Override
