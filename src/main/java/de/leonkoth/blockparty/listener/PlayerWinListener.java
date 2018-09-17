@@ -39,6 +39,10 @@ public class PlayerWinListener implements Listener {
             Messenger.message(true, player, Locale.WINNER_ANNOUNCE_SELF);
         }
 
+        playerInfo.setPoints(playerInfo.getPoints() + 15);
+        playerInfo.setWins(playerInfo.getWins() + 1);
+        this.blockParty.getPlayerInfoManager().savePlayerInfo(playerInfo);
+
         arena.getFloor().clearInventories();
         arena.getFloor().setEndFloor();
         arena.getPhaseHandler().startWinningPhase(playerInfo);

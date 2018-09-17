@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty.player;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.exception.IDOverFlowException;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -59,18 +60,56 @@ public class PlayerInfo {
     @Getter
     private Scoreboard scoreboard;
 
+    @Setter
+    @Getter
+    private int id;
+
     public PlayerInfo(String name, UUID uuid, int wins, int points) {
-        allPlayerInfos.add(this);
         this.name = name;
         this.uuid = uuid;
         this.playerState = PlayerState.DEFAULT;
         this.wins = wins;
         this.points = points;
+        this.id = getNextId();
+        allPlayerInfos.add(this);
+    }
+
+    public PlayerInfo(int id, String name, UUID uuid, int wins, int points) {
+        this.name = name;
+        this.uuid = uuid;
+        this.playerState = PlayerState.DEFAULT;
+        this.wins = wins;
+        this.points = points;
+        this.id = id;
+        allPlayerInfos.add(this);
     }
 
     public PlayerInfo() {
-        allPlayerInfos.add(this);
         this.playerState = PlayerState.DEFAULT;
+        this.id = getNextId();
+        allPlayerInfos.add(this);
+    }
+
+    private static int getNextId() {
+        int i = 1;
+        boolean eq = false;
+        while (i < 2147483647){
+            eq = false;
+            for (PlayerInfo pi : allPlayerInfos) {
+                if (pi.getId() == i)
+                {
+                    eq = true;
+                    break;
+                }
+            }
+            if(!eq)
+            {
+                return i;
+            }
+            i++;
+        }
+        //throw new IDOverFlowException("No IDs available");
+        return -1;
     }
 
     public static PlayerInfo getFromPlayer(Player player) {
