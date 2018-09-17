@@ -105,7 +105,7 @@ public class GamePhase implements Runnable {
                 Bukkit.getPluginManager().callEvent(event);
                 firstPrepareEnter = false;
             }
-            Util.showActionBar(Locale.GAME_ACTIONBAR_DANCE, arena, true);
+            Util.showActionBar(Locale.ACTIONBAR_DANCE.toString(), arena, true);
             currentTime += timeModifier;
         } else {
             if (currentTime < (currentTimeToSearch + preparingTime)) {
@@ -141,7 +141,7 @@ public class GamePhase implements Runnable {
                     }
 
                     //STOP
-                    Util.showActionBar(Locale.GAME_ACTIONBAR_STOP, arena, true);
+                    Util.showActionBar(Locale.ACTIONBAR_STOP.toString(), arena, true);
                     currentTime += timeModifier;
                 } else {
                     if (currentLevel < levelAmount) {

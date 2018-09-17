@@ -16,7 +16,6 @@ import de.leonkoth.blockparty.web.server.WebSocketServer;
 import de.leonkoth.blockparty.web.server.XWebSocketServer;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +25,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -54,7 +54,7 @@ public class BlockParty {
     private Config config;
 
     @Getter
-    private ArrayList<PlayerInfo> players;
+    private List<PlayerInfo> players;
 
     @Getter
     private WebServer webServer;
@@ -79,12 +79,12 @@ public class BlockParty {
 
         // Init classes
         this.arenas = new ArrayList<>();
-        this.players = new ArrayList<>();
         this.config = new Config(new File(PLUGIN_FOLDER + "config.yml"));
         this.tablePrefix = config.getConfig().getString("Database.TablePrefix");
         this.initDatabase();
         this.worldEditPlugin = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
         this.playerInfoManager = new PlayerInfoManager(database);
+        this.players = this.playerInfoManager.loadAll();
 
         this.loadAllArenas();
         this.reload();
@@ -167,7 +167,6 @@ public class BlockParty {
                 Bukkit.getLogger().severe("Couldn't stop MusicServer");
             }
         }
-        database.close();
     }
 
     public void logStartMessage(boolean online) {
@@ -212,7 +211,7 @@ public class BlockParty {
                 continue;
 
             try {
-                Arena arena = Arena.getArenaData(FilenameUtils.removeExtension(file.getName()));
+                Arena arena = Arena.getArenaData(file.getName().replace(".yml", ""));
                 arenas.add(arena);
             } catch (Exception e) {
                 Bukkit.getLogger().severe("[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");
