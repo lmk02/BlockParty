@@ -36,6 +36,8 @@ public class Locale {
     public static LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Player %PLAYER% won the game");
     public static LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aCongratulations! You won the game");
     public static LocaleString STATS = new LocaleString(INFO, "%PLAYER% has %WINS% wins and %POINTS% points.");
+    public static LocaleString SONG_ALREADY_ADDED_TO_ARENA = new LocaleString(ERROR, "Song %SONG% has already been added to arena %ARENA%");
+    public static LocaleString SONG_ADDED_TO_ARENA = new LocaleString(INFO, "Song %SONG% has been added to arena %ARENA%");
 
     public static LocaleString ALREADY_IN_GAME = new LocaleString(ERROR, "You can't join another game while playing. Use /blockparty leave to leave the current match");
     public static LocaleString ARENA_ALREADY_FULL = new LocaleString(ERROR, "The game you are trying to join is already full");

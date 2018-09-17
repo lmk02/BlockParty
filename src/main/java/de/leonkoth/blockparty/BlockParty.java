@@ -10,6 +10,7 @@ import de.leonkoth.blockparty.listener.*;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.schematic.SchematicManager;
+import de.leonkoth.blockparty.song.DefaultSong;
 import de.leonkoth.blockparty.web.server.MCJukeboxConnector;
 import de.leonkoth.blockparty.web.server.WebServer;
 import de.leonkoth.blockparty.web.server.WebSocketServer;
@@ -75,7 +76,11 @@ public class BlockParty {
     public void start() {
         instance = this;
 
-        SchematicManager.copyDefaultSchematics();
+        SchematicManager schematicManager = new SchematicManager();
+        schematicManager.copyDefaultSchematics();
+
+        DefaultSong defaultSong = new DefaultSong();
+        defaultSong.copyDefaultSongs();
 
         // Init classes
         this.arenas = new ArrayList<>();

@@ -2,7 +2,7 @@ package de.leonkoth.blockparty.arena;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.Floor;
-import de.leonkoth.blockparty.manager.SongManager;
+import de.leonkoth.blockparty.song.SongManager;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

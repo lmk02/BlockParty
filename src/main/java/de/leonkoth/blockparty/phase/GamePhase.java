@@ -136,7 +136,7 @@ public class GamePhase implements Runnable {
                             arena.getSongManager().getVotedSong().pause(this.blockParty, arena);
                         }*/
 
-                        arena.getSongManager().play(this.blockParty);
+                        arena.getSongManager().pause(this.blockParty);
 
                         arena.getFloor().removeBlocks();
                         firstStopEnter = false;
