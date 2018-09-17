@@ -29,8 +29,6 @@ public class PlayerLeaveArenaListener implements Listener {
         Player player = event.getPlayer();
         PlayerInfo playerInfo = event.getPlayerInfo();
 
-        player.sendMessage("fick dich");
-
         playerInfo.setPlayerState(PlayerState.DEFAULT);
         playerInfo.setCurrentArena(null);
 

@@ -18,20 +18,20 @@ public class DisplayScoreboard {
 
     public void setScoreboard(int timeLeft, int level, Arena arena) {
 
-        if (Locale.SCOREBOARD_TEXT.length < 2)
+        if (Locale.SCOREBOARD_TEXT.getValues().length < 2)
             return;
 
         Scoreboard playerboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = playerboard.registerNewObjective("Score", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(Locale.SCOREBOARD_TEXT[0].replace("%LEVEL%", level + "").replace("%CURRENTPLAYERS%", arena.getPlayersInArena().size() + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
+        objective.setDisplayName(Locale.SCOREBOARD_TEXT.getValue(0).replace("%LEVEL%", level + "").replace("%CURRENTPLAYERS%", arena.getPlayersInArena().size() + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
         //Score[] scores = new Score[Locale.SCOREBOARD_TEXT.length-1];
 
         //ArrayList<Score> sc = new ArrayList<>();
 
-        for (int i = 0; i < Locale.SCOREBOARD_TEXT.length - 1; i++) {
-            Score score = objective.getScore(Locale.SCOREBOARD_TEXT[i + 1].replace("%LEVEL%", level + "").replace("%CURRENTPLAYERS%", arena.getPlayersInArena().size() + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
-            score.setScore(Locale.SCOREBOARD_TEXT.length - 1 - i);
+        for (int i = 0; i < Locale.SCOREBOARD_TEXT.getValues().length - 1; i++) {
+            Score score = objective.getScore(Locale.SCOREBOARD_TEXT.getValue(i + 1).replace("%LEVEL%", level + "").replace("%CURRENTPLAYERS%", arena.getPlayersInArena().size() + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
+            score.setScore(Locale.SCOREBOARD_TEXT.getValues().length - 1 - i);
         }
 
         for (PlayerInfo playerInfo : arena.getPlayersInArena()) {

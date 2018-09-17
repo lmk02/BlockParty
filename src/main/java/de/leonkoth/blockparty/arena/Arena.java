@@ -91,10 +91,6 @@ public class Arena {
     private ParticlePlayer particlePlayer;
 
     public Arena(String name, BlockParty blockParty) {
-        this.phaseHandler = new PhaseHandler(blockParty, this);
-        this.arenaDataManager = new ArenaDataManager(this);
-        this.particlePlayer = new ParticlePlayer("CLOUD");
-        this.playersInArena = new ArrayList<>();
         this.name = name;
         this.blockParty = blockParty;
         this.arenaState = ArenaState.LOBBY;
@@ -121,6 +117,11 @@ public class Arena {
         this.timerResetOnPlayerJoin = false;
         this.enableFallingBlocks = false;
         this.autoKick = false;
+        this.songManager = new SongManager(this, new ArrayList<>());
+        this.arenaDataManager = new ArenaDataManager(this);
+        this.phaseHandler = new PhaseHandler(blockParty, this);
+        this.particlePlayer = new ParticlePlayer("CLOUD");
+        this.playersInArena = new ArrayList<>();
 
         this.setDefaults();
     }

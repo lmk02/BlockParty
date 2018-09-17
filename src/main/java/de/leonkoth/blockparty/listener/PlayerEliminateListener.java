@@ -34,6 +34,22 @@ public class PlayerEliminateListener implements Listener {
             player.getWorld().strikeLightningEffect(player.getLocation());
         }
 
+        int c = 0;
+        for(PlayerInfo pi : arena.getPlayersInArena())
+        {
+            if(pi.getPlayerState() == PlayerState.INGAME)
+            {
+                c++;
+            }
+        }
+
+        int a = 10-c;
+        if(a>0)
+        {
+            playerInfo.setPoints(playerInfo.getPoints() + a);
+            this.blockParty.getPlayerInfoManager().savePlayerInfo(playerInfo);
+        }
+
         playerInfo.setPlayerState(PlayerState.SPECTATING);
         player.teleport(arena.getLobbySpawn());
         arena.broadcast(true, Locale.PLAYER_ELIMINATED, false, (PlayerInfo) null, "%PLAYER%", playerInfo.getName());

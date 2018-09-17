@@ -29,11 +29,13 @@ public class Locale {
     public static LocaleString PLAYER_ELIMINATED = new LocaleString(INFO, "%PLAYER% was &4&lELIMINATED&7!");
     public static LocaleString PLAYER_JOINED_GAME = new LocaleString(INFO, "%PLAYER% joined the match");
     public static LocaleString PLAYER_LEFT_GAME = new LocaleString(INFO, "%PLAYER% left the match");
+    public static LocaleString PLAYER_DOES_NOT_EXIST = new LocaleString(ERROR, "%PLAYER% does not exist");
     public static LocaleString PREPARE = new LocaleString(INFO, "Prepare for the next round!");
     public static LocaleString SCHEMATICS_LIST = new LocaleString(INFO, "List of all schematics: %SCHEMATICS%");
     public static LocaleString TIME_LEFT = new LocaleString(INFO, "The game starts in &e%TIME% &7seconds");
     public static LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Player %PLAYER% won the game");
     public static LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aCongratulations! You won the game");
+    public static LocaleString STATS = new LocaleString(INFO, "%PLAYER% has %WINS% wins and %POINTS% points.");
 
     public static LocaleString ALREADY_IN_GAME = new LocaleString(ERROR, "You can't join another game while playing. Use /blockparty leave to leave the current match");
     public static LocaleString ARENA_ALREADY_FULL = new LocaleString(ERROR, "The game you are trying to join is already full");

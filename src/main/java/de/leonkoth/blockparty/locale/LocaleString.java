@@ -27,4 +27,9 @@ public class LocaleString {
         this.values = values;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.getValue(0);
+    }
 }
