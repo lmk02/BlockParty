@@ -65,29 +65,29 @@ public class PlayerInfo {
     private int id;
 
     public PlayerInfo(String name, UUID uuid, int wins, int points) {
-        allPlayerInfos.add(this);
         this.name = name;
         this.uuid = uuid;
         this.playerState = PlayerState.DEFAULT;
         this.wins = wins;
         this.points = points;
         this.id = getNextId();
+        allPlayerInfos.add(this);
     }
 
     public PlayerInfo(int id, String name, UUID uuid, int wins, int points) {
-        allPlayerInfos.add(this);
         this.name = name;
         this.uuid = uuid;
         this.playerState = PlayerState.DEFAULT;
         this.wins = wins;
         this.points = points;
         this.id = id;
+        allPlayerInfos.add(this);
     }
 
     public PlayerInfo() {
-        allPlayerInfos.add(this);
         this.playerState = PlayerState.DEFAULT;
         this.id = getNextId();
+        allPlayerInfos.add(this);
     }
 
     private static int getNextId() {

@@ -61,6 +61,8 @@ public class GamePhase implements Runnable {
         this.firstEnter = true;
 
         GameStartEvent event = new GameStartEvent(arena);
+
+
         Bukkit.getPluginManager().callEvent(event);
     }
 

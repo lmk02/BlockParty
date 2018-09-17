@@ -7,18 +7,22 @@ import org.bukkit.entity.Player;
 public class Messenger {
 
     public static void message(boolean usePrefix, CommandSender sender, LocaleString message, String... placeholders) {
-        String newMessage = message.toString();
-        for (int i = 0; i < placeholders.length; i += 2) {
-            newMessage = newMessage.replace(placeholders[i], placeholders[i + 1]);
-        }
 
         if (usePrefix) {
             String prefix = Locale.PREFIX.toString();
             String[] arr = message.getValues();
             for (int i = 0; i < arr.length; i++) {
-                sender.sendMessage(prefix + message.getValue(i));
+                String msg = message.getValue(i);
+                for (int k = 0; k < placeholders.length; k += 2) {
+                    msg = msg.replace(placeholders[k], placeholders[k + 1]);
+                }
+                sender.sendMessage(prefix + msg);
             }
         } else {
+            String newMessage = message.toString();
+            for (int i = 0; i < placeholders.length; i += 2) {
+                newMessage = newMessage.replace(placeholders[i], placeholders[i + 1]);
+            }
             sender.sendMessage(newMessage);
         }
     }
