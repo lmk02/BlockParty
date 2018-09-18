@@ -52,6 +52,8 @@ public class PlayerEliminateListener implements Listener {
 
         playerInfo.setPlayerState(PlayerState.SPECTATING);
         player.teleport(arena.getLobbySpawn());
+        player.getInventory().clear();
+        player.updateInventory();
         arena.broadcast(true, Locale.PLAYER_ELIMINATED, false, (PlayerInfo) null, "%PLAYER%", playerInfo.getName());
 
         if (arena.getArenaState() == ArenaState.INGAME || arena.getArenaState() == ArenaState.WINNERPHASE) {

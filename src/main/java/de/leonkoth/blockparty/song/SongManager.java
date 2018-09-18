@@ -2,6 +2,8 @@ package de.leonkoth.blockparty.song;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.Messenger;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
@@ -99,10 +101,9 @@ public class SongManager {
             Bukkit.getLogger().severe("[BlockParty] No Song available! Please add a song.");
             return null;
         }
-        int i = -1;
         Song mostVoted = songs.get(0);
         for (Song song : songs) {
-            if (song.getVotes() > i)
+            if (song.getVotes() > mostVoted.getVotes())
                 mostVoted = song;
         }
         return mostVoted;
@@ -144,9 +145,10 @@ public class SongManager {
                 }
                 this.shiftRight(this.votedSong);
             } else {
-                this.votedSong = this.getMostVoted();
+                this.votedSong = temp;
             }
             this.votedSong.play(blockParty, this.arena);
+            Messenger.broadcast(true, Locale.SONG_PLAYING, "%SONG%", this.votedSong.getName());
             this.resetVotes();
         }
     }

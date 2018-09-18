@@ -7,6 +7,7 @@ import de.leonkoth.blockparty.event.GameStartEvent;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
+import de.leonkoth.blockparty.util.ItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,6 +42,10 @@ public class GameStartListener implements Listener {
             player.teleport(arena.getGameSpawn());
             player.setLevel(0);
             player.setExp(0);
+
+            player.getInventory().remove(ItemType.VOTEFORASONG.getItem());
+            player.getInventory().remove(ItemType.LEAVEARENA.getItem());
+            player.updateInventory();
         }
 
         arena.broadcast(true, Locale.GAME_STARTED, false, (PlayerInfo) null);

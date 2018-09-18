@@ -38,6 +38,7 @@ public class Locale {
     public static LocaleString STATS = new LocaleString(INFO, "%PLAYER% has %WINS% wins and %POINTS% points.");
     public static LocaleString SONG_ALREADY_ADDED_TO_ARENA = new LocaleString(ERROR, "Song %SONG% has already been added to arena %ARENA%");
     public static LocaleString SONG_ADDED_TO_ARENA = new LocaleString(INFO, "Song %SONG% has been added to arena %ARENA%");
+    public static LocaleString SONG_PLAYING = new LocaleString(INFO, "Now playing %SONG%");
 
     public static LocaleString ITEM_LEAVE_ARENA = new LocaleString(INFO, "&4Leave");
     public static LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(INFO, "Vote for a song");

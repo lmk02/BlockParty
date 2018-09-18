@@ -2,6 +2,7 @@ package de.leonkoth.blockparty.listener;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.event.PlayerWinEvent;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
@@ -33,6 +34,8 @@ public class PlayerWinListener implements Listener {
         //if (arena.getSongManager().getVotedSong() != null) {
         arena.getSongManager().stop(this.blockParty);
         //}
+
+        arena.setArenaState(ArenaState.WINNERPHASE);
 
         if (player != null) {
             arena.broadcast(true, Locale.WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
