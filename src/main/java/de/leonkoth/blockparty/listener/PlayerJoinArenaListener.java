@@ -9,6 +9,7 @@ import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerData;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
+import de.leonkoth.blockparty.util.ItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -67,6 +68,10 @@ public class PlayerJoinArenaListener implements Listener {
         playerInfo.setCurrentArena(arena.getName());
         arena.getPlayersInArena().add(playerInfo);
         arena.broadcast(true, Locale.PLAYER_JOINED_GAME, false, playerInfo, "%PLAYER%", player.getName());
+
+        player.getInventory().setItem(8, ItemType.LEAVEARENA.getItem());
+        player.getInventory().setItem(7, ItemType.VOTEFORASONG.getItem());
+        player.updateInventory();
 
         Messenger.message(true, player, Locale.JOINED_GAME, "%ARENA%", arena.getName());
         arena.getPhaseHandler().startLobbyPhase();

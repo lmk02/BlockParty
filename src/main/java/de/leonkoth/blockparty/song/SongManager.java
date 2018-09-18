@@ -82,6 +82,18 @@ public class SongManager {
         songs.get(song).addVote();
     }
 
+    public boolean addVote(String name) {
+        for(Song s : songs)
+        {
+            if(s.getName().equals(name))
+            {
+                s.addVote();
+                return true;
+            }
+        }
+        return false;
+    }
+
     private Song getMostVoted() {
         if (songs.isEmpty()) {
             Bukkit.getLogger().severe("[BlockParty] No Song available! Please add a song.");
