@@ -39,6 +39,15 @@ public class Locale {
     public static LocaleString SONG_ALREADY_ADDED_TO_ARENA = new LocaleString(ERROR, "Song %SONG% has already been added to arena %ARENA%");
     public static LocaleString SONG_ADDED_TO_ARENA = new LocaleString(INFO, "Song %SONG% has been added to arena %ARENA%");
 
+    public static LocaleString ITEM_LEAVE_ARENA = new LocaleString(INFO, "&4Leave");
+    public static LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(INFO, "Vote for a song");
+    public static LocaleString ITEM_SONG_LORE = new LocaleString(INFO, "Click to vote!");
+
+    public static LocaleString VOTE_SUCCESS = new LocaleString(INFO, "You voted for %SONG%");
+    public static LocaleString VOTE_FAIL = new LocaleString(INFO, "Voting for %SONG% failed");
+
+    public static LocaleString INVENTORY_VOTE_NAME = new LocaleString(INFO, "Vote now");
+
     public static LocaleString ALREADY_IN_GAME = new LocaleString(ERROR, "You can't join another game while playing. Use /blockparty leave to leave the current match");
     public static LocaleString ARENA_ALREADY_FULL = new LocaleString(ERROR, "The game you are trying to join is already full");
     public static LocaleString ARENA_CREATE_FAIL = new LocaleString(ERROR, "Arena %ARENA% already exists");

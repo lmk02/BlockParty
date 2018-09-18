@@ -113,6 +113,7 @@ public class BlockParty {
         new PlayerWinListener(this);
         new RoundPrepareListener(this);
         new RoundStartListener(this);
+        new InteractListener(this);
 
         // Init commands
         new BlockPartyCommand(this);
