@@ -1,5 +1,6 @@
 package de.leonkoth.blockparty.web.server.handler;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,16 +15,23 @@ import java.io.IOException;
  * © 2016 - Leon Koth
  */
 
-@WebServlet(urlPatterns = "/Musicplayer")
+@WebServlet(urlPatterns = "/NameRequest")
 public class NameServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 
         String playerName = request.getParameter("playerName");
-        System.out.println(playerName);
 
-        //request.getRequestDispatcher("/de/leonkoth/blockparty/web/player/player.jsp").forward(request, response);
+        if(playerName != null && !playerName.equals(""))
+        {
+            //TODO Check if player is online
+            System.out.println(playerName);
+            response.setContentType("text/html");
+            response.getWriter().write("_true_");
+            //System.out.println(request.getSession(true).getId());
+            request.getSession().setAttribute("name", playerName);
+        }
 
     }
 

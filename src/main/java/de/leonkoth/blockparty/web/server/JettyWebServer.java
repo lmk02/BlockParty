@@ -1,8 +1,15 @@
 package de.leonkoth.blockparty.web.server;
 
+import de.leonkoth.blockparty.web.server.handler.MusicPlayerServlet;
 import de.leonkoth.blockparty.web.server.handler.NameServlet;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SessionIdManager;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.session.DefaultSessionCache;
+import org.eclipse.jetty.server.session.SessionCache;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -25,12 +32,6 @@ public class JettyWebServer {
         jws.loadServer();
         jws.startServer();
 
-        /*ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/");
-        server.setHandler(context);
-
-        context.addServlet(new ServletHolder(new NameServlet()), "/player");*/
-
     }
 
     public void loadServer()
@@ -49,10 +50,15 @@ public class JettyWebServer {
         holder.setInitParameter("resourceBase", "./src/main/resources/web/");
         holder.setInitParameter("directoriesListed", "true");
 
-        sch.addServlet(holder, "/*");
-        sch.addServlet(NameServlet.class, "/Musicplayer");
+        SessionHandler sessionHandler = new SessionHandler();
+        sessionHandler.setHandler(sch);
 
-        server.setHandler(sch);
+        sch.addServlet(holder, "/*");
+        sch.addServlet(NameServlet.class, "/NameRequest");
+        sch.addServlet(MusicPlayerServlet.class, "/Musicplayer");
+
+        server.setHandler(sessionHandler);
+
     }
 
 
