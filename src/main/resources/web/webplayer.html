@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Musicplayer</title>
+    <link href="../../bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../../bootstrap/css/signin.css" rel="stylesheet">
+    <script language="JavaScript" type="text/javascript">
+        var xMLHttpRequest = new XMLHttpRequest();
+        window.onload = function() {
+            xMLHttpRequest.open("Get", "/Musicplayer", true);
+            xMLHttpRequest.onreadystatechange = process;
+            xMLHttpRequest.send(null);
+        }
+
+        function process() {
+            if(xMLHttpRequest.readyState == 4 && xMLHttpRequest.status == 200){
+                var resp = xMLHttpRequest.responseText;
+                document.getElementById('name').innerText = "Welcome " + resp;
+            }
+        }
+    </script>
+
+</head>
+<body>
+<form>
+    <div class="form-group">
+        <label id="name">Welcome</label>
+        <small id="help" class="form-text text-muted">This is a webplayer</small>
+    </div>
+    <div class="form-group">
+        <label >Song</label>
+        <label >Status</label>
+    </div>
+</form>
+</body>
+</html>
