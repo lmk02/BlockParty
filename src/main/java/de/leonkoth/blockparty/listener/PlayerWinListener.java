@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.listener;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
+import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.event.PlayerWinEvent;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
@@ -33,6 +34,7 @@ public class PlayerWinListener implements Listener {
         arena.getPhaseHandler().cancelGamePhase();
         //if (arena.getSongManager().getVotedSong() != null) {
         arena.getSongManager().stop(this.blockParty);
+        arena.setGameState(GameState.WAIT);
         //}
 
         arena.setArenaState(ArenaState.WINNERPHASE);

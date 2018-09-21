@@ -11,9 +11,12 @@ import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.schematic.SchematicManager;
 import de.leonkoth.blockparty.song.DefaultSong;
+import de.leonkoth.blockparty.util.DefaultManager;
+import de.leonkoth.blockparty.util.Defaults;
 import de.leonkoth.blockparty.web.server.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -73,11 +76,11 @@ public class BlockParty {
     public void start() {
         instance = this;
 
-        SchematicManager schematicManager = new SchematicManager();
-        schematicManager.copyDefaultSchematics();
+        new DefaultManager().copyAll();
 
-        DefaultSong defaultSong = new DefaultSong();
-        defaultSong.copyDefaultSongs();
+        //Metrics metrics = new Metrics(this.plugin); TODO: Relocate
+
+
 
         // Init classes
         this.arenas = new ArrayList<>();

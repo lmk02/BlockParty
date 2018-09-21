@@ -11,6 +11,7 @@ import java.nio.file.Files;
  * Project Blockparty2
  * © 2016 - Leon Koth
  */
+@Deprecated
 public class SchematicManager {
 
     public void copyDefaultSchematics() {

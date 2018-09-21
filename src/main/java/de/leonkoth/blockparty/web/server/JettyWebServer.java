@@ -1,14 +1,10 @@
 package de.leonkoth.blockparty.web.server;
 
+import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.web.server.handler.MusicPlayerServlet;
 import de.leonkoth.blockparty.web.server.handler.NameServlet;
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SessionIdManager;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.server.session.DefaultSessionCache;
-import org.eclipse.jetty.server.session.SessionCache;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -16,6 +12,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.log.Log;
 
 import java.io.IOException;
+import java.net.Socket;
 
 
 /**
@@ -29,13 +26,6 @@ public class JettyWebServer implements WebServer{
     private Server server;
 
     private int port;
-
-    public static void main(String[] args) throws Exception {
-
-        JettyWebServer jws = new JettyWebServer();
-        jws.start();
-
-    }
 
     public JettyWebServer()
     {
@@ -65,7 +55,7 @@ public class JettyWebServer implements WebServer{
 
         ServletContextHandler sch = new ServletContextHandler();
         ServletHolder holder = new ServletHolder("default", new DefaultServlet());
-        holder.setInitParameter("resourceBase", "./src/main/resources/web/");
+        holder.setInitParameter("resourceBase", "./" + BlockParty.PLUGIN_FOLDER + "/web/");
         holder.setInitParameter("directoriesListed", "true");
 
         SessionHandler sessionHandler = new SessionHandler();
@@ -82,7 +72,6 @@ public class JettyWebServer implements WebServer{
             if (this.server != null)
             {
                 this.server.start();
-                this.server.join();
             }
         }
         catch (Exception e)
@@ -94,4 +83,5 @@ public class JettyWebServer implements WebServer{
     public void stop() throws Exception {
         this.server.stop();
     }
+
 }

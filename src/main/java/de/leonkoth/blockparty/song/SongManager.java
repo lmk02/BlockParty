@@ -216,4 +216,9 @@ public class SongManager {
         return this.votedSong;
     }
 
+    public void setVotedSong(Song song)
+    {
+        this.votedSong = song;
+    }
+
 }

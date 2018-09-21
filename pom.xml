@@ -24,6 +24,11 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+
+        <repository>
+            <id>bstats-repo</id>
+            <url>http://repo.bstats.org/content/repositories/releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -81,8 +86,16 @@
         <dependency>
             <groupId>com.xxmicloxx</groupId>
             <artifactId>NoteBlockAPI</artifactId>
-            <version>1.9.0</version>
+            <version>1.2.2.1</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- bStats -->
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>1.2</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
@@ -132,11 +145,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>debug.JanusClient</mainClass>
-                                </transformer>
-                            </transformers>
                             <outputDirectory>E:/Programmieren/Output/${project.artifactId}/${project.version}/</outputDirectory>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>

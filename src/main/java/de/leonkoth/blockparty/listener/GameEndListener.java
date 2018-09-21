@@ -37,6 +37,8 @@ public class GameEndListener implements Listener {
             player.updateInventory();
         }
 
+        arena.getSongManager().setVotedSong(null);
+
         arena.getPhaseHandler().startLobbyPhase();
 
         //arena.kickAllPlayers();
