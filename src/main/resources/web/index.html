@@ -8,33 +8,33 @@
     <title>Musicplayer</title>
     <link href="../../bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="../../bootstrap/css/signin.css" rel="stylesheet">
-    <script language="JavaScript" type="text/javascript">
-        var xMLHttpRequest = new XMLHttpRequest();
-        function enterUsername(){
-            xMLHttpRequest.open("Get", "/NameRequest?playerName=" + document.getElementById("playerName").value, true);
-            xMLHttpRequest.onreadystatechange = process;
-            xMLHttpRequest.send(null);
-        }
-        function process() {
-            if(xMLHttpRequest.readyState == 4 && xMLHttpRequest.status == 200){
-                var resp = xMLHttpRequest.responseText;
-                alert(resp);
-                if(resp == "_true_")
-                {
-                    window.document.location.href = "../../webplayer.html";
-                }
-            }
-        }
-    </script>
 </head>
 <body>
-    <form class="form-signin">
-        <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Please enter your name</h1>
-        <label for="playerName" class="sr-only">Name</label>
-        <input type="text" id="playerName" class="form-control" placeholder="Your name" required autofocus>
-        <button class="btn btn-lg btn-primary btn-block" onclick="enterUsername()" type="button">Enter</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
-    </form>
+<form class="form-signin">
+    <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Please enter your name</h1>
+    <label for="playerName" class="sr-only">Name</label>
+    <input type="text" id="playerName" class="form-control" placeholder="Your name" required autofocus>
+    <button class="btn btn-lg btn-primary btn-block" onclick="enterUsername()" type="button">Enter</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
+</form>
+<script language="JavaScript" type="text/javascript">
+    var xMLHttpRequest = new XMLHttpRequest();
+    function enterUsername(){
+        xMLHttpRequest.open("Get", "/NameRequest?playerName=" + document.getElementById("playerName").value, true);
+        xMLHttpRequest.onreadystatechange = process;
+        xMLHttpRequest.send(null);
+    }
+    function process() {
+        if(xMLHttpRequest.readyState == 4 && xMLHttpRequest.status == 200){
+            var resp = xMLHttpRequest.responseText;
+            alert(resp);
+            if(resp == "_true_")
+            {
+                window.document.location.href = "../../webplayer.html";
+            }
+        }
+    }
+</script>
 </body>
 </html>

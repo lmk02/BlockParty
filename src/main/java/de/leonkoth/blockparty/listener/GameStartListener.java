@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.listener;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
+import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.event.GameStartEvent;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
@@ -36,6 +37,7 @@ public class GameStartListener implements Listener {
         arena.getFloor().setStartFloor();
 
         arena.setArenaState(ArenaState.INGAME);
+        arena.setGameState(GameState.START);
         for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
             Player player = playerInfo.asPlayer();
             playerInfo.setPlayerState(PlayerState.INGAME);

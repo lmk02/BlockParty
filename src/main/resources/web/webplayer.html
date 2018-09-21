@@ -8,33 +8,94 @@
     <title>Musicplayer</title>
     <link href="../../bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="../../bootstrap/css/signin.css" rel="stylesheet">
-    <script language="JavaScript" type="text/javascript">
-        var xMLHttpRequest = new XMLHttpRequest();
-        window.onload = function() {
-            xMLHttpRequest.open("Get", "/Musicplayer", true);
-            xMLHttpRequest.onreadystatechange = process;
-            xMLHttpRequest.send(null);
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css" rel="stylesheet">
+    <style type='text/css'>
+        #ex1Slider .slider-selection {
+            background: #BABABA;
         }
-
-        function process() {
-            if(xMLHttpRequest.readyState == 4 && xMLHttpRequest.status == 200){
-                var resp = xMLHttpRequest.responseText;
-                document.getElementById('name').innerText = "Welcome " + resp;
-            }
-        }
-    </script>
-
+    </style>
 </head>
 <body>
-<form>
-    <div class="form-group">
-        <label id="name">Welcome</label>
-        <small id="help" class="form-text text-muted">This is a webplayer</small>
-    </div>
-    <div class="form-group">
-        <label >Song</label>
-        <label >Status</label>
-    </div>
+<form class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal" id="name">Welcome,</h1>
+    <p class="mt-5 mb-3 text" id="arena">Arena</p>
+    <p class="mt-5 mb-3 text" id="status">Status</p>
+    <p class="mt-5 mb-3 text" id="song">Song</p>
+    <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="25"/>
+    <small id="help" class="form-text text-muted">Official BlockParty webplayer</small>
+    <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
 </form>
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script language="JavaScript" type="text/javascript">
+    var xMLHttpRequest = new XMLHttpRequest();
+    var audio = null;
+    window.onload = function() {
+        var slider = new Slider('#ex1', {
+            formatter: function(value) {
+                return 'Current value: ' + value;
+            }
+        });
+        xMLHttpRequest.open("Get", "/Musicplayer", true);
+        xMLHttpRequest.onreadystatechange = process;
+        xMLHttpRequest.send(null);
+        sendReq();
+    }
+
+    async function sendReq() {
+        while(true){
+            await sleep(500);
+            xMLHttpRequest.open("Get", "/Musicplayer", true);
+            xMLHttpRequest.send(null);
+        }
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function process() {
+        if(xMLHttpRequest.readyState == 4 && xMLHttpRequest.status == 200){
+            var resp = JSON.parse(xMLHttpRequest.responseText);
+            document.getElementById('name').innerText = "Welcome " + resp.name;
+            document.getElementById('arena').innerText = "Arena: " + resp.arena.name;
+            document.getElementById('status').innerText = "Status: " + resp.arena.status;
+            document.getElementById('song').innerText = "Song: " + resp.arena.song;
+            if(resp.arena.song != "_null_")
+            {
+                if(audio == null)
+                {
+                    audio = new Audio("../../songs/" + resp.arena.song);
+                }
+                if(resp.arena.status == "START")
+                {
+                    audio.volume = $("#ex1").val()/100;
+                    audio.play();
+                }
+                if(resp.arena.status == "PLAY")
+                {
+                    audio.volume = $("#ex1").val()/100;
+                    audio.play();
+                }
+                if(resp.arena.status == "STOP")
+                {
+                    audio.pause();
+                }
+                if(resp.arena.status == "WAIT")
+                {
+                    audio.pause();
+                    audio = null;
+                }
+            }
+        }
+    }
+    $("#ex1").mousemove(function () {
+        var r = $("#ex1").val();
+        if(audio != null)
+        {
+            audio.volume = r/100;
+        }
+    });
+</script>
 </body>
 </html>

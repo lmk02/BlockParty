@@ -80,6 +80,10 @@ public class Arena {
 
     @Setter
     @Getter
+    private GameState gameState;
+
+    @Setter
+    @Getter
     private List<PlayerInfo> playersInArena;
 
     @Setter
@@ -94,6 +98,7 @@ public class Arena {
         this.name = name;
         this.blockParty = blockParty;
         this.arenaState = ArenaState.LOBBY;
+        this.gameState = GameState.WAIT;
         this.minPlayers = MIN_PLAYERS;
         this.maxPlayers = MAX_PLAYERS;
         this.lobbyCountdown = LOBBY_COUNTDOWN;

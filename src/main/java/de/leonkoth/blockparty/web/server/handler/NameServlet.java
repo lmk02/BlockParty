@@ -31,10 +31,10 @@ public class NameServlet extends HttpServlet {
             response.setContentType("text/html");
             if(PlayerInfo.getFromPlayer(playerName) == null || Bukkit.getPlayer(playerName) == null)
             {
+                response.getWriter().write("_false_");
+            } else {
                 response.getWriter().write("_true_");
                 request.getSession().setAttribute("name", playerName);
-            } else {
-                response.getWriter().write("_false_");
             }
         }
 

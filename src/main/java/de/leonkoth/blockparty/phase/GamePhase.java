@@ -2,6 +2,7 @@ package de.leonkoth.blockparty.phase;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.event.*;
 import de.leonkoth.blockparty.locale.Locale;
@@ -137,6 +138,7 @@ public class GamePhase implements Runnable {
                         }*/
 
                         arena.getSongManager().pause(this.blockParty);
+                        arena.setGameState(GameState.STOP);
 
                         arena.getFloor().removeBlocks();
                         firstStopEnter = false;
@@ -161,6 +163,7 @@ public class GamePhase implements Runnable {
                     }*/
 
                     arena.getSongManager().continuePlay(this.blockParty);
+                    arena.setGameState(GameState.PLAY);
 
                     arena.getFloor().clearInventories();
                 }
