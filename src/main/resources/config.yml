@@ -2,8 +2,8 @@ LocaleFileName: locale_en.yml
 SaveOnDisable: false
 
 MusicServer:
-  Enabled: false
-  WebSocketLibrary: WebSocket
+  Enabled: true
+  WebSocketLibrary: jetty
   Port: 8080
 
 Database:

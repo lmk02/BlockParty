@@ -13,6 +13,6 @@ public interface WebServer {
 
     void start() throws IOException;
 
-    void stop() throws IOException, InterruptedException;
+    void stop() throws Exception;
 
 }

@@ -21,8 +21,10 @@ public class MusicPlayerServlet extends HttpServlet {
     {
 
         String playerName = (String)request.getSession(true).getAttribute("name");
-
-        response.getWriter().write(playerName);
+        if(playerName != null && !playerName.equals(""))
+        {
+            response.getWriter().write(playerName);
+        }
         System.out.println("Name = " + playerName);
 
     }
