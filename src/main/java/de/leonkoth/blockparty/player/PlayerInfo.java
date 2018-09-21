@@ -122,7 +122,26 @@ public class PlayerInfo {
         return null;
     }
 
+    public static PlayerInfo getFromPlayer(String player) {
+        for (PlayerInfo playerInfo : BlockParty.getInstance().getPlayers()) {
+            if (playerInfo.getName().equalsIgnoreCase(player)) {
+                return playerInfo;
+            }
+        }
+
+        return null;
+    }
+
     public static boolean isInArena(Player player) {
+        PlayerInfo playerInfo = getFromPlayer(player);
+
+        if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT)
+            return false;
+
+        return !playerInfo.getCurrentArena().equals("");
+    }
+
+    public static boolean isInArena(String player) {
         PlayerInfo playerInfo = getFromPlayer(player);
 
         if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT)

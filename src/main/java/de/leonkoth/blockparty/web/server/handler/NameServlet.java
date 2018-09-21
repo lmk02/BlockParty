@@ -1,6 +1,8 @@
 package de.leonkoth.blockparty.web.server.handler;
 
-import javax.servlet.RequestDispatcher;
+import de.leonkoth.blockparty.player.PlayerInfo;
+import org.bukkit.Bukkit;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,12 +27,15 @@ public class NameServlet extends HttpServlet {
 
         if(playerName != null && !playerName.equals(""))
         {
-            //TODO Check if player is online
             System.out.println(playerName);
             response.setContentType("text/html");
-            response.getWriter().write("_true_");
-            //System.out.println(request.getSession(true).getId());
-            request.getSession().setAttribute("name", playerName);
+            if(PlayerInfo.getFromPlayer(playerName) == null || Bukkit.getPlayer(playerName) == null)
+            {
+                response.getWriter().write("_true_");
+                request.getSession().setAttribute("name", playerName);
+            } else {
+                response.getWriter().write("_false_");
+            }
         }
 
     }

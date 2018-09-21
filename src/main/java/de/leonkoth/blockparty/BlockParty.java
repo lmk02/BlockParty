@@ -11,10 +11,7 @@ import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.schematic.SchematicManager;
 import de.leonkoth.blockparty.song.DefaultSong;
-import de.leonkoth.blockparty.web.server.MCJukeboxConnector;
-import de.leonkoth.blockparty.web.server.WebServer;
-import de.leonkoth.blockparty.web.server.WebSocketServer;
-import de.leonkoth.blockparty.web.server.XWebSocketServer;
+import de.leonkoth.blockparty.web.server.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -125,6 +122,10 @@ public class BlockParty {
                     webServer = new WebSocketServer(new InetSocketAddress(config.getConfig().getInt("MusicServer.Port")), this);
                     break;
 
+                case "jetty":
+                    webServer = new JettyWebServer(config.getConfig().getInt("MusicServer.Port"));
+                    break;
+
                 case "tcp/ip":
                     webServer = new XWebSocketServer(config.getConfig().getInt("MusicServer.Port"));
                     break;
@@ -138,18 +139,17 @@ public class BlockParty {
                     break;
             }
 
+            boolean started = false;
+
             if (webServer != null) {
                 try {
                     webServer.start();
+                    started = true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                if (config.getConfig().getString("MusicServer.WebSocketLibrary").equalsIgnoreCase("WebSocket")) {
-                    logStartMessage(true);
-                }
             }
-
+            logStartMessage(started);
         } else {
             logStartMessage(false);
         }
@@ -169,8 +169,8 @@ public class BlockParty {
         if (webServer != null) {
             try {
                 this.webServer.stop();
-            } catch (IOException | InterruptedException e) {
-                Bukkit.getLogger().severe("Couldn't stop MusicServer");
+            } catch (Exception e) {
+                this.getPlugin().getLogger().severe("Couldn't stop MusicServer");
             }
         }
     }

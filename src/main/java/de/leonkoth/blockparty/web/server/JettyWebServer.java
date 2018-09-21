@@ -15,6 +15,8 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.log.Log;
 
+import java.io.IOException;
+
 
 /**
  * Created by Leon on 19.09.2018.
@@ -22,20 +24,36 @@ import org.eclipse.jetty.util.log.Log;
  * © 2016 - Leon Koth
  */
 
-public class JettyWebServer {
+public class JettyWebServer implements WebServer{
 
     private Server server;
+
+    private int port;
 
     public static void main(String[] args) throws Exception {
 
         JettyWebServer jws = new JettyWebServer();
-        jws.loadServer();
-        jws.startServer();
+        jws.start();
 
     }
 
-    public void loadServer()
+    public JettyWebServer()
     {
+        this.port = 8080;
+    }
+
+    public JettyWebServer(int port)
+    {
+        this.port = port;
+    }
+
+    @Override
+    public void send(String ip, String arena, String song, String play) {
+
+    }
+
+    @Override
+    public void start() throws IOException {
         Log.setLog(new JettyLogger());
 
         this.server = new Server();
@@ -59,12 +77,6 @@ public class JettyWebServer {
 
         server.setHandler(sessionHandler);
 
-    }
-
-
-
-    public void startServer()
-    {
         try
         {
             if (this.server != null)
@@ -78,4 +90,8 @@ public class JettyWebServer {
         }
     }
 
+    @Override
+    public void stop() throws Exception {
+        this.server.stop();
+    }
 }
