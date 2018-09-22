@@ -31,6 +31,12 @@ public class BlockPartyAddSongCommand extends SubCommand {
             return false;
         }
 
+        if(arena == null)
+        {
+            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            return false;
+        }
+
         String name = args[2];
         for(Song s : arena.getSongManager().getSongs())
         {

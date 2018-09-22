@@ -3,6 +3,8 @@ package de.leonkoth.blockparty.song;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 
+import java.io.FileNotFoundException;
+
 /**
  * Created by Leon on 17.03.2018.
  * Project Blockparty2
@@ -10,7 +12,7 @@ import de.leonkoth.blockparty.arena.Arena;
  */
 public interface Song {
 
-    void play(BlockParty blockParty, Arena arena);
+    void play(BlockParty blockParty, Arena arena) throws FileNotFoundException;
 
     void pause(BlockParty blockParty, Arena arena);
 

@@ -6,10 +6,12 @@ import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
 import org.bukkit.Bukkit;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 /**
  * Created by Leon on 17.03.2018.
@@ -147,7 +149,14 @@ public class SongManager {
             } else {
                 this.votedSong = temp;
             }
-            this.votedSong.play(blockParty, this.arena);
+            try {
+                this.votedSong.play(blockParty, this.arena);
+            } catch (FileNotFoundException e)
+            {
+                BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Song " + this.votedSong.getName() + " not available. Please check your arena config!");
+                this.votedSong = null;
+            }
+
             Messenger.broadcast(true, Locale.SONG_PLAYING, "%SONG%", this.votedSong.getName());
             this.resetVotes();
         }

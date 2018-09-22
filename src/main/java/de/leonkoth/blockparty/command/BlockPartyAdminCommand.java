@@ -32,6 +32,7 @@ public class BlockPartyAdminCommand extends SubCommand {
         sender.sendMessage("§e/blockparty tutorial §7- Shows a tutorial of how to setup an arena");
         sender.sendMessage("§e/blockparty status <Arena> §7- Shows status of arena");
         sender.sendMessage("§e/blockparty listarenas §7- Shows all arenas and their statuses");
+        sender.sendMessage("§e/blockparty addsong <Arena> <Song> §7- Adds a song to an arena");
         sender.sendMessage("§8§m----------------------------");
 
         return true;

@@ -27,20 +27,20 @@ public class MusicPlayerServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String playerName = (String)request.getSession(true).getAttribute("name");
         PlayerInfo playerInfo;
-        if(playerName != null && !playerName.equals("") && (playerInfo = PlayerInfo.getFromPlayer(playerName)) != null && Bukkit.getPlayer(playerName) != null)
-        {
-            String currentArena = playerInfo.getCurrentArena();
-            Arena arena = Arena.getByName(playerInfo.getCurrentArena());
-            response.getWriter().write(
-                    "{\n" +
-                            "  \"name\": \"" + playerName + "\",\n" +
-                            "  \"inArena\": " + PlayerInfo.isInArena(playerName) + ",\n" +
-                            "  \"arena\": {\n" +
-                            "    \"name\": \"" + ((currentArena != null && !currentArena.equals("")) ? currentArena : "_null_")  + "\",\n" +
-                            "    \"status\": \"" + ((currentArena != null && !currentArena.equals("")) ? arena.getGameState().name() : "_null_") + "\",\n" +
-                            "    \"song\": \"" + ((currentArena != null && !currentArena.equals("") && arena.getSongManager().getVotedSong() != null) ? arena.getSongManager().getVotedSong().getName() : "_null_") + "\"\n" +
-                            "  }\n" +
-                            "}\n\n");
+        if(playerName != null && !playerName.equals("") && Bukkit.getPlayer(playerName) != null) {
+            if ((playerInfo = PlayerInfo.getFromPlayer(playerName)) != null) {
+                String currentArena = playerInfo.getCurrentArena();
+                Arena arena = Arena.getByName(currentArena);
+                response.getWriter().write(
+                        "{\n" +
+                                "  \"name\": \"" + playerName + "\",\n" +
+                                "  \"inArena\": " + PlayerInfo.isInArena(playerName) + ",\n" +
+                                "  \"arena\": {\n" +
+                                "    \"name\": \"" + ((currentArena != null && !currentArena.equals("")) ? currentArena : "_null_") + "\",\n" +
+                                "    \"status\": \"" + ((currentArena != null && !currentArena.equals("") && arena != null) ? arena.getGameState().name() : "_null_") + "\",\n" +
+                                "    \"song\": \"" + ((currentArena != null && !currentArena.equals("") && arena != null && arena.getSongManager().getVotedSong() != null) ? arena.getSongManager().getVotedSong().getName() : "_null_") + "\"\n" +
+                                "  }\n" +
+                                "}\n\n");
             /*if(currentArena != null && !currentArena.equals(""))
             {
                 response.getWriter().write(
@@ -67,10 +67,20 @@ public class MusicPlayerServlet extends HttpServlet {
             {
                 System.out.println("arena null");
             }*/
+            }
         }
         else
         {
-            System.out.println("no player info or offline");
+            response.getWriter().write(
+                    "{\n" +
+                            "  \"name\": \"_null_\",\n" +
+                            "  \"inArena\": false,\n" +
+                            "  \"arena\": {\n" +
+                            "    \"name\": \"_null_\",\n" +
+                            "    \"status\": \"_null_\",\n" +
+                            "    \"song\": \"_null_\"\n" +
+                            "  }\n" +
+                            "}\n\n");
         }
     }
 

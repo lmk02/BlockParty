@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test page</title>
+</head>
+<body>
+    <button id="setName" onclick="transmit()">Transmit</button>
+    <textarea id="info" readonly="readonly" rows="30" cols="15"></textarea><br/>
+    <script>
+        var eventSource = null;
+        function transmit() {
+            eventSource = new EventSource('http://localhost:8080/')
+            eventSource.onopen=function () {
+                info.value += 'Connected...' + '\n';
+            };
+            eventSource.onmessage=function (message) {
+                info.value += message.data + '\n\n';
+            };
+        }
+    </script>
+</body>
+</html>

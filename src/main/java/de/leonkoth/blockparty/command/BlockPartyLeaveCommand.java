@@ -2,6 +2,7 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.exception.BlockPartyException;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerInfo;
@@ -32,6 +33,11 @@ public class BlockPartyLeaveCommand extends SubCommand {
         }
 
         Arena arena = Arena.getByName(playerInfo.getCurrentArena());
+
+        if(arena == null)
+        {
+            throw new BlockPartyException("Arena " + playerInfo.getCurrentArena() + " does not exist or got deleted.");
+        }
 
         if (!arena.removePlayer(player)) {
             Bukkit.getLogger().severe("[BlockParty] " + player.getName() + " couldn't leave arena " + arena.getName());

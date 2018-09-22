@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.UUID;
 
 /**
@@ -37,7 +38,7 @@ public class NoteblockSong implements Song {
     }
 
     @Override
-    public void play(BlockParty blockParty, Arena arena) {
+    public void play(BlockParty blockParty, Arena arena) throws FileNotFoundException {
         song = NBSDecoder.parse(new File(BlockParty.PLUGIN_FOLDER + "Songs/", name + ".nbs"));
         sp = new RadioSongPlayer(song);
         sp.setAutoDestroy(true);

@@ -27,7 +27,6 @@ public class NameServlet extends HttpServlet {
 
         if(playerName != null && !playerName.equals(""))
         {
-            System.out.println(playerName);
             response.setContentType("text/html");
             if(PlayerInfo.getFromPlayer(playerName) == null || Bukkit.getPlayer(playerName) == null)
             {

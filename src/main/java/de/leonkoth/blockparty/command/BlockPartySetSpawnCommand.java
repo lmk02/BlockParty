@@ -30,6 +30,12 @@ public class BlockPartySetSpawnCommand extends SubCommand {
             return false;
         }
 
+        if(arena == null)
+        {
+            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            return false;
+        }
+
         if (!arena.isEnabled()) {
             Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
             return false;

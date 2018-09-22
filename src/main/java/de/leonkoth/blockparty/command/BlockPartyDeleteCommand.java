@@ -28,6 +28,12 @@ public class BlockPartyDeleteCommand extends SubCommand {
             return false;
         }
 
+        if(arena == null)
+        {
+            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            return false;
+        }
+
         arena.delete();
         Messenger.message(true, sender, Locale.ARENA_DELETE_SUCCESS, "%ARENA%", args[1]);
 
