@@ -7,6 +7,6 @@ package de.leonkoth.blockparty.player;
  */
 public enum PlayerState {
 
-    DEFAULT, INLOBBY, INGAME, SPECTATING
+    DEFAULT, INLOBBY, INGAME, SPECTATING, WINNER
 
 }

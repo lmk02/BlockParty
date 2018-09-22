@@ -25,6 +25,9 @@ public class BlockPartyListSchematicsCommand extends SubCommand {
         List<String> schematicList = new ArrayList<>();
         File folder = new File(BlockParty.PLUGIN_FOLDER + "Floors/");
 
+        if(!folder.exists())
+            folder.mkdir();
+
         if(!folder.isDirectory())
             return true;
 

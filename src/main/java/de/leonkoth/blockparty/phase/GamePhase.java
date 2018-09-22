@@ -13,6 +13,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+
 /**
  * Created by Leon on 15.03.2018.
  * Project Blockparty2
@@ -75,7 +77,7 @@ public class GamePhase implements Runnable {
 
     private void finishGame() {
 
-        PlayerInfo winner = null;
+        /*PlayerInfo winner = null;
         for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
             if (playerInfo.getPlayerState() == PlayerState.INGAME) {
                 winner = playerInfo;
@@ -84,6 +86,16 @@ public class GamePhase implements Runnable {
 
         Player player = (winner == null) ? null : winner.asPlayer();
         PlayerWinEvent event = new PlayerWinEvent(arena, player, winner);
+        Bukkit.getPluginManager().callEvent(event);*/
+
+        ArrayList<PlayerInfo> winners = new ArrayList<>();
+        for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
+            if (playerInfo.getPlayerState() == PlayerState.INGAME) {
+                winners.add(playerInfo);
+            }
+        }
+
+        PlayerWinEvent event = new PlayerWinEvent(arena, winners);
         Bukkit.getPluginManager().callEvent(event);
     }
 
@@ -150,6 +162,9 @@ public class GamePhase implements Runnable {
                 } else {
                     if (currentLevel < levelAmount) {
                         currentLevel++;
+                    } else {
+                        this.finishGame();
+                        return;
                     }
 
                     currentTime = 0;

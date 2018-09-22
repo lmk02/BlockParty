@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import java.util.List;
+
 public class PlayerWinEvent extends Event {
 
     @Getter
@@ -15,15 +17,12 @@ public class PlayerWinEvent extends Event {
     @Getter
     private Arena arena;
 
-    @Getter
-    private Player player;
 
     @Getter
-    private PlayerInfo playerInfo;
+    private List<PlayerInfo> playerInfo;
 
-    public PlayerWinEvent(Arena arena, Player player, PlayerInfo playerInfo) {
+    public PlayerWinEvent(Arena arena, List<PlayerInfo> playerInfo) {
         this.arena = arena;
-        this.player = player;
         this.playerInfo = playerInfo;
     }
 

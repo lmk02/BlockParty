@@ -6,8 +6,11 @@ import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerInfo;
+import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
 
 public class BlockPartyStopCommand extends SubCommand {
 
@@ -36,6 +39,12 @@ public class BlockPartyStopCommand extends SubCommand {
             return false;
         }
 
+        if(arena == null)
+        {
+            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            return false;
+        }
+
         if (!arena.isEnabled()) {
             Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
             return false;
@@ -46,7 +55,13 @@ public class BlockPartyStopCommand extends SubCommand {
             return false;
         }
 
-        arena.getPhaseHandler().startWinningPhase(playerInfo);
+        ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
+        for(PlayerInfo players : arena.getPlayersInArena())
+        {
+            if(players.getPlayerState() == PlayerState.INGAME)
+                playerInfos.add(players);
+        }
+        arena.getPhaseHandler().startWinningPhase(playerInfos);
 
         return true;
     }

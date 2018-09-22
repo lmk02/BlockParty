@@ -62,13 +62,13 @@ public class InteractListener implements Listener {
             return false;
 
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
-        if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-            Messenger.message(true, player, Locale.NOT_IN_ARENA);
-            return false;
-        }
 
         if(inventory != null && inventory.getName().equals(Locale.INVENTORY_VOTE_NAME.toString()))
         {
+            if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
+                Messenger.message(true, player, Locale.NOT_IN_ARENA);
+                return false;
+            }
             if(item.getItemMeta() == null)
                 return false;
             Arena arena = Arena.getByName(playerInfo.getCurrentArena());
@@ -87,6 +87,11 @@ public class InteractListener implements Listener {
 
         if (item.equals(ItemType.LEAVEARENA.getItem())) {
 
+            if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
+                Messenger.message(true, player, Locale.NOT_IN_ARENA);
+                return false;
+            }
+
             Arena arena = Arena.getByName(playerInfo.getCurrentArena());
 
             if (!arena.removePlayer(player)) {
@@ -96,6 +101,10 @@ public class InteractListener implements Listener {
         }
 
         if (item.equals(ItemType.VOTEFORASONG.getItem())) {
+            if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
+                Messenger.message(true, player, Locale.NOT_IN_ARENA);
+                return false;
+            }
             Arena arena = Arena.getByName(playerInfo.getCurrentArena());
             List<Song> songs = arena.getSongManager().getSongs();
             Inventory inv = Bukkit.createInventory(null, ((songs.size() / 9) + 1) * 9, Locale.INVENTORY_VOTE_NAME.toString());

@@ -27,6 +27,12 @@ public class BlockPartyEnableCommand extends SubCommand {
             return false;
         }
 
+        if(arena == null)
+        {
+            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            return false;
+        }
+
         arena.setEnabled(true);
         Messenger.message(true, sender, Locale.ARENA_ENABLE_SUCCESS, "%ARENA%", args[1]);
 

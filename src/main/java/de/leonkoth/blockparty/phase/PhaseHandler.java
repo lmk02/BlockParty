@@ -8,6 +8,8 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.List;
+
 /**
  * Created by Leon on 16.03.2018.
  * Project Blockparty2
@@ -62,7 +64,7 @@ public class PhaseHandler {
         }
     }
 
-    public boolean startWinningPhase(PlayerInfo winner) {
+    public boolean startWinningPhase(List<PlayerInfo> winner) {
         BukkitScheduler scheduler = Bukkit.getScheduler();
         if (!scheduler.isCurrentlyRunning(winnerPhaseScheduler) && !scheduler.isCurrentlyRunning(gamePhaseScheduler)) {
             this.winnerPhase = new WinnerPhase(blockParty, arena, winner);

@@ -7,6 +7,7 @@ import de.leonkoth.blockparty.song.Song;
 import de.leonkoth.blockparty.song.WebSong;
 import org.bukkit.Bukkit;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -128,7 +129,11 @@ public class SongManager {
             } else {
                 this.votedSong = this.getMostVoted();
             }
-            this.votedSong.play(blockParty, this.arena);
+            try {
+                this.votedSong.play(blockParty, this.arena);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             this.resetVotes();
         }
     }

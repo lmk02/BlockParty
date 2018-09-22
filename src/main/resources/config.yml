@@ -2,7 +2,7 @@ LocaleFileName: locale_en.yml
 SaveOnDisable: false
 
 MusicServer:
-  Enabled: true
+  Enabled: false
   WebSocketLibrary: jetty
   Port: 8080
 

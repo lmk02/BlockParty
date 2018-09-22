@@ -7,34 +7,250 @@
     <meta name="author" content="">
     <title>Musicplayer</title>
     <link href="../../bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="../../bootstrap/css/signin.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <style type='text/css'>
+        #ex1Slider .slider-selection {
+            background: #BABABA;
+        }
+        .slider.slider-horizontal{
+            width:400px;
+        }
+        body {
+            background-color: #f5f5f5;
+        }
+    </style>
 </head>
 <body>
-<form class="form-signin">
-    <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Please enter your name</h1>
-    <label for="playerName" class="sr-only">Name</label>
-    <input type="text" id="playerName" class="form-control" placeholder="Your name" required autofocus>
-    <button class="btn btn-lg btn-primary btn-block" onclick="enterUsername()" type="button">Enter</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
-</form>
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enter your name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger alert-dismissible" role="alert" id="errorMsg" style="display:none;">
+                    <strong>Something went wrong!</strong> Please make sure you entered the right name and are connected to the server
+                </div>
+                <input type="text" id="playerName" class="form-control" placeholder="Your name" required autofocus>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="enterUsername()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="py-5">
+    <div class="container">
+        <div class="row h-100">
+            <div class="col-lg-9 p-3">
+                <div class="card text-center">
+                    <div class="card-header p-3">
+                        <h3>Welcome</h3>
+                        <h2> <b id="pName">on this Server</b></h2>
+                    </div>
+                    <div class="card-body p-3"> <i class="fa fa-cubes" style="font-size:36px"></i>
+                        <small id="help" class="form-text text-muted">Official BlockParty webplayer</small>
+                        <ul class="list-unstyled my-3">
+                            <li class="mb-1">
+                                <div class="row">
+                                    <div class="col-lg-3 p-1">
+                                        <i class="fa fa-check" style="font-size:16px"></i>
+                                    </div>
+                                    <div class="col-lg-9 p-1">
+                                        <p align="left" id="isOnline">You are currently offline. <a data-toggle="modal" href="#loginModal">Enter your name.</a></p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-1">
+                                <div class="row">
+                                    <div class="col-lg-3 p-1">
+                                        <i class="fa fa-cube" style="font-size:16px"></i>
+                                    </div>
+                                    <div class="col-lg-9 p-1">
+                                        <p align="left" id="arenaName">You are currently in no arena.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-1">
+                                <div class="row">
+                                    <div class="col-lg-3 p-1">
+                                        <i class="fa fa-music" style="font-size:16px"></i>
+                                    </div>
+                                    <div class="col-lg-9 p-1">
+                                        <p align="left" id="songName">No Song selected. Please vote!</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="row">
+                            <div class="col-lg-3 p-3" id="play" style="display:none;">
+                                <i class="fa fa-play" style="font-size:36px"></i>
+                            </div>
+                            <div class="col-lg-3 p-3" id="pause">
+                                <i class="fa fa-pause" style="font-size:36px"></i>
+                            </div>
+                            <div class="col-lg-9 p-3">
+                                <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="25"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 p-3">
+                <div class="card text-center">
+                    <div class="card-header p-3">
+                        <h3>Your</h3>
+                        <h2> <b>Stats</b> </h2>
+                    </div>
+                    <div class="card-body p-3"> <i class="fa fa-bar-chart" style="font-size:36px"></i>
+                        <small id="help" class="form-text text-muted">Official BlockParty webplayer</small>
+                        <ul class="list-unstyled my-3">
+                            <li class="mb-1">Included in the next</li>
+                            <li class="mb-1">BlockParty update.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script type='text/javascript' src="../../bootstrap/js/bootstrap.js"></script>
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.min.js"></script>
 <script language="JavaScript" type="text/javascript">
     var xMLHttpRequest = new XMLHttpRequest();
-    function enterUsername(){
-        xMLHttpRequest.open("Get", "/NameRequest?playerName=" + document.getElementById("playerName").value, true);
+    var xMLHttpRequestName = new XMLHttpRequest();
+    var audio = null;
+    var check = false;
+    window.onload = function() {
+        var slider = new Slider('#ex1', {
+            formatter: function(value) {
+                return 'Current value: ' + value;
+            }
+        });
+        xMLHttpRequest.open("Get", "/Musicplayer", true);
         xMLHttpRequest.onreadystatechange = process;
         xMLHttpRequest.send(null);
+        sendReq();
     }
-    function process() {
-        if(xMLHttpRequest.readyState == 4 && xMLHttpRequest.status == 200){
-            var resp = xMLHttpRequest.responseText;
-            alert(resp);
+
+    function enterUsername(){
+        xMLHttpRequestName.open("Get", "/NameRequest?playerName=" + document.getElementById("playerName").value, true);
+        xMLHttpRequestName.onreadystatechange = processNameRequest;
+        xMLHttpRequestName.send(null);
+    }
+
+    function processNameRequest() {
+        if(xMLHttpRequestName.readyState == 4 && xMLHttpRequestName.status == 200){
+            var resp = xMLHttpRequestName.responseText;
             if(resp == "_true_")
             {
-                window.document.location.href = "../../webplayer.html";
+                $('#loginModal').modal("hide");
+                check = true;
+            } else
+            {
+                $('#errorMsg').show();
             }
         }
     }
+
+    async function sendReq() {
+        while(true){
+            await sleep(500);
+            if(check)
+            {
+                xMLHttpRequest.open("Get", "/Musicplayer", true);
+                xMLHttpRequest.send(null);
+            }
+        }
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function process() {
+        if(xMLHttpRequest.readyState == 4 && xMLHttpRequest.status == 200){
+            var resp = JSON.parse(xMLHttpRequest.responseText);
+            if(resp.name == "_null_"){
+                $('#loginModal').modal("show");
+                document.getElementById('pName').innerText = "to this Server";
+                document.getElementById('isOnline').innerText = "You are currently offline.";
+                document.getElementById('arenaName').innerText = "You are currently in no arena.";
+                document.getElementById('songName').innerText = "No Song selected. Please vote!";
+                $('#errorMsg').show();
+                check = false;
+            } else {
+                check = true;
+                document.getElementById('pName').innerText = resp.name;
+                document.getElementById('isOnline').innerText = "You are currently online.";
+
+                if(resp.inArena == true)
+                {
+                    document.getElementById('arenaName').innerText = "Arena: " + resp.arena.name;
+                } else {
+                    document.getElementById('arenaName').innerText = "You are currently in no arena.";
+                }
+                if(resp.arena.song != "_null_")
+                {
+                    document.getElementById('songName').innerText = resp.arena.song;
+                    if(audio == null)
+                    {
+                        audio = new Audio("../../songs/" + resp.arena.song);
+                    }
+                    if(resp.arena.status == "START")
+                    {
+                        audio.volume = $("#ex1").val()/100;
+                        audio.play();
+
+                        $('#play').show();
+                        $('#pause').hide();
+                    }
+                    if(resp.arena.status == "PLAY")
+                    {
+                        audio.volume = $("#ex1").val()/100;
+                        audio.play();
+
+                        $('#play').show();
+                        $('#pause').hide();
+                    }
+                    if(resp.arena.status == "STOP")
+                    {
+                        audio.pause();
+
+                        $('#play').hide();
+                        $('#pause').show();
+                    }
+                    if(resp.arena.status == "WAIT")
+                    {
+                        audio.pause();
+                        audio = null;
+
+                        $('#play').hide();
+                        $('#pause').show();
+                    }
+                } else {
+                    document.getElementById('songName').innerText = "No Song selected. Please vote!";
+                }
+            }
+
+        }
+    }
+    $("#ex1").mousemove(function () {
+        var r = $("#ex1").val();
+        if(audio != null)
+        {
+            audio.volume = r/100;
+        }
+    });
 </script>
 </body>
 </html>
