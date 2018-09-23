@@ -78,7 +78,7 @@ public class BlockParty {
 
         new DefaultManager().copyAll();
 
-        //Metrics metrics = new Metrics(this.plugin); TODO: Relocate
+        Metrics metrics = new Metrics(this.plugin);
 
 
 

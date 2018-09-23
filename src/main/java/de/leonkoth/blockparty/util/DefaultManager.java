@@ -50,7 +50,6 @@ public class DefaultManager {
                     file.mkdirs();
 
                     this.copyDefaults("web/index.html");
-                    this.copyDefaults("web/webplayer.html");
                 }
             }
         }.copy();
@@ -66,9 +65,6 @@ public class DefaultManager {
                 }
 
                 this.copyDefaults("web/bootstrap/css/bootstrap.css");
-                this.copyDefaults("web/bootstrap/css/bootstrap-grid.css");
-                this.copyDefaults("web/bootstrap/css/bootstrap-reboot.css");
-                this.copyDefaults("web/bootstrap/css/signin.css");
 
                 file = new File(BlockParty.PLUGIN_FOLDER + "web/bootstrap/js/");
 
@@ -77,7 +73,6 @@ public class DefaultManager {
 
                 }
 
-                this.copyDefaults("web/bootstrap/js/bootstrap.bundle.js");
                 this.copyDefaults("web/bootstrap/js/bootstrap.js");
 
             }
