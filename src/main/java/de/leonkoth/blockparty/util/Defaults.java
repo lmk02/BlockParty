@@ -11,18 +11,20 @@ import java.nio.file.Files;
  * Project BlockParty-2.0
  * © 2016 - Leon Koth
  */
-public abstract class Defaults {
+public class Defaults {
 
-    public abstract void copy();
-
-    void copyDefaults(String resourceName) {
+    public static void copy(String resourceName) {
         File file = new File(BlockParty.PLUGIN_FOLDER + resourceName);
 
-        if (!file.exists()) {
+        if(!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+
             try {
                 Files.copy(Defaults.class.getClassLoader().getResourceAsStream(resourceName), file.toPath());
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Couldn't copy file \"" + resourceName + "\"");
             }
         }
     }

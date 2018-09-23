@@ -82,11 +82,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- MCJukebox -->
+        <!-- NoteBlockAPI -->
         <dependency>
             <groupId>com.xxmicloxx</groupId>
             <artifactId>NoteBlockAPI</artifactId>
-            <version>1.2.2.1</version>
+            <version>1.2.3</version>
             <scope>provided</scope>
         </dependency>
 
@@ -145,6 +145,15 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+
                             <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>

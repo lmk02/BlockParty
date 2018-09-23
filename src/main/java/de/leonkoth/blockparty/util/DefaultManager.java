@@ -1,9 +1,5 @@
 package de.leonkoth.blockparty.util;
 
-import de.leonkoth.blockparty.BlockParty;
-
-import java.io.File;
-
 /**
  * Created by Leon on 21.09.2018.
  * Project BlockParty-2.0
@@ -11,87 +7,12 @@ import java.io.File;
  */
 public class DefaultManager {
 
-    public void copyAll()
-    {
-        new Defaults() {
-            @Override
-            public void copy() {
-                File file = new File(BlockParty.PLUGIN_FOLDER + "Songs/");
-
-                if (!file.exists()) {
-                    file.mkdirs();
-
-                    this.copyDefaults("Songs/LetItGo.nbs");
-                    this.copyDefaults("Songs/ZeldaTheme.nbs");
-                }
-            }
-        }.copy();
-
-        new Defaults() {
-            @Override
-            public void copy() {
-                File file = new File(BlockParty.PLUGIN_FOLDER + "Floors/");
-
-                if (!file.exists()) {
-                    file.mkdirs();
-
-                    this.copyDefaults("Floors/start.schematic");
-                    this.copyDefaults("Floors/example.schematic");
-                }
-            }
-        }.copy();
-
-        new Defaults() {
-            @Override
-            public void copy() {
-                File file = new File(BlockParty.PLUGIN_FOLDER + "web/");
-
-                if (!file.exists()) {
-                    file.mkdirs();
-
-                    this.copyDefaults("web/index.html");
-                }
-            }
-        }.copy();
-
-        new Defaults() {
-            @Override
-            public void copy() {
-                File file = new File(BlockParty.PLUGIN_FOLDER + "web/bootstrap/css/");
-
-                if (!file.exists()) {
-                    file.mkdirs();
-
-                }
-
-                this.copyDefaults("web/bootstrap/css/bootstrap.css");
-
-                file = new File(BlockParty.PLUGIN_FOLDER + "web/bootstrap/js/");
-
-                if (!file.exists()) {
-                    file.mkdirs();
-
-                }
-
-                this.copyDefaults("web/bootstrap/js/bootstrap.js");
-
-            }
-        }.copy();
-
-        new Defaults() {
-            @Override
-            public void copy() {
-                File file = new File(BlockParty.PLUGIN_FOLDER + "web/songs/");
-
-                if (!file.exists()) {
-                    file.mkdirs();
-
-                }
-
-                this.copyDefaults("web/songs/Vincent_Augustus_-_woah.mp3");
-
-            }
-        }.copy();
+    public void copyAll() {
+        Defaults.copy("Songs/LetItGo.nbs");
+        Defaults.copy("Songs/ZeldaTheme.nbs");
+        Defaults.copy("Floors/start.schematic");
+        Defaults.copy("Floors/example.schematic");
+        Defaults.copy("web/index.html");
     }
 
 }
