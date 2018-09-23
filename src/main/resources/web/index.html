@@ -181,12 +181,12 @@
         if(xMLHttpRequest.readyState == 4 && xMLHttpRequest.status == 200){
             var resp = JSON.parse(xMLHttpRequest.responseText);
             if(resp.name == "_null_"){
+                $('#errorMsg').hide();
                 $('#loginModal').modal("show");
                 document.getElementById('pName').innerText = "to this Server";
                 document.getElementById('isOnline').innerText = "You are currently offline.";
                 document.getElementById('arenaName').innerText = "You are currently in no arena.";
                 document.getElementById('songName').innerText = "No Song selected. Please vote!";
-                $('#errorMsg').show();
                 check = false;
             } else {
                 check = true;
