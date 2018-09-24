@@ -1,5 +1,6 @@
 package de.leonkoth.blockparty.file;
 
+import de.leonkoth.blockparty.exception.FloorFormatException;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,8 +25,12 @@ public class FloorPattern {
 
     public static FloorPattern create(Location pos1, Location pos2) {
 
-        if(pos1.getBlockZ() != pos2.getBlockZ() || !pos1.getWorld().getName().equals(pos2.getWorld().getName())) {
-            throw new IllegalArgumentException();
+        if(pos1.getBlockZ() != pos2.getBlockZ()) {
+            throw new FloorFormatException("Selection must be 1 block high");
+        }
+
+        if(!pos1.getWorld().getName().equals(pos2.getWorld().getName())) {
+            throw new FloorFormatException("Points have to be in the same world");
         }
 
         int minX = Math.min(pos1.getBlockX(), pos2.getBlockY());
@@ -33,8 +38,8 @@ public class FloorPattern {
         int maxX = Math.max(pos1.getBlockX(), pos2.getBlockY());
         int maxZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
 
-        int width = maxX - minX;
-        int length = maxZ - minZ;
+        int width = maxX - minX + 1;
+        int length = maxZ - minZ + 1;
         Material[] blocks = new Material[width * length];
         byte[] data = new byte[width * length];
         for(int x = 0; x < width; x++) {
