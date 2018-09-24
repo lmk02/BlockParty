@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty.file;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.exception.FloorFormatException;
 import de.leonkoth.blockparty.floor.Floor;
 import de.leonkoth.blockparty.util.MinecraftVersion;
 import de.leonkoth.blockparty.util.Util;
@@ -45,7 +46,7 @@ public class FloorFormat {
                     if(!materials.containsKey(material)) {
                         materials.put(material, materials.size());
                     }
-                    blockLines.add("b " + x + " " + z + " " + materials.get(material) + (data == 0 ? "" : (" " + data)));
+                    blockLines.add("b " + materials.get(material) + (data == 0 ? "" : (" " + data)));
                 }
             }
 
@@ -66,10 +67,10 @@ public class FloorFormat {
         }
     }
 
-    public static FloorPattern readFloorPattern(File file) {
+    public static FloorPattern readFloorPattern(File file) throws FileNotFoundException {
 
         if(!file.exists()) {
-            return null;
+            throw new FileNotFoundException();
         }
 
         int width = 0, length = 0;
@@ -89,10 +90,33 @@ public class FloorFormat {
         }
 
         if(width == 0 || length == 0) {
-            return null;
+            throw new FloorFormatException("Floor has to have a size");
         }
 
+        HashMap<Integer, Material> materialMap = new HashMap<>();
         data = new byte[width * length];
+        materials = new Material[width * length];
+        int i = 0;
+
+        for(String line : lines) {
+            String[] splitted = line.split(" ");
+            if(line.startsWith("m ") && splitted.length >= 3) {
+                Material material = Material.valueOf(splitted[1].toUpperCase());
+                int index = Integer.valueOf(splitted[2]);
+                materialMap.put(index, material);
+            }
+            if(line.startsWith("b ") && splitted.length >= 2) {
+                //int x = i % width;
+                //int y = (int) Math.floor((double) i / (double) width);
+                materials[i] = materialMap.get(Integer.parseInt(splitted[1]));
+                if(splitted.length >= 3) {
+                    data[i] = Byte.parseByte(splitted[2]);
+                }
+                i++;
+            }
+        }
+
+        /*data = new byte[width * length];
         materials = new Material[width * length];
 
         for(String line : lines) {
@@ -111,7 +135,7 @@ public class FloorFormat {
                     data[i] = 0;
                 }
             }
-        }
+        }*/
 
         return new FloorPattern(width, length, materials, data);
     }

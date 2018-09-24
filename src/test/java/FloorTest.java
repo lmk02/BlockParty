@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -35,7 +36,12 @@ public class FloorTest {
 
         /* READ */
 
-        FloorPattern readPattern = FloorFormat.readFloorPattern(file);
+        FloorPattern readPattern = null;
+        try {
+            readPattern = FloorFormat.readFloorPattern(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         System.out.println(readPattern.getWidth());
         System.out.println(readPattern.getLength());
