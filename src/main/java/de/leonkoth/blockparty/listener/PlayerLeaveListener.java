@@ -40,7 +40,8 @@ public class PlayerLeaveListener implements Listener {
             return;
         }
 
-        arena.removePlayer(player);
+        if(arena != null)
+            arena.removePlayer(player);
     }
 
 }
