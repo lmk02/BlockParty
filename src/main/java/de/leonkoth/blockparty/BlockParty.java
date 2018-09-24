@@ -10,6 +10,7 @@ import de.leonkoth.blockparty.listener.*;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.DefaultManager;
+import de.leonkoth.blockparty.util.MinecraftVersion;
 import de.leonkoth.blockparty.web.server.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -66,8 +67,12 @@ public class BlockParty {
     @Getter
     private String tablePrefix;
 
+    @Getter
+    private MinecraftVersion minecraftVersion;
+
     public BlockParty(JavaPlugin plugin) {
         this.plugin = plugin;
+        this.minecraftVersion = new MinecraftVersion();
     }
 
     public void start() {
