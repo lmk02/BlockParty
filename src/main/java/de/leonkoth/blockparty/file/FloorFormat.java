@@ -1,12 +1,18 @@
 package de.leonkoth.blockparty.file;
 
+import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.Floor;
+import de.leonkoth.blockparty.util.MinecraftVersion;
+import de.leonkoth.blockparty.util.Util;
 import jdk.jfr.events.FileReadEvent;
 import org.bukkit.Material;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class FloorFormat {
 
@@ -17,16 +23,40 @@ public class FloorFormat {
             int width = pattern.getWidth();
             int length = pattern.getLength();
 
-            printWriter.println("width " + width);
-            printWriter.println("length " + length);
+            // METADATA
+            MinecraftVersion minecraftVersion = new MinecraftVersion(1, 12, 2); //TODO
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss O");
+            ZonedDateTime now = ZonedDateTime.now();
+            printWriter.println("# Created at: " + formatter.format(now));
+            printWriter.println("# BlockParty " + "2.0.2" /* TODO */ + ", Minecraft " + minecraftVersion);
+
+            printWriter.println("version " + minecraftVersion);
+            printWriter.println("size " + width + "," + length);
+
+            HashMap<Material, Integer> materials = new HashMap<>();
+            List<String> blockLines = new ArrayList<>();
 
             for(int x = 0; x < width; x++) {
                 for(int z = 0; z < length; z++) {
                     int index = x + z * width;
-                    Material material =  pattern.getMaterials()[index];
                     byte data = pattern.getData()[index];
-                    printWriter.println("block " + x + " " + z + " " + material.name() + " " + data);
+
+                    Material material =  pattern.getMaterials()[index];
+                    if(!materials.containsKey(material)) {
+                        materials.put(material, materials.size());
+                    }
+                    blockLines.add("b " + x + " " + z + " " + materials.get(material) + (data == 0 ? "" : (" " + data)));
                 }
+            }
+
+            for(Map.Entry<Material, Integer> entry : materials.entrySet()) {
+                Material material = entry.getKey();
+                int index = entry.getValue();
+                printWriter.println("m " + material + " " + index);
+            }
+
+            for(String line : blockLines) {
+                printWriter.println(line);
             }
 
             printWriter.close();
@@ -48,16 +78,13 @@ public class FloorFormat {
         List<String> lines = readLines(file);
 
         for(String line : lines) {
-            if(line.startsWith("width")) {
-                width = Integer.parseInt(line.split(" ")[1]);
-                break;
-            }
-        }
-
-        for(String line : lines) {
-            if(line.startsWith("length")) {
-                length = Integer.parseInt(line.split(" ")[1]);
-                break;
+            String[] splitted = line.split(" ");
+            if(line.startsWith("size ") && splitted.length >= 2) {
+                splitted = splitted[1].split(",");
+                if(splitted.length >= 2) {
+                    width = Integer.parseInt(splitted[0]);
+                    length = Integer.parseInt(splitted[1]);
+                }
             }
         }
 
@@ -69,15 +96,20 @@ public class FloorFormat {
         materials = new Material[width * length];
 
         for(String line : lines) {
-            if(line.startsWith("block")) {
-                String[] lineSplit = line.split(" ");
-                int x = Integer.parseInt(lineSplit[1]);
-                int z = Integer.parseInt(lineSplit[2]);
-                Material material = Material.valueOf(lineSplit[3]);
-                byte b = Byte.parseByte(lineSplit[4]);
+            String[] splitted = line.split(" ");
+            if(line.startsWith("block ") && splitted.length >= 4) {
+                int x = Integer.parseInt(splitted[1]);
+                int z = Integer.parseInt(splitted[2]);
                 int i = x + z * width;
-                data[i] = b;
+                Material material = Material.valueOf(splitted[3].toUpperCase());
                 materials[i] = material;
+
+                if(splitted.length >= 5) {
+                    byte b = Byte.parseByte(splitted[4]);
+                    data[i] = b;
+                } else {
+                    data[i] = 0;
+                }
             }
         }
 
@@ -93,7 +125,7 @@ public class FloorFormat {
 
             String line;
             while((line = bufferedReader.readLine()) != null) {
-                lines.add(line);
+                lines.add(line.toLowerCase());
             }
 
             reader.close();
