@@ -1,6 +1,8 @@
 package de.leonkoth.blockparty.web.server.handler;
 
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.arena.ArenaState;
+import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import org.bukkit.Bukkit;
 
@@ -31,9 +33,31 @@ public class MusicPlayerServlet extends HttpServlet {
             if ((playerInfo = PlayerInfo.getFromPlayer(playerName)) != null) {
                 String currentArena = playerInfo.getCurrentArena();
                 Arena arena = Arena.getByName(currentArena);
+                double d = 2.5;
+                if(arena != null){
+                    if(arena.getArenaState() == ArenaState.INGAME)
+                    {
+                        if(arena.getGameState() == GameState.START || arena.getGameState() == GameState.PLAY)
+                        {
+                            d = arena.getPhaseHandler().getGamePhase().getTimeRemaining();
+
+                            // To prevent too many requests
+                            if(d < 0.1)
+                                d = 0.1;
+
+                        } else if(arena.getGameState() == GameState.STOP)
+                        {
+                            d = arena.getPhaseHandler().getGamePhase().getStopTime();
+                        } else if(arena.getGameState() == GameState.WAIT)
+                        {
+                            d = 1;
+                        }
+                    }
+                }
                 response.getWriter().write(
                         "{\n" +
                                 "  \"name\": \"" + playerName + "\",\n" +
+                                "  \"updateTime\": " + d + ",\n" +
                                 "  \"inArena\": " + PlayerInfo.isInArena(playerName) + ",\n" +
                                 "  \"arena\": {\n" +
                                 "    \"name\": \"" + ((currentArena != null && !currentArena.equals("")) ? currentArena : "_null_") + "\",\n" +

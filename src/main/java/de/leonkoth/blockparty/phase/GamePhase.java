@@ -9,6 +9,7 @@ import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.Util;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -25,10 +26,15 @@ public class GamePhase implements Runnable {
     private boolean firstStopEnter = true, firstDanceEnter = true, firstPrepareEnter = true, firstEnter = true;
     private double timeToSearch, timeReductionPerLevel, timeModifier, currentTimeToSearch, currentTime;
     private int levelAmount, currentLevel;
-    private int stopTime = 4, preparingTime = 5;
+
+    @Getter
+    private int stopTime = 4;
+
+    private int preparingTime = 5;
     private DisplayScoreboard displayScoreboard;
     private BlockParty blockParty;
     private Arena arena;
+    private double timeRemaining;
 
     public GamePhase(BlockParty blockParty, String name) {
         this(blockParty, Arena.getByName(name));
@@ -121,7 +127,7 @@ public class GamePhase implements Runnable {
                 firstPrepareEnter = false;
             }
             Util.showActionBar(Locale.ACTIONBAR_DANCE.toString(), arena, true);
-            currentTime += timeModifier;
+            currentTime += 0.1;
         } else {
             if (currentTime < (currentTimeToSearch + preparingTime)) {
                 if (firstDanceEnter) {
@@ -140,7 +146,7 @@ public class GamePhase implements Runnable {
                 Bukkit.getPluginManager().callEvent(event);
 
                 //this.displayScoreboard.setScoreboard((int)(currentTimeToSearch + preparingTime - currentTime + 1), currentLevel, arena);
-                currentTime += timeModifier;
+                currentTime += 0.1;
 
             } else {
                 if (currentTime < (currentTimeToSearch + preparingTime + stopTime)) {
@@ -158,7 +164,7 @@ public class GamePhase implements Runnable {
 
                     //STOP
                     Util.showActionBar(Locale.ACTIONBAR_STOP.toString(), arena, true);
-                    currentTime += timeModifier;
+                    currentTime += 0.1;
                 } else {
                     if (currentLevel < levelAmount) {
                         currentLevel++;
@@ -185,6 +191,11 @@ public class GamePhase implements Runnable {
             }
         }
 
+    }
+
+    public double getTimeRemaining()
+    {
+        return this.currentTimeToSearch + this.preparingTime - this.currentTime;
     }
 
     private void sendNetworkMessage(String message) {

@@ -130,6 +130,9 @@
     var xMLHttpRequestName = new XMLHttpRequest();
     var audio = null;
     var check = false;
+
+    var interval = 2.5;
+
     window.onload = function() {
         var slider = new Slider('#ex1', {
             formatter: function(value) {
@@ -154,6 +157,8 @@
             if(resp == "_true_")
             {
                 $('#loginModal').modal("hide");
+                xMLHttpRequest.open("Get", "/Musicplayer", true);
+                xMLHttpRequest.send(null);
                 check = true;
             } else
             {
@@ -163,13 +168,11 @@
     }
 
     async function sendReq() {
-        while(true){
-            await sleep(500);
-            if(check)
-            {
-                xMLHttpRequest.open("Get", "/Musicplayer", true);
-                xMLHttpRequest.send(null);
-            }
+        await sleep(interval * 1000);
+        if(check)
+        {
+            xMLHttpRequest.open("Get", "/Musicplayer", true);
+            xMLHttpRequest.send(null);
         }
     }
 
@@ -192,6 +195,11 @@
                 check = true;
                 document.getElementById('pName').innerText = resp.name;
                 document.getElementById('isOnline').innerText = "You are currently online.";
+
+                interval = resp.updateTime;
+                sendReq();
+
+                console.log(interval);
 
                 if(resp.inArena == true)
                 {
