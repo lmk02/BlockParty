@@ -32,6 +32,7 @@ import java.util.List;
  */
 public class BlockParty {
 
+    public static final boolean DEBUG = false;
     public static final String PLUGIN_FOLDER = "plugins/BlockParty/";
 
     private static ConsoleCommandSender sender = Bukkit.getConsoleSender();

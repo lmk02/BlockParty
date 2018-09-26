@@ -13,13 +13,14 @@ public class FloorTest {
 
     public static void main(String[] args) {
 
-        /* SETUP */
+        /*
+        // SETUP
 
         File file = new File("E:\\test.floor");
 
         Random random = new Random();
 
-        /* WRITE */
+        // WRITE
 
         int width = 50, length = 50;
         byte[] data = new byte[width * length];
@@ -35,7 +36,7 @@ public class FloorTest {
 
         //FloorLoader.writeFloorPattern(file, writePattern);
 
-        /* READ */
+        // READ
 
         FloorPattern readPattern = null;
         try {
@@ -48,7 +49,7 @@ public class FloorTest {
         System.out.println(readPattern.getSize().getLength());
         System.out.println(Arrays.toString(readPattern.getData()));
         System.out.println(Arrays.toString(readPattern.getMaterials()));
-
+*/
     }
 
 }

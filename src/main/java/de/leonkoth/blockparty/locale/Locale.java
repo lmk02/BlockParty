@@ -17,6 +17,7 @@ public class Locale {
 
     public static LocaleString PREFIX = new LocaleString(INFO, "&8[&aBlockParty&8] &7");
     public static LocaleString SCOREBOARD_TEXT = new LocaleString(INFO, "&3BlockParty", "Level: %LEVEL%", "Players: %CURRENTPLAYERS% / %MAXPLAYERS%", "Time Left: %TIME%", "Arena: %ARENA%");
+    public static LocaleString COLORS = new LocaleString(INFO, "White", "Orange", "Magenta", "Light Blue", "Yellow", "Lime", "Pink", "Gray", "Light Gray", "Cyan", "Purple", "Blue", "Brown", "Green", "Red", "Black");
     public static LocaleString ACTIONBAR_COUNTDOWN = new LocaleString(INFO, "&f&l%NUMBER% second(s) left");
     public static LocaleString ACTIONBAR_DANCE = new LocaleString(INFO, "&a&l✔ &f&lDANCE &a&l✔");
     public static LocaleString ACTIONBAR_STOP = new LocaleString(INFO, "&c&l✖ &f&lSTOP &c&l✖");

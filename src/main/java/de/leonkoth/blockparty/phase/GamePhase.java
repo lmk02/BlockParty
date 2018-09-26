@@ -8,6 +8,7 @@ import de.leonkoth.blockparty.event.*;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
+import de.leonkoth.blockparty.util.ColorBlock;
 import de.leonkoth.blockparty.util.Util;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -134,8 +135,7 @@ public class GamePhase implements Runnable {
                     arena.getFloor().pickBlock();
 
                     Block pickedBlock = arena.getFloor().getCurrentBlock();
-                    colorInfo = Util.parseName(pickedBlock);
-                    BlockPickEvent event = new BlockPickEvent(arena, pickedBlock, colorInfo[0], colorInfo[1]);
+                    BlockPickEvent event = new BlockPickEvent(arena, pickedBlock, ColorBlock.get(pickedBlock));
                     Bukkit.getPluginManager().callEvent(event);
 
                     firstDanceEnter = false;

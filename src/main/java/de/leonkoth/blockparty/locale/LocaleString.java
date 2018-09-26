@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 
 public class LocaleString {
 
+    @Getter
     private String[] values;
 
     @Getter
@@ -19,8 +20,8 @@ public class LocaleString {
         return ChatColor.translateAlternateColorCodes('&', values[index]);
     }
 
-    public String[] getValues() {
-        return values;
+    public String getValue() {
+        return getValue(0);
     }
 
     public void setValues(String... values) {
@@ -28,8 +29,7 @@ public class LocaleString {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.getValue(0);
     }
 }
