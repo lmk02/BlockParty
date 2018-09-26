@@ -17,12 +17,13 @@ public class BlockPartyHelpCommand extends SubCommand {
         }
 
         sender.sendMessage("§8§m------§e BlockParty Commands §8§m------");
-        sender.sendMessage("§e/blockparty §7- See plugin info");
-        sender.sendMessage("§e/blockparty join <Arena> §7- Join an arena");
-        sender.sendMessage("§e/blockparty leave §7- Leave an arena");
+        sender.sendMessage("§e/bp §7- See plugin info");
+        sender.sendMessage("§e/bp join <Arena> §7- Join an arena");
+        sender.sendMessage("§e/bp leave §7- Leave an arena");
+        sender.sendMessage("§e/bp stats [Player] §7- Show statistics");
 
         if (sender.hasPermission("blockparty.admin")) {
-            sender.sendMessage("§e/blockparty admin §7- Show all admin commands");
+            sender.sendMessage("§e/bp admin §7- Show all admin commands");
         }
 
         sender.sendMessage("§8§m-------------------------------");

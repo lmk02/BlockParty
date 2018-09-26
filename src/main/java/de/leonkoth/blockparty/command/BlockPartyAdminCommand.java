@@ -17,22 +17,28 @@ public class BlockPartyAdminCommand extends SubCommand {
             return false;
         }
 
-        sender.sendMessage("§8§m------§e BlockParty Admin §8§m------"); //TODO update
-        sender.sendMessage("§e/blockparty start §7- Starts the game you are in");
-        sender.sendMessage("§e/blockparty startarena <Arena> §7- Starts the arena");
-        sender.sendMessage("§e/blockparty create <Arena> §7- Creates an arena");
-        sender.sendMessage("§e/blockparty delete <Arena> §7- Deletes an arena");
-        sender.sendMessage("§e/blockparty setspawn <Arena> <Lobby|Game> §7- Sets the spawn for the lobby or game");
-        sender.sendMessage("§e/blockparty setfloor <Arena> §7- Sets the floor area for an arena");
-        sender.sendMessage("§e/blockparty addfloor <Arena> <Floor> §7- Adds a schematic floor to an arena");
-        sender.sendMessage("§e/blockparty removefloor <Arena> <Floor> §7- Removes the schematic floor from an arena");
-        sender.sendMessage("§e/blockparty enable <Arena> §7- Enables arena");
-        sender.sendMessage("§e/blockparty disable <Arena> §7- Disables arena");
-        sender.sendMessage("§e/blockparty reload §7- Reloads the configs");
-        sender.sendMessage("§e/blockparty tutorial §7- Shows a tutorial of how to setup an arena");
-        sender.sendMessage("§e/blockparty status <Arena> §7- Shows status of arena");
-        sender.sendMessage("§e/blockparty listarenas §7- Shows all arenas and their statuses");
-        sender.sendMessage("§e/blockparty addsong <Arena> <Song> §7- Adds a song to an arena");
+        sender.sendMessage("§8§m------§e BlockParty Admin §8§m------");
+
+        sender.sendMessage("§e/bp addpattern <Arena> <Pattern> §7- Adds a pattern to an arena");
+        sender.sendMessage("§e/bp addsong <Arena> <Song> §7- Adds a song to an arena");
+        sender.sendMessage("§e/bp create <Arena> §7- Creates an arena");
+        sender.sendMessage("§e/bp createpattern <Pattern> §7- Creates a pattern");
+        sender.sendMessage("§e/bp delete <Arena> §7- Deletes an arena");
+        sender.sendMessage("§e/bp disable <Arena> §7- Disables an arena");
+        sender.sendMessage("§e/bp enable <Arena> §7- Enables an arena");
+        sender.sendMessage("§e/bp listarenas §7- Lists all arenas");
+        sender.sendMessage("§e/bp listpatterns [Arena] §7- Lists all patterns");
+        sender.sendMessage("§e/bp pos <1|2> §7- Selects a point");
+        sender.sendMessage("§e/bp reload §7- Reloads the plugin");
+        sender.sendMessage("§e/bp removepattern <Arena> <Pattern> §7- Removes a pattern from an arena");
+        sender.sendMessage("§e/bp setfloor <Arena> §7- Sets the floor bounds");
+        sender.sendMessage("§e/bp startarena <Arena> §7- Starts the game in specified arena");
+        sender.sendMessage("§e/bp start §7- Starts the game you are in");
+        sender.sendMessage("§e/bp status <Arena> §7- Shows an arena's status");
+        sender.sendMessage("§e/bp stop §7- Stops the game you are in");
+        sender.sendMessage("§e/bp tutorial §7- Shows how to set up the game");
+        sender.sendMessage("§e/bp wand §7- Get wand item");
+
         sender.sendMessage("§8§m----------------------------");
 
         return true;

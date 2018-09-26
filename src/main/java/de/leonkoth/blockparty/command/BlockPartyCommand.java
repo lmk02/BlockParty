@@ -39,14 +39,14 @@ public class BlockPartyCommand implements CommandExecutor {
         commands.add(new BlockPartyStopCommand(blockParty));
         commands.add(new BlockPartyLeaveCommand(blockParty));
         commands.add(new BlockPartyTutorialCommand(blockParty));
-        commands.add(new BlockPartyRemoveFloorCommand(blockParty));
+        commands.add(new BlockPartyRemovePatternCommand(blockParty));
         commands.add(new BlockPartyAdminCommand(blockParty));
         commands.add(new BlockPartyStatsCommand(blockParty));
         commands.add(new BlockPartyEnableCommand(blockParty));
         commands.add(new BlockPartyAddSongCommand(blockParty));
         commands.add(new BlockPartySetSpawnCommand(blockParty));
         commands.add(new BlockPartyCreatePatternCommand(blockParty));
-        commands.add(new BlockPartyAddFloorCommand(blockParty));
+        commands.add(new BlockPartyAddPatternCommand(blockParty));
         commands.add(new BlockPartyStartArenaCommand(blockParty));
         commands.add(new BlockPartyJoinCommand(blockParty));
         commands.add(new BlockPartyStatusCommand(blockParty));
@@ -61,11 +61,11 @@ public class BlockPartyCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            sender.sendMessage("§8§m-------------------------------");
-            sender.sendMessage("§7BlockParty version §e" + blockParty.getPlugin().getDescription().getVersion());
-            sender.sendMessage("§7Developers: §e" + Arrays.toString(blockParty.getPlugin().getDescription().getAuthors().toArray()).replace("[", ""));
-            sender.sendMessage("§7Commands: §e/blockparty help");
-            sender.sendMessage("§8§m-------------------------------");
+            sender.sendMessage("§e§m-------------------------------");
+            sender.sendMessage("  §7BlockParty version §e" + blockParty.getPlugin().getDescription().getVersion());
+            sender.sendMessage("  §7Developers: §e" + Arrays.toString(blockParty.getPlugin().getDescription().getAuthors().toArray()).replace("[", ""));
+            sender.sendMessage("  §7Commands: §e/bp help");
+            sender.sendMessage("§e§m-------------------------------");
 
             return true;
         }

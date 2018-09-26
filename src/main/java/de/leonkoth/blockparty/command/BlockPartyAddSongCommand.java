@@ -21,6 +21,8 @@ public class BlockPartyAddSongCommand extends SubCommand {
             return false;
         }
 
+        //TODO: /removesong
+
         Player player = (Player) sender;
 
         Arena arena;

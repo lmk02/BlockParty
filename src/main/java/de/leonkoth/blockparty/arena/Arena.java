@@ -252,10 +252,10 @@ public class Arena {
         return event.isCancelled();
     }
 
-    public boolean removeFloor(String name) {
+    public boolean removePattern(String name) {
 
-        if (floor.getFloorNames().contains(name)) {
-            floor.getFloorNames().remove(name);
+        if (floor.getPatternNames().contains(name)) {
+            floor.getPatternNames().remove(name);
 
             Iterator<FloorPattern> iterator = floor.getFloorPatterns().iterator();
             while(iterator.hasNext()) {
@@ -266,7 +266,7 @@ public class Arena {
                 }
             }
 
-            arenaDataManager.getConfig().set("configuration.Floor.EnabledFloors", floor.getFloorNames());
+            arenaDataManager.getConfig().set("configuration.Floor.EnabledFloors", floor.getPatternNames());
             try {
                 arenaDataManager.save();
             } catch (IOException e) {
@@ -280,12 +280,12 @@ public class Arena {
         return false;
     }
 
-    public boolean addFloor(FloorPattern pattern) {
+    public boolean addPattern(FloorPattern pattern) {
 
-        floor.getFloorNames().add(pattern.getName());
+        floor.getPatternNames().add(pattern.getName());
         floor.getFloorPatterns().add(pattern);
 
-        arenaDataManager.getConfig().set("Configuration.Floor.EnabledFloors", floor.getFloorNames());
+        arenaDataManager.getConfig().set("Configuration.Floor.EnabledFloors", floor.getPatternNames());
         try {
             arenaDataManager.save();
         } catch (IOException e) {

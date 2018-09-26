@@ -10,10 +10,10 @@ import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.util.Selection;
 import org.bukkit.command.CommandSender;
 
-public class BlockPartyAddFloorCommand extends SubCommand {
+public class BlockPartyAddPatternCommand extends SubCommand {
 
-    public BlockPartyAddFloorCommand(BlockParty blockParty) {
-        super(false, 3, "addfloor", "blockparty.admin.addfloor", blockParty);
+    public BlockPartyAddPatternCommand(BlockParty blockParty) {
+        super(false, 3, "addpattern", "blockparty.admin.addpattern", blockParty);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class BlockPartyAddFloorCommand extends SubCommand {
         }
 
         if (!FloorLoader.exists(args[2])) {
-            Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST, "%FLOOR%", args[2] + ".floor");
+            Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST, "%FILE%", args[2] + ".floor");
             return false;
         }
 
@@ -56,12 +56,12 @@ public class BlockPartyAddFloorCommand extends SubCommand {
         }
 
         if (pattern.getSize().equals(arena.getFloor().getSize())) {
-            Messenger.message(true, sender, Locale.FLOOR_ISNT_CORRECT_SIZE);
+            Messenger.message(true, sender, Locale.PATTERN_ISNT_CORRECT_SIZE);
             return false;
         }
 
-        if (arena.addFloor(pattern)) {
-            Messenger.message(true, sender, Locale.FLOOR_ADDED, "%ARENA%", args[1], "%FLOOR%", args[2]);
+        if (arena.addPattern(pattern)) {
+            Messenger.message(true, sender, Locale.PATTERN_ADDED, "%ARENA%", args[1], "%PATTERN%", args[2]);
         }
 
         return true;
