@@ -26,11 +26,11 @@ public class FloorLoader {
             int length = size.getLength();
 
             // METADATA
-            MinecraftVersion minecraftVersion = new MinecraftVersion(1, 12, 2); //TODO
+            MinecraftVersion minecraftVersion = BlockParty.getInstance().getMinecraftVersion();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss O");
             ZonedDateTime now = ZonedDateTime.now();
             printWriter.println("# Created at: " + formatter.format(now));
-            printWriter.println("# BlockParty " + "2.0.2" /* TODO */ + ", Minecraft " + minecraftVersion);
+            printWriter.println("# BlockParty " + BlockParty.getInstance().getPlugin().getDescription().getVersion() + ", Minecraft " + minecraftVersion);
 
             printWriter.println("version " + minecraftVersion);
             printWriter.println("size " + width + "," + length);

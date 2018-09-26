@@ -47,11 +47,10 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
 
     @Override
     public void onError(WebSocket socket, Exception e) {
-        //ex.printStackTrace();
         if (socket != null) {
             this.socket.remove(socket);
-            // TODO: do some thing if required
         }
+
         if (socket != null) {
             System.out.println("ERROR from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
         }
@@ -65,12 +64,6 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
 
     public void send(String ip, String arena, String song, String play) {
         for (WebSocket ws : this.getConnections()) {
-            //ws.send(ip + ";" + arena + ";" + song + ";" + play); TODO
-            /*System.out.println(ip + "1 " + ws.getRemoteSocketAddress().getAddress().getHostAddress());
-            System.out.println(ip + "2 " + ws.getRemoteSocketAddress().getHostString());
-            System.out.println(ip + "3 " + ws.getRemoteSocketAddress().getHostName());
-            System.out.println(ip + "4 " + ws.getRemoteSocketAddress().getAddress().getHostName());
-            System.out.println(ip + "5 " + ws.getRemoteSocketAddress().getAddress().getCanonicalHostName());*/
             if (ws.getRemoteSocketAddress().getAddress().getHostAddress().equalsIgnoreCase(ip)) {
                 if (ws.isOpen()) {
                     ws.send(arena + ";" + song + ";" + play);

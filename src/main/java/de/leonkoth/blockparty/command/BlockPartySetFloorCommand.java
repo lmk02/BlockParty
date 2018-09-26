@@ -25,14 +25,13 @@ public class BlockPartySetFloorCommand extends SubCommand {
 
         Player player = (Player) sender;
         Selection selection;
-        //WorldEditSelection worldEditSelection = WorldEditSelection.get(player);
 
         try {
             selection = Selection.get(player);
         } catch (InvalidSelectionException e) {
             switch(e.getError()) {
                 case DIFFERENT_WORLDS:
-                    Messenger.message(true, sender, Locale.SELECT_ERROR); //TODO: add points have to be in the same world message
+                    Messenger.message(true, sender, Locale.DIFFERENT_WORLDS);
                     break;
                 case NO_SELECTION:
                     Messenger.message(true, sender, Locale.SELECT_ERROR);

@@ -5,6 +5,7 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.event.BlockPickEvent;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
+import de.leonkoth.blockparty.util.ColorBlock;
 import de.leonkoth.blockparty.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -24,7 +25,8 @@ public class BlockPickListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPick(BlockPickEvent event) {
         Arena arena = event.getArena();
-        arena.broadcast(true, Locale.NEXT_BLOCK, true, (PlayerInfo) null, "%BLOCK%", Util.getName(arena.getFloor().getCurrentBlock()).split(":")[0]);
+        String name = ColorBlock.get(event.getAnnouncedBlock()).getName();
+        arena.broadcast(true, Locale.NEXT_BLOCK, true, (PlayerInfo) null, "%BLOCK%", name);
     }
 
 }

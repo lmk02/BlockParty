@@ -9,6 +9,7 @@ import de.leonkoth.blockparty.floor.generator.SingleBlockGenerator;
 import de.leonkoth.blockparty.floor.generator.StripeGenerator;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
+import de.leonkoth.blockparty.util.ColorBlock;
 import de.leonkoth.blockparty.util.ParticlePlayer;
 import de.leonkoth.blockparty.util.Size;
 import de.leonkoth.blockparty.util.Util;
@@ -244,7 +245,8 @@ public class Floor {
 
         ItemStack stack = new ItemStack(block.getType(), 1, block.getData());
         ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName("§f§l§o" + Util.getName(block).split(":")[0]);
+        String name = ColorBlock.get(block).getName();
+        meta.setDisplayName("§f§l§o" + name);
         stack.setItemMeta(meta);
 
         for (PlayerInfo playerInfo : this.arena.getPlayersInArena()) {
