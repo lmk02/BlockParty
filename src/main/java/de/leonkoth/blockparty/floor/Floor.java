@@ -61,21 +61,21 @@ public class Floor {
 
     @Setter
     @Getter
-    private List<String> floorNames;
+    private List<String> patternNames;
 
     @Setter
     @Getter
     private List<FloorGenerator> generators = new ArrayList<>();
 
-    public Floor(List<String> floorNames, Location[] bounds, Arena arena, Size size) {
+    public Floor(List<String> patternNames, Location[] bounds, Arena arena, Size size) {
         this.random = new Random();
         this.size = size;
         this.arena = arena;
         this.bounds = bounds;
-        this.floorNames = floorNames;
+        this.patternNames = patternNames;
         this.floorPatterns = new ArrayList<>();
 
-        for (String name : floorNames) {
+        for (String name : patternNames) {
             File file = new File(BlockParty.PLUGIN_FOLDER + "Floors/" + name + ".floor");
             try {
                 FloorPattern pattern = FloorLoader.readFloorPattern(file);
@@ -100,8 +100,8 @@ public class Floor {
         } else {
             floor = arena.getFloor();
 
-            if (floor.getFloorNames() != null) {
-                floorNames = floor.getFloorNames();
+            if (floor.getPatternNames() != null) {
+                floorNames = floor.getPatternNames();
             }
         }
 

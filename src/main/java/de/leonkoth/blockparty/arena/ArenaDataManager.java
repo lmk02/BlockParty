@@ -128,7 +128,7 @@ public class ArenaDataManager {
         }
 
         if (dataSet.getFloor() != null) {
-            config.set("Configuration.Floor.EnabledFloors", dataSet.getFloor().getFloorNames());
+            config.set("Configuration.Floor.EnabledFloors", dataSet.getFloor().getPatternNames());
             config.set("Configuration.Floor.Length", dataSet.getFloor().getSize().getLength());
             config.set("Configuration.Floor.Width", dataSet.getFloor().getSize().getWidth());
         }

@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
 import org.bukkit.command.CommandSender;
@@ -26,14 +27,19 @@ public class BlockPartyListPatternsCommand extends SubCommand {
         List<String> patternList = new ArrayList<>();
         File folder = new File(BlockParty.PLUGIN_FOLDER + "Floors/");
 
-        if(!folder.exists())
-            folder.mkdir();
+        if(args.length > 1) {
 
-        if(!folder.isDirectory())
-            return true;
+            Arena arena = Arena.getByName(args[1]);
 
-        for(File file : folder.listFiles()) {
-            patternList.add(file.getName().replace(".floor", ""));
+            if(arena != null && arena.getFloor() != null) {
+                patternList = arena.getFloor().getPatternNames();
+            }
+        } else {
+            if(folder.isDirectory()) {
+                for (File file : folder.listFiles()) {
+                    patternList.add(file.getName().replace(".floor", ""));
+                }
+            }
         }
 
         if(patternList.isEmpty()) {

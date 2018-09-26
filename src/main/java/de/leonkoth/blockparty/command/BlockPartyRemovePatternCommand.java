@@ -6,10 +6,10 @@ import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
 import org.bukkit.command.CommandSender;
 
-public class BlockPartyRemoveFloorCommand extends SubCommand {
+public class BlockPartyRemovePatternCommand extends SubCommand {
 
-    public BlockPartyRemoveFloorCommand(BlockParty blockParty) {
-        super(false, 3, "removefloor", "blockparty.admin.removefloor", blockParty);
+    public BlockPartyRemovePatternCommand(BlockParty blockParty) {
+        super(false, 3, "removepattern", "blockparty.admin.removepattern", blockParty);
     }
 
     @Override
@@ -38,10 +38,10 @@ public class BlockPartyRemoveFloorCommand extends SubCommand {
             return false;
         }
 
-        if (arena.removeFloor(args[2])) {
-            Messenger.message(true, sender, Locale.FLOOR_REMOVED, "%ARENA%", args[1], "%FLOOR%", args[2]);
+        if (arena.removePattern(args[2])) {
+            Messenger.message(true, sender, Locale.PATTERN_REMOVED, "%ARENA%", args[1], "%PATTERN%", args[2]);
         } else {
-            Messenger.message(true, sender, Locale.FLOOR_DOESNT_EXIST, "%ARENA%", args[1], "%FLOOR%", args[2]);
+            Messenger.message(true, sender, Locale.PATTERN_DOESNT_EXIST, "%ARENA%", args[1], "%PATTERN%", args[2]);
             return false;
         }
 
