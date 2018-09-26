@@ -14,6 +14,7 @@ public class BlockPartyStatusCommand extends SubCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
+
         if (!super.onCommand(sender, args)) {
             return false;
         }

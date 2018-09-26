@@ -1,7 +1,8 @@
-import de.leonkoth.blockparty.file.FloorFormat;
-import de.leonkoth.blockparty.file.FloorPattern;
+import de.leonkoth.blockparty.exception.FloorLoaderException;
+import de.leonkoth.blockparty.floor.FloorLoader;
+import de.leonkoth.blockparty.floor.FloorPattern;
+import de.leonkoth.blockparty.util.Size;
 import org.bukkit.Material;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,21 +31,21 @@ public class FloorTest {
                 materials[index] = random.nextBoolean() ? Material.DIAMOND_BLOCK : Material.COAL_BLOCK;
             }
         }
-        FloorPattern writePattern = new FloorPattern(width, length, materials, data);
+        FloorPattern writePattern = new FloorPattern("test", new Size(width, 1, length), materials, data);
 
-        FloorFormat.writeFloorPattern(file, writePattern);
+        //FloorLoader.writeFloorPattern(file, writePattern);
 
         /* READ */
 
         FloorPattern readPattern = null;
         try {
-            readPattern = FloorFormat.readFloorPattern(file);
-        } catch (FileNotFoundException e) {
+            readPattern = FloorLoader.readFloorPattern(file);
+        } catch (FileNotFoundException | FloorLoaderException e) {
             e.printStackTrace();
         }
 
-        System.out.println(readPattern.getWidth());
-        System.out.println(readPattern.getLength());
+        System.out.println(readPattern.getSize().getWidth());
+        System.out.println(readPattern.getSize().getLength());
         System.out.println(Arrays.toString(readPattern.getData()));
         System.out.println(Arrays.toString(readPattern.getMaterials()));
 

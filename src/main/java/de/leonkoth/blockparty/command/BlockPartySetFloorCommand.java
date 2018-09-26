@@ -2,10 +2,11 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.exception.InvalidSelectionException;
 import de.leonkoth.blockparty.floor.Floor;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
-import de.leonkoth.blockparty.util.WorldEditSelection;
+import de.leonkoth.blockparty.util.Selection;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,13 +24,25 @@ public class BlockPartySetFloorCommand extends SubCommand {
         }
 
         Player player = (Player) sender;
-        WorldEditSelection worldEditSelection = WorldEditSelection.get(player);
+        Selection selection;
+        //WorldEditSelection worldEditSelection = WorldEditSelection.get(player);
 
-        if (worldEditSelection == null) {
+        try {
+            selection = Selection.get(player);
+        } catch (InvalidSelectionException e) {
+            switch(e.getError()) {
+                case DIFFERENT_WORLDS:
+                    Messenger.message(true, sender, Locale.SELECT_ERROR); //TODO: add points have to be in the same world message
+                    break;
+                case NO_SELECTION:
+                    Messenger.message(true, sender, Locale.SELECT_ERROR);
+                    break;
+            }
+
             return false;
         }
 
-        if (worldEditSelection.getSize().getY() != 1) {
+        if (selection.getSize().getHeight() != 1) {
             Messenger.message(true, sender, Locale.FLOOR_MIN_HEIHGT);
             return false;
         }
@@ -53,7 +66,7 @@ public class BlockPartySetFloorCommand extends SubCommand {
             return false;
         }
 
-        if (Floor.create(arena, worldEditSelection.getBounds(), worldEditSelection.getWidth(), worldEditSelection.getLength())) {
+        if (Floor.create(arena, selection.getBounds(), selection.getSize())) {
             Messenger.message(true, sender, Locale.FLOOR_CREATE_SUCCESS, "%ARENA%", args[1]);
             return true;
         }

@@ -1,28 +1,29 @@
-package de.leonkoth.blockparty.file;
+package de.leonkoth.blockparty.floor;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.exception.FloorFormatException;
-import de.leonkoth.blockparty.floor.Floor;
+import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.util.MinecraftVersion;
-import de.leonkoth.blockparty.util.Util;
-import jdk.jfr.events.FileReadEvent;
+import de.leonkoth.blockparty.util.Size;
 import org.bukkit.Material;
 
 import java.io.*;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class FloorFormat {
+public class FloorLoader {
+
+    public static void writeFloorPattern(FloorPattern pattern) {
+        writeFloorPattern(new File(BlockParty.PLUGIN_FOLDER + "Floors/" + pattern.getName() + ".floor"), pattern);
+    }
 
     public static void writeFloorPattern(File file, FloorPattern pattern) {
         try {
             PrintWriter printWriter = new PrintWriter(file);
 
-            int width = pattern.getWidth();
-            int length = pattern.getLength();
+            Size size = pattern.getSize();
+            int width = size.getWidth();
+            int length = size.getLength();
 
             // METADATA
             MinecraftVersion minecraftVersion = new MinecraftVersion(1, 12, 2); //TODO
@@ -35,7 +36,7 @@ public class FloorFormat {
             printWriter.println("size " + width + "," + length);
 
             HashMap<Material, Integer> materials = new HashMap<>();
-            List<String> blockLines = new ArrayList<>();
+            LinkedList<Map.Entry<String, Integer>> blockLines = new LinkedList<>();
 
             for(int x = 0; x < width; x++) {
                 for(int z = 0; z < length; z++) {
@@ -46,7 +47,17 @@ public class FloorFormat {
                     if(!materials.containsKey(material)) {
                         materials.put(material, materials.size());
                     }
-                    blockLines.add("b " + materials.get(material) + (data == 0 ? "" : (" " + data)));
+
+                    String line = "b " + materials.get(material) + (data == 0 ? "" : (" " + data));
+
+                    if(blockLines.size() > 0 && blockLines.getLast().getKey().equals(line)) {
+                        Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<>(blockLines.getLast().getKey(), blockLines.getLast().getValue()+1);
+                        blockLines.set(blockLines.size()-1, entry);
+                    } else {
+                        Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<>(line, 1);
+                        blockLines.add(entry);
+                    }
+
                 }
             }
 
@@ -56,7 +67,14 @@ public class FloorFormat {
                 printWriter.println("m " + material + " " + index);
             }
 
-            for(String line : blockLines) {
+            for(Map.Entry<String, Integer> entry : blockLines) {
+                String line = entry.getKey();
+                int len = entry.getValue();
+
+                if(len > 1) {
+                    line += " x" + len;
+                }
+
                 printWriter.println(line);
             }
 
@@ -67,7 +85,7 @@ public class FloorFormat {
         }
     }
 
-    public static FloorPattern readFloorPattern(File file) throws FileNotFoundException {
+    public static FloorPattern readFloorPattern(File file) throws FileNotFoundException, FloorLoaderException {
 
         if(!file.exists()) {
             throw new FileNotFoundException();
@@ -90,7 +108,7 @@ public class FloorFormat {
         }
 
         if(width == 0 || length == 0) {
-            throw new FloorFormatException("Floor has to have a size");
+            throw new FloorLoaderException(FloorLoaderException.Error.NO_SIZE);
         }
 
         HashMap<Integer, Material> materialMap = new HashMap<>();
@@ -108,36 +126,31 @@ public class FloorFormat {
             if(line.startsWith("b ") && splitted.length >= 2) {
                 //int x = i % width;
                 //int y = (int) Math.floor((double) i / (double) width);
-                materials[i] = materialMap.get(Integer.parseInt(splitted[1]));
-                if(splitted.length >= 3) {
-                    data[i] = Byte.parseByte(splitted[2]);
+                int len = 1;
+                if(splitted[splitted.length-1].startsWith("x")) {
+                    len = Integer.valueOf(splitted[splitted.length-1].substring(1));
                 }
-                i++;
+
+                Material mat = materialMap.get(Integer.parseInt(splitted[1]));
+                byte b = 0;
+                if(splitted.length >= 3 && !splitted[2].startsWith("x")) {
+                    b = Byte.parseByte(splitted[2]);
+                }
+
+                for(int j = 0; j < len; j++) {
+                    materials[i+j] = mat;
+                    data[i+j] = b;
+                }
+
+                i += len;
             }
         }
 
-        /*data = new byte[width * length];
-        materials = new Material[width * length];
+        return new FloorPattern(file.getName().replace(".floor", ""), new Size(width, 1, length), materials, data);
+    }
 
-        for(String line : lines) {
-            String[] splitted = line.split(" ");
-            if(line.startsWith("block ") && splitted.length >= 4) {
-                int x = Integer.parseInt(splitted[1]);
-                int z = Integer.parseInt(splitted[2]);
-                int i = x + z * width;
-                Material material = Material.valueOf(splitted[3].toUpperCase());
-                materials[i] = material;
-
-                if(splitted.length >= 5) {
-                    byte b = Byte.parseByte(splitted[4]);
-                    data[i] = b;
-                } else {
-                    data[i] = 0;
-                }
-            }
-        }*/
-
-        return new FloorPattern(width, length, materials, data);
+    public static boolean exists(String name) {
+        return new File(BlockParty.PLUGIN_FOLDER + "Floors/" + name + ".floor").exists();
     }
 
     private static List<String> readLines(File file) {

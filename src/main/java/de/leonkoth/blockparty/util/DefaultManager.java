@@ -10,8 +10,8 @@ public class DefaultManager {
     public void copyAll() {
         Defaults.copy("Songs/LetItGo.nbs");
         Defaults.copy("Songs/ZeldaTheme.nbs");
-        Defaults.copy("Floors/start.schematic");
-        Defaults.copy("Floors/example.schematic");
+        Defaults.copy("Floors/start.floor");
+        Defaults.copy("Floors/example.floor");
         Defaults.copy("web/index.html");
     }
 

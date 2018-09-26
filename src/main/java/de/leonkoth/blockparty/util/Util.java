@@ -10,6 +10,8 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -122,6 +124,16 @@ public class Util {
         String firstLetter = word.substring(0, 1).toUpperCase();
         String next = word.substring(1).toLowerCase();
         return firstLetter + next;
+    }
+
+    public static Location getMinBlockPos(Location a, Location b) {
+        if(!b.getWorld().getName().equals(b.getWorld().getName()))
+            throw new IllegalArgumentException();
+
+        int minX = Math.min(a.getBlockX(), b.getBlockX());
+        int minY = Math.min(a.getBlockY(), b.getBlockY());
+        int minZ = Math.min(a.getBlockZ(), b.getBlockZ());
+        return new Location(a.getWorld(), minX, minY, minZ);
     }
 
 }
