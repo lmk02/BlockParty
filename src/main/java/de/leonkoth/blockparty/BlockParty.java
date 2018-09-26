@@ -1,6 +1,5 @@
 package de.leonkoth.blockparty;
 
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.command.BlockPartyCommand;
 import de.leonkoth.blockparty.data.Config;
@@ -62,9 +61,6 @@ public class BlockParty {
     private PlayerInfoManager playerInfoManager;
 
     @Getter
-    private WorldEditPlugin worldEditPlugin;
-
-    @Getter
     private String tablePrefix;
 
     @Getter
@@ -82,14 +78,11 @@ public class BlockParty {
 
         Metrics metrics = new Metrics(this.plugin);
 
-
-
         // Init classes
         this.arenas = new ArrayList<>();
         this.config = new Config(new File(PLUGIN_FOLDER + "config.yml"));
         this.tablePrefix = config.getConfig().getString("Database.TablePrefix");
         this.initDatabase();
-        this.worldEditPlugin = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
         this.playerInfoManager = new PlayerInfoManager(database);
         this.players = this.playerInfoManager.loadAll();
 
@@ -116,6 +109,7 @@ public class BlockParty {
         new RoundPrepareListener(this);
         new RoundStartListener(this);
         new InteractListener(this);
+        new PlayerInteractListener(this);
 
         // Init commands
         new BlockPartyCommand(this);

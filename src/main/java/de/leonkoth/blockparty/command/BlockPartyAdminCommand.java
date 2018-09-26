@@ -17,7 +17,7 @@ public class BlockPartyAdminCommand extends SubCommand {
             return false;
         }
 
-        sender.sendMessage("§8§m------§e BlockParty Admin §8§m------");
+        sender.sendMessage("§8§m------§e BlockParty Admin §8§m------"); //TODO update
         sender.sendMessage("§e/blockparty start §7- Starts the game you are in");
         sender.sendMessage("§e/blockparty startarena <Arena> §7- Starts the arena");
         sender.sendMessage("§e/blockparty create <Arena> §7- Creates an arena");

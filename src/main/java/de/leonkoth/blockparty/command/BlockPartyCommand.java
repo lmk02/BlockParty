@@ -26,29 +26,31 @@ public class BlockPartyCommand implements CommandExecutor {
 
         blockParty.getPlugin().getCommand("blockparty").setExecutor(this);
 
-        commands.add(new BlockPartyAddFloorCommand(blockParty));
-        commands.add(new BlockPartyAdminCommand(blockParty));
-        commands.add(new BlockPartyCreateCommand(blockParty));
-        commands.add(new BlockPartyCreateSchematicCommand(blockParty));
         commands.add(new BlockPartySetFloorCommand(blockParty));
-        commands.add(new BlockPartyDeleteCommand(blockParty));
-        commands.add(new BlockPartyDisableCommand(blockParty));
-        commands.add(new BlockPartyEnableCommand(blockParty));
-        commands.add(new BlockPartyHelpCommand(blockParty));
-        commands.add(new BlockPartyJoinCommand(blockParty));
-        commands.add(new BlockPartyLeaveCommand(blockParty));
         commands.add(new BlockPartyListArenasCommand(blockParty));
-        commands.add(new BlockPartyListSchematicsCommand(blockParty));
-        commands.add(new BlockPartyReloadCommand(blockParty));
-        commands.add(new BlockPartyRemoveFloorCommand(blockParty));
-        commands.add(new BlockPartySetSpawnCommand(blockParty));
-        commands.add(new BlockPartyStartArenaCommand(blockParty));
+        commands.add(new BlockPartyWandCommand(blockParty));
         commands.add(new BlockPartyStartCommand(blockParty));
-        commands.add(new BlockPartyStatusCommand(blockParty));
+        commands.add(new BlockPartyDisableCommand(blockParty));
+        commands.add(new BlockPartyHelpCommand(blockParty));
+        commands.add(new BlockPartyDeleteCommand(blockParty));
+        commands.add(new BlockPartyListPatternsCommand(blockParty));
+        commands.add(new BlockPartyCreateCommand(blockParty));
+        commands.add(new BlockPartyReloadCommand(blockParty));
         commands.add(new BlockPartyStopCommand(blockParty));
+        commands.add(new BlockPartyLeaveCommand(blockParty));
         commands.add(new BlockPartyTutorialCommand(blockParty));
+        commands.add(new BlockPartyRemoveFloorCommand(blockParty));
+        commands.add(new BlockPartyAdminCommand(blockParty));
         commands.add(new BlockPartyStatsCommand(blockParty));
+        commands.add(new BlockPartyEnableCommand(blockParty));
         commands.add(new BlockPartyAddSongCommand(blockParty));
+        commands.add(new BlockPartySetSpawnCommand(blockParty));
+        commands.add(new BlockPartyCreatePatternCommand(blockParty));
+        commands.add(new BlockPartyAddFloorCommand(blockParty));
+        commands.add(new BlockPartyStartArenaCommand(blockParty));
+        commands.add(new BlockPartyJoinCommand(blockParty));
+        commands.add(new BlockPartyStatusCommand(blockParty));
+        commands.add(new BlockPartyPosCommand(blockParty));
     }
 
     @Override

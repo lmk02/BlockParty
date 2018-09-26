@@ -2,10 +2,12 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.exception.FloorLoaderException;
+import de.leonkoth.blockparty.floor.FloorLoader;
+import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
-import de.leonkoth.blockparty.schematic.FloorSchematic;
-import de.leonkoth.blockparty.schematic.SchematicLoader;
+import de.leonkoth.blockparty.util.Selection;
 import org.bukkit.command.CommandSender;
 
 public class BlockPartyAddFloorCommand extends SubCommand {
@@ -40,20 +42,25 @@ public class BlockPartyAddFloorCommand extends SubCommand {
             return false;
         }
 
-        if (!SchematicLoader.exists(args[2])) {
-            Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST, "%FLOOR%", args[2] + ".schematic");
+        if (!FloorLoader.exists(args[2])) {
+            Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST, "%FLOOR%", args[2] + ".floor");
             return false;
         }
 
-        FloorSchematic schematic = new FloorSchematic(args[2], arena.getFloor().getBounds());
-        schematic.loadFloorSchematic();
+        FloorPattern pattern;
+        try {
+            pattern = FloorPattern.create(args[2], Selection.fromBounds(arena.getFloor().getBounds()));
+        } catch (FloorLoaderException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-        if (schematic.getSize().getX() != arena.getFloor().getWidth() || schematic.getSize().getZ() != arena.getFloor().getLength()) {
+        if (pattern.getSize().equals(arena.getFloor().getSize())) {
             Messenger.message(true, sender, Locale.FLOOR_ISNT_CORRECT_SIZE);
             return false;
         }
 
-        if (arena.addFloor(schematic)) {
+        if (arena.addFloor(pattern)) {
             Messenger.message(true, sender, Locale.FLOOR_ADDED, "%ARENA%", args[1], "%FLOOR%", args[2]);
         }
 

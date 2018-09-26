@@ -10,19 +10,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BlockPartyListSchematicsCommand extends SubCommand {
+public class BlockPartyListPatternsCommand extends SubCommand {
 
-    public BlockPartyListSchematicsCommand(BlockParty blockParty) {
-        super(false, 1, "listschematics", "blockparty.admin.listschematics", blockParty);
+    public BlockPartyListPatternsCommand(BlockParty blockParty) {
+        super(false, 1, "listpatterns", "blockparty.admin.listpatterns", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
+
         if(!super.onCommand(sender, args)) {
             return false;
         }
 
-        List<String> schematicList = new ArrayList<>();
+        List<String> patternList = new ArrayList<>();
         File folder = new File(BlockParty.PLUGIN_FOLDER + "Floors/");
 
         if(!folder.exists())
@@ -32,14 +33,14 @@ public class BlockPartyListSchematicsCommand extends SubCommand {
             return true;
 
         for(File file : folder.listFiles()) {
-            schematicList.add(file.getName().replace(".schematic", ""));
+            patternList.add(file.getName().replace(".floor", ""));
         }
 
-        if(schematicList.isEmpty()) {
-            Messenger.message(true, sender, Locale.NO_SCHEMATICS);
+        if(patternList.isEmpty()) {
+            Messenger.message(true, sender, Locale.NO_PATTERNS);
         } else {
-            String schematics = Arrays.toString(schematicList.toArray()).replace("[", "").replace("]", "");
-            Messenger.message(true, sender, Locale.SCHEMATICS_LIST, "%SCHEMATICS%", schematics);
+            String patterns = Arrays.toString(patternList.toArray()).replace("[", "").replace("]", "");
+            Messenger.message(true, sender, Locale.PATTERN_LIST, "%PATTERNS%", patterns);
         }
 
         return true;

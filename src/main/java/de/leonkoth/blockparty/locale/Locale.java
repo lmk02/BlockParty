@@ -31,7 +31,7 @@ public class Locale {
     public static LocaleString PLAYER_LEFT_GAME = new LocaleString(INFO, "%PLAYER% left the match");
     public static LocaleString PLAYER_DOES_NOT_EXIST = new LocaleString(ERROR, "%PLAYER% does not exist");
     public static LocaleString PREPARE = new LocaleString(INFO, "Prepare for the next round!");
-    public static LocaleString SCHEMATICS_LIST = new LocaleString(INFO, "List of all schematics: %SCHEMATICS%");
+    public static LocaleString PATTERN_LIST = new LocaleString(INFO, "List of all patterns: %PATTERN%");
     public static LocaleString TIME_LEFT = new LocaleString(INFO, "The game starts in &e%TIME% &7seconds");
     public static LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Player %PLAYER% won the game");
     public static LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aCongratulations! You won the game");
@@ -39,16 +39,15 @@ public class Locale {
     public static LocaleString SONG_ALREADY_ADDED_TO_ARENA = new LocaleString(ERROR, "Song %SONG% has already been added to arena %ARENA%");
     public static LocaleString SONG_ADDED_TO_ARENA = new LocaleString(INFO, "Song %SONG% has been added to arena %ARENA%");
     public static LocaleString SONG_PLAYING = new LocaleString(INFO, "Now playing %SONG%");
-
     public static LocaleString ITEM_LEAVE_ARENA = new LocaleString(INFO, "&4Leave");
     public static LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(INFO, "Vote for a song");
     public static LocaleString ITEM_SONG_LORE = new LocaleString(INFO, "Click to vote!");
-
     public static LocaleString VOTE_SUCCESS = new LocaleString(INFO, "You voted for %SONG%");
-    public static LocaleString VOTE_FAIL = new LocaleString(INFO, "Voting for %SONG% failed");
-
     public static LocaleString INVENTORY_VOTE_NAME = new LocaleString(INFO, "Vote now");
+    public static LocaleString POINT_SELECTED = new LocaleString(INFO, "Point %POINT% selected (%LOCATION%)");
+    public static LocaleString WAND_GIVEN = new LocaleString(INFO, "Left click to set position 1, right for position 2");
 
+    public static LocaleString VOTE_FAIL = new LocaleString(ERROR, "Voting for %SONG% failed");
     public static LocaleString ALREADY_IN_GAME = new LocaleString(ERROR, "You can't join another game while playing. Use /blockparty leave to leave the current match");
     public static LocaleString ARENA_ALREADY_FULL = new LocaleString(ERROR, "The game you are trying to join is already full");
     public static LocaleString ARENA_CREATE_FAIL = new LocaleString(ERROR, "Arena %ARENA% already exists");
@@ -58,18 +57,19 @@ public class Locale {
     public static LocaleString FLOOR_CREATE_FAIL = new LocaleString(ERROR, "Failed to create floor in arena %ARENA%");
     public static LocaleString FLOOR_DOESNT_EXIST = new LocaleString(ERROR, "Floor %FLOOR% in arena %ARENA% doesn't exist");
     public static LocaleString FLOOR_MIN_HEIHGT = new LocaleString(ERROR, "The floor has to be 1 block high");
-    public static LocaleString FLOOR_ISNT_CORRECT_SIZE = new LocaleString(ERROR, "This schematic isn't the right size");
+    public static LocaleString FLOOR_ISNT_CORRECT_SIZE = new LocaleString(ERROR, "This pattern isn't the right size");
     public static LocaleString IN_PROGRESS = new LocaleString(ERROR, "The game you are trying to join is already running");
     public static LocaleString NO_ARENAS = new LocaleString(ERROR, "There are no arenas to list");
     public static LocaleString NO_PERMISSIONS = new LocaleString(ERROR, "You don't have enough permissions to do that");
-    public static LocaleString NO_SCHEMATICS = new LocaleString(ERROR, "There are no schematics installed");
+    public static LocaleString NO_PATTERNS = new LocaleString(ERROR, "There are no patterns installed");
     public static LocaleString NO_TYPE = new LocaleString(ERROR, "%TYPE% is no valid spawn point");
     public static LocaleString NOT_IN_ARENA = new LocaleString(ERROR, "You are not in an arena");
     public static LocaleString NOT_RUNNING = new LocaleString(ERROR, "Game is not running");
     public static LocaleString ONLY_PLAYERS = new LocaleString(ERROR, "Only players can use this command");
-    public static LocaleString WORLD_EDIT_SELECT = new LocaleString(ERROR, "Select a region with WorldEdit first");
+    public static LocaleString SELECT_ERROR = new LocaleString(ERROR, "Select a region first");
     public static LocaleString WRONG_SYNTAX = new LocaleString(ERROR, "Wrong syntax. Use /blockparty help");
     public static LocaleString START_ABORTED = new LocaleString(ERROR, "Game start aborted because there are not enough players");
+    public static LocaleString DIFFERENT_WORLDS = new LocaleString(ERROR, "The points have to be in the same world");
 
     public static LocaleString ARENA_CREATE_SUCCESS = new LocaleString(SUCCESS, "Successfully created arena %ARENA%");
     public static LocaleString ARENA_DELETE_SUCCESS = new LocaleString(SUCCESS, "Successfully deleted arena %ARENA%");
@@ -81,7 +81,7 @@ public class Locale {
     public static LocaleString FLOOR_REMOVED = new LocaleString(SUCCESS, "Successfully removed floor %FLOOR% from arena %ARENA%");
     public static LocaleString GAME_SPAWN_SET = new LocaleString(SUCCESS, "The game spawn was set for arena %ARENA%");
     public static LocaleString LOBBY_SPAWN_SET = new LocaleString(SUCCESS, "The lobby spawn was set for arena %ARENA%");
-
+    public static LocaleString PATTERN_SAVE_SUCCESS = new LocaleString(SUCCESS, "Saved pattern to \"%PATTERN%\"");
 
     public static void loadLocale(File localeFile) throws Exception {
 

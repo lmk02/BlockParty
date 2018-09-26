@@ -10,11 +10,8 @@ import org.bukkit.entity.Player;
 
 public class BlockPartyStatsCommand extends SubCommand {
 
-    BlockParty blockParty;
-
     public BlockPartyStatsCommand(BlockParty blockParty) {
         super(true, 1, "stats", "blockparty.user.stats", blockParty);
-        this.blockParty = blockParty;
     }
 
     @Override
@@ -26,24 +23,22 @@ public class BlockPartyStatsCommand extends SubCommand {
 
         Player player = (Player) sender;
         String name;
-        if(args.length == 1)
-        {
+        if (args.length == 1) {
             name = player.getName();
-        }
-        else
-        {
+        } else {
             name = args[1];
         }
-        for(PlayerInfo playerInfo : blockParty.getPlayers())
-        {
-            if(playerInfo.getName().equals(name))
-            {
-                Messenger.message(true, sender, Locale.STATS, "%PLAYER%", playerInfo.getName(), "%WINS%", Integer.toString(playerInfo.getWins()), "%POINTS%", Integer.toString(playerInfo.getPoints()));
-                return true;
-            }
+
+        PlayerInfo playerInfo = PlayerInfo.getFromPlayer(name);
+
+        if(playerInfo != null) {
+            Messenger.message(true, sender, Locale.STATS, "%PLAYER%", playerInfo.getName(), "%WINS%", Integer.toString(playerInfo.getWins()), "%POINTS%", Integer.toString(playerInfo.getPoints()));
+            return true;
+        } else {
+            Messenger.message(true, sender, Locale.PLAYER_DOES_NOT_EXIST, "%PLAYER%", name);
+            return false;
         }
-        Messenger.message(true, sender, Locale.PLAYER_DOES_NOT_EXIST, "%PLAYER%", name);
-        return true;
+
     }
 
 }

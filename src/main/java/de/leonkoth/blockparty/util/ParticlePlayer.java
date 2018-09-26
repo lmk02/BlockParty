@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -90,7 +89,7 @@ public class ParticlePlayer {
      * @param parameterTypes Parameter types of the method
      * @return The method
      */
-    private static Method getMethod(@Nullable Class<?> clazz, String name, Class<?>... parameterTypes) {
+    private static Method getMethod(Class<?> clazz, String name, Class<?>... parameterTypes) {
         try {
             return clazz.getMethod(name, parameterTypes);
         } catch (NoSuchMethodException e) {
@@ -106,7 +105,7 @@ public class ParticlePlayer {
      * @param name  Name of the field
      * @return The field
      */
-    private static Field getField(@Nullable Class<?> clazz, String name) {
+    private static Field getField(Class<?> clazz, String name) {
         try {
             return clazz.getField(name);
         } catch (NoSuchFieldException e) {
@@ -122,7 +121,7 @@ public class ParticlePlayer {
      * @param parameterTypes Parameter types of the constructor
      * @return The constructor
      */
-    private static Constructor<?> getConstructor(@Nullable Class<?> clazz, Class<?>... parameterTypes) {
+    private static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterTypes) {
         try {
             return clazz.getConstructor(parameterTypes);
         } catch (NoSuchMethodException e) {
