@@ -10,16 +10,14 @@ import org.bukkit.entity.Player;
 
 public class BlockPartyStatsCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp stats [Player]";
+
     public BlockPartyStatsCommand(BlockParty blockParty) {
         super(true, 1, "stats", "blockparty.user.stats", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Player player = (Player) sender;
         String name;
@@ -39,6 +37,11 @@ public class BlockPartyStatsCommand extends SubCommand {
             return false;
         }
 
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

@@ -11,18 +11,21 @@ import java.util.*;
 
 public class BlockPartyUndoCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp undo";
     public static Map<UUID, Set<BlockInfo>> oldBlocks = new HashMap<>();
 
     public BlockPartyUndoCommand(BlockParty blockParty) {
         super(true, 1, "undo", "blockparty.admin.undo", blockParty);
     }
 
+    public static void undo(Set<BlockInfo> blocks) {
+        for(BlockInfo info : blocks) {
+            info.restore();
+        }
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if(!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
@@ -40,10 +43,9 @@ public class BlockPartyUndoCommand extends SubCommand {
         return true;
     }
 
-    public static void undo(Set<BlockInfo> blocks) {
-        for(BlockInfo info : blocks) {
-            info.restore();
-        }
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

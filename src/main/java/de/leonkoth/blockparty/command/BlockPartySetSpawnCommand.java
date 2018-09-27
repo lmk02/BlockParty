@@ -9,16 +9,14 @@ import org.bukkit.entity.Player;
 
 public class BlockPartySetSpawnCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp setspawn <game|lobby>";
+
     public BlockPartySetSpawnCommand(BlockParty blockParty) {
         super(true, 3, "setspawn", "blockparty.admin.setspawn", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Player player = (Player) sender;
 
@@ -48,11 +46,16 @@ public class BlockPartySetSpawnCommand extends SubCommand {
             arena.setGameSpawn(player.getLocation());
             Messenger.message(true, sender, Locale.GAME_SPAWN_SET, "%ARENA%", arena.getName());
         } else {
-            Messenger.message(true, sender, Locale.NO_TYPE, "%TYPE%", args[2]);
+            sender.sendMessage("§c" + SYNTAX);
             return false;
         }
 
         return true;
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

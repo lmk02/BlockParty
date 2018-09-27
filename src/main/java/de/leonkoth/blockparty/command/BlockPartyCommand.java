@@ -6,6 +6,7 @@ import de.leonkoth.blockparty.locale.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,14 +75,26 @@ public class BlockPartyCommand implements CommandExecutor {
 
         boolean showHelp = true;
         for (SubCommand subCommand : commands) {
-            subCommand.onCommand(sender, args);
-            if (subCommand.getName().equalsIgnoreCase(args[0]) && args.length >= subCommand.getMinArgs()) {
+            if(subCommand.getName().equalsIgnoreCase(args[0])) {
                 showHelp = false;
+                if(sender.hasPermission(subCommand.getPermission())) {
+                    if(!subCommand.isOnlyPlayers() || sender instanceof Player) {
+                        if (args.length >= subCommand.getMinArgs()) {
+                            subCommand.onCommand(sender, args);
+                        } else {
+                            sender.sendMessage("§cSyntax: " + subCommand.getSyntax());
+                        }
+                    } else {
+                        Messenger.message(true, sender, Locale.ONLY_PLAYERS);
+                    }
+                } else {
+                    Messenger.message(true, sender, Locale.NO_PERMISSIONS);
+                }
             }
         }
 
         if (showHelp) {
-            Messenger.message(true, sender, Locale.WRONG_SYNTAX);
+            Messenger.message(true, sender, Locale.COMMAND_NOT_FOUND);
         }
 
         return true;

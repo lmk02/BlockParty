@@ -8,16 +8,14 @@ import org.bukkit.command.CommandSender;
 
 public class BlockPartyRemovePatternCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp removepattern <Arena> <Pattern>";
+
     public BlockPartyRemovePatternCommand(BlockParty blockParty) {
         super(false, 3, "removepattern", "blockparty.admin.removepattern", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Arena arena;
         try {
@@ -47,6 +45,11 @@ public class BlockPartyRemovePatternCommand extends SubCommand {
 
         return true;
 
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

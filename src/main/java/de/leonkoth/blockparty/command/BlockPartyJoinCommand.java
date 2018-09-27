@@ -10,16 +10,14 @@ import org.bukkit.entity.Player;
 
 public class BlockPartyJoinCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp join <Arena>";
+
     public BlockPartyJoinCommand(BlockParty blockParty) {
         super(true, 2, "join", "blockparty.user.join", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Player player = (Player) sender;
         Arena arena;
@@ -48,4 +46,10 @@ public class BlockPartyJoinCommand extends SubCommand {
 
         return true;
     }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
 }

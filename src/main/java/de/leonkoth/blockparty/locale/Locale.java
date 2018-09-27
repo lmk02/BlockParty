@@ -65,12 +65,11 @@ public class Locale {
     public static LocaleString NO_ARENAS = new LocaleString(ERROR, "There are no arenas to list");
     public static LocaleString NO_PERMISSIONS = new LocaleString(ERROR, "You don't have enough permissions to do that");
     public static LocaleString NO_PATTERNS = new LocaleString(ERROR, "Could not find any patterns");
-    public static LocaleString NO_TYPE = new LocaleString(ERROR, "%TYPE% is no valid spawn point");
     public static LocaleString NOT_IN_ARENA = new LocaleString(ERROR, "You are not in an arena");
     public static LocaleString NOT_RUNNING = new LocaleString(ERROR, "Game is not running");
     public static LocaleString ONLY_PLAYERS = new LocaleString(ERROR, "Only players can use this command");
     public static LocaleString SELECT_ERROR = new LocaleString(ERROR, "Select a region first");
-    public static LocaleString WRONG_SYNTAX = new LocaleString(ERROR, "Wrong syntax. Use /bp help");
+    public static LocaleString COMMAND_NOT_FOUND = new LocaleString(ERROR, "Couldn't find command. Use /bp help");
     public static LocaleString START_ABORTED = new LocaleString(ERROR, "Game start aborted because there are not enough players");
     public static LocaleString DIFFERENT_WORLDS = new LocaleString(ERROR, "The points have to be in the same world");
     public static LocaleString NO_UNDO = new LocaleString(ERROR, "You have nothing to undo");

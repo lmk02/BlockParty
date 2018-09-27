@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 
 public class BlockPartyDeleteCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp delete <Arena>";
 
     public BlockPartyDeleteCommand(BlockParty blockParty) {
         super(false, 2, "delete", "blockparty.admin.delete", blockParty);
@@ -15,10 +16,6 @@ public class BlockPartyDeleteCommand extends SubCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Arena arena;
         try {
@@ -39,6 +36,11 @@ public class BlockPartyDeleteCommand extends SubCommand {
 
         return true;
 
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

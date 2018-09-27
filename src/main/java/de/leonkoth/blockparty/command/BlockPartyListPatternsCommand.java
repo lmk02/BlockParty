@@ -10,8 +10,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class BlockPartyListPatternsCommand extends SubCommand {
+
+    public static String SYNTAX = "/bp listpatterns [Arena]";
 
     public BlockPartyListPatternsCommand(BlockParty blockParty) {
         super(false, 1, "listpatterns", "blockparty.admin.listpatterns", blockParty);
@@ -19,10 +22,6 @@ public class BlockPartyListPatternsCommand extends SubCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if(!super.onCommand(sender, args)) {
-            return false;
-        }
 
         List<String> patternList = new ArrayList<>();
         File folder = new File(BlockParty.PLUGIN_FOLDER + "Floors/");
@@ -36,7 +35,7 @@ public class BlockPartyListPatternsCommand extends SubCommand {
             }
         } else {
             if(folder.isDirectory()) {
-                for (File file : folder.listFiles()) {
+                for (File file : Objects.requireNonNull(folder.listFiles())) {
                     patternList.add(file.getName().replace(".floor", ""));
                 }
             }
@@ -50,5 +49,12 @@ public class BlockPartyListPatternsCommand extends SubCommand {
         }
 
         return true;
+
     }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
 }

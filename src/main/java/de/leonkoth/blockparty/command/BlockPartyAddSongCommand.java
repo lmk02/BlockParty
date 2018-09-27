@@ -5,10 +5,13 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.song.Song;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class BlockPartyAddSongCommand extends SubCommand {
+
+    public static String SYNTAX = "/bp addsong <Arena> <Song>";
 
     public BlockPartyAddSongCommand(BlockParty blockParty) {
         super(true, 3, "addsong", "blockparty.admin.addsong", blockParty);
@@ -17,13 +20,7 @@ public class BlockPartyAddSongCommand extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
 
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
-
         //TODO: /removesong
-
-        Player player = (Player) sender;
 
         Arena arena;
         try {
@@ -54,6 +51,11 @@ public class BlockPartyAddSongCommand extends SubCommand {
         Messenger.message(true, sender, Locale.SONG_ADDED_TO_ARENA, "%SONG%", name, "%ARENA%", arena.getName());
 
         return true;
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }
