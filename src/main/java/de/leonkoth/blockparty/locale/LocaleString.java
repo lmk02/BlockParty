@@ -17,7 +17,7 @@ public class LocaleString {
     }
 
     public String getValue(int index) {
-        return ChatColor.translateAlternateColorCodes('&', values[index]);
+        return section.getPrefixColor() + ChatColor.translateAlternateColorCodes('&', values[index]);
     }
 
     public String getValue() {

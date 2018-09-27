@@ -1,12 +1,22 @@
 package de.leonkoth.blockparty.floor;
 
+import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
+import de.leonkoth.blockparty.util.BlockInfo;
 import de.leonkoth.blockparty.util.Selection;
 import de.leonkoth.blockparty.util.Size;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+
+import javax.swing.*;
+import java.util.AbstractMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class FloorPattern {
 
@@ -51,12 +61,18 @@ public class FloorPattern {
         return new FloorPattern(name, new Size(width, 1, length), blocks, data);
     }
 
-    public void place(Location location) {
+    public Set<BlockInfo> place(Location location) {
+        Set<BlockInfo> blocks = new HashSet<>();
         for(int x = 0; x < size.getWidth(); x++) {
             for(int z = 0; z < size.getLength(); z++) {
-                location.clone().add(x, 0, z).getBlock().setType(materials[x + z * size.getWidth()]);
+                Location loc = location.clone().add(x, 0, z);
+                Block block = loc.getBlock();
+                blocks.add(new BlockInfo(loc, block.getType(), block.getData()));
+                block.setType(materials[x + z * size.getWidth()]);
+                block.setData(data[x + z * size.getWidth()]);
             }
         }
+        return blocks;
     }
 
 }

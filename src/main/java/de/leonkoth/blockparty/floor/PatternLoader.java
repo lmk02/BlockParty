@@ -11,78 +11,93 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class FloorLoader {
+public class PatternLoader {
 
     public static void writeFloorPattern(FloorPattern pattern) {
         writeFloorPattern(new File(BlockParty.PLUGIN_FOLDER + "Floors/" + pattern.getName() + ".floor"), pattern);
     }
 
-    public static void writeFloorPattern(File file, FloorPattern pattern) {
+    public static boolean writeFloorPattern(File file, FloorPattern pattern) {
+
+        long timeMillis = System.currentTimeMillis();
+
+        if(BlockParty.DEBUG)
+            System.out.println("Writing pattern \"" + file.getPath() + "\"...");
+
+        PrintWriter printWriter;
         try {
-            PrintWriter printWriter = new PrintWriter(file);
-
-            Size size = pattern.getSize();
-            int width = size.getWidth();
-            int length = size.getLength();
-
-            // METADATA
-            MinecraftVersion minecraftVersion = BlockParty.getInstance().getMinecraftVersion();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss O");
-            ZonedDateTime now = ZonedDateTime.now();
-            printWriter.println("# Created at: " + formatter.format(now));
-            printWriter.println("# BlockParty " + BlockParty.getInstance().getPlugin().getDescription().getVersion() + ", Minecraft " + minecraftVersion);
-
-            printWriter.println("version " + minecraftVersion);
-            printWriter.println("size " + width + "," + length);
-
-            HashMap<Material, Integer> materials = new HashMap<>();
-            LinkedList<Map.Entry<String, Integer>> blockLines = new LinkedList<>();
-
-            for(int x = 0; x < width; x++) {
-                for(int z = 0; z < length; z++) {
-                    int index = x + z * width;
-                    byte data = pattern.getData()[index];
-
-                    Material material =  pattern.getMaterials()[index];
-                    if(!materials.containsKey(material)) {
-                        materials.put(material, materials.size());
-                    }
-
-                    String line = "b " + materials.get(material) + (data == 0 ? "" : (" " + data));
-
-                    if(blockLines.size() > 0 && blockLines.getLast().getKey().equals(line)) {
-                        Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<>(blockLines.getLast().getKey(), blockLines.getLast().getValue()+1);
-                        blockLines.set(blockLines.size()-1, entry);
-                    } else {
-                        Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<>(line, 1);
-                        blockLines.add(entry);
-                    }
-
-                }
-            }
-
-            for(Map.Entry<Material, Integer> entry : materials.entrySet()) {
-                Material material = entry.getKey();
-                int index = entry.getValue();
-                printWriter.println("m " + material + " " + index);
-            }
-
-            for(Map.Entry<String, Integer> entry : blockLines) {
-                String line = entry.getKey();
-                int len = entry.getValue();
-
-                if(len > 1) {
-                    line += " x" + len;
-                }
-
-                printWriter.println(line);
-            }
-
-            printWriter.close();
-            printWriter.flush();
+            printWriter = new PrintWriter(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return false;
         }
+
+        Size size = pattern.getSize();
+        int width = size.getWidth();
+        int length = size.getLength();
+
+        // METADATA
+        MinecraftVersion minecraftVersion = BlockParty.getInstance().getMinecraftVersion();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss O");
+        ZonedDateTime now = ZonedDateTime.now();
+        printWriter.println("# Created at: " + formatter.format(now));
+        printWriter.println("# BlockParty " + BlockParty.getInstance().getPlugin().getDescription().getVersion() + ", Minecraft " + minecraftVersion);
+
+        printWriter.println("version " + minecraftVersion);
+        printWriter.println("size " + width + "," + length);
+
+        HashMap<Material, Integer> materials = new HashMap<>();
+        LinkedList<Map.Entry<String, Integer>> blockLines = new LinkedList<>();
+
+        for(int x = 0; x < width; x++) {
+            for(int z = 0; z < length; z++) {
+                int index = x + z * width;
+                byte data = pattern.getData()[index];
+
+                Material material =  pattern.getMaterials()[index];
+                if(!materials.containsKey(material)) {
+                    materials.put(material, materials.size());
+                }
+
+                String line = "b " + materials.get(material) + (data == 0 ? "" : (" " + data));
+
+                if(blockLines.size() > 0 && blockLines.getLast().getKey().equals(line)) {
+                    Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<>(blockLines.getLast().getKey(), blockLines.getLast().getValue()+1);
+                    blockLines.set(blockLines.size()-1, entry);
+                } else {
+                    Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<>(line, 1);
+                    blockLines.add(entry);
+                }
+
+            }
+
+        }
+
+        for(Map.Entry<Material, Integer> entry : materials.entrySet()) {
+            Material material = entry.getKey();
+            int index = entry.getValue();
+            printWriter.println("m " + material + " " + index);
+        }
+
+        for(Map.Entry<String, Integer> entry : blockLines) {
+            String line = entry.getKey();
+            int len = entry.getValue();
+
+            if(len > 1) {
+                line += " x" + len;
+            }
+
+            printWriter.println(line);
+        }
+
+        printWriter.close();
+        printWriter.flush();
+
+        if(BlockParty.DEBUG)
+            System.out.println("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
+
+        return true;
+
     }
 
     public static FloorPattern readFloorPattern(File file) throws FileNotFoundException, FloorLoaderException {
@@ -90,6 +105,11 @@ public class FloorLoader {
         if(!file.exists()) {
             throw new FileNotFoundException();
         }
+
+        long timeMillis = System.currentTimeMillis();
+
+        if(BlockParty.DEBUG)
+            System.out.println("Reading pattern \"" + file.getPath() + "\"...");
 
         int width = 0, length = 0;
         byte[] data;
@@ -145,6 +165,9 @@ public class FloorLoader {
                 i += len;
             }
         }
+
+        if(BlockParty.DEBUG)
+            System.out.println("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
 
         return new FloorPattern(file.getName().replace(".floor", ""), new Size(width, 1, length), materials, data);
     }

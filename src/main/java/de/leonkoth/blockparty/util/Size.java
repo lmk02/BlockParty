@@ -19,6 +19,10 @@ public class Size {
         this(0, 0, 0);
     }
 
+    public int getVolume() {
+        return width * height * length;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Size) {

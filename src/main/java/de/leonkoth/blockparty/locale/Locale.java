@@ -32,7 +32,7 @@ public class Locale {
     public static LocaleString PLAYER_LEFT_GAME = new LocaleString(INFO, "%PLAYER% left the match");
     public static LocaleString PLAYER_DOES_NOT_EXIST = new LocaleString(ERROR, "%PLAYER% does not exist");
     public static LocaleString PREPARE = new LocaleString(INFO, "Prepare for the next round!");
-    public static LocaleString PATTERN_LIST = new LocaleString(INFO, "List of patterns: %PATTERN%");
+    public static LocaleString PATTERN_LIST = new LocaleString(INFO, "List of patterns: %PATTERNS%");
     public static LocaleString TIME_LEFT = new LocaleString(INFO, "The game starts in &e%TIME% &7seconds");
     public static LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Player %PLAYER% won the game");
     public static LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aCongratulations! You won the game");
@@ -47,6 +47,8 @@ public class Locale {
     public static LocaleString INVENTORY_VOTE_NAME = new LocaleString(INFO, "Vote now");
     public static LocaleString POINT_SELECTED = new LocaleString(INFO, "Point %POINT% selected (%LOCATION%)");
     public static LocaleString WAND_GIVEN = new LocaleString(INFO, "Left click to set position 1, right for position 2");
+    public static LocaleString PATTERN_PLACED = new LocaleString(INFO, "Pattern \"%FILE%\" placed. Use &e/bp undo &7to undo");
+    public static LocaleString CHANGES_UNDONE = new LocaleString(INFO, "Reverted changes");
 
     public static LocaleString VOTE_FAIL = new LocaleString(ERROR, "Voting for %SONG% failed");
     public static LocaleString ALREADY_IN_GAME = new LocaleString(ERROR, "You can't join another game while playing. Use /bp leave to leave the current match");
@@ -71,6 +73,7 @@ public class Locale {
     public static LocaleString WRONG_SYNTAX = new LocaleString(ERROR, "Wrong syntax. Use /bp help");
     public static LocaleString START_ABORTED = new LocaleString(ERROR, "Game start aborted because there are not enough players");
     public static LocaleString DIFFERENT_WORLDS = new LocaleString(ERROR, "The points have to be in the same world");
+    public static LocaleString NO_UNDO = new LocaleString(ERROR, "You have nothing to undo");
 
     public static LocaleString ARENA_CREATE_SUCCESS = new LocaleString(SUCCESS, "Successfully created arena %ARENA%");
     public static LocaleString ARENA_DELETE_SUCCESS = new LocaleString(SUCCESS, "Successfully deleted arena %ARENA%");
