@@ -12,16 +12,14 @@ import org.bukkit.entity.Player;
 
 public class BlockPartySetFloorCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp setfloor <Arena>";
+
     public BlockPartySetFloorCommand(BlockParty blockParty) {
         super(true, 2, "setfloor", "blockparty.admin.setfloor", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Player player = (Player) sender;
         Selection selection;
@@ -73,5 +71,12 @@ public class BlockPartySetFloorCommand extends SubCommand {
         Messenger.message(true, sender, Locale.FLOOR_CREATE_FAIL, "%ARENA%", args[1]);
 
         return true;
+
     }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
 }

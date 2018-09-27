@@ -8,16 +8,14 @@ import org.bukkit.command.CommandSender;
 
 public class BlockPartyStatusCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp status <Arena>";
+
     public BlockPartyStatusCommand(BlockParty blockParty) {
         super(false, 2, "status", "blockparty.admin.status", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Arena arena;
         try {
@@ -41,6 +39,11 @@ public class BlockPartyStatusCommand extends SubCommand {
         Messenger.message(true, sender, Locale.LOBBY_STATUS, "%ARENA%", args[1], "%STATUS%", arena.getArenaState().name());
 
         return true;
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

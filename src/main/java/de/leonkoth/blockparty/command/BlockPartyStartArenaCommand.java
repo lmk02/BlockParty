@@ -9,16 +9,14 @@ import org.bukkit.command.CommandSender;
 
 public class BlockPartyStartArenaCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp startarena <Arena>";
+
     public BlockPartyStartArenaCommand(BlockParty blockParty) {
         super(false, 2, "startarena", "blockparty.admin.startarena", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Arena arena;
         try {
@@ -51,6 +49,11 @@ public class BlockPartyStartArenaCommand extends SubCommand {
         }
 
         return true;
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

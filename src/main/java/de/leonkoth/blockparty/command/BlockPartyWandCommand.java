@@ -10,16 +10,14 @@ import org.bukkit.inventory.ItemStack;
 
 public class BlockPartyWandCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp wand";
+
     public BlockPartyWandCommand(BlockParty blockParty) {
         super(true, 1, "wand", Selection.SELECT_PERMISSION, blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Player player = (Player) sender;
         ItemStack stack = new ItemStack(Selection.SELECT_ITEM);
@@ -29,6 +27,11 @@ public class BlockPartyWandCommand extends SubCommand {
 
         return true;
 
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

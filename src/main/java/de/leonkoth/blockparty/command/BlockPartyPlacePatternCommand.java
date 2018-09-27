@@ -17,16 +17,14 @@ import java.util.UUID;
 
 public class BlockPartyPlacePatternCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp placepattern <Pattern>";
+
     public BlockPartyPlacePatternCommand(BlockParty blockParty) {
         super(true, 2, "placepattern", "blockparty.admin.placepattern", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if(!super.onCommand(sender, args)) {
-            return false;
-        }
 
         FloorPattern pattern;
         try {
@@ -53,6 +51,11 @@ public class BlockPartyPlacePatternCommand extends SubCommand {
         Messenger.message(true, sender, Locale.PATTERN_PLACED, "%FILE%", args[1] + ".floor");
 
         return true;
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

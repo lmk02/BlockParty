@@ -28,25 +28,9 @@ public abstract class SubCommand {
     @Getter
     protected BlockParty blockParty;
 
-    public boolean onCommand(CommandSender sender, String[] args) {
+    public abstract boolean onCommand(CommandSender sender, String[] args);
 
-        if (args.length < minArgs || args.length == 0)
-            return false;
 
-        if (!args[0].equalsIgnoreCase(name))
-            return false;
-
-        if (!sender.hasPermission(permission)) {
-            Messenger.message(true, sender, Locale.NO_PERMISSIONS);
-            return false;
-        }
-
-        if (onlyPlayers && !(sender instanceof Player)) {
-            Messenger.message(true, sender, Locale.ONLY_PLAYERS);
-            return false;
-        }
-
-        return true;
-    }
+    public abstract String getSyntax();
 
 }

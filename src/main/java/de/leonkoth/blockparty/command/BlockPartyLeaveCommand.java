@@ -13,16 +13,14 @@ import org.bukkit.entity.Player;
 
 public class BlockPartyLeaveCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp leave <Arena>";
+
     public BlockPartyLeaveCommand(BlockParty blockParty) {
         super(true, 1, "leave", "blockparty.user.leave", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Player player = (Player) sender;
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
@@ -47,4 +45,10 @@ public class BlockPartyLeaveCommand extends SubCommand {
         return true;
 
     }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
 }

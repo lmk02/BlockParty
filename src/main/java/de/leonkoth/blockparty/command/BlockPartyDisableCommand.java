@@ -8,16 +8,14 @@ import org.bukkit.command.CommandSender;
 
 public class BlockPartyDisableCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp disable <Arena>";
+
     public BlockPartyDisableCommand(BlockParty blockParty) {
         super(false, 2, "disable", "blockparty.admin.disable", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Arena arena;
         try {
@@ -38,6 +36,11 @@ public class BlockPartyDisableCommand extends SubCommand {
 
         return true;
 
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

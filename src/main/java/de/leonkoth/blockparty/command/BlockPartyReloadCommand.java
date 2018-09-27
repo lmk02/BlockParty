@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 
 public class BlockPartyReloadCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp reload";
+
     public BlockPartyReloadCommand(BlockParty blockParty) {
         super(false, 1, "reload", "blockparty.admin.reload", blockParty);
     }
@@ -14,14 +16,15 @@ public class BlockPartyReloadCommand extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
 
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
-
         blockParty.reload();
         Messenger.message(true, sender, Locale.CONFIG_RELOADED);
 
         return true;
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
 
 }

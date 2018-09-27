@@ -12,16 +12,14 @@ import java.util.UUID;
 
 public class BlockPartyPosCommand extends SubCommand {
 
+    public static String SYNTAX = "/bp pos <1|2>";
+
     public BlockPartyPosCommand(BlockParty blockParty) {
         super(true, 2, "pos", Selection.SELECT_PERMISSION, blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Player player = (Player) sender;
         int i;
@@ -31,7 +29,7 @@ public class BlockPartyPosCommand extends SubCommand {
         } else if(args[1].equals("2")) {
             i = 1;
         } else {
-            sender.sendMessage("§c/bp pos <1|2>");
+            sender.sendMessage("§c" + SYNTAX);
             return false;
         }
 
@@ -40,4 +38,10 @@ public class BlockPartyPosCommand extends SubCommand {
 
         return true;
     }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
 }

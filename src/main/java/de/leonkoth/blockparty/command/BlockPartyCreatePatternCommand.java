@@ -8,10 +8,13 @@ import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.util.Selection;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class BlockPartyCreatePatternCommand extends SubCommand {
+
+    public static String SYNTAX = "/bp createpattern <Pattern>";
 
     public BlockPartyCreatePatternCommand(BlockParty blockParty) {
         super(true, 2, "createpattern", "blockparty.admin.createpattern", blockParty);
@@ -19,9 +22,6 @@ public class BlockPartyCreatePatternCommand extends SubCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-        if (!super.onCommand(sender, args)) {
-            return false;
-        }
 
         Player player = (Player) sender;
         Selection selection;
@@ -64,4 +64,11 @@ public class BlockPartyCreatePatternCommand extends SubCommand {
 
         return true;
     }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
 }
+
