@@ -1,6 +1,6 @@
 name: BlockParty
 version: 2.0.2
-authors: [Leon167, paulhull]
+authors: [Leon167, pauhull]
 description: Official BlockParty Plugin
 main: de.leonkoth.blockparty.Main
 depend: [WorldEdit]

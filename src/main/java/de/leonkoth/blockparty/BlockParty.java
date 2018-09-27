@@ -2,12 +2,14 @@ package de.leonkoth.blockparty;
 
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.command.BlockPartyCommand;
+import de.leonkoth.blockparty.command.BlockPartyUndoCommand;
 import de.leonkoth.blockparty.data.Config;
 import de.leonkoth.blockparty.data.Database;
 import de.leonkoth.blockparty.data.PlayerInfoManager;
 import de.leonkoth.blockparty.listener.*;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
+import de.leonkoth.blockparty.util.BlockInfo;
 import de.leonkoth.blockparty.util.DefaultManager;
 import de.leonkoth.blockparty.util.MinecraftVersion;
 import de.leonkoth.blockparty.web.server.*;
@@ -24,6 +26,7 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -32,7 +35,7 @@ import java.util.List;
  */
 public class BlockParty {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static final String PLUGIN_FOLDER = "plugins/BlockParty/";
 
     private static ConsoleCommandSender sender = Bukkit.getConsoleSender();
@@ -157,6 +160,13 @@ public class BlockParty {
     }
 
     public void stop() {
+        for(Set<BlockInfo> blocks : BlockPartyUndoCommand.oldBlocks.values()) {
+            for(BlockInfo blockInfo : blocks) {
+                blockInfo.restore();
+            }
+        }
+        BlockPartyUndoCommand.oldBlocks.clear();
+
         for (PlayerInfo playerInfo : PlayerInfo.getAllPlayerInfos()) {
             if (playerInfo.getPlayerData() != null) {
                 playerInfo.getPlayerData().apply(playerInfo.asPlayer());

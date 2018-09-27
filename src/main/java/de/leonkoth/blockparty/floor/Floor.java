@@ -78,7 +78,7 @@ public class Floor {
         for (String name : patternNames) {
             File file = new File(BlockParty.PLUGIN_FOLDER + "Floors/" + name + ".floor");
             try {
-                FloorPattern pattern = FloorLoader.readFloorPattern(file);
+                FloorPattern pattern = PatternLoader.readFloorPattern(file);
                 floorPatterns.add(pattern);
             } catch (FileNotFoundException | FloorLoaderException e) {
                 e.printStackTrace();

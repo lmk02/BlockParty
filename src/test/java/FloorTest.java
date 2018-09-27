@@ -1,14 +1,3 @@
-import de.leonkoth.blockparty.exception.FloorLoaderException;
-import de.leonkoth.blockparty.floor.FloorLoader;
-import de.leonkoth.blockparty.floor.FloorPattern;
-import de.leonkoth.blockparty.util.Size;
-import org.bukkit.Material;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.Random;
-
 public class FloorTest {
 
     public static void main(String[] args) {
@@ -34,13 +23,13 @@ public class FloorTest {
         }
         FloorPattern writePattern = new FloorPattern("test", new Size(width, 1, length), materials, data);
 
-        //FloorLoader.writeFloorPattern(file, writePattern);
+        //PatternLoader.writeFloorPattern(file, writePattern);
 
         // READ
 
         FloorPattern readPattern = null;
         try {
-            readPattern = FloorLoader.readFloorPattern(file);
+            readPattern = PatternLoader.readFloorPattern(file);
         } catch (FileNotFoundException | FloorLoaderException e) {
             e.printStackTrace();
         }

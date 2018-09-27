@@ -3,7 +3,7 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.exception.InvalidSelectionException;
-import de.leonkoth.blockparty.floor.FloorLoader;
+import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
@@ -47,7 +47,7 @@ public class BlockPartyCreatePatternCommand extends SubCommand {
         }
 
         try {
-            FloorLoader.writeFloorPattern(FloorPattern.create(args[1], selection));
+            PatternLoader.writeFloorPattern(FloorPattern.create(args[1], selection));
         } catch (FloorLoaderException e) {
             switch (e.getError()) {
                 case NO_SIZE:

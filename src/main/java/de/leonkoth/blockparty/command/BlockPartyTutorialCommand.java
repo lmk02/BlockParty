@@ -22,6 +22,7 @@ public class BlockPartyTutorialCommand extends SubCommand {
             sender.sendMessage("§8 • §7Use §e/bp wand §7and select the boundaries of the pattern.");
             sender.sendMessage("§8 • §7Use §e/bp createpattern <Pattern> §7to create a pattern named <Pattern>.");
             sender.sendMessage("§8 • §7Use §e/bp addpattern <Arena> <Pattern> §7to add it to your arena.");
+            sender.sendMessage("§8 • §7Test your pattern with §e/bp testpattern <Pattern>");
             sender.sendMessage("§8 • §7Go into your arena config and change §eUsePatternFloors §7to §eTrue§7.");
             sender.sendMessage("§8 • §7Reload or Restart your server.");
             sender.sendMessage("§8 • §7Name one pattern '§estart§7'. This pattern will load first.");

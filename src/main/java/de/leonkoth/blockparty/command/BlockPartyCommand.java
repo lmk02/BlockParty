@@ -51,6 +51,8 @@ public class BlockPartyCommand implements CommandExecutor {
         commands.add(new BlockPartyJoinCommand(blockParty));
         commands.add(new BlockPartyStatusCommand(blockParty));
         commands.add(new BlockPartyPosCommand(blockParty));
+        commands.add(new BlockPartyPlacePatternCommand(blockParty));
+        commands.add(new BlockPartyUndoCommand(blockParty));
     }
 
     @Override
@@ -63,7 +65,7 @@ public class BlockPartyCommand implements CommandExecutor {
         if (args.length == 0) {
             sender.sendMessage("§e§m-------------------------------");
             sender.sendMessage("  §7BlockParty version §e" + blockParty.getPlugin().getDescription().getVersion());
-            sender.sendMessage("  §7Developers: §e" + Arrays.toString(blockParty.getPlugin().getDescription().getAuthors().toArray()).replace("[", ""));
+            sender.sendMessage("  §7Developers: §e" + Arrays.toString(blockParty.getPlugin().getDescription().getAuthors().toArray()).replace("[", "").replace("]", ""));
             sender.sendMessage("  §7Commands: §e/bp help");
             sender.sendMessage("§e§m-------------------------------");
 
