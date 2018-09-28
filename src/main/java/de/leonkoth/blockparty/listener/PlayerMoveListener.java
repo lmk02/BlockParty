@@ -34,7 +34,10 @@ public class PlayerMoveListener implements Listener {
             return;
 
         if (playerInfo.getPlayerState() == PlayerState.INGAME) {
-            Arena arena = Arena.getByName(playerInfo.getCurrentArena());
+            Arena arena = playerInfo.getCurrentArena();
+
+            if(arena == null)
+                return;
 
             int minY = arena.getFloor().getBounds().getA().getBlockY() - arena.getDistanceToOutArea();
             if (player.getLocation().getBlockY() <= minY) {

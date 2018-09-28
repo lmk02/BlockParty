@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty.player;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.exception.IDOverFlowException;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,7 +51,7 @@ public class PlayerInfo {
 
     @Setter
     @Getter
-    private String currentArena;
+    private Arena currentArena;
 
     @Setter
     @Getter
@@ -138,7 +139,7 @@ public class PlayerInfo {
         if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT)
             return false;
 
-        return !playerInfo.getCurrentArena().equals("");
+        return playerInfo.getCurrentArena() != null;
     }
 
     public static boolean isInArena(String player) {
@@ -147,7 +148,7 @@ public class PlayerInfo {
         if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT)
             return false;
 
-        return !playerInfo.getCurrentArena().equals("");
+        return playerInfo.getCurrentArena() != null;
     }
 
     @Override

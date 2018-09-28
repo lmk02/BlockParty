@@ -71,7 +71,7 @@ public class InteractListener implements Listener {
             }
             if(item.getItemMeta() == null)
                 return false;
-            Arena arena = Arena.getByName(playerInfo.getCurrentArena());
+            Arena arena = playerInfo.getCurrentArena();
             String name;
             if(arena.getSongManager().addVote(name = item.getItemMeta().getDisplayName())){
                 Messenger.message(true, player, Locale.VOTE_SUCCESS, "%SONG%", name);
@@ -92,7 +92,7 @@ public class InteractListener implements Listener {
                 return false;
             }
 
-            Arena arena = Arena.getByName(playerInfo.getCurrentArena());
+            Arena arena = playerInfo.getCurrentArena();
 
             if (!arena.removePlayer(player)) {
                 Bukkit.getLogger().severe("[BlockParty] " + player.getName() + " couldn't leave arena " + arena.getName());
@@ -105,7 +105,7 @@ public class InteractListener implements Listener {
                 Messenger.message(true, player, Locale.NOT_IN_ARENA);
                 return false;
             }
-            Arena arena = Arena.getByName(playerInfo.getCurrentArena());
+            Arena arena = playerInfo.getCurrentArena();
             List<Song> songs = arena.getSongManager().getSongs();
             Inventory inv = Bukkit.createInventory(null, ((songs.size() / 9) + 1) * 9, Locale.INVENTORY_VOTE_NAME.toString());
             for (int i = 0; i < songs.size(); i++) {

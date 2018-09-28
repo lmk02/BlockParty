@@ -31,7 +31,7 @@ public class MusicPlayerServlet extends HttpServlet {
         PlayerInfo playerInfo;
         if(playerName != null && !playerName.equals("") && Bukkit.getPlayer(playerName) != null) {
             if ((playerInfo = PlayerInfo.getFromPlayer(playerName)) != null) {
-                String currentArena = playerInfo.getCurrentArena();
+                String currentArena = playerInfo.getCurrentArena().getName();
                 Arena arena = Arena.getByName(currentArena);
                 double d = 2.5;
                 if(arena != null){
