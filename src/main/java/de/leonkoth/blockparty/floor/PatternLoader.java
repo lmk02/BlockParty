@@ -33,8 +33,8 @@ public class PatternLoader {
         }
 
         Size size = pattern.getSize();
-        int width = size.getWidth();
-        int length = size.getLength();
+        int width = size.getBlockWidth();
+        int length = size.getBlockLength();
 
         // METADATA
         MinecraftVersion minecraftVersion = BlockParty.getInstance().getMinecraftVersion();

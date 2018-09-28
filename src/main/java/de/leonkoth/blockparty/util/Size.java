@@ -7,9 +7,9 @@ public class Size {
 
     @Getter
     @Setter
-    int width, height, length;
+    double width, height, length;
 
-    public Size(int width, int height, int length) {
+    public Size(double width, double height, double length) {
         this.width = width;
         this.height = height;
         this.length = length;
@@ -19,7 +19,7 @@ public class Size {
         this(0, 0, 0);
     }
 
-    public int getVolume() {
+    public double getVolume() {
         return width * height * length;
     }
 
@@ -32,4 +32,17 @@ public class Size {
             return super.equals(obj);
         }
     }
+
+    public int getBlockWidth() {
+        return (int) Math.floor(width);
+    }
+
+    public int getBlockHeight() {
+        return (int) Math.floor(height);
+    }
+
+    public int getBlockLength() {
+        return (int) Math.floor(length);
+    }
+
 }

@@ -25,10 +25,6 @@ public class Util {
 
     private static Random random = new Random();
 
-    public static int getRandomValueInBetween(int min, int max) {
-        return random.nextInt(max - min) + min;
-    }
-
     public static void showActionBar(String message, Arena arena, boolean onlyInGame) {
 
         for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
@@ -73,16 +69,6 @@ public class Util {
     public static Color getRandomColor() {
         java.awt.Color color = java.awt.Color.getHSBColor(random.nextFloat(), 1f, 1f);
         return Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
-    }
-
-    public static Location getMinBlockPos(Location a, Location b) {
-        if(!b.getWorld().getName().equals(b.getWorld().getName()))
-            throw new IllegalArgumentException();
-
-        int minX = Math.min(a.getBlockX(), b.getBlockX());
-        int minY = Math.min(a.getBlockY(), b.getBlockY());
-        int minZ = Math.min(a.getBlockZ(), b.getBlockZ());
-        return new Location(a.getWorld(), minX, minY, minZ);
     }
 
     public static boolean hasInterface(Class<?> clazz, Class<?> interfaze) {

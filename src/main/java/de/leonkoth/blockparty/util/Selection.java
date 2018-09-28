@@ -21,20 +21,10 @@ public class Selection {
     private static Map<UUID, Location[]> selectedPoints = new HashMap<>();
 
     @Getter
-    private int minX, minY, minZ;
+    private Bounds bounds;
 
-    @Getter
-    private Size size;
-
-    @Getter
-    private World world;
-
-    public Selection(World world, Size size, int minX, int minY, int minZ) {
-        this.world = world;
-        this.size = size;
-        this.minX = minX;
-        this.minY = minY;
-        this.minZ = minZ;
+    public Selection(Bounds bounds) {
+        this.bounds = bounds;
     }
 
     public static Selection get(Player player) throws InvalidSelectionException {
@@ -54,24 +44,10 @@ public class Selection {
             throw new InvalidSelectionException(InvalidSelectionException.Error.DIFFERENT_WORLDS);
         }
 
-        Location[] bounds = selectedPoints.get(uuid);
+        Location[] locations = selectedPoints.get(uuid);
+        Bounds bounds = new Bounds(locations[0], locations[1]).sort();
 
-        return fromBounds(bounds);
-    }
-
-    public static Selection fromBounds(Location[] bounds) {
-        World world = bounds[0].getWorld();
-        int minX = Math.min(bounds[0].getBlockX(), bounds[1].getBlockX());
-        int minY = Math.min(bounds[0].getBlockY(), bounds[1].getBlockY());
-        int minZ = Math.min(bounds[0].getBlockZ(), bounds[1].getBlockZ());
-        int maxX = Math.max(bounds[0].getBlockX(), bounds[1].getBlockX());
-        int maxY = Math.max(bounds[0].getBlockY(), bounds[1].getBlockY());
-        int maxZ = Math.max(bounds[0].getBlockZ(), bounds[1].getBlockZ());
-        int width  = maxX - minX + 1;
-        int height = maxY - minY + 1;
-        int length = maxZ - minZ + 1;
-
-        return new Selection(world, new Size(width, height, length), minX, minY, minZ);
+        return new Selection(bounds);
     }
 
     public static void select(Player player, Location location, int index, boolean message) {
@@ -85,23 +61,25 @@ public class Selection {
                 "%LOCATION%", location.getX() + " " + location.getY() + " " + location.getZ());
     }
 
-    public List<Block> getBlocks() {
-        List<Block> blocks = new ArrayList<>();
-        for(int x = minX; x < minX + size.getWidth(); x++) {
-            for(int y = minY; y < minY + size.getHeight(); y++) {
-                for(int z = minZ; z < minZ + size.getLength(); z++) {
-                    blocks.add(world.getBlockAt(x, y, z));
+    public Set<Block> getBlocks() {
+        Set<Block> blocks = new HashSet<>();
+
+        int minX = bounds.getA().getBlockX();
+        int maxX = minX + bounds.getSize().getBlockWidth();
+        int minY = bounds.getA().getBlockY();
+        int maxY = minY + bounds.getSize().getBlockHeight();
+        int minZ = bounds.getA().getBlockZ();
+        int maxZ = minZ + bounds.getSize().getBlockLength();
+
+        for(int x = minX; x < maxX; x++) {
+            for(int y = minY; y < maxY; y++) {
+                for(int z = minZ; z < maxZ; z++) {
+                    blocks.add(bounds.getWorld().getBlockAt(x, y, z));
                 }
             }
         }
-        return blocks;
-    }
 
-    public Location[] getBounds() {
-        return new Location[] {
-                new Location(world, minX, minY, minZ),
-                new Location(world, minX + size.getWidth(), minY + size.getHeight(), minZ + size.getLength())
-        };
+        return blocks;
     }
 
 }

@@ -49,7 +49,7 @@ public class BlockPartyAddPatternCommand extends SubCommand {
 
         FloorPattern pattern;
         try {
-            pattern = FloorPattern.create(args[2], Selection.fromBounds(arena.getFloor().getBounds()));
+            pattern = FloorPattern.create(args[2], arena.getFloor().getBounds());
         } catch (FloorLoaderException e) {
             e.printStackTrace();
             return false;

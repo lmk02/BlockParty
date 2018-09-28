@@ -41,13 +41,13 @@ public class BlockPartyCreatePatternCommand extends SubCommand {
             return false;
         }
 
-        if (selection.getSize().getHeight() != 1) {
+        if (selection.getBounds().getSize().getHeight() != 1) {
             Messenger.message(true, sender, Locale.FLOOR_MIN_HEIHGT);
             return false;
         }
 
         try {
-            PatternLoader.writeFloorPattern(FloorPattern.create(args[1], selection));
+            PatternLoader.writeFloorPattern(FloorPattern.create(args[1], selection.getBounds()));
         } catch (FloorLoaderException e) {
             switch (e.getError()) {
                 case NO_SIZE:

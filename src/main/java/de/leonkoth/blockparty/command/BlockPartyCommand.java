@@ -67,7 +67,7 @@ public class BlockPartyCommand implements CommandExecutor {
             sender.sendMessage("§e§m-------------------------------");
             sender.sendMessage("  §7BlockParty version §e" + blockParty.getPlugin().getDescription().getVersion());
             sender.sendMessage("  §7Developers: §e" + Arrays.toString(blockParty.getPlugin().getDescription().getAuthors().toArray()).replace("[", "").replace("]", ""));
-            sender.sendMessage("  §7Commands: §e/bp help");
+            sender.sendMessage("  §7Commands: §e" + BlockPartyHelpCommand.SYNTAX);
             sender.sendMessage("§e§m-------------------------------");
 
             return true;

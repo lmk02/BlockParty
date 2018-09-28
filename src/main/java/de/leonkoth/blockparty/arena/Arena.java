@@ -203,8 +203,8 @@ public class Arena {
 
         arenaDataManager.saveLocation("Spawns.Lobby", lobbySpawn, false);
         arenaDataManager.saveLocation("Spawns.Game", gameSpawn, false);
-        arenaDataManager.saveLocation("Floors.A", floor.getBounds()[0], false);
-        arenaDataManager.saveLocation("Floors.B", floor.getBounds()[1], false);
+        arenaDataManager.saveLocation("Floors.A", floor.getBounds().getA(), false);
+        arenaDataManager.saveLocation("Floors.B", floor.getBounds().getB(), false);
         setDefaults(false);
 
         try {
