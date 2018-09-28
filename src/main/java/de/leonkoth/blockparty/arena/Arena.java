@@ -352,4 +352,9 @@ public class Arena {
         Bukkit.getPluginManager().callEvent(event);
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

@@ -65,7 +65,7 @@ public class PlayerJoinArenaListener implements Listener {
         player.setGameMode(GameMode.SURVIVAL);
         player.setLevel(0);
         player.setExp(0);
-        playerInfo.setCurrentArena(arena.getName());
+        playerInfo.setCurrentArena(arena);
         arena.getPlayersInArena().add(playerInfo);
         arena.broadcast(true, Locale.PLAYER_JOINED_GAME, false, playerInfo, "%PLAYER%", player.getName());
 

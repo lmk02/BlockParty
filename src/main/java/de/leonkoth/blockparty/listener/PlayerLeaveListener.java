@@ -33,12 +33,7 @@ public class PlayerLeaveListener implements Listener {
         if (playerInfo == null || playerInfo.getPlayerState() == PlayerState.DEFAULT)
             return;
 
-        Arena arena;
-        try {
-            arena = Arena.getByName(playerInfo.getCurrentArena());
-        } catch (NullPointerException e) {
-            return;
-        }
+        Arena arena = playerInfo.getCurrentArena();
 
         if(arena != null)
             arena.removePlayer(player);

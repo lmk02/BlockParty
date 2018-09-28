@@ -29,17 +29,10 @@ public class BlockPartyStopCommand extends SubCommand {
         if (playerInfo == null)
             return false;
 
-        Arena arena;
-        try {
-            arena = Arena.getByName(playerInfo.getCurrentArena());
-        } catch (NullPointerException e) {
-            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
-            return false;
-        }
+        Arena arena = playerInfo.getCurrentArena();
 
-        if(arena == null)
-        {
-            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+        if(arena == null) {
+            Messenger.message(true, sender, Locale.NOT_IN_ARENA);
             return false;
         }
 

@@ -30,7 +30,7 @@ public class BlockPartyLeaveCommand extends SubCommand {
             return false;
         }
 
-        Arena arena = Arena.getByName(playerInfo.getCurrentArena());
+        Arena arena = playerInfo.getCurrentArena();
 
         if(arena == null)
         {

@@ -27,18 +27,7 @@ public class BlockPartyStartCommand extends SubCommand {
             return false;
         }
 
-        Arena arena;
-        try {
-            arena = Arena.getByName(playerInfo.getCurrentArena());
-        } catch (NullPointerException e) {
-            return false;
-        }
-
-        if(arena == null)
-        {
-            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
-            return false;
-        }
+        Arena arena = playerInfo.getCurrentArena();
 
         if (!arena.isEnabled()) {
             Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
