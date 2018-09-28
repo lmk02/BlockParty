@@ -13,21 +13,23 @@ public class AreaGenerator implements FloorGenerator {
     @Override
     public void generateFloor(Floor floor) {
 
-        int areaSize = random.nextInt(3) + 2;
+        int minX = floor.getBounds().getA().getBlockX();
+        int maxX = floor.getBounds().getB().getBlockX();
+        int minY = floor.getBounds().getA().getBlockY();
+        int minZ = floor.getBounds().getA().getBlockZ();
+        int maxZ = floor.getBounds().getB().getBlockZ();
 
-        int minX = floor.getMinX(floor.getBounds()[0], floor.getBounds()[1]);
-        int maxX = floor.getMaxX(floor.getBounds()[0], floor.getBounds()[1]);
-        int minZ = floor.getMinZ(floor.getBounds()[0], floor.getBounds()[1]);
-        int maxZ = floor.getMaxZ(floor.getBounds()[0], floor.getBounds()[1]);
+        int areaSize = random.nextInt(3) + 2;
 
         for (int x = minX; x <= maxX; x += areaSize) {
             for (int z = minZ; z <= maxZ; z += areaSize) {
 
                 byte data = (byte) random.nextInt(16);
 
+                // Fill out area with dimensions areaSize x areaSize
                 for (int offX = x; offX <= Math.min(maxX, x + areaSize); offX++) {
                     for (int offZ = z; offZ <= Math.min(maxZ, z + areaSize); offZ++) {
-                        Block block = floor.getBounds()[0].getWorld().getBlockAt(offX, floor.getBounds()[0].getBlockY(), offZ);
+                        Block block = floor.getWorld().getBlockAt(offX, minY, offZ);
                         block.setType(Material.STAINED_CLAY);
                         block.setData(data);
                     }

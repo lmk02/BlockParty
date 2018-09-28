@@ -9,10 +9,7 @@ import de.leonkoth.blockparty.floor.generator.SingleBlockGenerator;
 import de.leonkoth.blockparty.floor.generator.StripeGenerator;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
-import de.leonkoth.blockparty.util.ColorBlock;
-import de.leonkoth.blockparty.util.ParticlePlayer;
-import de.leonkoth.blockparty.util.Size;
-import de.leonkoth.blockparty.util.Util;
+import de.leonkoth.blockparty.util.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -38,13 +35,17 @@ import java.util.Random;
  */
 public class Floor {
 
-    public static final int DEFAULT_ARENA_LENGTH = 42;
-    public static final int DEFAULT_ARENA_WIDTH = 42;
+    private static Random random = new Random();
 
-    private Random random;
+    @Getter
     private Arena arena;
 
     @Getter
+    @Setter
+    private World world;
+
+    @Getter
+    @Setter
     private Block currentBlock;
 
     @Setter
@@ -53,7 +54,7 @@ public class Floor {
 
     @Setter
     @Getter
-    private Location[] bounds;
+    private Bounds bounds;
 
     @Setter
     @Getter
@@ -67,11 +68,11 @@ public class Floor {
     @Getter
     private List<FloorGenerator> generators = new ArrayList<>();
 
-    public Floor(List<String> patternNames, Location[] bounds, Arena arena, Size size) {
-        this.random = new Random();
+    public Floor(List<String> patternNames, Bounds bounds, Arena arena, Size size) {
         this.size = size;
         this.arena = arena;
         this.bounds = bounds;
+        this.world = bounds.getWorld();
         this.patternNames = patternNames;
         this.floorPatterns = new ArrayList<>();
 
@@ -90,8 +91,9 @@ public class Floor {
         this.generators.add(new StripeGenerator());
     }
 
-    public static boolean create(Arena arena, Location[] bounds, Size size) {
+    public static boolean create(Arena arena, Bounds bounds) {
 
+        Size size = bounds.getSize();
         List<String> floorNames = new ArrayList<>();
 
         Floor floor;
@@ -112,8 +114,8 @@ public class Floor {
         arena.getArenaDataManager().getConfig().set("Configuration.Floor.Width", arena.getFloor().getSize().getWidth());
         arena.getArenaDataManager().getConfig().set("Configuration.Floor.Length", arena.getFloor().getSize().getLength());
 
-        arena.getArenaDataManager().saveLocation("Floor.A", bounds[0]);
-        arena.getArenaDataManager().saveLocation("Floor.B", bounds[1]);
+        arena.getArenaDataManager().saveLocation("Floor.A", bounds.getA());
+        arena.getArenaDataManager().saveLocation("Floor.B", bounds.getB());
 
         try {
             arena.getArenaDataManager().save();
@@ -128,7 +130,7 @@ public class Floor {
     public static Floor getFromConfig(Arena arena) {
         Location a = arena.getArenaDataManager().getLocation("Floor.A");
         Location b = arena.getArenaDataManager().getLocation("Floor.B");
-        Location[] bounds = new Location[]{a, b};
+        Bounds bounds = new Bounds(a, b);
         List<String> enabledFloors = arena.getArenaDataManager().getConfig().getStringList("Configuration.Floor.EnabledFloors");
         int width = arena.getArenaDataManager().getConfig().getInt("Configuration.Floor.Width");
         int length = arena.getArenaDataManager().getConfig().getInt("Configuration.Floor.Length");
@@ -143,12 +145,12 @@ public class Floor {
                 int index = random.nextInt(floorPatterns.size() + generators.size());
 
                 if (index < floorPatterns.size()) {
-                    floorPatterns.get(index).place(Util.getMinBlockPos(bounds[0], bounds[1]));
+                    floorPatterns.get(index).place(bounds.getA());
                 } else {
                     generators.get(index - floorPatterns.size()).generateFloor(this);
                 }
             } else {
-                floorPatterns.get(random.nextInt(floorPatterns.size())).place(Util.getMinBlockPos(bounds[0], bounds[1]));
+                floorPatterns.get(random.nextInt(floorPatterns.size())).place(bounds.getA());
             }
 
         } else {
@@ -170,11 +172,11 @@ public class Floor {
 
             for (FloorPattern floorPattern : this.getFloorPatterns()) {
                 if (floorPattern.getName().equalsIgnoreCase("start")) {
-                    floorPattern.place(Util.getMinBlockPos(bounds[0], bounds[1]));
+                    floorPattern.place(bounds.getA());
                     return;
                 }
             }
-            floorPatterns.get(random.nextInt(floorPatterns.size())).place(Util.getMinBlockPos(bounds[0], bounds[1]));
+            floorPatterns.get(random.nextInt(floorPatterns.size())).place(bounds.getA());
         } else {
             generateFloor();
         }
@@ -190,11 +192,11 @@ public class Floor {
 
             for (FloorPattern floorPattern : this.getFloorPatterns()) {
                 if (floorPattern.getName().equalsIgnoreCase("end")) {
-                    floorPattern.place(Util.getMinBlockPos(bounds[0], bounds[1]));
+                    floorPattern.place(bounds.getA());
                     return;
                 }
             }
-            floorPatterns.get(random.nextInt(floorPatterns.size())).place(Util.getMinBlockPos(bounds[0], bounds[1]));
+            floorPatterns.get(random.nextInt(floorPatterns.size())).place(bounds.getA());
         } else {
             generateFloor();
         }
@@ -218,15 +220,14 @@ public class Floor {
 
     public List<Block> getFloorBlocks() {
 
-        int minX = getMinX(bounds[0], bounds[1]);
-        int maxX = getMaxX(bounds[0], bounds[1]);
-        int minZ = getMinZ(bounds[0], bounds[1]);
-        int maxZ = getMaxZ(bounds[0], bounds[1]);
+        int minX = bounds.getA().getBlockX();
+        int minZ = bounds.getA().getBlockZ();
+        int maxX = bounds.getB().getBlockX();
+        int maxZ = bounds.getB().getBlockZ();
 
         List<Block> blocks = new ArrayList<>();
 
-        World world = bounds[0].getWorld();
-        int y = bounds[0].getBlockY();
+        int y = bounds.getA().getBlockY();
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
                 blocks.add(world.getBlockAt(x, y, z));
@@ -272,15 +273,15 @@ public class Floor {
     }
 
     public Location getRandomLocation() {
-        World world = bounds[0].getWorld();
-        int maxX = getMaxX(bounds[0], bounds[1]);
-        int maxZ = getMaxZ(bounds[0], bounds[1]);
-        int minX = getMinX(bounds[0], bounds[1]);
-        int minZ = getMinZ(bounds[0], bounds[1]);
-        int x = minX + random.nextInt(maxX - minX);
-        int z = minZ + random.nextInt(maxZ - minZ);
 
-        return new Location(world, x, bounds[0].getY(), z);
+        int minX = bounds.getA().getBlockX();
+        int minY = bounds.getA().getBlockY();
+        int minZ = bounds.getA().getBlockZ();
+
+        int x = minX + random.nextInt(bounds.getSize().getBlockWidth());
+        int z = minZ + random.nextInt(bounds.getSize().getBlockLength());
+
+        return new Location(world, x, minY, z);
     }
 
     public void playParticles(int amount, int offsetY, int rangeY) {
@@ -292,34 +293,16 @@ public class Floor {
     }
 
     public Location pickRandomLocation(int offsetY, int rangeY) {
-        int minX = getMinX(bounds[0], bounds[1]);
-        int maxX = getMaxX(bounds[0], bounds[1]);
-        int minY = bounds[0].getBlockY() + offsetY;
-        int maxY = minY + rangeY;
-        int minZ = getMinZ(bounds[0], bounds[1]);
-        int maxZ = getMaxZ(bounds[0], bounds[1]);
 
-        int x = Util.getRandomValueInBetween(minX, maxX);
-        int y = Util.getRandomValueInBetween(minY, maxY);
-        int z = Util.getRandomValueInBetween(minZ, maxZ);
+        int minX = bounds.getA().getBlockX();
+        int minY = bounds.getA().getBlockY() + offsetY;
+        int minZ = bounds.getA().getBlockZ();
 
-        return new Location(bounds[0].getWorld(), x, y, z);
-    }
+        int x = minX + random.nextInt(size.getBlockWidth());
+        int y = minY + random.nextInt(rangeY);
+        int z = minZ + random.nextInt(size.getBlockLength());
 
-    public int getMaxX(Location a, Location b) {
-        return Math.max(a.getBlockX(), b.getBlockX());
-    }
-
-    public int getMaxZ(Location a, Location b) {
-        return Math.max(a.getBlockZ(), b.getBlockZ());
-    }
-
-    public int getMinX(Location a, Location b) {
-        return Math.min(a.getBlockX(), b.getBlockX());
-    }
-
-    public int getMinZ(Location a, Location b) {
-        return Math.min(a.getBlockZ(), b.getBlockZ());
+        return new Location(world, x, y, z);
     }
 
 }

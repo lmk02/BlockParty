@@ -92,8 +92,8 @@ public class PlayerInfo {
 
     private static int getNextId() {
         int i = 1;
-        boolean eq = false;
-        while (i < 2147483647){
+        boolean eq;
+        while (i < Integer.MAX_VALUE){
             eq = false;
             for (PlayerInfo pi : allPlayerInfos) {
                 if (pi.getId() == i)

@@ -39,7 +39,7 @@ public class BlockPartySetFloorCommand extends SubCommand {
             return false;
         }
 
-        if (selection.getSize().getHeight() != 1) {
+        if (selection.getBounds().getSize().getHeight() != 1) {
             Messenger.message(true, sender, Locale.FLOOR_MIN_HEIHGT);
             return false;
         }
@@ -63,7 +63,7 @@ public class BlockPartySetFloorCommand extends SubCommand {
             return false;
         }
 
-        if (Floor.create(arena, selection.getBounds(), selection.getSize())) {
+        if (Floor.create(arena, selection.getBounds())) {
             Messenger.message(true, sender, Locale.FLOOR_CREATE_SUCCESS, "%ARENA%", args[1]);
             return true;
         }
