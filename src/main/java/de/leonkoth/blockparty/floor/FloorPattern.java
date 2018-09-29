@@ -72,7 +72,7 @@ public class FloorPattern {
         int length = size.getBlockLength();
 
         for(int x = 0; x < width; x++) {
-            for(int z = 0; z < length; z++) {
+             for(int z = 0; z < length; z++) {
                 Location loc = location.clone().add(x, 0, z);
                 Block block = loc.getBlock();
                 blocks.add(new BlockInfo(loc, block.getType(), block.getData()));

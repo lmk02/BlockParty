@@ -4,6 +4,7 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.util.MinecraftVersion;
 import de.leonkoth.blockparty.util.Size;
+import de.leonkoth.blockparty.util.Util;
 import org.bukkit.Material;
 
 import java.io.*;
@@ -37,11 +38,12 @@ public class PatternLoader {
         int length = size.getBlockLength();
 
         // METADATA
-        MinecraftVersion minecraftVersion = BlockParty.getInstance().getMinecraftVersion();
+        MinecraftVersion minecraftVersion = BlockParty.DEBUG ? new MinecraftVersion(1, 12, 2) : BlockParty.getInstance().getMinecraftVersion();
+        String pluginVersion = BlockParty.DEBUG ? "2.0.2" : BlockParty.getInstance().getPlugin().getDescription().getVersion();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss O");
         ZonedDateTime now = ZonedDateTime.now();
         printWriter.println("# Created at: " + formatter.format(now));
-        printWriter.println("# BlockParty " + BlockParty.getInstance().getPlugin().getDescription().getVersion() + ", Minecraft " + minecraftVersion);
+        printWriter.println("# BlockParty " + pluginVersion + ", Minecraft " + minecraftVersion);
 
         printWriter.println("version " + minecraftVersion);
         printWriter.println("size " + width + "," + length);
@@ -49,8 +51,8 @@ public class PatternLoader {
         HashMap<Material, Integer> materials = new HashMap<>();
         LinkedList<Map.Entry<String, Integer>> blockLines = new LinkedList<>();
 
-        for(int x = 0; x < width; x++) {
-            for(int z = 0; z < length; z++) {
+        for(int z = 0; z < length; z++) {
+            for(int x = 0; x < width; x++) {
                 int index = x + z * width;
                 byte data = pattern.getData()[index];
 
@@ -169,7 +171,7 @@ public class PatternLoader {
         if(BlockParty.DEBUG)
             System.out.println("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
 
-        return new FloorPattern(file.getName().replace(".floor", ""), new Size(width, 1, length), materials, data);
+        return new FloorPattern(Util.removeExtension(file.getName()), new Size(width, 1, length), materials, data);
     }
 
     public static boolean exists(String name) {

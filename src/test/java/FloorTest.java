@@ -1,6 +1,22 @@
+import de.leonkoth.blockparty.floor.FloorPattern;
+import de.leonkoth.blockparty.floor.ImageLoader;
+import de.leonkoth.blockparty.floor.PatternLoader;
+
+import java.io.File;
+import java.io.IOException;
+
 public class FloorTest {
 
     public static void main(String[] args) {
+
+        try {
+            FloorPattern pattern = ImageLoader.loadImage(new File("E:\\pepe.jpg"), true);
+            PatternLoader.writeFloorPattern(new File("E:\\pepe.floor"), pattern);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
         /*
         // SETUP
