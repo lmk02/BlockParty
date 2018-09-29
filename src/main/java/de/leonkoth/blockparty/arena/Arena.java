@@ -355,6 +355,16 @@ public class Arena {
         Bukkit.getPluginManager().callEvent(event);
     }
 
+    public int getIngamePlayers() {
+        int ingamePlayers = 0;
+        for(PlayerInfo info : playersInArena) {
+            if(info.getPlayerState() == PlayerState.INGAME || info.getPlayerState() == PlayerState.WINNER)
+                ingamePlayers++;
+        }
+
+        return ingamePlayers;
+    }
+
     @Override
     public String toString() {
         return name;

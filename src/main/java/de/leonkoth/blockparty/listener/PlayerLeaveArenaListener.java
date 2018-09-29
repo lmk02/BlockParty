@@ -38,8 +38,14 @@ public class PlayerLeaveArenaListener implements Listener {
         }
 
         arena.broadcast(true, Locale.PLAYER_LEFT_GAME, false, playerInfo, "%PLAYER%", player.getName());
-        Messenger.message(true, player, Locale.LEFT_GAME, "%ARENA%", arena.getName());
+
         arena.getPlayersInArena().remove(playerInfo);
+
+        if(blockParty.isBungee()) {
+            player.kickPlayer(Locale.LEFT_GAME.toString("%ARENA%", arena.getName()));
+        } else {
+            Messenger.message(true, player, Locale.LEFT_GAME, "%ARENA%", arena.getName());
+        }
     }
 
 }

@@ -32,4 +32,13 @@ public class LocaleString {
     public String toString() {
         return this.getValue(0);
     }
+
+    public String toString(String... placeholders) {
+        String newMessage = toString();
+        for (int i = 0; i < placeholders.length; i += 2) {
+            newMessage = newMessage.replace(placeholders[i], placeholders[i + 1]);
+        }
+        return newMessage;
+    }
+
 }
