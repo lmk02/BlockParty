@@ -1,3 +1,6 @@
+BungeeCord: False
+# This is the default arena you will join when BungeeCord is enabled
+DefaultArena: Arena
 LocaleFileName: locale_en.yml
 SaveOnDisable: false
 

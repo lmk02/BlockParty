@@ -8,23 +8,15 @@ public class Messenger {
 
     public static void message(boolean usePrefix, CommandSender sender, LocaleString message, String... placeholders) {
 
-        if (usePrefix) {
-            String prefix = Locale.PREFIX.toString();
-            String[] arr = message.getValues();
-            for (int i = 0; i < arr.length; i++) {
-                String msg = message.getValue(i);
-                for (int k = 0; k < placeholders.length; k += 2) {
-                    msg = msg.replace(placeholders[k], placeholders[k + 1]);
-                }
-                sender.sendMessage(prefix + msg);
-            }
-        } else {
-            String newMessage = message.toString();
-            for (int i = 0; i < placeholders.length; i += 2) {
-                newMessage = newMessage.replace(placeholders[i], placeholders[i + 1]);
+        for(int i = 0; i < message.getValues().length; i++) {
+            String newMessage = usePrefix ? Locale.PREFIX.toString() : "";
+            newMessage += message.getValue(i);
+            for (int j = 0; j < placeholders.length; j += 2) {
+                newMessage = newMessage.replace(placeholders[j], placeholders[j + 1]);
             }
             sender.sendMessage(newMessage);
         }
+
     }
 
     public static void broadcast(boolean usePrefix, LocaleString message, String... placeholders) {

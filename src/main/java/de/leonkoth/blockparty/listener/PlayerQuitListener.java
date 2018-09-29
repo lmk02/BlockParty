@@ -15,11 +15,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
  * Project Blockparty2
  * © 2016 - Leon Koth
  */
-public class PlayerLeaveListener implements Listener {
+public class PlayerQuitListener implements Listener {
 
     private BlockParty blockParty;
 
-    public PlayerLeaveListener(BlockParty blockParty) {
+    public PlayerQuitListener(BlockParty blockParty) {
         this.blockParty = blockParty;
 
         Bukkit.getPluginManager().registerEvents(this, blockParty.getPlugin());

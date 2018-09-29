@@ -36,19 +36,26 @@ import java.util.Set;
  */
 public class BlockParty {
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public static final String PLUGIN_FOLDER = "plugins/BlockParty/";
-
-    private static ConsoleCommandSender sender = Bukkit.getConsoleSender();
 
     @Getter
     private static BlockParty instance;
 
-    private Database database;
+    @Getter
+    private static ConsoleCommandSender sender = Bukkit.getConsoleSender();
 
-    @Setter
+    @Getter
+    private boolean bungee;
+
+    @Getter
+    private String defaultArena;
+
     @Getter
     private ArrayList<Arena> arenas;
+
+    @Getter
+    private Database database;
 
     @Getter
     private JavaPlugin plugin;
@@ -88,6 +95,8 @@ public class BlockParty {
         // Init classes
         this.arenas = new ArrayList<>();
         this.config = new Config(new File(PLUGIN_FOLDER + "config.yml"));
+        this.bungee = config.getConfig().getBoolean("BungeeCord");
+        this.defaultArena = config.getConfig().getString("DefaultArena");
         this.tablePrefix = config.getConfig().getString("Database.TablePrefix");
         this.initDatabase();
         this.playerInfoManager = new PlayerInfoManager(database);
@@ -109,7 +118,7 @@ public class BlockParty {
         new PlayerJoinArenaListener(this);
         new PlayerJoinListener(this);
         new PlayerLeaveArenaListener(this);
-        new PlayerLeaveListener(this);
+        new PlayerQuitListener(this);
         new PlayerMoveListener(this);
         new EntityPickupItemListener(this);
         new PlayerWinListener(this);
@@ -117,6 +126,7 @@ public class BlockParty {
         new RoundStartListener(this);
         new InteractListener(this);
         new PlayerInteractListener(this);
+        new ServerListPingListener(this);
 
         // Init commands
         new BlockPartyCommand(this);
@@ -246,7 +256,10 @@ public class BlockParty {
             }
 
             config.reload();
+            this.bungee = config.getConfig().getBoolean("BungeeCord");
+            this.defaultArena = config.getConfig().getString("DefaultArena");
             Locale.loadLocale(new File(PLUGIN_FOLDER + config.getConfig().getString("LocaleFileName")));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
