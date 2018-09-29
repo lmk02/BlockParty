@@ -4,6 +4,7 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.util.Util;
 import org.bukkit.command.CommandSender;
 
 import java.io.File;
@@ -36,7 +37,7 @@ public class BlockPartyListPatternsCommand extends SubCommand {
         } else {
             if(folder.isDirectory()) {
                 for (File file : Objects.requireNonNull(folder.listFiles())) {
-                    patternList.add(file.getName().replace(".floor", ""));
+                    patternList.add(Util.removeExtension(getName()));
                 }
             }
         }

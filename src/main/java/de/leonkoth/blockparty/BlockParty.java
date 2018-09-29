@@ -12,6 +12,7 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.BlockInfo;
 import de.leonkoth.blockparty.util.DefaultManager;
 import de.leonkoth.blockparty.util.MinecraftVersion;
+import de.leonkoth.blockparty.util.Util;
 import de.leonkoth.blockparty.web.server.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -227,7 +228,7 @@ public class BlockParty {
                 continue;
 
             try {
-                Arena arena = Arena.getArenaData(file.getName().replace(".yml", ""));
+                Arena arena = Arena.getArenaData(Util.removeExtension(file.getName()));
                 arenas.add(arena);
             } catch (Exception e) {
                 Bukkit.getLogger().severe("[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");

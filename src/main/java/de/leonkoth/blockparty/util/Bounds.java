@@ -36,9 +36,9 @@ public class Bounds {
     }
 
     public Size getSize() {
-        return new Size(b.getX() - a.getX(),
-                b.getY() - a.getY(),
-                b.getZ() - a.getZ());
+        return new Size(b.getX() - a.getX() + 1,
+                b.getY() - a.getY() + 1,
+                b.getZ() - a.getZ() + 1);
     }
 
     public World getWorld() {
