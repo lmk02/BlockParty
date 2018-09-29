@@ -15,7 +15,7 @@ public class BlockPartyAdminCommand extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
 
-        sender.sendMessage("§8§m------§e BlockParty Admin §8§m------");
+        sender.sendMessage("§8§m      §e BlockParty Admin §8§m      ");
         sender.sendMessage("§e" + BlockPartyAddPatternCommand.SYNTAX + " §7- Adds a pattern to an arena");
         sender.sendMessage("§e" + BlockPartyAddSongCommand.SYNTAX + " §7- Adds a song to an arena");
         sender.sendMessage("§e" + BlockPartyCreateCommand.SYNTAX + " §7- Creates an arena");
@@ -30,14 +30,13 @@ public class BlockPartyAdminCommand extends SubCommand {
         sender.sendMessage("§e" + BlockPartyReloadCommand.SYNTAX + " §7- Reloads the plugin");
         sender.sendMessage("§e" + BlockPartyRemovePatternCommand.SYNTAX + " §7- Removes a pattern from an arena");
         sender.sendMessage("§e" + BlockPartySetFloorCommand.SYNTAX + " §7- Sets the floor bounds");
-        sender.sendMessage("§e" + BlockPartyStartArenaCommand.SYNTAX + " §7- Starts the game in specified arena");
-        sender.sendMessage("§e" + BlockPartyStartCommand.SYNTAX + " §7- Starts the game you are in");
+        sender.sendMessage("§e" + BlockPartyStartCommand.SYNTAX + " §7- Starts an arena");
         sender.sendMessage("§e" + BlockPartyStatusCommand.SYNTAX + " §7- Shows an arena's status");
         sender.sendMessage("§e" + BlockPartyStopCommand.SYNTAX + " §7- Stops the game you are in");
         sender.sendMessage("§e" + BlockPartyTutorialCommand.SYNTAX + " §7- Shows how to set up the game");
         sender.sendMessage("§e" + BlockPartyUndoCommand.SYNTAX + " §7- Revert changes of /placepattern");
         sender.sendMessage("§e" + BlockPartyWandCommand.SYNTAX + " §7- Get wand item");
-        sender.sendMessage("§8§m----------------------------");
+        sender.sendMessage("§8§m                            ");
 
         return true;
 

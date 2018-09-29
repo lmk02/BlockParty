@@ -48,7 +48,6 @@ public class BlockPartyCommand implements CommandExecutor {
         commands.add(new BlockPartySetSpawnCommand(blockParty));
         commands.add(new BlockPartyCreatePatternCommand(blockParty));
         commands.add(new BlockPartyAddPatternCommand(blockParty));
-        commands.add(new BlockPartyStartArenaCommand(blockParty));
         commands.add(new BlockPartyJoinCommand(blockParty));
         commands.add(new BlockPartyStatusCommand(blockParty));
         commands.add(new BlockPartyPosCommand(blockParty));
@@ -64,11 +63,12 @@ public class BlockPartyCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            sender.sendMessage("§e§m-------------------------------");
-            sender.sendMessage("  §7BlockParty version §e" + blockParty.getPlugin().getDescription().getVersion());
-            sender.sendMessage("  §7Developers: §e" + Arrays.toString(blockParty.getPlugin().getDescription().getAuthors().toArray()).replace("[", "").replace("]", ""));
-            sender.sendMessage("  §7Commands: §e" + BlockPartyHelpCommand.SYNTAX);
-            sender.sendMessage("§e§m-------------------------------");
+            sender.sendMessage(" ");
+            sender.sendMessage("§8§m                               ");
+            sender.sendMessage("§7BlockParty version §e" + blockParty.getPlugin().getDescription().getVersion());
+            sender.sendMessage("§7Developers: §e" + Arrays.toString(blockParty.getPlugin().getDescription().getAuthors().toArray()).replace("[", "").replace("]", ""));
+            sender.sendMessage("§7Commands: §e" + BlockPartyHelpCommand.SYNTAX);
+            sender.sendMessage("§8§m                               ");
 
             return true;
         }
@@ -82,6 +82,7 @@ public class BlockPartyCommand implements CommandExecutor {
                         if (args.length >= subCommand.getMinArgs()) {
                             subCommand.onCommand(sender, args);
                         } else {
+
                             sender.sendMessage("§cSyntax: " + subCommand.getSyntax());
                         }
                     } else {

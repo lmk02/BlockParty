@@ -18,15 +18,16 @@ public class BlockPartyListArenasCommand extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
 
         if (blockParty.getArenas().isEmpty()) {
-            Messenger.message(false, sender, Locale.NO_ARENAS);
+            Messenger.message(true, sender, Locale.NO_ARENAS);
         } else {
-            sender.sendMessage("§8§m----------§e All arenas §8§m----------");
+            sender.sendMessage(" ");
+            sender.sendMessage("§8§m          §e All arenas §8§m          ");
 
             for (Arena arena : blockParty.getArenas()) {
-                sender.sendMessage("§8 • §7" + arena.getName() + ": " + arena.getArenaState().name());
+                sender.sendMessage("§8 • §7" + arena.getName() + ": " + arena.getArenaState().name() + (arena.isEnabled() ? " §a(Enabled)" : " §c(Disabled)"));
             }
 
-            sender.sendMessage("§8§m----------------------------");
+            sender.sendMessage("§8§m                                     ");
         }
 
         return true;

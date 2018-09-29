@@ -42,7 +42,7 @@ public class XWebSocketServer implements WebServer {
         for (Socket clients : connectedClients) {
             if (clients.getInetAddress().getHostAddress().equalsIgnoreCase(ip)) {
                 if (clients.isConnected()) {
-                    System.out.println("Sending: " + arena + ";" + song + ";" + play);
+                    System.out.println("[BlockParty] Sending: " + arena + ";" + song + ";" + play);
                     new ClientThread(clients, arena, song, play).start();
                 }
             }
@@ -57,7 +57,7 @@ public class XWebSocketServer implements WebServer {
             server = new ServerSocket(port, -1, bindAddress);
         }
 
-        System.out.println("Server started on " + server.getInetAddress().getHostAddress() + ":" + port);
+        System.out.println("[BlockParty] Server started on " + server.getInetAddress().getHostAddress() + ":" + port);
 
         serverThread = new Thread(() -> {
             while (true) {
@@ -87,7 +87,7 @@ public class XWebSocketServer implements WebServer {
         }
 
         public void run() {
-            System.out.println("Client connected! " + socket.getInetAddress().getHostAddress());
+            System.out.println("[BlockParty] Client connected! " + socket.getInetAddress().getHostAddress());
         }
 
     }
@@ -109,7 +109,7 @@ public class XWebSocketServer implements WebServer {
                 writer.write(arena + ";" + song + ";" + play);
                 writer.flush();
             } catch (IOException e) {
-                System.out.println("Connection to " + socket.getInetAddress().getHostAddress() + " is closed!");
+                System.out.println("[BlockParty] Connection to " + socket.getInetAddress().getHostAddress() + " is closed!");
             }
         }
 

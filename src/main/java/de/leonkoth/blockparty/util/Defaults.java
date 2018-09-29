@@ -24,7 +24,7 @@ public class Defaults {
             try {
                 Files.copy(Defaults.class.getClassLoader().getResourceAsStream(resourceName), file.toPath());
             } catch (IOException e) {
-                System.err.println("Couldn't copy file \"" + resourceName + "\"");
+                System.err.println("[BlockParty] Couldn't copy file \"" + resourceName + "\"");
             }
         }
     }

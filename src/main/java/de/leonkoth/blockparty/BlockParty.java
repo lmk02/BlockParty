@@ -74,6 +74,8 @@ public class BlockParty {
     public BlockParty(JavaPlugin plugin) {
         this.plugin = plugin;
         this.minecraftVersion = new MinecraftVersion();
+        if(DEBUG) System.out.println("Using DEBUG mode");
+        System.out.println("[BlockParty] Detected Minecraft Version: " + minecraftVersion);
     }
 
     public void start() {

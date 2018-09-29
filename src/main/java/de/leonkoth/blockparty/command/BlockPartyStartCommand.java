@@ -10,24 +10,40 @@ import org.bukkit.entity.Player;
 
 public class BlockPartyStartCommand extends SubCommand {
 
-    public static String SYNTAX = "/bp start";
+    public static String SYNTAX = "/bp start [Arena]";
 
     public BlockPartyStartCommand(BlockParty blockParty) {
-        super(true, 1, "start", "blockparty.admin.start", blockParty);
+        super(false, 1, "start", "blockparty.admin.start", blockParty);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
 
-        Player player = (Player) sender;
-        PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
+        Arena arena;
 
-        if (playerInfo == null || playerInfo.getCurrentArena() != null) {
-            Messenger.message(true, sender, Locale.NOT_IN_ARENA);
-            return false;
+        if(args.length > 1) {
+            arena = Arena.getByName(args[1]);
+
+            if(arena == null) {
+                Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST);
+                return false;
+            }
+        } else {
+            if(sender instanceof Player) {
+                Player player = (Player) sender;
+                PlayerInfo info = PlayerInfo.getFromPlayer(player);
+
+                if(info == null || info.getCurrentArena() == null) {
+                    Messenger.message(true, sender, Locale.NOT_IN_ARENA);
+                    return false;
+                }
+
+                arena = info.getCurrentArena();
+            } else {
+                Messenger.message(true, sender, Locale.ONLY_PLAYERS);
+                return false;
+            }
         }
-
-        Arena arena = playerInfo.getCurrentArena();
 
         if (!arena.isEnabled()) {
             Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());

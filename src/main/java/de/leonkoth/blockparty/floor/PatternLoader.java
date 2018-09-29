@@ -23,7 +23,7 @@ public class PatternLoader {
         long timeMillis = System.currentTimeMillis();
 
         if(BlockParty.DEBUG)
-            System.out.println("Writing pattern \"" + file.getPath() + "\"...");
+            System.out.println("[BlockParty] Writing pattern \"" + file.getPath() + "\"...");
 
         PrintWriter printWriter;
         try {
@@ -96,7 +96,7 @@ public class PatternLoader {
         printWriter.flush();
 
         if(BlockParty.DEBUG)
-            System.out.println("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
+            System.out.println("[BlockParty] Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
 
         return true;
 
@@ -111,7 +111,7 @@ public class PatternLoader {
         long timeMillis = System.currentTimeMillis();
 
         if(BlockParty.DEBUG)
-            System.out.println("Reading pattern \"" + file.getPath() + "\"...");
+            System.out.println("[BlockParty] Reading pattern \"" + file.getPath() + "\"...");
 
         int width = 0, length = 0;
         byte[] data;
@@ -169,7 +169,7 @@ public class PatternLoader {
         }
 
         if(BlockParty.DEBUG)
-            System.out.println("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
+            System.out.println("[BlockParty] Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
 
         return new FloorPattern(Util.removeExtension(file.getName()), new Size(width, 1, length), materials, data);
     }

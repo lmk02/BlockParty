@@ -15,7 +15,7 @@ public class Locale {
     public static LocaleSection ERROR = new LocaleSection("Error", ChatColor.RED);
     public static LocaleSection SUCCESS = new LocaleSection("Success", ChatColor.GREEN);
 
-    public static LocaleString PREFIX = new LocaleString(INFO, "&8[&aBlockParty&8] &7");
+    public static LocaleString PREFIX = new LocaleString(INFO, "&8▌ &3BlockParty &8» &7");
     public static LocaleString SCOREBOARD_TEXT = new LocaleString(INFO, "&3BlockParty", "Level: %LEVEL%", "Players: %CURRENTPLAYERS% / %MAXPLAYERS%", "Time Left: %TIME%", "Arena: %ARENA%");
     public static LocaleString COLORS = new LocaleString(INFO, "White", "Orange", "Magenta", "Light Blue", "Yellow", "Lime", "Pink", "Gray", "Light Gray", "Cyan", "Purple", "Blue", "Brown", "Green", "Red", "Black");
     public static LocaleString ACTIONBAR_COUNTDOWN = new LocaleString(INFO, "&f&l%NUMBER% second(s) left");
@@ -30,13 +30,13 @@ public class Locale {
     public static LocaleString PLAYER_ELIMINATED = new LocaleString(INFO, "%PLAYER% was &4&lELIMINATED&7!");
     public static LocaleString PLAYER_JOINED_GAME = new LocaleString(INFO, "%PLAYER% joined the match");
     public static LocaleString PLAYER_LEFT_GAME = new LocaleString(INFO, "%PLAYER% left the match");
-    public static LocaleString PLAYER_DOES_NOT_EXIST = new LocaleString(ERROR, "%PLAYER% does not exist");
+    public static LocaleString PLAYER_DOES_NOT_EXIST = new LocaleString(ERROR, "Player \"%PLAYER%\" wasn't online yet");
     public static LocaleString PREPARE = new LocaleString(INFO, "Prepare for the next round!");
-    public static LocaleString PATTERN_LIST = new LocaleString(INFO, "List of patterns: %PATTERNS%");
+    public static LocaleString PATTERN_LIST = new LocaleString(INFO, "List of patterns: &e%PATTERNS%");
     public static LocaleString TIME_LEFT = new LocaleString(INFO, "The game starts in &e%TIME% &7seconds");
-    public static LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Player %PLAYER% won the game");
+    public static LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Player &e%PLAYER% &7won the game");
     public static LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aCongratulations! You won the game");
-    public static LocaleString STATS = new LocaleString(INFO, "%PLAYER% has %WINS% wins and %POINTS% points.");
+    public static LocaleString STATS = new LocaleString(INFO, "%PLAYER% has &e%WINS% &7wins and &e%POINTS% &7points.");
     public static LocaleString SONG_ALREADY_ADDED_TO_ARENA = new LocaleString(ERROR, "Song %SONG% has already been added to arena %ARENA%");
     public static LocaleString SONG_ADDED_TO_ARENA = new LocaleString(INFO, "Song %SONG% has been added to arena %ARENA%");
     public static LocaleString SONG_PLAYING = new LocaleString(INFO, "Now playing %SONG%");
@@ -73,6 +73,9 @@ public class Locale {
     public static LocaleString START_ABORTED = new LocaleString(ERROR, "Game start aborted because there are not enough players");
     public static LocaleString DIFFERENT_WORLDS = new LocaleString(ERROR, "The points have to be in the same world");
     public static LocaleString NO_UNDO = new LocaleString(ERROR, "You have nothing to undo");
+    public static LocaleString NO_FLOOR = new LocaleString(ERROR, "You have to set a floor first");
+    public static LocaleString NO_GAME_SPAWN = new LocaleString(ERROR, "You have to set a game spawn first.");
+    public static LocaleString NO_LOBBY_SPAWN = new LocaleString(ERROR, "You have to set a lobby spawn first.");
 
     public static LocaleString ARENA_CREATE_SUCCESS = new LocaleString(SUCCESS, "Successfully created arena %ARENA%");
     public static LocaleString ARENA_DELETE_SUCCESS = new LocaleString(SUCCESS, "Successfully deleted arena %ARENA%");
@@ -80,7 +83,7 @@ public class Locale {
     public static LocaleString ARENA_ENABLE_SUCCESS = new LocaleString(SUCCESS, "Successfully enabled arena %ARENA%");
     public static LocaleString CONFIG_RELOADED = new LocaleString(SUCCESS, "Reloaded config");
     public static LocaleString PATTERN_ADDED = new LocaleString(SUCCESS, "Pattern %PATTERN% was added to arena %ARENA%");
-    public static LocaleString FLOOR_CREATE_SUCCESS = new LocaleString(SUCCESS, "Successfully created floor in arena %ARENA%");
+    public static LocaleString FLOOR_SET_SUCCESS = new LocaleString(SUCCESS, "Successfully set floor in arena %ARENA%");
     public static LocaleString PATTERN_REMOVED = new LocaleString(SUCCESS, "Successfully removed pattern %PATTERN% from arena %ARENA%");
     public static LocaleString GAME_SPAWN_SET = new LocaleString(SUCCESS, "The game spawn was set for arena %ARENA%");
     public static LocaleString LOBBY_SPAWN_SET = new LocaleString(SUCCESS, "The lobby spawn was set for arena %ARENA%");

@@ -80,15 +80,15 @@ public class Database {
             try (Connection conn = DriverManager.getConnection(this.url)) {
                 if (conn != null) {
                     DatabaseMetaData meta = conn.getMetaData();
-                    System.out.println("The driver name is " + meta.getDriverName());
-                    System.out.println("A new database has been created.");
+                    System.out.println("[BlockParty] The driver name is " + meta.getDriverName());
+                    System.out.println("[BlockParty] A new database has been created.");
                 }
                 Statement stmt = conn.createStatement();
                 stmt.execute(table);
                 stmt.close();
 
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                System.err.println(e.getMessage());
             }
         } else {
             try (Connection conn = DriverManager.getConnection("jdbc:mysql://" + this.host + "/" + this.database + "?" +
