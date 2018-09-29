@@ -28,18 +28,18 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
     @Override
     public void onOpen(WebSocket socket, ClientHandshake handshake) {
         this.socket.add(socket);
-        System.out.println("New connection from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
+        System.out.println("[BlockParty] New connection from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
     }
 
     @Override
     public void onClose(WebSocket socket, int code, String reason, boolean remote) {
         this.socket.remove(socket);
-        System.out.println("Closed connection to " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
+        System.out.println("[BlockParty] Closed connection to " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
     }
 
     @Override
     public void onMessage(WebSocket socket, String message) {
-        System.out.println("Message from client: " + message);
+        System.out.println("[BlockParty] Message from client: " + message);
         for (WebSocket sock : this.socket) {
             sock.send(message);
         }
@@ -52,7 +52,7 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
         }
 
         if (socket != null) {
-            System.out.println("ERROR from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
+            System.out.println("[BlockParty] ERROR from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
         }
     }
 

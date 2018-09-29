@@ -44,27 +44,15 @@ public class BlockPartySetFloorCommand extends SubCommand {
             return false;
         }
 
-        Arena arena;
-        try {
-            arena = Arena.getByName(args[1]);
-        } catch (NullPointerException e) {
-            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
-            return false;
-        }
+        Arena arena = Arena.getByName(args[1]);
 
-        if(arena == null)
-        {
+        if(arena == null) {
             Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
-            return false;
-        }
-
-        if (!arena.isEnabled()) {
-            Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
             return false;
         }
 
         if (Floor.create(arena, selection.getBounds())) {
-            Messenger.message(true, sender, Locale.FLOOR_CREATE_SUCCESS, "%ARENA%", args[1]);
+            Messenger.message(true, sender, Locale.FLOOR_SET_SUCCESS, "%ARENA%", args[1]);
             return true;
         }
 

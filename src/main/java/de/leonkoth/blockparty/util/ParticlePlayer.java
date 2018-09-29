@@ -1,6 +1,6 @@
 package de.leonkoth.blockparty.util;
 
-import org.bukkit.Bukkit;
+import de.leonkoth.blockparty.BlockParty;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -9,6 +9,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import static de.leonkoth.blockparty.util.Reflection.*;
+
 /**
  * Utility to play particles with NMS
  *
@@ -16,22 +18,45 @@ import java.util.List;
  */
 public class ParticlePlayer {
 
-    private static Class<?> craftPlayer = getCraftBukkitClass("entity.CraftPlayer");
-    private static Class<?> packetPlayOutWorldParticles = getNMSClass("PacketPlayOutWorldParticles");
-    private static Class<?> enumParticle = getNMSClass("EnumParticle");
-    private static Class<?> playerConnection = getNMSClass("PlayerConnection");
-    private static Class<?> packet = getNMSClass("Packet");
-    private static Class<?> entityPlayer = getNMSClass("EntityPlayer");
+    private static Class<?> craftPlayer;
+    private static Class<?> packetPlayOutWorldParticles;
+    private static Class<?> enumParticle;
+    private static Class<?> playerConnection;
+    private static Class<?> packet;
+    private static Class<?> entityPlayer;
+    private static Class<?> particleParam;
 
-    private static Constructor<?> packetConstructor = getConstructor(packetPlayOutWorldParticles, enumParticle, boolean.class, float.class, float.class, float.class, float.class, float.class, float.class, float.class, int.class, int[].class);
+    private static Constructor<?> packetConstructor;
 
-    private static Method playerGetHandle = getMethod(craftPlayer, "getHandle");
-    private static Method valueOf = getMethod(enumParticle, "valueOf", String.class);
-    private static Method sendPacket = getMethod(playerConnection, "sendPacket", packet);
+    private static Method playerGetHandle;
+    private static Method valueOf;
+    private static Method sendPacket;
 
-    private static Field playerConnectionField = getField(entityPlayer, "playerConnection");
+    private static Field playerConnectionField;
 
-    private Object enumParticleInstance;
+    static { // Get classes
+        craftPlayer = getCraftBukkitClass("entity.CraftPlayer");
+
+        playerConnection = getNMSClass("PlayerConnection");
+        packetPlayOutWorldParticles = getNMSClass("PacketPlayOutWorldParticles");
+        packet = getNMSClass("Packet");
+        entityPlayer = getNMSClass("EntityPlayer");
+
+        playerGetHandle = getMethod(craftPlayer, "getHandle");
+        sendPacket = getMethod(playerConnection, "sendPacket", packet);
+        playerConnectionField = getField(entityPlayer, "playerConnection");
+
+        if(BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
+            enumParticle = getNMSClass("EnumParticle");
+            valueOf = getMethod(enumParticle, "valueOf", String.class);
+            packetConstructor = getConstructor(packetPlayOutWorldParticles, enumParticle, boolean.class, float.class, float.class, float.class, float.class, float.class, float.class, float.class, int.class, int[].class);
+        } else {
+            particleParam = getNMSClass("ParticleParam");
+            packetConstructor = getConstructor(packetPlayOutWorldParticles, particleParam, boolean.class, float.class, float.class, float.class, float.class, float.class, float.class, float.class, int.class);
+        }
+    }
+
+    private Object particle;
 
     /**
      * Creates new instance of ParticlePlayer
@@ -41,92 +66,13 @@ public class ParticlePlayer {
     public ParticlePlayer(String particleName) {
 
         try {
-            this.enumParticleInstance = valueOf.invoke(null, particleName);
+            if(BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
+                this.particle = valueOf.invoke(null, particleName);
+            } else {
+                this.particle = Particles.valueOf(particleName).get();
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * Gets net.minecraft.server class from name
-     *
-     * @param name Class name
-     * @return The class
-     */
-    private static Class<?> getNMSClass(String name) {
-        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + ".";
-
-        try {
-            return Class.forName("net.minecraft.server." + version + name);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Gets org.bukkit.craftbukkit class from name
-     *
-     * @param name Class name
-     * @return The class
-     */
-    private static Class<?> getCraftBukkitClass(String name) {
-        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + ".";
-
-        try {
-            return Class.forName("org.bukkit.craftbukkit." + version + name);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Gets method from class by name
-     *
-     * @param clazz          Class to get the method from
-     * @param name           Name of the method
-     * @param parameterTypes Parameter types of the method
-     * @return The method
-     */
-    private static Method getMethod(Class<?> clazz, String name, Class<?>... parameterTypes) {
-        try {
-            return clazz.getMethod(name, parameterTypes);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Gets field from class by name
-     *
-     * @param clazz Class to get the field from
-     * @param name  Name of the field
-     * @return The field
-     */
-    private static Field getField(Class<?> clazz, String name) {
-        try {
-            return clazz.getField(name);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Gets constructor from class
-     *
-     * @param clazz          Class to get the constructor from
-     * @param parameterTypes Parameter types of the constructor
-     * @return The constructor
-     */
-    private static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterTypes) {
-        try {
-            return clazz.getConstructor(parameterTypes);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
@@ -138,7 +84,7 @@ public class ParticlePlayer {
      * @param players  Players to play the particles to
      */
     public void play(Location location, int amount, Player... players) {
-        Object packet = createPacket(enumParticleInstance, (float) location.getX(), (float) location.getY(), (float) location.getZ(), 0f, 0f, 0f, 0f, amount);
+        Object packet = createPacket(particle, (float) location.getX(), (float) location.getY(), (float) location.getZ(), 0f, 0f, 0f, 0f, amount);
 
         for (Player player : players) {
             sendPacket(player, packet);
@@ -175,7 +121,7 @@ public class ParticlePlayer {
     /**
      * Creates packet from arguments
      *
-     * @param enumParticle Particle type
+     * @param particle     Particle to play
      * @param x            X location
      * @param y            Y location
      * @param z            Z location
@@ -186,9 +132,13 @@ public class ParticlePlayer {
      * @param amount       Amount of particles
      * @return The packet
      */
-    private Object createPacket(Object enumParticle, float x, float y, float z, float xOffset, float yOffset, float zOffset, float data, int amount) {
+    private Object createPacket(Object particle, float x, float y, float z, float xOffset, float yOffset, float zOffset, float data, int amount) {
         try {
-            return packetConstructor.newInstance(enumParticle, true, x, y, z, xOffset, yOffset, zOffset, data, amount, null);
+            if(BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
+                return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount, null);
+            } else {
+                return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;

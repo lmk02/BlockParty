@@ -23,6 +23,7 @@ public class LobbyPhase implements Runnable {
     private DisplayScoreboard displayScoreboard;
     private BlockParty blockParty;
     private Arena arena;
+    private Sound sound;
 
     public LobbyPhase(BlockParty blockParty, String name) {
         this(blockParty, Arena.getByName(name));
@@ -33,6 +34,12 @@ public class LobbyPhase implements Runnable {
         this.arena = arena;
         this.countdown = arena.getLobbyCountdown();
         this.displayScoreboard = new DisplayScoreboard();
+
+        if(blockParty.getMinecraftVersion().isLess(1, 13, 0)) {
+            sound = Sound.valueOf("BLOCK_NOTE_HARP");
+        } else {
+            sound = Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");
+        }
     }
 
     public void run() {
@@ -66,7 +73,7 @@ public class LobbyPhase implements Runnable {
                     countdown == 1) {
 
                 for (Player player : players) {
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1, 1);
+                    player.playSound(player.getLocation(), sound, 1, 1);
                 }
 
                 arena.broadcast(true, Locale.TIME_LEFT, false, (PlayerInfo) null, "%TIME%", Integer.toString(countdown));

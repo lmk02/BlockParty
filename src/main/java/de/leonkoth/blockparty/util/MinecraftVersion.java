@@ -21,6 +21,39 @@ public class MinecraftVersion {
         this.patch = split.length > 2 ? Integer.parseInt(split[2]) : 0;
     }
 
+    public boolean isEqual(int major, int minor, int patch) {
+        return isEqual(new MinecraftVersion(major, minor, patch));
+    }
+
+    public boolean isEqual(MinecraftVersion version) {
+        return major == version.major && minor == version.minor && patch == version.patch;
+    }
+
+    public boolean isGreater(int major, int minor, int patch) {
+        return isGreater(new MinecraftVersion(major, minor, patch));
+    }
+
+    public boolean isGreater(MinecraftVersion version) {
+        if(major > version.getMajor())
+            return true;
+
+        if(minor > version.getMinor())
+            return true;
+
+        if(patch > version.getPatch())
+            return true;
+
+        return false;
+    }
+
+    public boolean isLess(int major, int minor, int patch) {
+        return isLess(new MinecraftVersion(major, minor, patch));
+    }
+
+    public boolean isLess(MinecraftVersion version) {
+        return !isGreater(version) && !isEqual(version);
+    }
+
     @Override
     public String toString() {
         return major + "." + minor + "." + patch;

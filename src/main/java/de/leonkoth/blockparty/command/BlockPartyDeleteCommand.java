@@ -17,16 +17,9 @@ public class BlockPartyDeleteCommand extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
 
-        Arena arena;
-        try {
-            arena = Arena.getByName(args[1]);
-        } catch (NullPointerException e) {
-            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
-            return false;
-        }
+        Arena arena = Arena.getByName(args[1]);
 
-        if(arena == null)
-        {
+        if(arena == null) {
             Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }

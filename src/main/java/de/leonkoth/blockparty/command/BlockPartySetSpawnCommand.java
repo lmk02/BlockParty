@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class BlockPartySetSpawnCommand extends SubCommand {
 
-    public static String SYNTAX = "/bp setspawn <game|lobby>";
+    public static String SYNTAX = "/bp setspawn <Arena> game/lobby";
 
     public BlockPartySetSpawnCommand(BlockParty blockParty) {
         super(true, 3, "setspawn", "blockparty.admin.setspawn", blockParty);
@@ -20,22 +20,11 @@ public class BlockPartySetSpawnCommand extends SubCommand {
 
         Player player = (Player) sender;
 
-        Arena arena;
-        try {
-            arena = Arena.getByName(args[1]);
-        } catch (NullPointerException e) {
-            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
-            return false;
-        }
+        Arena arena = Arena.getByName(args[1]);
 
         if(arena == null)
         {
             Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
-            return false;
-        }
-
-        if (!arena.isEnabled()) {
-            Messenger.message(true, sender, Locale.ARENA_DISABLED, "%ARENA%", arena.getName());
             return false;
         }
 
