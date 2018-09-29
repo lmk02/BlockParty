@@ -37,7 +37,7 @@ public class BlockPartyListPatternsCommand extends SubCommand {
         } else {
             if(folder.isDirectory()) {
                 for (File file : Objects.requireNonNull(folder.listFiles())) {
-                    patternList.add(Util.removeExtension(getName()));
+                    patternList.add(Util.removeExtension(file.getName()));
                 }
             }
         }
