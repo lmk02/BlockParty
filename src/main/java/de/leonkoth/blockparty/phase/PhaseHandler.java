@@ -7,6 +7,7 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitWorker;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class PhaseHandler {
     private int gamePhaseScheduler, winnerPhaseScheduler, lobbyPhaseScheduler;
     private BlockParty blockParty;
     private Arena arena;
+    private BukkitScheduler scheduler;
 
     @Getter
     private LobbyPhase lobbyPhase;
@@ -36,15 +38,15 @@ public class PhaseHandler {
         this.lobbyPhase = new LobbyPhase(blockParty, arena);
         this.gamePhase = new GamePhase(blockParty, arena);
         this.winnerPhase = new WinnerPhase(blockParty, arena);
+        scheduler = blockParty.getPlugin().getServer().getScheduler();
     }
 
     public boolean startLobbyPhase() {
-        BukkitScheduler scheduler = Bukkit.getScheduler();
         arena.setArenaState(ArenaState.LOBBY);
-        if (this.arena.getPlayersInArena().size() >= arena.getMinPlayers() && !scheduler.isCurrentlyRunning(lobbyPhaseScheduler)) {
+        if (this.arena.getPlayersInArena().size() >= arena.getMinPlayers() && !scheduler.isCurrentlyRunning(lobbyPhaseScheduler) && !scheduler.isQueued(lobbyPhaseScheduler)) {
             this.lobbyPhase = new LobbyPhase(blockParty, arena.getName());
             this.lobbyPhase.initialize();
-            this.lobbyPhaseScheduler = Bukkit.getScheduler().scheduleSyncRepeatingTask(blockParty.getPlugin(), lobbyPhase, 0L, 20L);
+            this.lobbyPhaseScheduler = scheduler.scheduleSyncRepeatingTask(blockParty.getPlugin(), lobbyPhase, 0L, 20L);
             return true;
         } else {
             return false;
@@ -52,9 +54,8 @@ public class PhaseHandler {
     }
 
     public boolean startGamePhase() {
-        BukkitScheduler scheduler = Bukkit.getScheduler();
         arena.setArenaState(ArenaState.INGAME);
-        if (this.arena.getPlayersInArena().size() >= arena.getMinPlayers() && !scheduler.isCurrentlyRunning(gamePhaseScheduler)) {
+        if (this.arena.getPlayersInArena().size() >= arena.getMinPlayers() && !scheduler.isCurrentlyRunning(gamePhaseScheduler) && !scheduler.isQueued(gamePhaseScheduler)) {
             this.gamePhase = new GamePhase(blockParty, arena.getName());
             this.gamePhase.initialize();
             this.gamePhaseScheduler = scheduler.scheduleSyncRepeatingTask(blockParty.getPlugin(), gamePhase, 0L, 2L);
@@ -65,8 +66,7 @@ public class PhaseHandler {
     }
 
     public boolean startWinningPhase(List<PlayerInfo> winner) {
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        if (!scheduler.isCurrentlyRunning(winnerPhaseScheduler) && !scheduler.isCurrentlyRunning(gamePhaseScheduler)) {
+        if (!scheduler.isCurrentlyRunning(winnerPhaseScheduler) && !scheduler.isCurrentlyRunning(gamePhaseScheduler) && !scheduler.isQueued(winnerPhaseScheduler) && !scheduler.isQueued(gamePhaseScheduler)) {
             this.winnerPhase = new WinnerPhase(blockParty, arena, winner);
             winnerPhaseScheduler = scheduler.scheduleSyncRepeatingTask(blockParty.getPlugin(), winnerPhase, 0L, 20L);
             return true;

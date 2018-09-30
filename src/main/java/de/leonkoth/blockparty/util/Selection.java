@@ -16,7 +16,7 @@ import java.util.*;
 public class Selection {
 
     public static final String SELECT_PERMISSION = "blockparty.select"; //TODO: add to config?
-    public static final Material SELECT_ITEM = Material.STICK;          //TODO: ...
+    //public static final Material SELECT_ITEM = Material.STICK;          //TODO: ...
 
     private static Map<UUID, Location[]> selectedPoints = new HashMap<>();
 

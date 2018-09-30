@@ -46,6 +46,7 @@ public class Locale {
     public static LocaleString ITEM_LEAVE_ARENA;
     public static LocaleString ITEM_VOTE_FOR_A_SONG;
     public static LocaleString ITEM_SONG_LORE;
+    public static LocaleString ITEM_SELECT;
     public static LocaleString VOTE_SUCCESS;
     public static LocaleString INVENTORY_VOTE_NAME;
     public static LocaleString POINT_SELECTED;

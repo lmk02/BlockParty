@@ -6,6 +6,7 @@ import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.Util;
+import lombok.Getter;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -24,6 +25,9 @@ public class LobbyPhase implements Runnable {
     private BlockParty blockParty;
     private Arena arena;
     private Sound sound;
+
+    @Getter
+    private boolean isRunning;
 
     public LobbyPhase(BlockParty blockParty, String name) {
         this(blockParty, Arena.getByName(name));

@@ -135,13 +135,18 @@ public class GamePhase implements Runnable {
                     arena.getFloor().pickBlock();
 
                     Block pickedBlock = arena.getFloor().getCurrentBlock();
-                    BlockPickEvent event = new BlockPickEvent(arena, pickedBlock, ColorBlock.get(pickedBlock));
+                    ColorBlock cb = ColorBlock.get(pickedBlock);
+                    colorInfo = new String[2];
+                    colorInfo[0] = cb.getName();
+                    colorInfo[1] = cb.getName();
+                    BlockPickEvent event = new BlockPickEvent(arena, pickedBlock, cb);
                     Bukkit.getPluginManager().callEvent(event);
 
                     firstDanceEnter = false;
                 }
 
                 int seconds = (int) (currentTimeToSearch + preparingTime - currentTime + 1);
+
                 RoundPrepareEvent event = new RoundPrepareEvent(seconds, arena, colorInfo);
                 Bukkit.getPluginManager().callEvent(event);
 

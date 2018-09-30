@@ -13,6 +13,8 @@ public class DefaultManager {
         Defaults.copy("Floors/start.floor");
         Defaults.copy("Floors/example.floor");
         Defaults.copy("web/index.html");
+        Defaults.copy("web/bootstrap/css/bootstrap.css");
+        Defaults.copy("web/bootstrap/js/bootstrap.js");
     }
 
 }

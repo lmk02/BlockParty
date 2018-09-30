@@ -37,13 +37,17 @@ public class MinecraftVersion {
         if(major > version.getMajor())
             return true;
 
+        if(major < version.getMajor())
+            return false;
+
         if(minor > version.getMinor())
             return true;
 
-        if(patch > version.getPatch())
-            return true;
+        if(minor < version.getMinor())
+            return false;
 
-        return false;
+        return patch > version.getPatch();
+
     }
 
     public boolean isLess(int major, int minor, int patch) {

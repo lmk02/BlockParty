@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.util.ItemType;
 import de.leonkoth.blockparty.util.Selection;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ public class BlockPartyWandCommand extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
 
         Player player = (Player) sender;
-        ItemStack stack = new ItemStack(Selection.SELECT_ITEM);
+        ItemStack stack = ItemType.SELECTITEM.getItem();
         player.getInventory().addItem(stack);
 
         Messenger.message(true, sender, Locale.WAND_GIVEN);
