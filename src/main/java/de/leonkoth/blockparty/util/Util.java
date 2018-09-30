@@ -104,4 +104,15 @@ public class Util {
         return Math.min(Math.max(x, min), max);
     }
 
+    public static String getSeparator(int length, boolean console) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("§8").append(!console ? "§m" : "");
+        for(int i = 0; i < length; i++)
+            stringBuilder.append(console ? "*" : " ");
+        stringBuilder.append("§r");
+
+        return stringBuilder.toString();
+    }
+
 }

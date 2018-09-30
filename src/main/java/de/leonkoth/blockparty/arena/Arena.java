@@ -133,7 +133,7 @@ public class Arena {
     }
 
     public static boolean create(String name) {
-        if (exists(name)) {
+        if (isLoaded(name)) {
             return false;
         }
 
@@ -149,7 +149,7 @@ public class Arena {
         BlockParty blockParty = BlockParty.getInstance();
         Arena arena = new Arena(name, blockParty, false);
 
-        if (Arena.exists(name)) {
+        if (Arena.isLoaded(name)) {
             arena = Arena.getByName(name);
         }
 
@@ -186,7 +186,11 @@ public class Arena {
         return null;
     }
 
-    public static boolean exists(String name) {
+    public static boolean isLoaded(String name) {
+
+        if(BlockParty.getInstance().getArenas() == null)
+            return false;
+
         for (Arena arena : BlockParty.getInstance().getArenas()) {
             if (arena.getName().equals(name)) {
                 return true;

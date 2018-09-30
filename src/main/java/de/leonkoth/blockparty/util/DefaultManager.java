@@ -7,7 +7,7 @@ package de.leonkoth.blockparty.util;
  */
 public class DefaultManager {
 
-    public void copyAll() {
+    public static void copyAll() {
         Defaults.copy("Songs/LetItGo.nbs");
         Defaults.copy("Songs/ZeldaTheme.nbs");
         Defaults.copy("Floors/start.floor");

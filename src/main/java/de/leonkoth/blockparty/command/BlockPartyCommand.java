@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.util.Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -63,12 +64,15 @@ public class BlockPartyCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            sender.sendMessage(" ");
-            sender.sendMessage("§8§m                               ");
+            boolean console = !(sender instanceof Player);
+            String separator = Util.getSeparator(31, console);
+
+            if(!console) sender.sendMessage(" ");
+            sender.sendMessage(separator);
             sender.sendMessage("§7BlockParty version §e" + blockParty.getPlugin().getDescription().getVersion());
             sender.sendMessage("§7Developers: §e" + Arrays.toString(blockParty.getPlugin().getDescription().getAuthors().toArray()).replace("[", "").replace("]", ""));
             sender.sendMessage("§7Commands: §e" + BlockPartyHelpCommand.SYNTAX);
-            sender.sendMessage("§8§m                               ");
+            sender.sendMessage(separator);
 
             return true;
         }
@@ -82,8 +86,7 @@ public class BlockPartyCommand implements CommandExecutor {
                         if (args.length >= subCommand.getMinArgs()) {
                             subCommand.onCommand(sender, args);
                         } else {
-
-                            sender.sendMessage("§cSyntax: " + subCommand.getSyntax());
+                            Messenger.message(true, sender, Locale.SYNTAX, "%SYNTAX%", subCommand.getSyntax());
                         }
                     } else {
                         Messenger.message(true, sender, Locale.ONLY_PLAYERS);
