@@ -4,7 +4,9 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.util.Util;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class BlockPartyListArenasCommand extends SubCommand {
 
@@ -20,14 +22,17 @@ public class BlockPartyListArenasCommand extends SubCommand {
         if (blockParty.getArenas().isEmpty()) {
             Messenger.message(true, sender, Locale.NO_ARENAS);
         } else {
-            sender.sendMessage(" ");
-            sender.sendMessage("§8§m          §e All arenas §8§m          ");
+            boolean console = !(sender instanceof Player);
+            String separator = Util.getSeparator(10, console);
+
+            if(!console) sender.sendMessage(" ");
+            sender.sendMessage(separator + " §eAll arenas " + separator);
 
             for (Arena arena : blockParty.getArenas()) {
                 sender.sendMessage("§8 • §7" + arena.getName() + ": " + arena.getArenaState().name() + (arena.isEnabled() ? " §a(Enabled)" : " §c(Disabled)"));
             }
 
-            sender.sendMessage("§8§m                                     ");
+            sender.sendMessage(Util.getSeparator(37, console));
         }
 
         return true;

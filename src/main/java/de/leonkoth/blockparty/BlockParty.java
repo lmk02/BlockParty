@@ -14,6 +14,7 @@ import de.leonkoth.blockparty.util.DefaultManager;
 import de.leonkoth.blockparty.util.MinecraftVersion;
 import de.leonkoth.blockparty.util.Util;
 import de.leonkoth.blockparty.web.server.*;
+import io.netty.channel.DefaultMaxBytesRecvByteBufAllocator;
 import lombok.Getter;
 import lombok.Setter;
 import org.bstats.bukkit.Metrics;
@@ -36,7 +37,7 @@ import java.util.Set;
  */
 public class BlockParty {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static final String PLUGIN_FOLDER = "plugins/BlockParty/";
 
     @Getter
@@ -52,7 +53,7 @@ public class BlockParty {
     private String defaultArena;
 
     @Getter
-    private ArrayList<Arena> arenas;
+    private List<Arena> arenas;
 
     @Getter
     private Database database;
@@ -81,28 +82,33 @@ public class BlockParty {
     public BlockParty(JavaPlugin plugin) {
         this.plugin = plugin;
         this.minecraftVersion = new MinecraftVersion();
-        if(DEBUG) System.out.println("Using DEBUG mode");
+        if(DEBUG) System.out.println("[BlockParty] Using DEBUG mode");
         System.out.println("[BlockParty] Detected Minecraft Version: " + minecraftVersion);
     }
 
     public void start() {
         instance = this;
 
-        new DefaultManager().copyAll();
+        // BSTATS
+        new Metrics(this.plugin);
 
-        Metrics metrics = new Metrics(this.plugin);
+        // COPY FILES
+        DefaultManager.copyAll();
+        Locale.writeFiles();
 
-        // Init classes
-        this.arenas = new ArrayList<>();
+        // BUNGEECORD VALUES
         this.config = new Config(new File(PLUGIN_FOLDER + "config.yml"));
         this.bungee = config.getConfig().getBoolean("BungeeCord");
+
+        // DATABASE
         this.defaultArena = config.getConfig().getString("DefaultArena");
         this.tablePrefix = config.getConfig().getString("Database.TablePrefix");
         this.initDatabase();
         this.playerInfoManager = new PlayerInfoManager(database);
         this.players = this.playerInfoManager.loadAll();
 
-        this.loadAllArenas();
+        // LOAD VALUES
+        this.arenas = this.loadAllArenas();
         this.reload();
 
         // Init listeners
@@ -227,13 +233,14 @@ public class BlockParty {
         return this.database;
     }
 
-    private void loadAllArenas() {
+    private List<Arena> loadAllArenas() {
+        List<Arena> arenas = new ArrayList<>();
         File folder = new File(PLUGIN_FOLDER + "Arenas/");
 
         File[] files = folder.listFiles();
 
         if (files == null)
-            return;
+            return arenas;
 
         for (File file : files) {
             if (!file.isFile())
@@ -244,9 +251,13 @@ public class BlockParty {
                 arenas.add(arena);
             } catch (Exception e) {
                 Bukkit.getLogger().severe("[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");
+
+                if(DEBUG)
+                    e.printStackTrace();
             }
         }
 
+        return arenas;
     }
 
     public void reload() {
@@ -258,7 +269,8 @@ public class BlockParty {
             config.reload();
             this.bungee = config.getConfig().getBoolean("BungeeCord");
             this.defaultArena = config.getConfig().getString("DefaultArena");
-            Locale.loadLocale(new File(PLUGIN_FOLDER + config.getConfig().getString("LocaleFileName")));
+
+            Locale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
 
         } catch (Exception e) {
             e.printStackTrace();

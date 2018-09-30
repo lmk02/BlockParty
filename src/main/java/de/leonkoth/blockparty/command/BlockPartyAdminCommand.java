@@ -1,8 +1,10 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.util.Util;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class BlockPartyAdminCommand extends SubCommand {
 
@@ -15,7 +17,10 @@ public class BlockPartyAdminCommand extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
 
-        sender.sendMessage("§8§m      §e BlockParty Admin §8§m      ");
+        boolean console = !(sender instanceof Player);
+        String separator = Util.getSeparator(6, console);
+
+        sender.sendMessage(separator + " §eBlockParty Admin " + separator);
         sender.sendMessage("§e" + BlockPartyAddPatternCommand.SYNTAX + " §7- Adds a pattern to an arena");
         sender.sendMessage("§e" + BlockPartyAddSongCommand.SYNTAX + " §7- Adds a song to an arena");
         sender.sendMessage("§e" + BlockPartyCreateCommand.SYNTAX + " §7- Creates an arena");
@@ -36,7 +41,7 @@ public class BlockPartyAdminCommand extends SubCommand {
         sender.sendMessage("§e" + BlockPartyTutorialCommand.SYNTAX + " §7- Shows how to set up the game");
         sender.sendMessage("§e" + BlockPartyUndoCommand.SYNTAX + " §7- Revert changes of /placepattern");
         sender.sendMessage("§e" + BlockPartyWandCommand.SYNTAX + " §7- Get wand item");
-        sender.sendMessage("§8§m                            ");
+        sender.sendMessage(Util.getSeparator(28, console));
 
         return true;
 

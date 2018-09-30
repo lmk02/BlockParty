@@ -18,4 +18,9 @@ public class LocaleSection {
         this.prefixColor = prefixColor;
     }
 
+    @Override
+    public String toString() {
+        return configSection;
+    }
+
 }

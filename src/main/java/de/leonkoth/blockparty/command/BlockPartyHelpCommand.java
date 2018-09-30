@@ -1,7 +1,9 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.util.Util;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class BlockPartyHelpCommand extends SubCommand {
 
@@ -14,8 +16,11 @@ public class BlockPartyHelpCommand extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
 
-        sender.sendMessage(" ");
-        sender.sendMessage("§8§m      §e BlockParty Commands §8§m      ");
+        boolean console = !(sender instanceof Player);
+        String separator = Util.getSeparator(6, console);
+
+        if(!console) sender.sendMessage(" ");
+        sender.sendMessage(separator + " §eBlockParty Commands " + separator);
         sender.sendMessage("§e/bp §7- See plugin info");
         sender.sendMessage("§e" + BlockPartyJoinCommand.SYNTAX + " §7- Join an arena");
         sender.sendMessage("§e" + BlockPartyLeaveCommand.SYNTAX + " §7- Leave an arena");
@@ -25,7 +30,7 @@ public class BlockPartyHelpCommand extends SubCommand {
             sender.sendMessage("§e" + BlockPartyAdminCommand.SYNTAX + " §7- Show all admin commands");
         }
 
-        sender.sendMessage("§8§m                                        ");
+        sender.sendMessage(Util.getSeparator(40, console));
 
         return true;
 
