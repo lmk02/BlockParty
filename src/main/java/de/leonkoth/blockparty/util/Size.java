@@ -45,4 +45,12 @@ public class Size {
         return (int) Math.floor(length);
     }
 
+    @Override
+    public String toString() {
+        return "Size{" +
+                "width=" + width +
+                ", height=" + height +
+                ", length=" + length +
+                '}';
+    }
 }

@@ -41,6 +41,7 @@ public class English extends Language {
     public static final LocaleString ITEM_LEAVE_ARENA = new LocaleString(INFO, "&4Leave");
     public static final LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(INFO, "Vote for a song");
     public static final LocaleString ITEM_SONG_LORE = new LocaleString(INFO, "Click to vote!");
+    public static final LocaleString ITEM_SELECT = new LocaleString(INFO, "Click to vote!");
     public static final LocaleString VOTE_SUCCESS = new LocaleString(INFO, "You voted for song \"%SONG%\"");
     public static final LocaleString INVENTORY_VOTE_NAME = new LocaleString(INFO, "Vote now");
     public static final LocaleString POINT_SELECTED = new LocaleString(INFO, "Point &e%POINT% &7selected (%LOCATION%)");

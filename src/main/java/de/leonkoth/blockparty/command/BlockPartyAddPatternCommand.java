@@ -44,7 +44,7 @@ public class BlockPartyAddPatternCommand extends SubCommand {
             return false;
         }
 
-        if (pattern.getSize().equals(arena.getFloor().getSize())) {
+        if (!pattern.getSize().equals(arena.getFloor().getSize())) {
             Messenger.message(true, sender, Locale.PATTERN_ISNT_CORRECT_SIZE);
             return false;
         }

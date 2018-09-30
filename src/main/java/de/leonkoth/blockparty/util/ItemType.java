@@ -1,5 +1,6 @@
 package de.leonkoth.blockparty.util;
 
+import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.Locale;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +17,8 @@ import java.util.Random;
 public enum ItemType {
     LEAVEARENA(Locale.ITEM_LEAVE_ARENA.toString(), Material.ACACIA_DOOR_ITEM, null),
     VOTEFORASONG(Locale.ITEM_VOTE_FOR_A_SONG.toString(), Material.FIREBALL, null),
-    SONG("", Material.RECORD_3, Locale.ITEM_SONG_LORE.toString());
+    SELECTITEM(Locale.ITEM_SELECT.toString(), Material.STICK, null),
+    SONG("", null, Locale.ITEM_SONG_LORE.toString());
 
     private String name;
     private Material type;

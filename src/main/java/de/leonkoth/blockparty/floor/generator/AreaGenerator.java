@@ -1,5 +1,6 @@
 package de.leonkoth.blockparty.floor.generator;
 
+import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.Floor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -9,6 +10,13 @@ import java.util.Random;
 public class AreaGenerator implements FloorGenerator {
 
     private Random random = new Random();
+
+    private boolean useLegacy;
+
+    public AreaGenerator()
+    {
+        this.useLegacy = BlockParty.getInstance().getMinecraftVersion().isLess(1,13,0);
+    }
 
     @Override
     public void generateFloor(Floor floor) {

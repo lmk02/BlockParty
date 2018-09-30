@@ -35,7 +35,7 @@ public class PlayerInteractListener implements Listener {
         ItemStack item = event.getItem();
         Block block = event.getClickedBlock();
 
-        if(block != null && item != null && item.getType() == Selection.SELECT_ITEM && player.hasPermission(Selection.SELECT_PERMISSION)) {
+        if(block != null && item != null && item.equals(ItemType.SELECTITEM.getItem()) && player.hasPermission(Selection.SELECT_PERMISSION)) {
 
             switch (event.getAction()) {
                 case LEFT_CLICK_BLOCK:
