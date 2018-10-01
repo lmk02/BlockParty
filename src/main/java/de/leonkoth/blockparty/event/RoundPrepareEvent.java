@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty.event;
 
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.util.ColorBlock;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class RoundPrepareEvent extends Event {
 
     @NonNull
     @Getter
-    private String[] colorInfo;
+    private ColorBlock colorBlock;
 
     @Override
     public HandlerList getHandlers() {
