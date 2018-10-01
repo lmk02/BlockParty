@@ -81,6 +81,7 @@ public class Locale {
     public static LocaleString NO_FLOOR;
     public static LocaleString NO_GAME_SPAWN;
     public static LocaleString NO_LOBBY_SPAWN;
+    public static LocaleString NO_IMAGE;
     public static LocaleString SYNTAX;
 
     public static LocaleString ARENA_CREATE_SUCCESS;

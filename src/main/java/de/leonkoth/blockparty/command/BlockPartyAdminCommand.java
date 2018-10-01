@@ -30,6 +30,7 @@ public class BlockPartyAdminCommand extends SubCommand {
         sender.sendMessage("§e" + BlockPartyEnableCommand.SYNTAX + " §7- Enables an arena");
         sender.sendMessage("§e" + BlockPartyListArenasCommand.SYNTAX + " §7- Lists all arenas");
         sender.sendMessage("§e" + BlockPartyListPatternsCommand.SYNTAX + " §7- Lists all patterns");
+        sender.sendMessage("§e" + BlockPartyLoadImageCommand.SYNTAX + " §7- Load image from file");
         sender.sendMessage("§e" + BlockPartyPlacePatternCommand.SYNTAX + " §7- Place a pattern to test it");
         sender.sendMessage("§e" + BlockPartyPosCommand.SYNTAX + " §7- Selects a point");
         sender.sendMessage("§e" + BlockPartyReloadCommand.SYNTAX + " §7- Reloads the plugin");
