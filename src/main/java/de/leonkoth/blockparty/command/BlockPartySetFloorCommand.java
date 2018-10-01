@@ -52,7 +52,7 @@ public class BlockPartySetFloorCommand extends SubCommand {
         }
 
         if (Floor.create(arena, selection.getBounds())) {
-            Messenger.message(true, sender, Locale.FLOOR_SET_SUCCESS, "%ARENA%", args[1]);
+            Messenger.message(true, sender, Locale.FLOOR_SET_SUCCESS, "%ARENA%", args[1]); //TODO: show floor size in message
             return true;
         }
 
