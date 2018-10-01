@@ -75,6 +75,7 @@ public class German extends Language {
     public static final LocaleString NO_FLOOR = new LocaleString(ERROR, "Du musst zuerst einen Boden setzen");
     public static final LocaleString NO_GAME_SPAWN = new LocaleString(ERROR, "Du musst zuerst einen Spiel-Spawn setzen");
     public static final LocaleString NO_LOBBY_SPAWN = new LocaleString(ERROR, "Du musst zuerst einen Lobby-Spawn setzen");
+    public static final LocaleString NO_IMAGE = new LocaleString(ERROR, "Diese Datei ist kein Bild");
     public static final LocaleString SYNTAX = new LocaleString(ERROR, "Syntax: %SYNTAX%");
 
     public static final LocaleString ARENA_CREATE_SUCCESS = new LocaleString(SUCCESS, "Arena \"%ARENA%\" erstellt");
