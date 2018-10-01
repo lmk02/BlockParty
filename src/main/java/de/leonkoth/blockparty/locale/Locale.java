@@ -2,6 +2,7 @@ package de.leonkoth.blockparty.locale;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.language.English;
+import de.leonkoth.blockparty.locale.language.German;
 import de.leonkoth.blockparty.locale.language.Language;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -40,8 +41,6 @@ public class Locale {
     public static LocaleString WINNER_ANNOUNCE_ALL;
     public static LocaleString WINNER_ANNOUNCE_SELF;
     public static LocaleString STATS;
-    public static LocaleString SONG_ALREADY_ADDED_TO_ARENA;
-    public static LocaleString SONG_ADDED_TO_ARENA;
     public static LocaleString SONG_PLAYING;
     public static LocaleString ITEM_LEAVE_ARENA;
     public static LocaleString ITEM_VOTE_FOR_A_SONG;
@@ -54,6 +53,7 @@ public class Locale {
     public static LocaleString PATTERN_PLACED;
     public static LocaleString CHANGES_UNDONE;
 
+    public static LocaleString SONG_ALREADY_ADDED_TO_ARENA;
     public static LocaleString VOTE_FAIL;
     public static LocaleString ALREADY_IN_GAME;
     public static LocaleString ARENA_ALREADY_FULL;
@@ -93,6 +93,7 @@ public class Locale {
     public static LocaleString GAME_SPAWN_SET;
     public static LocaleString LOBBY_SPAWN_SET;
     public static LocaleString PATTERN_SAVE_SUCCESS;
+    public static LocaleString SONG_ADDED_TO_ARENA;
 
     public static boolean writeFiles() {
         File folder = new File(BlockParty.PLUGIN_FOLDER + "Locale");
@@ -101,7 +102,7 @@ public class Locale {
 
             try {
                 English.writeTo(new File(folder, "locale_en.yml"), true);
-
+                German.writeTo(new File(folder, "locale_de.yml"), true);
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();

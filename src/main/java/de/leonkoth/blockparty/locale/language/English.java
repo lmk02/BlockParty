@@ -35,8 +35,6 @@ public class English extends Language {
     public static final LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Player &e%PLAYER% &7won the game");
     public static final LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aCongratulations! You won the game");
     public static final LocaleString STATS = new LocaleString(INFO, "%PLAYER% has &e%WINS% &7wins and &e%POINTS% &7points.");
-    public static final LocaleString SONG_ALREADY_ADDED_TO_ARENA = new LocaleString(ERROR, "Song \"%SONG%\" has already been added to arena \"%ARENA%\"");
-    public static final LocaleString SONG_ADDED_TO_ARENA = new LocaleString(INFO, "Song \"%SONG%\" has been added to arena \"%ARENA%\"");
     public static final LocaleString SONG_PLAYING = new LocaleString(INFO, "Now playing \"%SONG%\"");
     public static final LocaleString ITEM_LEAVE_ARENA = new LocaleString(INFO, "&4Leave");
     public static final LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(INFO, "Vote for a song");
@@ -49,6 +47,7 @@ public class English extends Language {
     public static final LocaleString PATTERN_PLACED = new LocaleString(INFO, "Pattern \"%FILE%\" placed. Use &e/bp undo &7to undo");
     public static final LocaleString CHANGES_UNDONE = new LocaleString(INFO, "Reverted changes");
 
+    public static final LocaleString SONG_ALREADY_ADDED_TO_ARENA = new LocaleString(ERROR, "Song \"%SONG%\" has already been added to arena \"%ARENA%\"");
     public static final LocaleString VOTE_FAIL = new LocaleString(ERROR, "Voting for song \"%SONG%\" failed");
     public static final LocaleString ALREADY_IN_GAME = new LocaleString(ERROR, "You can't join another game while you are playing. Use &e/bp leave &7to leave the current match");
     public static final LocaleString ARENA_ALREADY_FULL = new LocaleString(ERROR, "The game you are trying to join is already full");
@@ -56,7 +55,7 @@ public class English extends Language {
     public static final LocaleString ARENA_DOESNT_EXIST = new LocaleString(ERROR, "Arena \"%ARENA%\" doesn't exist");
     public static final LocaleString ARENA_DISABLED = new LocaleString(ERROR, "This arena is disabled");
     public static final LocaleString FILE_DOESNT_EXIST = new LocaleString(ERROR, "Couldn't find file \"%FILE%\"");
-    public static final LocaleString FLOOR_CREATE_FAIL = new LocaleString(ERROR, "Failed to create floor in arena \"%ARENA%\"");
+    public static final LocaleString FLOOR_CREATE_FAIL = new LocaleString(ERROR, "Failed to set floor in arena \"%ARENA%\"");
     public static final LocaleString PATTERN_DOESNT_EXIST = new LocaleString(ERROR, "Pattern \"%PATTERN%\" in arena \"%ARENA%\" doesn't exist");
     public static final LocaleString FLOOR_MIN_HEIHGT = new LocaleString(ERROR, "The floor has to be 1 block high");
     public static final LocaleString PATTERN_ISNT_CORRECT_SIZE = new LocaleString(ERROR, "This pattern isn't the right size");
@@ -73,8 +72,8 @@ public class English extends Language {
     public static final LocaleString DIFFERENT_WORLDS = new LocaleString(ERROR, "The points have to be in the same world");
     public static final LocaleString NO_UNDO = new LocaleString(ERROR, "You have nothing to undo");
     public static final LocaleString NO_FLOOR = new LocaleString(ERROR, "You have to set a floor first");
-    public static final LocaleString NO_GAME_SPAWN = new LocaleString(ERROR, "You have to set a game spawn first.");
-    public static final LocaleString NO_LOBBY_SPAWN = new LocaleString(ERROR, "You have to set a lobby spawn first.");
+    public static final LocaleString NO_GAME_SPAWN = new LocaleString(ERROR, "You have to set a game spawn first");
+    public static final LocaleString NO_LOBBY_SPAWN = new LocaleString(ERROR, "You have to set a lobby spawn first");
     public static final LocaleString SYNTAX = new LocaleString(ERROR, "Syntax: %SYNTAX%");
 
     public static final LocaleString ARENA_CREATE_SUCCESS = new LocaleString(SUCCESS, "Successfully created arena \"%ARENA%\"");
@@ -88,6 +87,7 @@ public class English extends Language {
     public static final LocaleString GAME_SPAWN_SET = new LocaleString(SUCCESS, "The game spawn was set for arena \"%ARENA%\"");
     public static final LocaleString LOBBY_SPAWN_SET = new LocaleString(SUCCESS, "The lobby spawn was set for arena \"%ARENA%\"");
     public static final LocaleString PATTERN_SAVE_SUCCESS = new LocaleString(SUCCESS, "Saved pattern to \"%PATTERN%\"");
+    public static final LocaleString SONG_ADDED_TO_ARENA = new LocaleString(SUCCESS, "Song \"%SONG%\" has been added to arena \"%ARENA%\"");
 
     public static void writeTo(File file, boolean overWrite) throws IOException {
         Language.writeTo(English.class, file, overWrite);
