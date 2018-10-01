@@ -62,6 +62,7 @@ public class Locale {
     public static LocaleString ARENA_DISABLED;
     public static LocaleString FILE_DOESNT_EXIST;
     public static LocaleString FLOOR_CREATE_FAIL;
+    public static LocaleString FLOOR_LOAD_FAIL;
     public static LocaleString PATTERN_DOESNT_EXIST;
     public static LocaleString FLOOR_MIN_HEIHGT;
     public static LocaleString PATTERN_ISNT_CORRECT_SIZE;

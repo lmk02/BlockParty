@@ -56,6 +56,7 @@ public class English extends Language {
     public static final LocaleString ARENA_DISABLED = new LocaleString(ERROR, "This arena is disabled");
     public static final LocaleString FILE_DOESNT_EXIST = new LocaleString(ERROR, "Couldn't find file \"%FILE%\"");
     public static final LocaleString FLOOR_CREATE_FAIL = new LocaleString(ERROR, "Failed to set floor in arena \"%ARENA%\"");
+    public static final LocaleString FLOOR_LOAD_FAIL = new LocaleString(ERROR, "Failed to load floor.");
     public static final LocaleString PATTERN_DOESNT_EXIST = new LocaleString(ERROR, "Pattern \"%PATTERN%\" in arena \"%ARENA%\" doesn't exist");
     public static final LocaleString FLOOR_MIN_HEIHGT = new LocaleString(ERROR, "The floor has to be 1 block high");
     public static final LocaleString PATTERN_ISNT_CORRECT_SIZE = new LocaleString(ERROR, "This pattern isn't the right size");

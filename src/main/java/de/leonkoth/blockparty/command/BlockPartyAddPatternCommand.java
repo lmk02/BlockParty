@@ -36,11 +36,19 @@ public class BlockPartyAddPatternCommand extends SubCommand {
             return false;
         }
 
-        FloorPattern pattern;
+        /*FloorPattern pattern;
         try {
             pattern = FloorPattern.create(args[2], arena.getFloor().getBounds());
         } catch (FloorLoaderException e) {
             e.printStackTrace();
+            return false;
+        }*/
+
+        FloorPattern pattern = arena.getFloor().loadPattern(args[2]);
+
+        if(pattern == null)
+        {
+            Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST);
             return false;
         }
 

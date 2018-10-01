@@ -305,4 +305,15 @@ public class Floor {
         return new Location(world, x, y, z);
     }
 
+    public FloorPattern loadPattern(String name)
+    {
+        File file = new File(BlockParty.PLUGIN_FOLDER + "Floors/" + name + ".floor");
+        try {
+            FloorPattern pattern = PatternLoader.readFloorPattern(file);
+            return pattern;
+        } catch (FileNotFoundException | FloorLoaderException e) {
+            return null;
+        }
+    }
+
 }

@@ -55,6 +55,7 @@ public class German extends Language {
     public static final LocaleString ARENA_DOESNT_EXIST = new LocaleString(ERROR, "Arena \"%ARENA%\" existiert nicht");
     public static final LocaleString ARENA_DISABLED = new LocaleString(ERROR, "Diese Arena ist ausgeschaltet");
     public static final LocaleString FILE_DOESNT_EXIST = new LocaleString(ERROR, "Konnte Datei \"%FILE%\" nicht finden");
+    public static final LocaleString FLOOR_LOAD_FAIL = new LocaleString(ERROR, "Konnte den Boden nicht laden.");
     public static final LocaleString FLOOR_CREATE_FAIL = new LocaleString(ERROR, "Konnte Boden in Arena \"%ARENA%\" nicht setzen");
     public static final LocaleString PATTERN_DOESNT_EXIST = new LocaleString(ERROR, "Vorlage \"%PATTERN%\" in Arena \"%ARENA%\" existiert nicht");
     public static final LocaleString FLOOR_MIN_HEIHGT = new LocaleString(ERROR, "Der Boden muss flach sein");
