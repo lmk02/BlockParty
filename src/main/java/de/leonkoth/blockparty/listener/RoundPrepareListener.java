@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.listener;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.event.RoundPrepareEvent;
+import de.leonkoth.blockparty.util.ColorBlock;
 import de.leonkoth.blockparty.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -24,9 +25,9 @@ public class RoundPrepareListener implements Listener {
 
         int seconds = event.getSeconds();
         Arena arena = event.getArena();
-        String[] colorInfo = event.getColorInfo();
-        String colorName = colorInfo[0];
-        String colorCode = colorInfo[1];
+        ColorBlock colorBlock = event.getColorBlock();
+        String colorName = colorBlock.getName();
+        String colorCode = colorBlock.getColorCode();
 
         String symbols = "";
         for (int i = 0; i < seconds; i++)

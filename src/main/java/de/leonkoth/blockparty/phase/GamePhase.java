@@ -52,7 +52,7 @@ public class GamePhase implements Runnable {
         this.currentTimeToSearch = timeToSearch;
     }
 
-    private String[] colorInfo;
+    private ColorBlock colorBlock;
 
     private int getActivePlayerAmount() {
         int amount = 0;
@@ -135,11 +135,8 @@ public class GamePhase implements Runnable {
                     arena.getFloor().pickBlock();
 
                     Block pickedBlock = arena.getFloor().getCurrentBlock();
-                    ColorBlock cb = ColorBlock.get(pickedBlock);
-                    colorInfo = new String[2];
-                    colorInfo[0] = cb.getName();
-                    colorInfo[1] = cb.getName();
-                    BlockPickEvent event = new BlockPickEvent(arena, pickedBlock, cb);
+                    colorBlock = ColorBlock.get(pickedBlock);
+                    BlockPickEvent event = new BlockPickEvent(arena, pickedBlock, colorBlock);
                     Bukkit.getPluginManager().callEvent(event);
 
                     firstDanceEnter = false;
@@ -147,7 +144,7 @@ public class GamePhase implements Runnable {
 
                 int seconds = (int) (currentTimeToSearch + preparingTime - currentTime + 1);
 
-                RoundPrepareEvent event = new RoundPrepareEvent(seconds, arena, colorInfo);
+                RoundPrepareEvent event = new RoundPrepareEvent(seconds, arena, colorBlock);
                 Bukkit.getPluginManager().callEvent(event);
 
                 //this.displayScoreboard.setScoreboard((int)(currentTimeToSearch + preparingTime - currentTime + 1), currentLevel, arena);
