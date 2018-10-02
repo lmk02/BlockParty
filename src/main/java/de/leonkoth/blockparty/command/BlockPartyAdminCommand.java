@@ -5,6 +5,7 @@ import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.util.Util;
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,8 +26,10 @@ public class BlockPartyAdminCommand extends SubCommand {
         boolean console = !(sender instanceof Player);
         String separator = Util.getSeparator(6, console);
         String template = Locale.HELP_FORMAT.toString();
+        String header = separator + " " + Locale.HEADER_ADMIN + " " + separator;
 
-        sender.sendMessage(separator + " §eBlockParty Admin " + separator);
+
+        sender.sendMessage(header);
 
         sender.sendMessage(template.replaceAll("%SYNTAX%", BlockPartyAdminCommand.SYNTAX).replaceAll("%DESCRIPTION%", Locale.COMMAND_ADMIN.toString()));
 
@@ -38,7 +41,7 @@ public class BlockPartyAdminCommand extends SubCommand {
         }
 
 
-        sender.sendMessage(Util.getSeparator(28, console));
+        sender.sendMessage(Util.getSeparator(ChatColor.stripColor(header).length(), console));
 
         return true;
 

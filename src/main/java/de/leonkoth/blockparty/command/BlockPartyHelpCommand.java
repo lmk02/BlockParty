@@ -5,6 +5,7 @@ import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.util.Util;
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -24,10 +25,11 @@ public class BlockPartyHelpCommand extends SubCommand {
 
         boolean console = !(sender instanceof Player);
         String separator = Util.getSeparator(6, console);
+        String header = separator + " " + Locale.HEADER_HELP + " " + separator;
         String template = Locale.HELP_FORMAT.toString();
 
         if(!console) sender.sendMessage(" ");
-        sender.sendMessage(separator + " §eBlockParty Commands " + separator);
+        sender.sendMessage(header);
 
         sender.sendMessage(template.replaceAll("%SYNTAX%", "/bp").replaceAll("%DESCRIPTION%", Locale.COMMAND_BLOCK_PARTY.toString()));
 
@@ -42,7 +44,7 @@ public class BlockPartyHelpCommand extends SubCommand {
             sender.sendMessage(template.replaceAll("%SYNTAX%", BlockPartyAdminCommand.SYNTAX).replaceAll("%DESCRIPTION%", Locale.COMMAND_ADMIN.toString()));
         }
 
-        sender.sendMessage(Util.getSeparator(40, console));
+        sender.sendMessage(Util.getSeparator(ChatColor.stripColor(header).length(), console));
 
         return true;
 
