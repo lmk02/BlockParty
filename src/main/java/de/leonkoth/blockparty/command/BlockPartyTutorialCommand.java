@@ -7,6 +7,7 @@ import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.Util;
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -28,11 +29,13 @@ public class BlockPartyTutorialCommand extends SubCommand {
 
         boolean console = !(sender instanceof Player);
         if(!console) sender.sendMessage(" ");
-        String separator = Util.getSeparator(5, console);
+        String separator = Util.getSeparator(6, console);
         String bulletPoint = console ? "§8 - §7" : "§8 • §7";
 
         if (args.length > 1 && args[1].equalsIgnoreCase("patterns")) {
-            sender.sendMessage(separator + " §ePattern Tutorial " + separator);
+            String header = separator + " " + Locale.HEADER_TUTORIAL_PATTERNS + " " + separator;
+
+            sender.sendMessage(header);
             sender.sendMessage(bulletPoint + "Build a pattern for your arena.");
             sender.sendMessage(bulletPoint + "Use §e" + BlockPartyWandCommand.SYNTAX + " §7and select the boundaries of the pattern.");
             sender.sendMessage(bulletPoint + "Use §e" + BlockPartyCreatePatternCommand.SYNTAX + " §7to create a pattern named <Pattern>.");
@@ -44,11 +47,12 @@ public class BlockPartyTutorialCommand extends SubCommand {
             sender.sendMessage(bulletPoint + "If you name a pattern '§eend§7' it will be displayed, when the game is over.");
             sender.sendMessage(bulletPoint + "Use §e" + BlockPartyListPatternsCommand.SYNTAX + " §7to check if the pattern is active.");
             sender.sendMessage(bulletPoint + "Use §e" + BlockPartyRemovePatternCommand.SYNTAX + " §7to remove a pattern.");
-            sender.sendMessage(Util.getSeparator(33, console));
+            sender.sendMessage(Util.getSeparator(ChatColor.stripColor(header).length(), console));
         } else if(args.length > 1) {
             Messenger.message(true, sender, Locale.SYNTAX, "%SYNTAX%", SYNTAX);
         } else {
-            sender.sendMessage(separator + " §eSetup Tutorial " + separator);
+            String header = separator + " " + Locale.HEADER_TUTORIAL + " " + separator;
+            sender.sendMessage(header);
             sender.sendMessage(bulletPoint + "Use §e" + BlockPartyCreateCommand.SYNTAX + " §7to create an arena.");
             sender.sendMessage(bulletPoint + "Use §e" + BlockPartySetSpawnCommand.SYNTAX + " §7to set the game and lobby spawn.");
             sender.sendMessage(bulletPoint + "Use §e" + BlockPartyWandCommand.SYNTAX + " §7and select the boundaries of the floor.");
@@ -56,7 +60,7 @@ public class BlockPartyTutorialCommand extends SubCommand {
             sender.sendMessage(bulletPoint + "Use §e" + BlockPartyEnableCommand.SYNTAX + " §7to enable the arena so players can join.");
             sender.sendMessage(bulletPoint + "Congratulations, you can now start playing in your arena!");
             sender.sendMessage(bulletPoint + "If you want to use custom-made floors, type in §e/bp tutorial patterns§7.");
-            sender.sendMessage(Util.getSeparator(31, console));
+            sender.sendMessage(Util.getSeparator(ChatColor.stripColor(header).length(), console));
         }
 
         return true;

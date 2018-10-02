@@ -127,6 +127,12 @@ public class Locale {
     public static LocaleString COMMAND_UNDO;
     public static LocaleString COMMAND_WAND;
 
+    public static LocaleString HEADER_HELP;
+    public static LocaleString HEADER_ADMIN;
+    public static LocaleString HEADER_TUTORIAL;
+    public static LocaleString HEADER_TUTORIAL_PATTERNS;
+    public static LocaleString HEADER_LIST_ARENAS;
+
     public static boolean writeFiles() {
         File folder = new File(BlockParty.PLUGIN_FOLDER + "Locale");
         if(!folder.exists()) {

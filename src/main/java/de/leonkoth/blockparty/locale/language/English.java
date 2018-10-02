@@ -14,6 +14,7 @@ public class English extends Language {
     public static final LocaleSection ERROR = new LocaleSection("Error", ChatColor.RED);
     public static final LocaleSection SUCCESS = new LocaleSection("Success", ChatColor.GREEN);
     public static final LocaleSection COMMANDS = new LocaleSection("Commands", ChatColor.GRAY);
+    public static final LocaleSection HEADERS = new LocaleSection("Headers", ChatColor.YELLOW);
 
     public static final LocaleString PREFIX = new LocaleString(INFO, "&8▌ &3BlockParty &8» &7");
     public static final LocaleString SCOREBOARD_TEXT = new LocaleString(INFO, "&3BlockParty", "Level: %LEVEL%", "Players: %CURRENTPLAYERS% / %MAXPLAYERS%", "Time Left: %TIME%", "Arena: %ARENA%");
@@ -122,6 +123,12 @@ public class English extends Language {
     public static final LocaleString COMMAND_TUTORIAL = new LocaleString(COMMANDS, "Shows a tutorial on how to set up the game");
     public static final LocaleString COMMAND_UNDO = new LocaleString(COMMANDS, "Reverts changes");
     public static final LocaleString COMMAND_WAND = new LocaleString(COMMANDS, "Get wand tool");
+
+    public static final LocaleString HEADER_HELP = new LocaleString(HEADERS, "BlockParty Commands");
+    public static final LocaleString HEADER_ADMIN = new LocaleString(HEADERS, "Admin Commands");
+    public static final LocaleString HEADER_TUTORIAL = new LocaleString(HEADERS, "BlockParty Setup");
+    public static final LocaleString HEADER_TUTORIAL_PATTERNS = new LocaleString(HEADERS, "Pattern Tutorial");
+    public static final LocaleString HEADER_LIST_ARENAS = new LocaleString(HEADERS, "All arenas");
 
     public static void writeTo(File file, boolean overWrite) throws IOException {
         Language.writeTo(English.class, file, overWrite);
