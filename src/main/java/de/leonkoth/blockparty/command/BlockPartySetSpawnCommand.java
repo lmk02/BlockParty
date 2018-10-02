@@ -3,13 +3,18 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class BlockPartySetSpawnCommand extends SubCommand {
 
     public static String SYNTAX = "/bp setspawn <Arena> game/lobby";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_SET_SPAWN;
 
     public BlockPartySetSpawnCommand(BlockParty blockParty) {
         super(true, 3, "setspawn", "blockparty.admin.setspawn", blockParty);

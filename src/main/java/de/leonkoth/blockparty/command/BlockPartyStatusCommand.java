@@ -3,12 +3,17 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
 public class BlockPartyStatusCommand extends SubCommand {
 
     public static String SYNTAX = "/bp status <Arena>";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_STATUS;
 
     public BlockPartyStatusCommand(BlockParty blockParty) {
         super(false, 2, "status", "blockparty.admin.status", blockParty);

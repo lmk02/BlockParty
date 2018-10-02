@@ -5,14 +5,19 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.exception.InvalidSelectionException;
 import de.leonkoth.blockparty.floor.Floor;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.util.Selection;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class BlockPartySetFloorCommand extends SubCommand {
 
     public static String SYNTAX = "/bp setfloor <Arena>";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_SET_FLOOR;
 
     public BlockPartySetFloorCommand(BlockParty blockParty) {
         super(true, 2, "setfloor", "blockparty.admin.setfloor", blockParty);

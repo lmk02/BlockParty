@@ -3,14 +3,19 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerInfo;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class BlockPartyStartCommand extends SubCommand {
 
     public static String SYNTAX = "/bp start [Arena]";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_START;
 
     public BlockPartyStartCommand(BlockParty blockParty) {
         super(false, 1, "start", "blockparty.admin.start", blockParty);

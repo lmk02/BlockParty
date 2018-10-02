@@ -6,6 +6,7 @@ import de.leonkoth.blockparty.exception.InvalidSelectionException;
 import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.util.Selection;
 import lombok.Getter;
@@ -15,6 +16,9 @@ import org.bukkit.entity.Player;
 public class BlockPartyCreatePatternCommand extends SubCommand {
 
     public static String SYNTAX = "/bp createpattern <Pattern>";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_CREATE_PATTERN;
 
     public BlockPartyCreatePatternCommand(BlockParty blockParty) {
         super(true, 2, "createpattern", "blockparty.admin.createpattern", blockParty);

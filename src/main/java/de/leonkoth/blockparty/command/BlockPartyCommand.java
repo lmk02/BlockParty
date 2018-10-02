@@ -20,8 +20,9 @@ import java.util.List;
  */
 public class BlockPartyCommand implements CommandExecutor {
 
+    public static List<SubCommand> commands = new ArrayList<>();
+
     private BlockParty blockParty;
-    private List<SubCommand> commands = new ArrayList<>();
 
     public BlockPartyCommand(BlockParty blockParty) {
         this.blockParty = blockParty;

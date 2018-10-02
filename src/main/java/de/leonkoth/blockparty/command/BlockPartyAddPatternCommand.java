@@ -6,6 +6,7 @@ import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.util.Selection;
 import lombok.Getter;
@@ -13,8 +14,10 @@ import org.bukkit.command.CommandSender;
 
 public class BlockPartyAddPatternCommand extends SubCommand {
 
-    @Getter
     public static String SYNTAX = "/bp addpattern <Arena> <Pattern>";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_ADD_PATTERN;
 
     public BlockPartyAddPatternCommand(BlockParty blockParty) {
         super(false, 3, "addpattern", "blockparty.admin.addpattern", blockParty);

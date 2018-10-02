@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.song.Song;
 import lombok.Getter;
@@ -12,6 +13,9 @@ import org.bukkit.entity.Player;
 public class BlockPartyAddSongCommand extends SubCommand {
 
     public static String SYNTAX = "/bp addsong <Arena> <Song>";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_ADD_SONG;
 
     public BlockPartyAddSongCommand(BlockParty blockParty) {
         super(true, 3, "addsong", "blockparty.admin.addsong", blockParty);
