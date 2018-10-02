@@ -5,8 +5,10 @@ import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.floor.ImageLoader;
 import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.util.Util;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -17,6 +19,9 @@ import java.nio.file.Files;
 public class BlockPartyLoadImageCommand extends SubCommand {
 
     public static String SYNTAX = "/bp loadimage <Image>";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_LOAD_IMAGE;
 
     public BlockPartyLoadImageCommand(BlockParty blockParty) {
         super(false, 2, "loadimage", "blockparty.admin.loadimage", blockParty);
@@ -63,7 +68,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return null;
+        return SYNTAX;
     }
 
 }

@@ -12,6 +12,7 @@ public class German extends Language {
     public static final LocaleSection INFO = new LocaleSection("Info", ChatColor.GRAY);
     public static final LocaleSection ERROR = new LocaleSection("Error", ChatColor.RED);
     public static final LocaleSection SUCCESS = new LocaleSection("Success", ChatColor.GREEN);
+    public static final LocaleSection COMMANDS = new LocaleSection("Commands", ChatColor.GRAY);
 
     public static final LocaleString PREFIX = new LocaleString(INFO, "&8▌ &3BlockParty &8» &7");
     public static final LocaleString SCOREBOARD_TEXT = new LocaleString(INFO, "&3BlockParty", "Level: %LEVEL%", "Players: %CURRENTPLAYERS% / %MAXPLAYERS%", "Time Left: %TIME%", "Arena: %ARENA%");
@@ -34,7 +35,7 @@ public class German extends Language {
     public static final LocaleString TIME_LEFT = new LocaleString(INFO, "Spiel startet in &e%TIME% &7Sekunde(n)");
     public static final LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Spieler &e%PLAYER% &7hat gewonnen");
     public static final LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aDu hast das Spiel gewonnen!");
-    public static final LocaleString STATS = new LocaleString(INFO, "%PLAYER% hat &e%WINS% &7mal gewonnen und &e%POINTS% &7Punkte.");
+    public static final LocaleString STATS_MESSAGE = new LocaleString(INFO, "%PLAYER% hat &e%WINS% &7mal gewonnen und &e%POINTS% &7Punkte.");
     public static final LocaleString SONG_PLAYING = new LocaleString(INFO, "Nächster Song: \"%SONG%\"");
     public static final LocaleString ITEM_LEAVE_ARENA = new LocaleString(INFO, "&4Verlassen");
     public static final LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(INFO, "Stimme für einen Song ab");
@@ -90,6 +91,36 @@ public class German extends Language {
     public static final LocaleString LOBBY_SPAWN_SET = new LocaleString(SUCCESS, "Der Lobby-Spawn wurde für Arena \"%ARENA%\" gesetzt");
     public static final LocaleString PATTERN_SAVE_SUCCESS = new LocaleString(SUCCESS, "Vorlage nach \"%PATTERN%\" gespeichert");
     public static final LocaleString SONG_ADDED_TO_ARENA = new LocaleString(SUCCESS, "Song \"%SONG%\" wurde zur Arena \"%ARENA%\" hinzugefügt");
+
+    public static final LocaleString HELP_FORMAT = new LocaleString(COMMANDS, "&e%SYNTAX% &7- %DESCRIPTION%");
+    public static final LocaleString COMMAND_BLOCK_PARTY = new LocaleString(COMMANDS, "Plugin-Info ansehen");
+    public static final LocaleString COMMAND_ADD_PATTERN = new LocaleString(COMMANDS, "Fügt Vorlage zu Arena hinzu");
+    public static final LocaleString COMMAND_ADD_SONG = new LocaleString(COMMANDS, "Fügt Song zu Arena hinzu");
+    public static final LocaleString COMMAND_ADMIN = new LocaleString(COMMANDS, "Zeigt alle Admin-Befehle");
+    public static final LocaleString COMMAND_CREATE = new LocaleString(COMMANDS, "Erstellt arena");
+    public static final LocaleString COMMAND_CREATE_PATTERN = new LocaleString(COMMANDS, "Speichert Selektion zu Vorlage");
+    public static final LocaleString COMMAND_DELETE = new LocaleString(COMMANDS, "Löscht Arena");
+    public static final LocaleString COMMAND_DISABLE = new LocaleString(COMMANDS, "Schaltet Arena aus");
+    public static final LocaleString COMMAND_ENABLE = new LocaleString(COMMANDS, "Schaltet Arena an");
+    public static final LocaleString COMMAND_HELP = new LocaleString(COMMANDS, "Zeigt alle Befehle");
+    public static final LocaleString COMMAND_JOIN = new LocaleString(COMMANDS, "Arena beitreten");
+    public static final LocaleString COMMAND_LEAVE = new LocaleString(COMMANDS, "Arena verlassen");
+    public static final LocaleString COMMAND_LIST_ARENAS = new LocaleString(COMMANDS, "Alle Arenen auflisten");
+    public static final LocaleString COMMAND_LIST_PATTERNS = new LocaleString(COMMANDS, "Vorlagen auflisten");
+    public static final LocaleString COMMAND_LOAD_IMAGE = new LocaleString(COMMANDS, "Erstellt Vorlage aus Bilddatei");
+    public static final LocaleString COMMAND_PLACE_PATTERN = new LocaleString(COMMANDS, "Platziert Vorlage");
+    public static final LocaleString COMMAND_POS = new LocaleString(COMMANDS, "Wählt Bereich aus");
+    public static final LocaleString COMMAND_RELOAD = new LocaleString(COMMANDS, "Lädt alle Dateien neu");
+    public static final LocaleString COMMAND_REMOVE_PATTERN = new LocaleString(COMMANDS, "Entfernt Vorlage aus Arena");
+    public static final LocaleString COMMAND_SET_FLOOR = new LocaleString(COMMANDS, "Setzt Boden für Arena");
+    public static final LocaleString COMMAND_SET_SPAWN = new LocaleString(COMMANDS, "Setzt Lobby- oder Gamespawn");
+    public static final LocaleString COMMAND_START = new LocaleString(COMMANDS, "Startet Arena");
+    public static final LocaleString COMMAND_STATS = new LocaleString(COMMANDS, "Zeigt die Statistiken eines Spielers");
+    public static final LocaleString COMMAND_STATUS = new LocaleString(COMMANDS, "Zeigt Arena Status");
+    public static final LocaleString COMMAND_STOP = new LocaleString(COMMANDS, "Stoppt arena");
+    public static final LocaleString COMMAND_TUTORIAL = new LocaleString(COMMANDS, "Zeigt, wie man das Spiel aufsetzt");
+    public static final LocaleString COMMAND_UNDO = new LocaleString(COMMANDS, "Macht Änderungen rückgängig");
+    public static final LocaleString COMMAND_WAND = new LocaleString(COMMANDS, "Auswählwerkzeug erhalten");
 
     public static void writeTo(File file, boolean overWrite) throws IOException {
         Language.writeTo(German.class, file, overWrite);

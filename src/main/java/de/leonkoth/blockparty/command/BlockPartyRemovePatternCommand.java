@@ -3,12 +3,17 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
 public class BlockPartyRemovePatternCommand extends SubCommand {
 
     public static String SYNTAX = "/bp removepattern <Arena> <Pattern>";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_REMOVE_PATTERN;
 
     public BlockPartyRemovePatternCommand(BlockParty blockParty) {
         super(false, 3, "removepattern", "blockparty.admin.removepattern", blockParty);

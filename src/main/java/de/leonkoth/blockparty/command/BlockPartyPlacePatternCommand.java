@@ -5,8 +5,10 @@ import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.util.BlockInfo;
+import lombok.Getter;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,6 +20,9 @@ import java.util.UUID;
 public class BlockPartyPlacePatternCommand extends SubCommand {
 
     public static String SYNTAX = "/bp placepattern <Pattern>";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_PLACE_PATTERN;
 
     public BlockPartyPlacePatternCommand(BlockParty blockParty) {
         super(true, 2, "placepattern", "blockparty.admin.placepattern", blockParty);

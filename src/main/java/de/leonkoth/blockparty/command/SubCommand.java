@@ -2,6 +2,7 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +12,8 @@ import org.bukkit.entity.Player;
 
 @AllArgsConstructor
 public abstract class SubCommand {
+
+    // TODO: disable commands in config
 
     @Setter
     @Getter
@@ -30,7 +33,8 @@ public abstract class SubCommand {
 
     public abstract boolean onCommand(CommandSender sender, String[] args);
 
-
     public abstract String getSyntax();
+
+    public abstract LocaleString getDescription();
 
 }

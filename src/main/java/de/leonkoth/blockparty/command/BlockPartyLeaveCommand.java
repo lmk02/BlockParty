@@ -4,9 +4,11 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.exception.BlockPartyException;
 import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,6 +16,9 @@ import org.bukkit.entity.Player;
 public class BlockPartyLeaveCommand extends SubCommand {
 
     public static String SYNTAX = "/bp leave <Arena>";
+
+    @Getter
+    private LocaleString description = Locale.COMMAND_LEAVE;
 
     public BlockPartyLeaveCommand(BlockParty blockParty) {
         super(true, 1, "leave", "blockparty.user.leave", blockParty);

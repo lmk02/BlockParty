@@ -40,7 +40,7 @@ public class Locale {
     public static LocaleString TIME_LEFT;
     public static LocaleString WINNER_ANNOUNCE_ALL;
     public static LocaleString WINNER_ANNOUNCE_SELF;
-    public static LocaleString STATS;
+    public static LocaleString STATS_MESSAGE;
     public static LocaleString SONG_PLAYING;
     public static LocaleString ITEM_LEAVE_ARENA;
     public static LocaleString ITEM_VOTE_FOR_A_SONG;
@@ -96,6 +96,36 @@ public class Locale {
     public static LocaleString LOBBY_SPAWN_SET;
     public static LocaleString PATTERN_SAVE_SUCCESS;
     public static LocaleString SONG_ADDED_TO_ARENA;
+
+    public static LocaleString HELP_FORMAT;
+    public static LocaleString COMMAND_BLOCK_PARTY;
+    public static LocaleString COMMAND_ADD_PATTERN;
+    public static LocaleString COMMAND_ADD_SONG;
+    public static LocaleString COMMAND_ADMIN;
+    public static LocaleString COMMAND_CREATE;
+    public static LocaleString COMMAND_CREATE_PATTERN;
+    public static LocaleString COMMAND_DELETE;
+    public static LocaleString COMMAND_DISABLE;
+    public static LocaleString COMMAND_ENABLE;
+    public static LocaleString COMMAND_HELP;
+    public static LocaleString COMMAND_JOIN;
+    public static LocaleString COMMAND_LEAVE;
+    public static LocaleString COMMAND_LIST_ARENAS;
+    public static LocaleString COMMAND_LIST_PATTERNS;
+    public static LocaleString COMMAND_LOAD_IMAGE;
+    public static LocaleString COMMAND_PLACE_PATTERN;
+    public static LocaleString COMMAND_POS;
+    public static LocaleString COMMAND_RELOAD;
+    public static LocaleString COMMAND_REMOVE_PATTERN;
+    public static LocaleString COMMAND_SET_FLOOR;
+    public static LocaleString COMMAND_SET_SPAWN;
+    public static LocaleString COMMAND_START;
+    public static LocaleString COMMAND_STATS;
+    public static LocaleString COMMAND_STATUS;
+    public static LocaleString COMMAND_STOP;
+    public static LocaleString COMMAND_TUTORIAL;
+    public static LocaleString COMMAND_UNDO;
+    public static LocaleString COMMAND_WAND;
 
     public static boolean writeFiles() {
         File folder = new File(BlockParty.PLUGIN_FOLDER + "Locale");
