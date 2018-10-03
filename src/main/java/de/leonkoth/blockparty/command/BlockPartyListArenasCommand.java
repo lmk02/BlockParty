@@ -31,12 +31,13 @@ public class BlockPartyListArenasCommand extends SubCommand {
             boolean console = !(sender instanceof Player);
             String separator = Util.getSeparator(6, console);
             String header = separator + " " + Locale.HEADER_LIST_ARENAS + " " + separator;
+            String bulletPoint = console ? "§8 - §7" : "§8 • §7";
 
             if(!console) sender.sendMessage(" ");
             sender.sendMessage(header);
 
             for (Arena arena : blockParty.getArenas()) {
-                sender.sendMessage("§8 • §7" + arena.getName() + ": " + arena.getArenaState().name() + (arena.isEnabled() ? " §a(Enabled)" : " §c(Disabled)"));
+                sender.sendMessage(bulletPoint + arena.getName() + ": " + (arena.isEnabled() ? "§e" + arena.getArenaState().name() : "§cDisabled"));
             }
 
             sender.sendMessage(Util.getSeparator(ChatColor.stripColor(header).length(), console));

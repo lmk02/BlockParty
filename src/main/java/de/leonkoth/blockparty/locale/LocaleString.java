@@ -6,6 +6,9 @@ import org.bukkit.ChatColor;
 public class LocaleString {
 
     @Getter
+    private int length;
+
+    @Getter
     private String[] values;
 
     @Getter
@@ -14,6 +17,7 @@ public class LocaleString {
     public LocaleString(LocaleSection section, String... defaultValue) {
         this.section = section;
         this.values = defaultValue;
+        this.length = values.length;
     }
 
     public String getValue(int index) {

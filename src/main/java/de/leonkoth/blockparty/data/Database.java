@@ -80,8 +80,10 @@ public class Database {
             try (Connection conn = DriverManager.getConnection(this.url)) {
                 if (conn != null) {
                     DatabaseMetaData meta = conn.getMetaData();
-                    System.out.println("[BlockParty] The driver name is " + meta.getDriverName());
-                    System.out.println("[BlockParty] A new database has been created.");
+                    if(BlockParty.DEBUG) {
+                        System.out.println("[BlockParty] The driver name is " + meta.getDriverName());
+                        System.out.println("[BlockParty] A new database has been created.");
+                    }
                 }
                 Statement stmt = conn.createStatement();
                 stmt.execute(table);

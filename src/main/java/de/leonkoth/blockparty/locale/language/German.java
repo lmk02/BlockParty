@@ -18,6 +18,29 @@ public class German extends Language {
     public static final LocaleString PREFIX = new LocaleString(INFO, "&8▌ &3BlockParty &8» &7");
     public static final LocaleString SCOREBOARD_TEXT = new LocaleString(INFO, "&3BlockParty", "Level: %LEVEL%", "Players: %CURRENTPLAYERS% / %MAXPLAYERS%", "Time Left: %TIME%", "Arena: %ARENA%");
     public static final LocaleString COLORS = new LocaleString(INFO, "Weiß", "Orange", "Magenta", "Hellblau", "Gelb", "Hellgrün", "Pink", "Grau", "Hellgrau", "Türkis", "Lila", "Blau", "Braun", "Grün", "Rot", "Schwarz");
+    public static final LocaleString TUTORIAL = new LocaleString(INFO,
+            "Erstelle mit &e/bp create <Arena> &7eine Arena.",
+            "Benutze &e/bp setspawn <Arena> lobby &7um den Lobby-Spawn zu setzen.",
+            "Wähle den Boden mit &e/bp wand &7oder &e/bp pos <1|2> &7aus.",
+            "Benutze &e/bp setfloor <Arena>&7, um den Boden der Arena zu setzen.",
+            "Setze mit &e/bp setspawn <Arena> game &7den Spiel-Spawn.",
+            "Nutze &e/bp enable <Arena> &7um die Arena anzuschalten, damit Spieler beitreten können.",
+            "Herzlichen Glückwunsch, deine Arena ist nun konfiguriert!",
+            "Wenn du nun eigene Böden erstellen willst, nutze &e/bp tutorial patterns&7."
+    );
+    public static final LocaleString TUTORIAL_PATTERNS = new LocaleString(INFO,
+            "Baue eine Vorlage, die du deiner Arena hinzufügen willst.",
+            "Wähle die Vorlage mit &e/bp wand &7oder &e/bp pos <1|2> &7aus.",
+            "Erstelle mit &e/bp createpattern <Pattern> &7die Vorlage.",
+            "Teste, ob die Vorlage funktioniert, indem du &e/bp placepattern <Pattern> &7benutzt.",
+            "Füge die Vorlage mit &e/bp addpattern <Arena> <Pattern> &7deiner Arena hinzu.",
+            "Benutze &e/bp listpatterns [Arena] &7um zu überprüfen, ob die Vorlage deiner Arena hinzugefügt wurde.",
+            "Gehe in die Konfigurationsdatei deiner Arena und stelle &eUsePatternFloors &7auf &eTrue&7.",
+            "Lade das Plugin mit &e/bp reload &7neu.",
+            "Nenne eine Vorlage '&estart&7'. Diese wird während der Lobbyphase angezeigt.",
+            "Wenn du eine Vorlage '&eend&7' nennst, wird sie angezeigt, wenn das Spiel vorbei ist.",
+            "Wenn du eine Vorlage von einer Arena entfernen möchtest, benutze &e/bp removepattern <Arena> <Pattern>&7."
+    );
     public static final LocaleString ACTIONBAR_COUNTDOWN = new LocaleString(INFO, "&f&lnoch %NUMBER% Sekunde(n)");
     public static final LocaleString ACTIONBAR_DANCE = new LocaleString(INFO, "&a&l✔ &f&lTANZEN &a&l✔");
     public static final LocaleString ACTIONBAR_STOP = new LocaleString(INFO, "&c&l✖ &f&lSTOPP &c&l✖");
@@ -129,8 +152,8 @@ public class German extends Language {
     public static final LocaleString HEADER_TUTORIAL_PATTERNS = new LocaleString(HEADERS, "Vorlagen-Tutorial");
     public static final LocaleString HEADER_LIST_ARENAS = new LocaleString(HEADERS, "Alle Arenen");
 
-    public static void writeTo(File file, boolean overWrite) throws IOException {
-        Language.writeTo(German.class, file, overWrite);
+    public static void writeTo(File file) throws IOException {
+        Language.writeTo(German.class, file);
     }
 
 }

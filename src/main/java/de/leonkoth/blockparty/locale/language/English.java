@@ -1,6 +1,6 @@
 package de.leonkoth.blockparty.locale.language;
 
-import de.leonkoth.blockparty.command.BlockPartyWandCommand;
+import de.leonkoth.blockparty.command.*;
 import de.leonkoth.blockparty.locale.LocaleSection;
 import de.leonkoth.blockparty.locale.LocaleString;
 import org.bukkit.ChatColor;
@@ -19,6 +19,29 @@ public class English extends Language {
     public static final LocaleString PREFIX = new LocaleString(INFO, "&8▌ &3BlockParty &8» &7");
     public static final LocaleString SCOREBOARD_TEXT = new LocaleString(INFO, "&3BlockParty", "Level: %LEVEL%", "Players: %CURRENTPLAYERS% / %MAXPLAYERS%", "Time Left: %TIME%", "Arena: %ARENA%");
     public static final LocaleString COLORS = new LocaleString(INFO, "White", "Orange", "Magenta", "Light Blue", "Yellow", "Lime", "Pink", "Gray", "Light Gray", "Cyan", "Purple", "Blue", "Brown", "Green", "Red", "Black");
+    public static final LocaleString TUTORIAL = new LocaleString(INFO,
+            "Use &e/bp create <Arena> &7to create an arena.",
+            "Use &e/bp setspawn <Arena> lobby &7to set the lobby spawn.",
+            "Use &e/bp wand &7or &e/bp pos <1|2> &7to select the boundaries of the floor.",
+            "Use &e/bp setfloor <Arena> &7to set the floor area.",
+            "Use &e/bp setspawn <Arena> game &7to set the game spawn.",
+            "Use &e/bp enable <Arena> &7to enable the arena so players can join.",
+            "Congratulations, you can now start playing in your arena!",
+            "If you want to use custom-made floors, type in &e/bp tutorial patterns&7."
+    );
+    public static final LocaleString TUTORIAL_PATTERNS = new LocaleString(INFO,
+            "Build a pattern for your arena.",
+            "Use &e/bp wand &7or &e/bp pos <1|2> &7to select the boundaries of the pattern.",
+            "Use &e/bp createpattern <Pattern> &7to create a pattern from your selection.",
+            "Use &e/bp addpattern <Arena> <Pattern> &7to add it to your arena.",
+            "Test if your pattern works with &e/bp placepattern <Pattern>",
+            "Go into your arena config and change &eUsePatternFloors &7to &eTrue&7.",
+            "Reload with &e/bp reload",
+            "Name one pattern '&estart&7'. This pattern will load first.",
+            "If you name a pattern '&eend&7' it will be displayed, when the game is over.",
+            "Use &e/bp listpatterns [Arena] &7to check if the pattern is active.",
+            "Use &e/bp removepattern <Arena> <Pattern> &7to remove a pattern."
+    );
     public static final LocaleString ACTIONBAR_COUNTDOWN = new LocaleString(INFO, "&f&l%NUMBER% second(s) left");
     public static final LocaleString ACTIONBAR_DANCE = new LocaleString(INFO, "&a&l✔ &f&lDANCE &a&l✔");
     public static final LocaleString ACTIONBAR_STOP = new LocaleString(INFO, "&c&l✖ &f&lSTOP &c&l✖");
@@ -130,8 +153,8 @@ public class English extends Language {
     public static final LocaleString HEADER_TUTORIAL_PATTERNS = new LocaleString(HEADERS, "Pattern Tutorial");
     public static final LocaleString HEADER_LIST_ARENAS = new LocaleString(HEADERS, "All arenas");
 
-    public static void writeTo(File file, boolean overWrite) throws IOException {
-        Language.writeTo(English.class, file, overWrite);
+    public static void writeTo(File file) throws IOException {
+        Language.writeTo(English.class, file);
     }
 
 }
