@@ -1,5 +1,7 @@
 package de.leonkoth.blockparty.web.server;
 
+import de.leonkoth.blockparty.BlockParty;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -42,7 +44,9 @@ public class XWebSocketServer implements WebServer {
         for (Socket clients : connectedClients) {
             if (clients.getInetAddress().getHostAddress().equalsIgnoreCase(ip)) {
                 if (clients.isConnected()) {
-                    System.out.println("[BlockParty] Sending: " + arena + ";" + song + ";" + play);
+                    if(BlockParty.DEBUG) {
+                        System.out.println("[BlockParty] Sending: " + arena + ";" + song + ";" + play);
+                    }
                     new ClientThread(clients, arena, song, play).start();
                 }
             }

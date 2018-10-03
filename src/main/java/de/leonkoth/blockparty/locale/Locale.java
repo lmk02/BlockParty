@@ -22,6 +22,8 @@ public class Locale {
     public static LocaleString PREFIX;
     public static LocaleString SCOREBOARD_TEXT;
     public static LocaleString COLORS;
+    public static LocaleString TUTORIAL;
+    public static LocaleString TUTORIAL_PATTERNS;
     public static LocaleString ACTIONBAR_COUNTDOWN;
     public static LocaleString ACTIONBAR_DANCE;
     public static LocaleString ACTIONBAR_STOP;
@@ -135,19 +137,17 @@ public class Locale {
 
     public static boolean writeFiles() {
         File folder = new File(BlockParty.PLUGIN_FOLDER + "Locale");
-        if(!folder.exists()) {
-            folder.mkdirs();
+        folder.mkdirs();
 
-            try {
-                English.writeTo(new File(folder, "locale_en.yml"), true);
-                German.writeTo(new File(folder, "locale_de.yml"), true);
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            English.writeTo(new File(folder, "locale_en.yml"));
+            German.writeTo(new File(folder, "locale_de.yml"));
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
 
-        return false;
     }
 
     public static void loadLocale(File file) {

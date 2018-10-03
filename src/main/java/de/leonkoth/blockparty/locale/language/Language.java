@@ -13,46 +13,52 @@ import java.util.Arrays;
 
 public abstract class Language {
 
-    protected static void writeTo(Class<?> languageClass, File file, boolean overWrite) throws IOException {
+    protected static void writeTo(Class<?> languageClass, File file) throws IOException {
 
-        if (!file.exists() || overWrite) {
+        if (!file.exists()) {
             file.getParentFile().mkdirs();
             file.createNewFile();
+        }
 
-            FileConfiguration configuration = new YamlConfiguration();
-            for (Field field : languageClass.getFields()) {
-                if (field.getType() == LocaleSection.class) {
+        FileConfiguration configuration = new YamlConfiguration();
+        for (Field field : languageClass.getFields()) {
+            if (field.getType() == LocaleSection.class) {
 
-                    try {
-                        LocaleSection localeSection = (LocaleSection) field.get(null);
+                try {
+                    LocaleSection localeSection = (LocaleSection) field.get(null);
+
+                    if(!configuration.isSet("Sections." + localeSection)) {
                         configuration.set("Sections." + localeSection, localeSection.getPrefixColor().name());
-                    } catch(IllegalAccessException e) {
-                        e.printStackTrace();
                     }
+                } catch(IllegalAccessException e) {
+                    e.printStackTrace();
+                }
 
-                } else if (field.getType() == LocaleString.class) {
+            } else if (field.getType() == LocaleString.class) {
 
-                    try {
-                        LocaleString localeString = (LocaleString) field.get(null);
-                        String[] values = localeString.getValues();
-                        String path = localeString.getSection() + "." + Locale.convertName(field.getName());
+                try {
+                    LocaleString localeString = (LocaleString) field.get(null);
+                    String[] values = localeString.getValues();
+                    String path = localeString.getSection() + "." + Locale.convertName(field.getName());
 
+                    if(!configuration.isSet(path)) {
                         if (values.length == 1) {
                             configuration.set(path, values[0]);
                         } else {
                             configuration.set(path, Arrays.asList(values));
                         }
-
-                    } catch(IllegalAccessException e) {
-                        e.printStackTrace();
                     }
 
+                } catch(IllegalAccessException e) {
+                    e.printStackTrace();
                 }
 
             }
 
-            configuration.save(file);
         }
+
+        configuration.save(file);
+
     }
 
 }

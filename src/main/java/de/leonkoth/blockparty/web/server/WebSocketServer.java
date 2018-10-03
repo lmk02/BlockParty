@@ -28,18 +28,24 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
     @Override
     public void onOpen(WebSocket socket, ClientHandshake handshake) {
         this.socket.add(socket);
-        System.out.println("[BlockParty] New connection from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
+
+        if(BlockParty.DEBUG)
+            System.out.println("[BlockParty] New connection from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
     }
 
     @Override
     public void onClose(WebSocket socket, int code, String reason, boolean remote) {
         this.socket.remove(socket);
-        System.out.println("[BlockParty] Closed connection to " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
+
+        if(BlockParty.DEBUG)
+            System.out.println("[BlockParty] Closed connection to " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
     }
 
     @Override
     public void onMessage(WebSocket socket, String message) {
-        System.out.println("[BlockParty] Message from client: " + message);
+        if(BlockParty.DEBUG)
+            System.out.println("[BlockParty] Message from client: " + message);
+
         for (WebSocket sock : this.socket) {
             sock.send(message);
         }
@@ -49,16 +55,20 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
     public void onError(WebSocket socket, Exception e) {
         if (socket != null) {
             this.socket.remove(socket);
+
+            if(BlockParty.DEBUG)
+                System.err.println("[BlockParty] ERROR from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
         }
 
-        if (socket != null) {
-            System.out.println("[BlockParty] ERROR from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
-        }
     }
 
     @Override
     public void onStart() {
-        Bukkit.getLogger().info("[BlockParty] Started music server on " + this.getAddress().getHostString() + ":" + this.getAddress().getPort());
+        if(BlockParty.DEBUG) {
+            System.out.println("[BlockParty] Started music server on " + this.getAddress().getHostString() + ":" + this.getAddress().getPort());
+        }
+
+
         this.blockParty.logStartMessage(true);
     }
 
