@@ -3,7 +3,6 @@ package de.leonkoth.blockparty.locale;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.language.English;
 import de.leonkoth.blockparty.locale.language.German;
-import de.leonkoth.blockparty.locale.language.Language;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,8 +11,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Locale {
 
@@ -154,12 +154,12 @@ public class Locale {
 
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             Bukkit.getLogger().severe("File \"" + file.getName() + "\" couldn't be found. Using default values (English).");
 
-            for(Field field : Locale.class.getFields()) {
+            for (Field field : Locale.class.getFields()) {
 
-                if(field.getName().equals("DEFAULT_LANGUAGE"))
+                if (field.getName().equals("DEFAULT_LANGUAGE"))
                     continue;
 
                 try {
@@ -174,39 +174,39 @@ public class Locale {
 
         Map<String, LocaleSection> strings = new HashMap<>();
 
-        for(String section : configuration.getConfigurationSection("Sections").getKeys(false)) {
+        for (String section : configuration.getConfigurationSection("Sections").getKeys(false)) {
             ChatColor color = ChatColor.valueOf(configuration.getString("Sections." + section));
             LocaleSection localeSection = new LocaleSection(section, color);
 
-            for(String string : configuration.getConfigurationSection(section).getKeys(false)) {
+            for (String string : configuration.getConfigurationSection(section).getKeys(false)) {
                 strings.put(string, localeSection);
             }
         }
 
-        for(Field field : Locale.class.getFields()) {
-            if(field.getType() == LocaleString.class && !field.getName().equals("DEFAULT_LANGUAGE")) {
+        for (Field field : Locale.class.getFields()) {
+            if (field.getType() == LocaleString.class && !field.getName().equals("DEFAULT_LANGUAGE")) {
 
                 String name = convertName(field.getName());
-                if(strings.containsKey(name)) {
+                if (strings.containsKey(name)) {
 
                     LocaleSection localeSection = strings.get(name);
                     String key = localeSection + "." + name;
 
                     LocaleString localeString;
-                    if(configuration.isString(key)) {
+                    if (configuration.isString(key)) {
                         String message = configuration.getString(key);
                         localeString = new LocaleString(localeSection, message);
-                    } else if(configuration.isList(key)) {
+                    } else if (configuration.isList(key)) {
                         List<String> messagesList = configuration.getStringList(key);
                         String[] messagesArray = new String[messagesList.size()];
-                        for(int i = 0; i < messagesArray.length; i++) {
+                        for (int i = 0; i < messagesArray.length; i++) {
                             messagesArray[i] = messagesList.get(i);
                         }
                         localeString = new LocaleString(localeSection, messagesArray);
                     } else {
                         try {
                             localeString = (LocaleString) DEFAULT_LANGUAGE.getField(field.getName()).get(null);
-                        } catch(NoSuchFieldException | IllegalAccessException e) {
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
                             e.printStackTrace();
                             continue;
                         }
@@ -214,7 +214,7 @@ public class Locale {
 
                     try {
                         field.set(null, localeString);
-                    } catch(IllegalAccessException e) {
+                    } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
 
@@ -223,7 +223,7 @@ public class Locale {
 
                     try {
                         field.set(null, DEFAULT_LANGUAGE.getField(field.getName()).get(null));
-                    } catch(NoSuchFieldException | IllegalAccessException e) {
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
                         Bukkit.getLogger().severe("[BlockParty] Couldn't find default message in \"" + DEFAULT_LANGUAGE.getName() + "\". (" + e.getMessage() + ")");
                         e.printStackTrace();
                     }
@@ -250,10 +250,10 @@ public class Locale {
     public static String convertField(String name) { // Converts ExampleName to EXAMPLE_NAME
         StringBuilder result = new StringBuilder();
 
-        for(char c : name.toCharArray()) {
+        for (char c : name.toCharArray()) {
             char upperCase = Character.toUpperCase(c);
 
-            if(Character.isUpperCase(c) && result.length() != 0) {
+            if (Character.isUpperCase(c) && result.length() != 0) {
                 result.append('_');
             }
 

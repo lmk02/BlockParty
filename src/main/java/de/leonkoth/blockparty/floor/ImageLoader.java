@@ -7,8 +7,6 @@ import org.bukkit.Material;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +17,7 @@ public class ImageLoader {
 
     public static FloorPattern loadImage(File file, boolean dithered) throws IOException {
 
-        if(!file.exists())
+        if (!file.exists())
             throw new FileNotFoundException();
 
         BufferedImage image = ImageIO.read(file);
@@ -30,14 +28,14 @@ public class ImageLoader {
         byte[] data = new byte[width * height];
         Material[] materials = new Material[width * height];
 
-        for(int x = 0; x < width; x++) {
-            for(int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 int currentIndex = x + y * width;
 
                 Color oldColor = new Color(image.getRGB(x, y));
                 ClayColor newColor = ClayColor.nearestColor(oldColor);
 
-                if(dithered && x < width-1 && x > 0 && y < height-1 && y > 0) { // exclude border pixels
+                if (dithered && x < width - 1 && x > 0 && y < height - 1 && y > 0) { // exclude border pixels
                     // dithering "spreads" the pixels and makes the image look more realistic
                     // https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering
                     // https://de.wikipedia.org/wiki/Floyd-Steinberg-Algorithmus
@@ -47,56 +45,56 @@ public class ImageLoader {
                     int errB = oldColor.getBlue() - newColor.getColor().getBlue();
 
                     // move error 7/16 to x+1, y+0
-                    Color nextColor = new Color(image.getRGB(x+1, y));
+                    Color nextColor = new Color(image.getRGB(x + 1, y));
                     float r = nextColor.getRed();
                     float g = nextColor.getGreen();
                     float b = nextColor.getBlue();
-                    r = r + errR * 7/16.0f;
-                    g = g + errG * 7/16.0f;
-                    b = b + errB * 7/16.0f;
+                    r = r + errR * 7 / 16.0f;
+                    g = g + errG * 7 / 16.0f;
+                    b = b + errB * 7 / 16.0f;
                     r = Util.clamp(r, 0, 255);
                     g = Util.clamp(g, 0, 255);
                     b = Util.clamp(b, 0, 255);
-                    image.setRGB(x+1, y, new Color((int) r, (int) g, (int) b).getRGB());
+                    image.setRGB(x + 1, y, new Color((int) r, (int) g, (int) b).getRGB());
 
                     // move error 3/16 to x-1, y+1
-                    nextColor = new Color(image.getRGB(x-1, y+1));
+                    nextColor = new Color(image.getRGB(x - 1, y + 1));
                     r = nextColor.getRed();
                     g = nextColor.getGreen();
                     b = nextColor.getBlue();
-                    r = r + errR * 3/16.0f;
-                    g = g + errG * 3/16.0f;
-                    b = b + errB * 3/16.0f;
+                    r = r + errR * 3 / 16.0f;
+                    g = g + errG * 3 / 16.0f;
+                    b = b + errB * 3 / 16.0f;
                     r = Util.clamp(r, 0, 255);
                     g = Util.clamp(g, 0, 255);
                     b = Util.clamp(b, 0, 255);
-                    image.setRGB(x-1, y+1, new Color((int) r, (int) g, (int) b).getRGB());
+                    image.setRGB(x - 1, y + 1, new Color((int) r, (int) g, (int) b).getRGB());
 
                     // move error 5/16 to x+0, y+1
-                    nextColor = new Color(image.getRGB(x, y+1));
+                    nextColor = new Color(image.getRGB(x, y + 1));
                     r = nextColor.getRed();
                     g = nextColor.getGreen();
                     b = nextColor.getBlue();
-                    r = r + errR * 5/16.0f;
-                    g = g + errG * 5/16.0f;
-                    b = b + errB * 5/16.0f;
+                    r = r + errR * 5 / 16.0f;
+                    g = g + errG * 5 / 16.0f;
+                    b = b + errB * 5 / 16.0f;
                     r = Util.clamp(r, 0, 255);
                     g = Util.clamp(g, 0, 255);
                     b = Util.clamp(b, 0, 255);
-                    image.setRGB(x, y+1, new Color((int) r, (int) g, (int) b).getRGB());
+                    image.setRGB(x, y + 1, new Color((int) r, (int) g, (int) b).getRGB());
 
                     // move error 1/16 to x+1, y+1
-                    nextColor = new Color(image.getRGB(x+1, y+1));
+                    nextColor = new Color(image.getRGB(x + 1, y + 1));
                     r = nextColor.getRed();
                     g = nextColor.getGreen();
                     b = nextColor.getBlue();
-                    r = r + errR * 1/16.0f;
-                    g = g + errG * 1/16.0f;
-                    b = b + errB * 1/16.0f;
+                    r = r + errR * 1 / 16.0f;
+                    g = g + errG * 1 / 16.0f;
+                    b = b + errB * 1 / 16.0f;
                     r = Util.clamp(r, 0, 255);
                     g = Util.clamp(g, 0, 255);
                     b = Util.clamp(b, 0, 255);
-                    image.setRGB(x+1, y+1, new Color((int) r, (int) g, (int) b).getRGB());
+                    image.setRGB(x + 1, y + 1, new Color((int) r, (int) g, (int) b).getRGB());
                 }
 
                 data[currentIndex] = newColor.getData();
@@ -166,9 +164,9 @@ public class ImageLoader {
             ClayColor nearestColor = ClayColor.BLACK;
             double nearestDistance = Double.POSITIVE_INFINITY;
 
-            for(ClayColor clayColor : ClayColor.values()) {
+            for (ClayColor clayColor : ClayColor.values()) {
                 double distance = distance(color, clayColor.getColor());
-                if(distance < nearestDistance) {
+                if (distance < nearestDistance) {
                     nearestColor = clayColor;
                     nearestDistance = distance;
                 }
@@ -182,7 +180,7 @@ public class ImageLoader {
             double green = b.getGreen() - a.getGreen();
             double blue = b.getBlue() - a.getBlue();
 
-            return Math.sqrt(red*red + green*green + blue*blue);
+            return Math.sqrt(red * red + green * green + blue * blue);
         }
 
     }

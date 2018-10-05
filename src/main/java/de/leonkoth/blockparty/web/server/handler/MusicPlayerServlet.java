@@ -23,33 +23,28 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/Musicplayer")
 public class MusicPlayerServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/event-stream");
         response.setCharacterEncoding("UTF-8");
-        String playerName = (String)request.getSession(true).getAttribute("name");
+        String playerName = (String) request.getSession(true).getAttribute("name");
         PlayerInfo playerInfo;
-        if(playerName != null && !playerName.equals("") && Bukkit.getPlayer(playerName) != null) {
+        if (playerName != null && !playerName.equals("") && Bukkit.getPlayer(playerName) != null) {
             if ((playerInfo = PlayerInfo.getFromPlayer(playerName)) != null) {
                 Arena arena = playerInfo.getCurrentArena();
                 String currentArena = arena == null ? "" : arena.getName();
                 double d = 2.5;
-                if(arena != null){
-                    if(arena.getArenaState() == ArenaState.INGAME)
-                    {
-                        if(arena.getGameState() == GameState.START || arena.getGameState() == GameState.PLAY)
-                        {
+                if (arena != null) {
+                    if (arena.getArenaState() == ArenaState.INGAME) {
+                        if (arena.getGameState() == GameState.START || arena.getGameState() == GameState.PLAY) {
                             d = arena.getPhaseHandler().getGamePhase().getTimeRemaining();
 
                             // To prevent too many requests
-                            if(d < 0.1)
+                            if (d < 0.1)
                                 d = 0.1;
 
-                        } else if(arena.getGameState() == GameState.STOP)
-                        {
+                        } else if (arena.getGameState() == GameState.STOP) {
                             d = arena.getPhaseHandler().getGamePhase().getStopTime();
-                        } else if(arena.getGameState() == GameState.WAIT)
-                        {
+                        } else if (arena.getGameState() == GameState.WAIT) {
                             d = 1;
                         }
                     }
@@ -92,9 +87,7 @@ public class MusicPlayerServlet extends HttpServlet {
                 System.out.println("arena null");
             }*/
             }
-        }
-        else
-        {
+        } else {
             response.getWriter().write(
                     "{\n" +
                             "  \"name\": \"_null_\",\n" +

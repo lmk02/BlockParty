@@ -13,9 +13,8 @@ public class AreaGenerator implements FloorGenerator {
 
     private boolean useLegacy;
 
-    public AreaGenerator()
-    {
-        this.useLegacy = BlockParty.getInstance().getMinecraftVersion().isLess(1,13,0);
+    public AreaGenerator() {
+        this.useLegacy = BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0);
     }
 
     @Override

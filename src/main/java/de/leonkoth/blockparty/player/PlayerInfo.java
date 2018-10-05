@@ -2,7 +2,6 @@ package de.leonkoth.blockparty.player;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.exception.IDOverFlowException;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -94,17 +93,15 @@ public class PlayerInfo {
     private static int getNextId() {
         int i = 1;
         boolean eq;
-        while (i < Integer.MAX_VALUE){
+        while (i < Integer.MAX_VALUE) {
             eq = false;
             for (PlayerInfo pi : allPlayerInfos) {
-                if (pi.getId() == i)
-                {
+                if (pi.getId() == i) {
                     eq = true;
                     break;
                 }
             }
-            if(!eq)
-            {
+            if (!eq) {
                 return i;
             }
             i++;

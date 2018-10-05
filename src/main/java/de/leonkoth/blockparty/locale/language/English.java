@@ -1,6 +1,5 @@
 package de.leonkoth.blockparty.locale.language;
 
-import de.leonkoth.blockparty.command.*;
 import de.leonkoth.blockparty.locale.LocaleSection;
 import de.leonkoth.blockparty.locale.LocaleString;
 import org.bukkit.ChatColor;

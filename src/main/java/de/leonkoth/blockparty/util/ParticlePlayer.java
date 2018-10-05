@@ -46,7 +46,7 @@ public class ParticlePlayer {
         sendPacket = getMethod(playerConnection, "sendPacket", packet);
         playerConnectionField = getField(entityPlayer, "playerConnection");
 
-        if(BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
+        if (BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
             enumParticle = getNMSClass("EnumParticle");
             valueOf = getMethod(enumParticle, "valueOf", String.class);
             packetConstructor = getConstructor(packetPlayOutWorldParticles, enumParticle, boolean.class, float.class, float.class, float.class, float.class, float.class, float.class, float.class, int.class, int[].class);
@@ -66,7 +66,7 @@ public class ParticlePlayer {
     public ParticlePlayer(String particleName) {
 
         try {
-            if(BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
+            if (BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
                 this.particle = valueOf.invoke(null, particleName);
             } else {
                 this.particle = Particles.valueOf(particleName).get();
@@ -121,20 +121,20 @@ public class ParticlePlayer {
     /**
      * Creates packet from arguments
      *
-     * @param particle     Particle to play
-     * @param x            X location
-     * @param y            Y location
-     * @param z            Z location
-     * @param xOffset      X offset
-     * @param yOffset      Y offset
-     * @param zOffset      Z offset
-     * @param data         Data
-     * @param amount       Amount of particles
+     * @param particle Particle to play
+     * @param x        X location
+     * @param y        Y location
+     * @param z        Z location
+     * @param xOffset  X offset
+     * @param yOffset  Y offset
+     * @param zOffset  Z offset
+     * @param data     Data
+     * @param amount   Amount of particles
      * @return The packet
      */
     private Object createPacket(Object particle, float x, float y, float z, float xOffset, float yOffset, float zOffset, float data, int amount) {
         try {
-            if(BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
+            if (BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
                 return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount, null);
             } else {
                 return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount);

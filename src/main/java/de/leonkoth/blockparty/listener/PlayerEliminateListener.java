@@ -35,17 +35,14 @@ public class PlayerEliminateListener implements Listener {
         }
 
         int c = 0;
-        for(PlayerInfo pi : arena.getPlayersInArena())
-        {
-            if(pi.getPlayerState() == PlayerState.INGAME)
-            {
+        for (PlayerInfo pi : arena.getPlayersInArena()) {
+            if (pi.getPlayerState() == PlayerState.INGAME) {
                 c++;
             }
         }
 
-        int a = 10-c;
-        if(a>0)
-        {
+        int a = 10 - c;
+        if (a > 0) {
             playerInfo.setPoints(playerInfo.getPoints() + a);
             this.blockParty.getPlayerInfoManager().savePlayerInfo(playerInfo);
         }

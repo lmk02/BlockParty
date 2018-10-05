@@ -2,7 +2,6 @@ package de.leonkoth.blockparty.util;
 
 import de.leonkoth.blockparty.BlockParty;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -10,7 +9,7 @@ import java.lang.reflect.Method;
 
 /**
  * @author pauhull
- *
+ * <p>
  * Reflection Utility
  */
 public class Reflection {
@@ -91,7 +90,7 @@ public class Reflection {
      */
     public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterTypes) {
         try {
-            if(clazz == null && BlockParty.DEBUG) {
+            if (clazz == null && BlockParty.DEBUG) {
                 System.err.println("[BlockParty] clazz == null (Reflection.java:95)");
             }
             return clazz.getConstructor(parameterTypes);

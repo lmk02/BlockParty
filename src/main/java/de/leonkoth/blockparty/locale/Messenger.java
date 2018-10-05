@@ -8,7 +8,7 @@ public class Messenger {
 
     public static void message(boolean usePrefix, CommandSender sender, LocaleString message, String... placeholders) {
 
-        for(int i = 0; i < message.getValues().length; i++) {
+        for (int i = 0; i < message.getValues().length; i++) {
             String newMessage = usePrefix ? Locale.PREFIX.toString() : "";
             newMessage += message.getValue(i);
             for (int j = 0; j < placeholders.length; j += 2) {

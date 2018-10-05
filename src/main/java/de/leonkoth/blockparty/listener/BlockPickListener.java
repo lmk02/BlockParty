@@ -6,7 +6,6 @@ import de.leonkoth.blockparty.event.BlockPickEvent;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.ColorBlock;
-import de.leonkoth.blockparty.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

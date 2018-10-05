@@ -1,12 +1,10 @@
 package de.leonkoth.blockparty.data;
 
-import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Leon on 19.03.2018.
@@ -29,8 +27,7 @@ public class PlayerInfoManager {
         this.database.openReadable();
         List<PlayerInfo> playerInfos = new ArrayList<>();
         PlayerInfo pi;
-        while((pi = this.database.readPlayerInfo()) != null)
-        {
+        while ((pi = this.database.readPlayerInfo()) != null) {
             playerInfos.add(pi);
         }
 
@@ -42,12 +39,9 @@ public class PlayerInfoManager {
 
     public void savePlayerInfo(PlayerInfo playerInfo) {
         this.database.openWriteable();
-        if(this.database.exists(playerInfo))
-        {
+        if (this.database.exists(playerInfo)) {
             this.database.updatePlayerInfo(playerInfo);
-        }
-        else
-        {
+        } else {
             this.database.insertPlayerInfo(playerInfo);
         }
         this.database.closeWriteable();
@@ -55,7 +49,7 @@ public class PlayerInfoManager {
 
     public void createPlayerInfo(PlayerInfo playerInfo) {
         this.database.openWriteable();
-        if(!this.database.exists(playerInfo))
+        if (!this.database.exists(playerInfo))
             this.database.insertPlayerInfo(playerInfo);
         this.database.closeWriteable();
     }

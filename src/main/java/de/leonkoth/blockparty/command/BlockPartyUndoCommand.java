@@ -9,7 +9,10 @@ import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class BlockPartyUndoCommand extends SubCommand {
 
@@ -24,7 +27,7 @@ public class BlockPartyUndoCommand extends SubCommand {
     }
 
     public static void undo(Set<BlockInfo> blocks) {
-        for(BlockInfo info : blocks) {
+        for (BlockInfo info : blocks) {
             info.restore();
         }
     }
@@ -35,7 +38,7 @@ public class BlockPartyUndoCommand extends SubCommand {
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
 
-        if(!oldBlocks.containsKey(uuid)) {
+        if (!oldBlocks.containsKey(uuid)) {
             Messenger.message(true, sender, Locale.NO_UNDO);
             return false;
         }

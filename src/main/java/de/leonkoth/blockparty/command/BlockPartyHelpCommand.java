@@ -28,13 +28,13 @@ public class BlockPartyHelpCommand extends SubCommand {
         String header = separator + " " + Locale.HEADER_HELP + " " + separator;
         String template = Locale.HELP_FORMAT.toString();
 
-        if(!console) sender.sendMessage(" ");
+        if (!console) sender.sendMessage(" ");
         sender.sendMessage(header);
 
         sender.sendMessage(template.replaceAll("%SYNTAX%", "/bp").replaceAll("%DESCRIPTION%", Locale.COMMAND_BLOCK_PARTY.toString()));
 
-        for(SubCommand command : BlockPartyCommand.commands) {
-            if(!command.getPermission().startsWith("blockparty.user"))
+        for (SubCommand command : BlockPartyCommand.commands) {
+            if (!command.getPermission().startsWith("blockparty.user"))
                 continue;
 
             sender.sendMessage(template.replaceAll("%SYNTAX%", command.getSyntax()).replaceAll("%DESCRIPTION%", command.getDescription().toString()));

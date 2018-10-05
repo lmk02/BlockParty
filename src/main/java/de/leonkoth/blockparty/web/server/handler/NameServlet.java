@@ -20,16 +20,13 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/NameRequest")
 public class NameServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String playerName = request.getParameter("playerName");
 
-        if(playerName != null && !playerName.equals(""))
-        {
+        if (playerName != null && !playerName.equals("")) {
             response.setContentType("text/html");
-            if(PlayerInfo.getFromPlayer(playerName) == null || Bukkit.getPlayer(playerName) == null)
-            {
+            if (PlayerInfo.getFromPlayer(playerName) == null || Bukkit.getPlayer(playerName) == null) {
                 response.getWriter().write("_false_");
             } else {
                 response.getWriter().write("_true_");

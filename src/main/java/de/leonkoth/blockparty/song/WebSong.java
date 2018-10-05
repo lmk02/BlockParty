@@ -7,8 +7,6 @@ import de.leonkoth.blockparty.player.PlayerState;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.FileNotFoundException;
-
 /**
  * Created by Leon on 17.03.2018.
  * Project Blockparty2

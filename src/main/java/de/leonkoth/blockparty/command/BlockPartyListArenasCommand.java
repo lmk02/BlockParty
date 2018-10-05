@@ -33,7 +33,7 @@ public class BlockPartyListArenasCommand extends SubCommand {
             String header = separator + " " + Locale.HEADER_LIST_ARENAS + " " + separator;
             String bulletPoint = console ? "§8 - §7" : "§8 • §7";
 
-            if(!console) sender.sendMessage(" ");
+            if (!console) sender.sendMessage(" ");
             sender.sendMessage(header);
 
             for (Arena arena : blockParty.getArenas()) {

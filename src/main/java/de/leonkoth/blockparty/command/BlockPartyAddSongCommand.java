@@ -8,7 +8,6 @@ import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.song.Song;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class BlockPartyAddSongCommand extends SubCommand {
 
@@ -28,16 +27,14 @@ public class BlockPartyAddSongCommand extends SubCommand {
 
         Arena arena = Arena.getByName(args[1]);
 
-        if(arena == null) {
+        if (arena == null) {
             Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }
 
         String name = args[2];
-        for(Song s : arena.getSongManager().getSongs())
-        {
-            if(s.getName().equalsIgnoreCase(name))
-            {
+        for (Song s : arena.getSongManager().getSongs()) {
+            if (s.getName().equalsIgnoreCase(name)) {
                 Messenger.message(true, sender, Locale.SONG_ALREADY_ADDED_TO_ARENA, "%SONG%", name, "%ARENA%", arena.getName());
                 return true;
             }

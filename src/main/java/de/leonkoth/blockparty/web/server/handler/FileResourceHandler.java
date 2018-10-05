@@ -20,22 +20,23 @@ public class FileResourceHandler extends ResourceHandler {
         p = p.replace('\\', '/');
         String[] tok = p.split("/");
         int i, j;
-        for(i = 0, j = 0; i < tok.length; i++) {
-            if((tok[i] == null) || (tok[i].length() == 0) || (tok[i].equals("."))) {
+        for (i = 0, j = 0; i < tok.length; i++) {
+            if ((tok[i] == null) || (tok[i].length() == 0) || (tok[i].equals("."))) {
                 tok[i] = null;
-            }
-            else if(tok[i].equals("..")) {
-                if(j > 0) { j--; tok[j] = null;  }
+            } else if (tok[i].equals("..")) {
+                if (j > 0) {
+                    j--;
+                    tok[j] = null;
+                }
                 tok[i] = null;
-            }
-            else {
+            } else {
                 tok[j] = tok[i];
                 j++;
             }
         }
         String path = "";
-        for(i = 0; i < j; i++) {
-            if(tok[i] != null) {
+        for (i = 0; i < j; i++) {
+            if (tok[i] != null) {
                 path = path + "/" + tok[i];
             }
         }

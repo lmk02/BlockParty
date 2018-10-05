@@ -7,7 +7,6 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitWorker;
 
 import java.util.List;
 

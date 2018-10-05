@@ -2,13 +2,11 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.exception.FloorLoaderException;
-import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.floor.FloorPattern;
+import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
-import de.leonkoth.blockparty.util.Selection;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
@@ -28,8 +26,7 @@ public class BlockPartyAddPatternCommand extends SubCommand {
 
         Arena arena = Arena.getByName(args[1]);
 
-        if(arena == null)
-        {
+        if (arena == null) {
             Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }
@@ -49,8 +46,7 @@ public class BlockPartyAddPatternCommand extends SubCommand {
 
         FloorPattern pattern = arena.getFloor().loadPattern(args[2]);
 
-        if(pattern == null)
-        {
+        if (pattern == null) {
             Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST);
             return false;
         }

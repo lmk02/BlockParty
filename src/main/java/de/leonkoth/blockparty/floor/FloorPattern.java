@@ -1,22 +1,16 @@
 package de.leonkoth.blockparty.floor;
 
-import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.util.BlockInfo;
 import de.leonkoth.blockparty.util.Bounds;
-import de.leonkoth.blockparty.util.Selection;
 import de.leonkoth.blockparty.util.Size;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import javax.swing.*;
-import java.util.AbstractMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class FloorPattern {
@@ -42,7 +36,7 @@ public class FloorPattern {
 
     public static FloorPattern create(String name, Bounds bounds) throws FloorLoaderException {
 
-        if(bounds.getSize().getHeight() != 1) {
+        if (bounds.getSize().getHeight() != 1) {
             throw new FloorLoaderException(FloorLoaderException.Error.WRONG_HEIGHT);
         }
 
@@ -55,8 +49,8 @@ public class FloorPattern {
 
         Material[] blocks = new Material[width * length];
         byte[] data = new byte[width * length];
-        for(int x = 0; x < width; x++) {
-            for(int z = 0; z < length; z++) {
+        for (int x = 0; x < width; x++) {
+            for (int z = 0; z < length; z++) {
                 blocks[x + z * width] = world.getBlockAt(minX + x, minY, minZ + z).getType();
                 data[x + z * width] = world.getBlockAt(minX + x, minY, minZ + z).getData();
             }
@@ -71,8 +65,8 @@ public class FloorPattern {
         int width = size.getBlockWidth();
         int length = size.getBlockLength();
 
-        for(int x = 0; x < width; x++) {
-             for(int z = 0; z < length; z++) {
+        for (int x = 0; x < width; x++) {
+            for (int z = 0; z < length; z++) {
                 Location loc = location.clone().add(x, 0, z);
                 Block block = loc.getBlock();
                 blocks.add(new BlockInfo(loc, block.getType(), block.getData()));

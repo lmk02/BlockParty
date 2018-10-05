@@ -44,7 +44,7 @@ public class XWebSocketServer implements WebServer {
         for (Socket clients : connectedClients) {
             if (clients.getInetAddress().getHostAddress().equalsIgnoreCase(ip)) {
                 if (clients.isConnected()) {
-                    if(BlockParty.DEBUG) {
+                    if (BlockParty.DEBUG) {
                         System.out.println("[BlockParty] Sending: " + arena + ";" + song + ";" + play);
                     }
                     new ClientThread(clients, arena, song, play).start();

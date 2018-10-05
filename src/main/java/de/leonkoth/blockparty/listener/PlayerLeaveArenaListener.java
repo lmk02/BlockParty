@@ -41,7 +41,7 @@ public class PlayerLeaveArenaListener implements Listener {
 
         arena.getPlayersInArena().remove(playerInfo);
 
-        if(blockParty.isBungee()) {
+        if (blockParty.isBungee()) {
             player.kickPlayer(Locale.LEFT_GAME.toString("%ARENA%", arena.getName()));
         } else {
             Messenger.message(true, player, Locale.LEFT_GAME, "%ARENA%", arena.getName());

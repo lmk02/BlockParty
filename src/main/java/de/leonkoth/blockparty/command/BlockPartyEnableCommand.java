@@ -24,22 +24,22 @@ public class BlockPartyEnableCommand extends SubCommand {
 
         Arena arena = Arena.getByName(args[1]);
 
-        if(arena == null) {
+        if (arena == null) {
             Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }
 
-        if(arena.getFloor() == null) {
+        if (arena.getFloor() == null) {
             Messenger.message(true, sender, Locale.NO_FLOOR);
             return false;
         }
 
-        if(arena.getGameSpawn() == null) {
+        if (arena.getGameSpawn() == null) {
             Messenger.message(true, sender, Locale.NO_GAME_SPAWN);
             return false;
         }
 
-        if(arena.getLobbySpawn() == null) {
+        if (arena.getLobbySpawn() == null) {
             Messenger.message(true, sender, Locale.NO_LOBBY_SPAWN);
             return false;
         }

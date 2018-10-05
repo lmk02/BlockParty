@@ -32,7 +32,7 @@ public class BlockPartySetFloorCommand extends SubCommand {
         try {
             selection = Selection.get(player);
         } catch (InvalidSelectionException e) {
-            switch(e.getError()) {
+            switch (e.getError()) {
                 case DIFFERENT_WORLDS:
                     Messenger.message(true, sender, Locale.DIFFERENT_WORLDS);
                     break;
@@ -51,7 +51,7 @@ public class BlockPartySetFloorCommand extends SubCommand {
 
         Arena arena = Arena.getByName(args[1]);
 
-        if(arena == null) {
+        if (arena == null) {
             Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }

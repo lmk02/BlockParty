@@ -5,16 +5,16 @@ package de.leonkoth.blockparty.exception;
  * Project BlockParty-2.0
  * © 2016 - Leon Koth
  */
-public class IDOverFlowException extends Exception{
+public class IDOverFlowException extends Exception {
 
     private String message;
 
-    public IDOverFlowException(String message){
+    public IDOverFlowException(String message) {
         this.message = message;
     }
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return this.message;
     }
 

@@ -3,7 +3,6 @@ package de.leonkoth.blockparty.event;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import lombok.Getter;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

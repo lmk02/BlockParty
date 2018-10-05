@@ -27,10 +27,10 @@ public abstract class Language {
                 try {
                     LocaleSection localeSection = (LocaleSection) field.get(null);
 
-                    if(!configuration.isSet("Sections." + localeSection)) {
+                    if (!configuration.isSet("Sections." + localeSection)) {
                         configuration.set("Sections." + localeSection, localeSection.getPrefixColor().name());
                     }
-                } catch(IllegalAccessException e) {
+                } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
 
@@ -41,7 +41,7 @@ public abstract class Language {
                     String[] values = localeString.getValues();
                     String path = localeString.getSection() + "." + Locale.convertName(field.getName());
 
-                    if(!configuration.isSet(path)) {
+                    if (!configuration.isSet(path)) {
                         if (values.length == 1) {
                             configuration.set(path, values[0]);
                         } else {
@@ -49,7 +49,7 @@ public abstract class Language {
                         }
                     }
 
-                } catch(IllegalAccessException e) {
+                } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
 

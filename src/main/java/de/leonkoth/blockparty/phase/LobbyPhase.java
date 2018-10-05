@@ -39,7 +39,7 @@ public class LobbyPhase implements Runnable {
         this.countdown = arena.getLobbyCountdown();
         this.displayScoreboard = new DisplayScoreboard();
 
-        if(blockParty.getMinecraftVersion().isLess(1, 13, 0)) {
+        if (blockParty.getMinecraftVersion().isLess(1, 13, 0)) {
             sound = Sound.valueOf("BLOCK_NOTE_HARP");
         } else {
             sound = Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");

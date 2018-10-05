@@ -33,8 +33,8 @@ public class BlockPartyAdminCommand extends SubCommand {
 
         sender.sendMessage(template.replaceAll("%SYNTAX%", BlockPartyAdminCommand.SYNTAX).replaceAll("%DESCRIPTION%", Locale.COMMAND_ADMIN.toString()));
 
-        for(SubCommand command : BlockPartyCommand.commands) {
-            if(!command.getPermission().startsWith("blockparty.admin"))
+        for (SubCommand command : BlockPartyCommand.commands) {
+            if (!command.getPermission().startsWith("blockparty.admin"))
                 continue;
 
             sender.sendMessage(template.replaceAll("%SYNTAX%", command.getSyntax()).replaceAll("%DESCRIPTION%", command.getDescription().toString()));

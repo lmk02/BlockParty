@@ -1,6 +1,5 @@
 package de.leonkoth.blockparty.util;
 
-import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.locale.Locale;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -56,8 +55,7 @@ public enum ItemType {
         return i;
     }
 
-    public ItemStack getSongItem(String name)
-    {
+    public ItemStack getSongItem(String name) {
         this.name = name;
 
         Random r = new Random();

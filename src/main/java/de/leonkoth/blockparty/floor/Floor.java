@@ -9,7 +9,10 @@ import de.leonkoth.blockparty.floor.generator.SingleBlockGenerator;
 import de.leonkoth.blockparty.floor.generator.StripeGenerator;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
-import de.leonkoth.blockparty.util.*;
+import de.leonkoth.blockparty.util.Bounds;
+import de.leonkoth.blockparty.util.ColorBlock;
+import de.leonkoth.blockparty.util.ParticlePlayer;
+import de.leonkoth.blockparty.util.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -305,8 +308,7 @@ public class Floor {
         return new Location(world, x, y, z);
     }
 
-    public FloorPattern loadPattern(String name)
-    {
+    public FloorPattern loadPattern(String name) {
         File file = new File(BlockParty.PLUGIN_FOLDER + "Floors/" + name + ".floor");
         try {
             FloorPattern pattern = PatternLoader.readFloorPattern(file);

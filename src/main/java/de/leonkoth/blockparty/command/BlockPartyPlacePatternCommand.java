@@ -7,9 +7,7 @@ import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
-import de.leonkoth.blockparty.util.BlockInfo;
 import lombok.Getter;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -46,7 +44,7 @@ public class BlockPartyPlacePatternCommand extends SubCommand {
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
 
-        if(BlockPartyUndoCommand.oldBlocks.containsKey(uuid)) {
+        if (BlockPartyUndoCommand.oldBlocks.containsKey(uuid)) {
             BlockPartyUndoCommand.undo(BlockPartyUndoCommand.oldBlocks.get(uuid));
             BlockPartyUndoCommand.oldBlocks.remove(uuid);
         }

@@ -12,7 +12,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.log.Log;
 
 import java.io.IOException;
-import java.net.Socket;
 
 
 /**
@@ -21,19 +20,17 @@ import java.net.Socket;
  * © 2016 - Leon Koth
  */
 
-public class JettyWebServer implements WebServer{
+public class JettyWebServer implements WebServer {
 
     private Server server;
 
     private int port;
 
-    public JettyWebServer()
-    {
+    public JettyWebServer() {
         this.port = 8080;
     }
 
-    public JettyWebServer(int port)
-    {
+    public JettyWebServer(int port) {
         this.port = port;
     }
 
@@ -67,15 +64,11 @@ public class JettyWebServer implements WebServer{
 
         server.setHandler(sessionHandler);
 
-        try
-        {
-            if (this.server != null)
-            {
+        try {
+            if (this.server != null) {
                 this.server.start();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
         }
     }
 

@@ -34,7 +34,7 @@ public class BlockPartyStatsCommand extends SubCommand {
 
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(name);
 
-        if(playerInfo != null) {
+        if (playerInfo != null) {
             Messenger.message(true, sender, Locale.STATS_MESSAGE, "%PLAYER%", playerInfo.getName(), "%WINS%", Integer.toString(playerInfo.getWins()), "%POINTS%", Integer.toString(playerInfo.getPoints()));
             return true;
         } else {

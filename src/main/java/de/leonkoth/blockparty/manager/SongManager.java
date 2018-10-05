@@ -51,7 +51,7 @@ public class SongManager {
         }
     }
 
-    public void addSong(String name){
+    public void addSong(String name) {
         if (arena.isUseWebSongs()) {
             songs.add(new WebSong(name));
         } else if (arena.isUseNoteblockSongs()) {

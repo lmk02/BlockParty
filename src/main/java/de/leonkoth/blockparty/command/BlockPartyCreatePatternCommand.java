@@ -3,8 +3,8 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.exception.InvalidSelectionException;
-import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.floor.FloorPattern;
+import de.leonkoth.blockparty.floor.PatternLoader;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
@@ -33,7 +33,7 @@ public class BlockPartyCreatePatternCommand extends SubCommand {
         try {
             selection = Selection.get(player);
         } catch (InvalidSelectionException e) {
-            switch(e.getError()) {
+            switch (e.getError()) {
                 case DIFFERENT_WORLDS:
                     Messenger.message(true, sender, Locale.DIFFERENT_WORLDS);
                     break;

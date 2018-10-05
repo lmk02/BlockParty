@@ -50,17 +50,15 @@ public class SongManager {
         }
     }
 
-    public ArrayList<String> getSongNames()
-    {
+    public ArrayList<String> getSongNames() {
         ArrayList<String> names = new ArrayList<>();
-        for(Song s : songs)
-        {
+        for (Song s : songs) {
             names.add(s.getName());
         }
         return names;
     }
 
-    public void addSong(String name){
+    public void addSong(String name) {
         if (arena.isUseWebSongs()) {
             songs.add(new WebSong(name));
         } else if (arena.isUseNoteblockSongs()) {
@@ -87,10 +85,8 @@ public class SongManager {
     }
 
     public boolean addVote(String name) {
-        for(Song s : songs)
-        {
-            if(s.getName().equals(name))
-            {
+        for (Song s : songs) {
+            if (s.getName().equals(name)) {
                 s.addVote();
                 return true;
             }
@@ -151,8 +147,7 @@ public class SongManager {
             }
             try {
                 this.votedSong.play(blockParty, this.arena);
-            } catch (FileNotFoundException e)
-            {
+            } catch (FileNotFoundException e) {
                 BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Song " + this.votedSong.getName() + " not available. Please check your arena config!");
                 this.votedSong = null;
             }
@@ -225,8 +220,7 @@ public class SongManager {
         return this.votedSong;
     }
 
-    public void setVotedSong(Song song)
-    {
+    public void setVotedSong(Song song) {
         this.votedSong = song;
     }
 
