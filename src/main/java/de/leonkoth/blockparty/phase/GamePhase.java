@@ -13,7 +13,6 @@ import de.leonkoth.blockparty.util.Util;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
@@ -195,8 +194,7 @@ public class GamePhase implements Runnable {
 
     }
 
-    public double getTimeRemaining()
-    {
+    public double getTimeRemaining() {
         return this.currentTimeToSearch + this.preparingTime - this.currentTime;
     }
 

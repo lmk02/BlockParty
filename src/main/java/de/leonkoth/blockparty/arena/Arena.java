@@ -4,14 +4,14 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.event.PlayerEliminateEvent;
 import de.leonkoth.blockparty.event.PlayerJoinArenaEvent;
 import de.leonkoth.blockparty.event.PlayerLeaveArenaEvent;
-import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.floor.Floor;
+import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.locale.Messenger;
-import de.leonkoth.blockparty.song.SongManager;
 import de.leonkoth.blockparty.phase.PhaseHandler;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
+import de.leonkoth.blockparty.song.SongManager;
 import de.leonkoth.blockparty.util.ParticlePlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -128,7 +128,7 @@ public class Arena {
         this.particlePlayer = new ParticlePlayer("CLOUD");
         this.playersInArena = new ArrayList<>();
 
-        if(save)
+        if (save)
             this.saveData();
     }
 
@@ -153,7 +153,7 @@ public class Arena {
             arena = Arena.getByName(name);
         }
 
-        if(arena != null) {
+        if (arena != null) {
 
             if (arena.getArenaDataManager().getConfig().isConfigurationSection("Floor")) {
                 arena.getArenaDataManager().loadData();
@@ -188,7 +188,7 @@ public class Arena {
 
     public static boolean isLoaded(String name) {
 
-        if(BlockParty.getInstance().getArenas() == null)
+        if (BlockParty.getInstance().getArenas() == null)
             return false;
 
         for (Arena arena : BlockParty.getInstance().getArenas()) {
@@ -265,10 +265,10 @@ public class Arena {
             floor.getPatternNames().remove(name);
 
             Iterator<FloorPattern> iterator = floor.getFloorPatterns().iterator();
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 FloorPattern pattern = iterator.next();
 
-                if(pattern.getName().equals(name)) {
+                if (pattern.getName().equals(name)) {
                     iterator.remove();
                 }
             }
@@ -361,8 +361,8 @@ public class Arena {
 
     public int getIngamePlayers() {
         int ingamePlayers = 0;
-        for(PlayerInfo info : playersInArena) {
-            if(info.getPlayerState() == PlayerState.INGAME || info.getPlayerState() == PlayerState.WINNER)
+        for (PlayerInfo info : playersInArena) {
+            if (info.getPlayerState() == PlayerState.INGAME || info.getPlayerState() == PlayerState.WINNER)
                 ingamePlayers++;
         }
 

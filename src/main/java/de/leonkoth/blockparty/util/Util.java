@@ -1,19 +1,17 @@
 package de.leonkoth.blockparty.util;
 
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
-import lombok.Getter;
-import org.bukkit.*;
-import org.bukkit.block.Block;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -73,8 +71,8 @@ public class Util {
 
     public static boolean hasInterface(Class<?> clazz, Class<?> interfaze) {
         boolean hasInterface = false;
-        for(Class<?> interfazze : clazz.getInterfaces()) {
-            if(interfazze.equals(interfaze)) {
+        for (Class<?> interfazze : clazz.getInterfaces()) {
+            if (interfazze.equals(interfaze)) {
                 hasInterface = true;
             }
         }
@@ -108,7 +106,7 @@ public class Util {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("§8").append(!console ? "§m" : "");
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
             stringBuilder.append(console ? "*" : " ");
         stringBuilder.append("§r");
 

@@ -11,7 +11,6 @@ import de.leonkoth.blockparty.util.Util;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
-import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,7 +32,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
         String path = BlockParty.PLUGIN_FOLDER + args[1];
         File file = new File(path);
 
-        if(!file.exists() || file.isDirectory()) {
+        if (!file.exists() || file.isDirectory()) {
             Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST, "%FILE%", path);
             return false;
         }
@@ -46,7 +45,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
             return false;
         }
 
-        if(!mimetype.startsWith("image")) {
+        if (!mimetype.startsWith("image")) {
             Messenger.message(true, sender, Locale.NO_IMAGE);
             return false;
         }

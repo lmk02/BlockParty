@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.data;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import lombok.Getter;
+
 import java.sql.*;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,7 +41,7 @@ public class Database {
 
         try {
             Class.forName("org.sqlite.JDBC");
-        } catch( ClassNotFoundException e ) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         this.tableName = BlockParty.getInstance().getTablePrefix() + "playerinfos";
@@ -58,14 +59,14 @@ public class Database {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-        } catch( ClassNotFoundException e ) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         this.tableName = BlockParty.getInstance().getTablePrefix() + "playerinfos";
         setupDatabase();
     }
 
-    public enum Type{
+    public enum Type {
         SQLITE, MYSQL;
     }
 
@@ -80,7 +81,7 @@ public class Database {
             try (Connection conn = DriverManager.getConnection(this.url)) {
                 if (conn != null) {
                     DatabaseMetaData meta = conn.getMetaData();
-                    if(BlockParty.DEBUG) {
+                    if (BlockParty.DEBUG) {
                         System.out.println("[BlockParty] The driver name is " + meta.getDriverName());
                         System.out.println("[BlockParty] A new database has been created.");
                     }
@@ -107,44 +108,40 @@ public class Database {
     }
 
     public void openWriteable() {
-        try{
-            if(databaseType == Type.SQLITE) {
+        try {
+            if (databaseType == Type.SQLITE) {
                 con = DriverManager.getConnection(this.url);
-            }
-            else
-            {
+            } else {
                 con = DriverManager.getConnection("jdbc:mysql://" + this.host + "/" + this.database + "?" +
                         "user=" + this.user + "&password=" + this.password);
             }
 
-        }catch (SQLException s){
+        } catch (SQLException s) {
             s.printStackTrace();
         }
     }
 
     public void openReadable() {
-        try{
-            if(databaseType == Type.SQLITE) {
+        try {
+            if (databaseType == Type.SQLITE) {
                 con = DriverManager.getConnection(this.url);
-            }
-            else
-            {
+            } else {
                 con = DriverManager.getConnection("jdbc:mysql://" + this.host + "/" + this.database + "?" +
                         "user=" + this.user + "&password=" + this.password);
             }
             st = con.createStatement();
-            rs = st.executeQuery("SELECT id, name, uuid, wins, points "+
+            rs = st.executeQuery("SELECT id, name, uuid, wins, points " +
                     "FROM " + this.tableName);
-        }catch (SQLException s){
+        } catch (SQLException s) {
             s.printStackTrace();
         }
     }
 
-    public boolean exists(PlayerInfo playerInfo){
+    public boolean exists(PlayerInfo playerInfo) {
         try {
             st = con.createStatement();
             rs = st.executeQuery("SELECT 1 FROM " + this.tableName + " WHERE uuid = '" + playerInfo.getUuid().toString() + "'");
-            if(rs.next())
+            if (rs.next())
                 return true;
             return false;
         } catch (SQLException e) {
@@ -153,9 +150,8 @@ public class Database {
         return false;
     }
 
-    public void updatePlayerInfo(PlayerInfo playerInfo)
-    {
-        try(PreparedStatement ps = con.prepareStatement("UPDATE " + this.tableName +
+    public void updatePlayerInfo(PlayerInfo playerInfo) {
+        try (PreparedStatement ps = con.prepareStatement("UPDATE " + this.tableName +
                 " SET wins = ?, points = ? WHERE uuid = ?")) {
             ps.setInt(1, playerInfo.getWins());
             ps.setInt(2, playerInfo.getPoints());
@@ -166,9 +162,8 @@ public class Database {
         }
     }
 
-    public void insertPlayerInfo(PlayerInfo playerInfo)
-    {
-        try(PreparedStatement ps = con.prepareStatement("INSERT INTO " + this.tableName +
+    public void insertPlayerInfo(PlayerInfo playerInfo) {
+        try (PreparedStatement ps = con.prepareStatement("INSERT INTO " + this.tableName +
                 "(id, name, uuid, wins, points) VALUES(?,?,?,?,?)")) {
             ps.setInt(1, playerInfo.getId());
             ps.setString(2, playerInfo.getName());
@@ -183,38 +178,38 @@ public class Database {
     }
 
     public PlayerInfo readPlayerInfo() {
-            try {
-                if(!rs.next())
-                    return null;
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String uuid = rs.getString("uuid");
-                int wins = rs.getInt("wins");
-                int points = rs.getInt("points");
-                return new PlayerInfo(id, name, UUID.fromString(uuid), wins, points);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return null;
+        try {
+            if (!rs.next())
+                return null;
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            String uuid = rs.getString("uuid");
+            int wins = rs.getInt("wins");
+            int points = rs.getInt("points");
+            return new PlayerInfo(id, name, UUID.fromString(uuid), wins, points);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void closeReadable() {
 
-        try{
-            if(rs != null)
+        try {
+            if (rs != null)
                 rs.close();
-            if(con != null)
+            if (con != null)
                 con.close();
-        }catch (SQLException s){
+        } catch (SQLException s) {
             s.printStackTrace();
         }
     }
 
     public void closeWriteable() {
-        try{
-            if(con!=null)
+        try {
+            if (con != null)
                 con.close();
-        }catch(SQLException s){
+        } catch (SQLException s) {
             s.printStackTrace();
         }
     }

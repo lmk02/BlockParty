@@ -32,22 +32,22 @@ public class BlockPartyListPatternsCommand extends SubCommand {
         List<String> patternList = new ArrayList<>();
         File folder = new File(BlockParty.PLUGIN_FOLDER + "Floors/");
 
-        if(args.length > 1) {
+        if (args.length > 1) {
 
             Arena arena = Arena.getByName(args[1]);
 
-            if(arena != null && arena.getFloor() != null) {
+            if (arena != null && arena.getFloor() != null) {
                 patternList = arena.getFloor().getPatternNames();
             }
         } else {
-            if(folder.isDirectory()) {
+            if (folder.isDirectory()) {
                 for (File file : Objects.requireNonNull(folder.listFiles())) {
                     patternList.add(Util.removeExtension(file.getName()));
                 }
             }
         }
 
-        if(patternList.isEmpty()) {
+        if (patternList.isEmpty()) {
             Messenger.message(true, sender, Locale.NO_PATTERNS);
         } else {
             String patterns = Arrays.toString(patternList.toArray()).replace("[", "").replace("]", "");

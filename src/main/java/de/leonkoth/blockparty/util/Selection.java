@@ -4,10 +4,7 @@ import de.leonkoth.blockparty.exception.InvalidSelectionException;
 import de.leonkoth.blockparty.locale.Locale;
 import de.leonkoth.blockparty.locale.Messenger;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -30,7 +27,7 @@ public class Selection {
     public static Selection get(Player player) throws InvalidSelectionException {
         UUID uuid = player.getUniqueId();
 
-        if(!selectedPoints.containsKey(uuid)
+        if (!selectedPoints.containsKey(uuid)
                 || selectedPoints.get(uuid)[0] == null
                 || selectedPoints.get(uuid)[1] == null) {
 
@@ -38,7 +35,7 @@ public class Selection {
         }
 
 
-        if(!selectedPoints.get(uuid)[0].getWorld().getName()
+        if (!selectedPoints.get(uuid)[0].getWorld().getName()
                 .equals(selectedPoints.get(uuid)[1].getWorld().getName())) {
 
             throw new InvalidSelectionException(InvalidSelectionException.Error.DIFFERENT_WORLDS);
@@ -51,13 +48,13 @@ public class Selection {
     }
 
     public static void select(Player player, Location location, int index, boolean message) {
-        if(!selectedPoints.containsKey(player.getUniqueId())) {
+        if (!selectedPoints.containsKey(player.getUniqueId())) {
             selectedPoints.put(player.getUniqueId(), new Location[2]);
         }
 
         selectedPoints.get(player.getUniqueId())[index] = location;
 
-        if(message) Messenger.message(true, player, Locale.POINT_SELECTED, "%POINT%", Integer.toString(index+1),
+        if (message) Messenger.message(true, player, Locale.POINT_SELECTED, "%POINT%", Integer.toString(index + 1),
                 "%LOCATION%", location.getX() + " " + location.getY() + " " + location.getZ());
     }
 
@@ -71,9 +68,9 @@ public class Selection {
         int minZ = bounds.getA().getBlockZ();
         int maxZ = minZ + bounds.getSize().getBlockLength();
 
-        for(int x = minX; x < maxX; x++) {
-            for(int y = minY; y < maxY; y++) {
-                for(int z = minZ; z < maxZ; z++) {
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
+                for (int z = minZ; z < maxZ; z++) {
                     blocks.add(bounds.getWorld().getBlockAt(x, y, z));
                 }
             }

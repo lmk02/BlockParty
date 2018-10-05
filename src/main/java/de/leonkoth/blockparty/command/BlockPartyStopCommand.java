@@ -36,7 +36,7 @@ public class BlockPartyStopCommand extends SubCommand {
 
         Arena arena = playerInfo.getCurrentArena();
 
-        if(arena == null) {
+        if (arena == null) {
             Messenger.message(true, sender, Locale.NOT_IN_ARENA);
             return false;
         }
@@ -52,9 +52,8 @@ public class BlockPartyStopCommand extends SubCommand {
         }
 
         ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
-        for(PlayerInfo players : arena.getPlayersInArena())
-        {
-            if(players.getPlayerState() == PlayerState.INGAME)
+        for (PlayerInfo players : arena.getPlayersInArena()) {
+            if (players.getPlayerState() == PlayerState.INGAME)
                 playerInfos.add(players);
         }
         arena.getPhaseHandler().startWinningPhase(playerInfos);

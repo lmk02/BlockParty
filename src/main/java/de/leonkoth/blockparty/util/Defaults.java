@@ -16,7 +16,7 @@ public class Defaults {
     public static void copy(String resourceName) {
         File file = new File(BlockParty.PLUGIN_FOLDER + resourceName);
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }

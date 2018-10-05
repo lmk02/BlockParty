@@ -34,16 +34,16 @@ public class MinecraftVersion {
     }
 
     public boolean isGreater(MinecraftVersion version) {
-        if(major > version.getMajor())
+        if (major > version.getMajor())
             return true;
 
-        if(major < version.getMajor())
+        if (major < version.getMajor())
             return false;
 
-        if(minor > version.getMinor())
+        if (minor > version.getMinor())
             return true;
 
-        if(minor < version.getMinor())
+        if (minor < version.getMinor())
             return false;
 
         return patch > version.getPatch();

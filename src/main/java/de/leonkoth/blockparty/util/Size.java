@@ -25,7 +25,7 @@ public class Size {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Size) {
+        if (obj instanceof Size) {
             Size size = (Size) obj;
             return width == size.getWidth() && height == size.getHeight() && length == size.getLength();
         } else {

@@ -24,8 +24,7 @@ public class BlockPartyRemovePatternCommand extends SubCommand {
 
         Arena arena = Arena.getByName(args[1]);
 
-        if(arena == null)
-        {
+        if (arena == null) {
             Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
             return false;
         }

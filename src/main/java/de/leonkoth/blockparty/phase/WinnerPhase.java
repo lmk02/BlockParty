@@ -42,15 +42,13 @@ public class WinnerPhase implements Runnable {
     @Override
     public void run() {
         if (countdown < 0) {
-            if(this.winner == null) {
+            if (this.winner == null) {
                 for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
                     if (playerInfo.getPlayerState() == PlayerState.WINNER) {
                         playerInfo.asPlayer().teleport(arena.getLobbySpawn());
                     }
                 }
-            }
-            else
-            {
+            } else {
                 for (PlayerInfo playerInfo : this.winner) {
                     playerInfo.asPlayer().teleport(arena.getLobbySpawn());
                 }

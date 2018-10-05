@@ -10,7 +10,7 @@ public class Bounds {
     private Location a, b;
 
     public Bounds(Location a, Location b) {
-        if(!b.getWorld().getName().equals(b.getWorld().getName())) {
+        if (!b.getWorld().getName().equals(b.getWorld().getName())) {
             throw new IllegalArgumentException("Worlds have to be the same");
         }
 

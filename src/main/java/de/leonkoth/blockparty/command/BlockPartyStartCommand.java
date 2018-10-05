@@ -26,19 +26,19 @@ public class BlockPartyStartCommand extends SubCommand {
 
         Arena arena;
 
-        if(args.length > 1) {
+        if (args.length > 1) {
             arena = Arena.getByName(args[1]);
 
-            if(arena == null) {
+            if (arena == null) {
                 Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST);
                 return false;
             }
         } else {
-            if(sender instanceof Player) {
+            if (sender instanceof Player) {
                 Player player = (Player) sender;
                 PlayerInfo info = PlayerInfo.getFromPlayer(player);
 
-                if(info == null || info.getCurrentArena() == null) {
+                if (info == null || info.getCurrentArena() == null) {
                     Messenger.message(true, sender, Locale.NOT_IN_ARENA);
                     return false;
                 }

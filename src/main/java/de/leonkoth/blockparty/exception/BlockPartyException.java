@@ -5,16 +5,16 @@ package de.leonkoth.blockparty.exception;
  * Project BlockParty-2.0
  * © 2016 - Leon Koth
  */
-public class BlockPartyException extends RuntimeException{
+public class BlockPartyException extends RuntimeException {
 
     private String message;
 
-    public BlockPartyException(String message){
+    public BlockPartyException(String message) {
         this.message = message;
     }
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return this.message;
     }
 

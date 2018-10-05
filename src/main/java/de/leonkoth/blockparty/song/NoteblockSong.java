@@ -42,7 +42,7 @@ public class NoteblockSong implements Song {
         song = NBSDecoder.parse(new File(BlockParty.PLUGIN_FOLDER + "Songs/", name + ".nbs"));
         sp = new RadioSongPlayer(song);
         sp.setAutoDestroy(true);
-        for(PlayerInfo pi : arena.getPlayersInArena())
+        for (PlayerInfo pi : arena.getPlayersInArena())
             sp.addPlayer(Bukkit.getPlayer(pi.getUuid()));
         sp.setPlaying(true);
     }
@@ -59,7 +59,7 @@ public class NoteblockSong implements Song {
 
     @Override
     public void stop(BlockParty blockParty, Arena arena) {
-        for(UUID uuids : sp.getPlayerUUIDs())
+        for (UUID uuids : sp.getPlayerUUIDs())
             sp.removePlayer(Bukkit.getPlayer(uuids));
         sp.setPlaying(false);
     }

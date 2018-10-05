@@ -5,7 +5,6 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.material.Colorable;
-import org.bukkit.material.MaterialData;
 
 public class ColorBlock {
 

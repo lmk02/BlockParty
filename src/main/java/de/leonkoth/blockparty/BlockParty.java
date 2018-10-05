@@ -80,7 +80,7 @@ public class BlockParty {
     public BlockParty(JavaPlugin plugin) {
         this.plugin = plugin;
         this.minecraftVersion = new MinecraftVersion();
-        if(DEBUG) {
+        if (DEBUG) {
             System.out.println("[BlockParty] Using DEBUG mode");
             System.out.println("[BlockParty] Detected Minecraft Version: " + minecraftVersion);
         }
@@ -179,8 +179,8 @@ public class BlockParty {
     }
 
     public void stop() {
-        for(Set<BlockInfo> blocks : BlockPartyUndoCommand.oldBlocks.values()) {
-            for(BlockInfo blockInfo : blocks) {
+        for (Set<BlockInfo> blocks : BlockPartyUndoCommand.oldBlocks.values()) {
+            for (BlockInfo blockInfo : blocks) {
                 blockInfo.restore();
             }
         }
@@ -252,7 +252,7 @@ public class BlockParty {
             } catch (Exception e) {
                 Bukkit.getLogger().severe("[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");
 
-                if(DEBUG)
+                if (DEBUG)
                     e.printStackTrace();
             }
         }

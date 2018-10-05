@@ -37,8 +37,7 @@ public class BlockPartyLeaveCommand extends SubCommand {
 
         Arena arena = playerInfo.getCurrentArena();
 
-        if(arena == null)
-        {
+        if (arena == null) {
             throw new BlockPartyException("Arena " + playerInfo.getCurrentArena() + " does not exist or got deleted.");
         }
 

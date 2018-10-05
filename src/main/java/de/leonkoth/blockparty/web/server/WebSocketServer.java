@@ -1,7 +1,6 @@
 package de.leonkoth.blockparty.web.server;
 
 import de.leonkoth.blockparty.BlockParty;
-import org.bukkit.Bukkit;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 
@@ -29,7 +28,7 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
     public void onOpen(WebSocket socket, ClientHandshake handshake) {
         this.socket.add(socket);
 
-        if(BlockParty.DEBUG)
+        if (BlockParty.DEBUG)
             System.out.println("[BlockParty] New connection from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
     }
 
@@ -37,13 +36,13 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
     public void onClose(WebSocket socket, int code, String reason, boolean remote) {
         this.socket.remove(socket);
 
-        if(BlockParty.DEBUG)
+        if (BlockParty.DEBUG)
             System.out.println("[BlockParty] Closed connection to " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
     }
 
     @Override
     public void onMessage(WebSocket socket, String message) {
-        if(BlockParty.DEBUG)
+        if (BlockParty.DEBUG)
             System.out.println("[BlockParty] Message from client: " + message);
 
         for (WebSocket sock : this.socket) {
@@ -56,7 +55,7 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
         if (socket != null) {
             this.socket.remove(socket);
 
-            if(BlockParty.DEBUG)
+            if (BlockParty.DEBUG)
                 System.err.println("[BlockParty] ERROR from " + socket.getRemoteSocketAddress().getAddress().getHostAddress());
         }
 
@@ -64,7 +63,7 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer i
 
     @Override
     public void onStart() {
-        if(BlockParty.DEBUG) {
+        if (BlockParty.DEBUG) {
             System.out.println("[BlockParty] Started music server on " + this.getAddress().getHostString() + ":" + this.getAddress().getPort());
         }
 

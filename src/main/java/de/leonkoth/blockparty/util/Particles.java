@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * @author pauhull
- *
+ * <p>
  * Particles for 1.13 update
  */
 public enum Particles {
@@ -64,6 +64,7 @@ public enum Particles {
 
     /**
      * Get particle object from enum
+     *
      * @return the particle
      */
     public Object get() {

@@ -69,7 +69,7 @@ public class BlockPartyCommand implements CommandExecutor {
             boolean console = !(sender instanceof Player);
             String separator = Util.getSeparator(31, console);
 
-            if(!console) sender.sendMessage(" ");
+            if (!console) sender.sendMessage(" ");
             sender.sendMessage(separator);
             sender.sendMessage("§7BlockParty version §e" + blockParty.getPlugin().getDescription().getVersion());
             sender.sendMessage("§7Developers: §e" + Arrays.toString(blockParty.getPlugin().getDescription().getAuthors().toArray()).replace("[", "").replace("]", ""));
@@ -81,10 +81,10 @@ public class BlockPartyCommand implements CommandExecutor {
 
         boolean showHelp = true;
         for (SubCommand subCommand : commands) {
-            if(subCommand.getName().equalsIgnoreCase(args[0])) {
+            if (subCommand.getName().equalsIgnoreCase(args[0])) {
                 showHelp = false;
-                if(sender.hasPermission(subCommand.getPermission())) {
-                    if(!subCommand.isOnlyPlayers() || sender instanceof Player) {
+                if (sender.hasPermission(subCommand.getPermission())) {
+                    if (!subCommand.isOnlyPlayers() || sender instanceof Player) {
                         if (args.length >= subCommand.getMinArgs()) {
                             subCommand.onCommand(sender, args);
                         } else {
