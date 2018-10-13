@@ -26,7 +26,9 @@ public abstract class ParticleEffect {
     }
 
     public ParticleEffect stop() {
-        task.cancel(true);
+        if(task != null && !task.isCancelled())
+            task.cancel(true);
+
         task = null;
         return this;
     }

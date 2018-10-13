@@ -1,7 +1,9 @@
 package de.leonkoth.blockparty.listener;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.boost.Boost;
 import de.leonkoth.blockparty.player.PlayerInfo;
+import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +30,9 @@ public class EntityPickupItemListener implements Listener {
             return;
         }
 
-        if (PlayerInfo.isInArena(player)) {
+        PlayerInfo info = PlayerInfo.getFromPlayer(player);
+
+        if(info != null && info.getCurrentArena() != null) {
             event.setCancelled(true);
         }
     }
