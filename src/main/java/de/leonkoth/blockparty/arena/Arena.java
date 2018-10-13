@@ -12,7 +12,7 @@ import de.leonkoth.blockparty.phase.PhaseHandler;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.song.SongManager;
-import de.leonkoth.blockparty.util.ParticlePlayer;
+import de.leonkoth.blockparty.particle.ParticlePlayer;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;

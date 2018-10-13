@@ -56,6 +56,10 @@ public class BlockPartyCommand implements CommandExecutor {
         commands.add(new BlockPartyPlacePatternCommand(blockParty));
         commands.add(new BlockPartyUndoCommand(blockParty));
         commands.add(new BlockPartyLoadImageCommand(blockParty));
+
+        if(BlockParty.DEBUG) {
+            commands.add(new BlockPartyTestCommand(blockParty));
+        }
     }
 
     @Override

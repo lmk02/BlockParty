@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -36,7 +38,8 @@ import java.util.Set;
 public class BlockParty {
 
     public static final boolean DEBUG = true;
-    public static final String PLUGIN_FOLDER = "plugins/BlockParty/";
+    public static final String PLUGIN_NAME = "BlockParty";
+    public static final String PLUGIN_FOLDER = "plugins/" + PLUGIN_NAME + "/";
 
     @Getter
     private static BlockParty instance;
@@ -46,6 +49,12 @@ public class BlockParty {
 
     @Getter
     private boolean bungee;
+
+    @Getter
+    private ExecutorService executorService;
+
+    @Getter
+    private ScheduledExecutorService scheduledExecutorService;
 
     @Getter
     private String defaultArena;
@@ -77,39 +86,39 @@ public class BlockParty {
     @Getter
     private MinecraftVersion minecraftVersion;
 
-    public BlockParty(JavaPlugin plugin) {
+    public BlockParty(JavaPlugin plugin, MinecraftVersion minecraftVersion, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
+        instance = this;
+
+        this.config = config;
         this.plugin = plugin;
-        this.minecraftVersion = new MinecraftVersion();
+        this.minecraftVersion = minecraftVersion;
+        this.executorService = executorService;
+        this.scheduledExecutorService = scheduledExecutorService;
+
         if (DEBUG) {
             System.out.println("[BlockParty] Using DEBUG mode");
             System.out.println("[BlockParty] Detected Minecraft Version: " + minecraftVersion);
         }
     }
 
-    public void start() {
-        instance = this;
-
-        // BSTATS
-        new Metrics(this.plugin);
-
-        // COPY FILES
+    public void load() {
+        // Copy Files
         DefaultManager.copyAll();
         Locale.writeFiles();
 
-        // BUNGEECORD VALUES
-        this.config = new Config(new File(PLUGIN_FOLDER + "config.yml"));
-        this.bungee = config.getConfig().getBoolean("BungeeCord");
-
-        // DATABASE
-        this.defaultArena = config.getConfig().getString("DefaultArena");
         this.tablePrefix = config.getConfig().getString("Database.TablePrefix");
-        this.initDatabase();
+
+        this.database = initDatabase();
+        this.webServer = initWebServer();
+
         this.playerInfoManager = new PlayerInfoManager(database);
         this.players = this.playerInfoManager.loadAll();
-
-        // LOAD VALUES
         this.arenas = this.loadAllArenas();
         this.reload();
+
+    }
+
+    public void start() {
 
         // Init listeners
         new BlockBreakListener(this);
@@ -136,6 +145,45 @@ public class BlockParty {
 
         // Init commands
         new BlockPartyCommand(this);
+
+    }
+
+    public void stop() {
+        for (Set<BlockInfo> blocks : BlockPartyUndoCommand.oldBlocks.values()) {
+            for (BlockInfo blockInfo : blocks) {
+                blockInfo.restore();
+            }
+        }
+        BlockPartyUndoCommand.oldBlocks.clear();
+
+        for (PlayerInfo playerInfo : PlayerInfo.getAllPlayerInfos()) {
+            if (playerInfo.getPlayerData() != null) {
+                playerInfo.getPlayerData().apply(playerInfo.asPlayer());
+            }
+        }
+
+        if (config.getConfig().getBoolean("SaveOnDisable"))
+            Arena.saveAll();
+
+        if (webServer != null) {
+            try {
+                this.webServer.stop();
+            } catch (Exception e) {
+                this.getPlugin().getLogger().severe("Couldn't stop MusicServer");
+            }
+        }
+    }
+
+    public void logStartMessage(boolean online) {
+        sender.sendMessage("§8*******************************");
+        sender.sendMessage("§8*  §7BlockParty §6v" + plugin.getDescription().getVersion());
+        sender.sendMessage("§8*  §7Authors: §6" + Arrays.toString(plugin.getDescription().getAuthors().toArray()));
+        sender.sendMessage("§8*  §7Music Server: " + (online ? "§aOnline" : "§cOffline"));
+        sender.sendMessage("§8*******************************");
+    }
+
+    private WebServer initWebServer() {
+        WebServer webServer = null;
 
         if (config.getConfig().getBoolean("MusicServer.Enabled")) {
             switch (config.getConfig().getString("MusicServer.WebSocketLibrary").toLowerCase()) {
@@ -176,43 +224,12 @@ public class BlockParty {
             logStartMessage(false);
         }
 
+        return webServer;
     }
 
-    public void stop() {
-        for (Set<BlockInfo> blocks : BlockPartyUndoCommand.oldBlocks.values()) {
-            for (BlockInfo blockInfo : blocks) {
-                blockInfo.restore();
-            }
-        }
-        BlockPartyUndoCommand.oldBlocks.clear();
+    private Database initDatabase() {
 
-        for (PlayerInfo playerInfo : PlayerInfo.getAllPlayerInfos()) {
-            if (playerInfo.getPlayerData() != null) {
-                playerInfo.getPlayerData().apply(playerInfo.asPlayer());
-            }
-        }
-
-        if (config.getConfig().getBoolean("SaveOnDisable"))
-            Arena.saveAll();
-
-        if (webServer != null) {
-            try {
-                this.webServer.stop();
-            } catch (Exception e) {
-                this.getPlugin().getLogger().severe("Couldn't stop MusicServer");
-            }
-        }
-    }
-
-    public void logStartMessage(boolean online) {
-        sender.sendMessage("§8*******************************");
-        sender.sendMessage("§8*  §7BlockParty §6v" + plugin.getDescription().getVersion());
-        sender.sendMessage("§8*  §7Authors: §6" + Arrays.toString(plugin.getDescription().getAuthors().toArray()));
-        sender.sendMessage("§8*  §7Music Server: " + (online ? "§aOnline" : "§cOffline"));
-        sender.sendMessage("§8*******************************");
-    }
-
-    public Database initDatabase() {
+        Database database;
 
         String databaseMethod = config.getConfig().getString("Database.Method");
         if (databaseMethod.equalsIgnoreCase("MySQL")) {
@@ -220,17 +237,17 @@ public class BlockParty {
             String host = config.getConfig().getString("Database.MySQLOptions.Host");
             int port = config.getConfig().getInt("Database.MySQLOptions.Port");
             String user = config.getConfig().getString("Database.MySQLOptions.Username");
-            String database = config.getConfig().getString("Database.MySQLOptions.Database");
+            String databaseName = config.getConfig().getString("Database.MySQLOptions.Database");
             String password = config.getConfig().getString("Database.MySQLOptions.Password");
 
-            this.database = new Database(this, host, port, user, database, password);
+            database = new Database(this, host, port, user, databaseName, password);
         } else {
 
             String fileName = config.getConfig().getString("Database.SQLOptions.FileName");
-            this.database = new Database(this, fileName);
+            database = new Database(this, fileName);
         }
 
-        return this.database;
+        return database;
     }
 
     private List<Arena> loadAllArenas() {

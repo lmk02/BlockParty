@@ -11,7 +11,7 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.Bounds;
 import de.leonkoth.blockparty.util.ColorBlock;
-import de.leonkoth.blockparty.util.ParticlePlayer;
+import de.leonkoth.blockparty.particle.ParticlePlayer;
 import de.leonkoth.blockparty.util.Size;
 import lombok.Getter;
 import lombok.Setter;

@@ -161,6 +161,7 @@
                 <version>3.0.2</version>
                 <configuration>
                     <outputDirectory>E:/Programmieren/Output/${project.artifactId}/${project.version}/</outputDirectory>
+                    <outputDirectory>E:\1.12.2 Test Server\plugins</outputDirectory>
                     <archive>
                         <manifest>
                             <mainClass>de.leonkoth.blockparty.Main</mainClass>
