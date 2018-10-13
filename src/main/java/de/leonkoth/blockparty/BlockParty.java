@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty;
 
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.boost.Boost;
 import de.leonkoth.blockparty.command.BlockPartyCommand;
 import de.leonkoth.blockparty.command.BlockPartyUndoCommand;
 import de.leonkoth.blockparty.data.Config;
@@ -149,6 +150,11 @@ public class BlockParty {
     }
 
     public void stop() {
+
+        for(Boost boost : Boost.boosts) {
+            boost.remove();
+        }
+
         for (Set<BlockInfo> blocks : BlockPartyUndoCommand.oldBlocks.values()) {
             for (BlockInfo blockInfo : blocks) {
                 blockInfo.restore();

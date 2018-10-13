@@ -7,6 +7,8 @@ import org.bukkit.block.Block;
 
 import java.util.Random;
 
+import static de.leonkoth.blockparty.util.MinecraftVersion.v1_13;
+
 public class AreaGenerator implements FloorGenerator {
 
     private Random random = new Random();
@@ -14,7 +16,7 @@ public class AreaGenerator implements FloorGenerator {
     private boolean useLegacy;
 
     public AreaGenerator() {
-        this.useLegacy = BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0);
+        this.useLegacy = BlockParty.getInstance().getMinecraftVersion().isLower(v1_13);
     }
 
     @Override

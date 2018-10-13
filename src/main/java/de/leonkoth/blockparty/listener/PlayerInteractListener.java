@@ -1,6 +1,8 @@
 package de.leonkoth.blockparty.listener;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.boost.Boost;
+import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.ItemType;
 import de.leonkoth.blockparty.util.Selection;
 import org.bukkit.Bukkit;
@@ -27,6 +29,14 @@ public class PlayerInteractListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
         Block block = event.getClickedBlock();
+
+        for(Boost boost : Boost.boosts) {
+            if(boost.getBlock().equals(block)) {
+                boost.remove();
+                boost.onCollect(block.getLocation(), player, PlayerInfo.getFromPlayer(player));
+                return;
+            }
+        }
 
         if (block != null && item != null && item.equals(ItemType.SELECTITEM.getItem()) && player.hasPermission(Selection.SELECT_PERMISSION)) {
 

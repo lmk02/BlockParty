@@ -1,9 +1,12 @@
 package de.leonkoth.blockparty.particle.v1_13;
 
+import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.util.Reflection;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static de.leonkoth.blockparty.util.MinecraftVersion.v1_13;
 
 /**
  * @author pauhull
@@ -55,7 +58,14 @@ public enum Particles {
     SPIT("N"),
     TOWN_AURA("H");
 
-    private static Class<?> clazz = Reflection.getNMSClass("Particles");
+    private static Class<?> clazz;
+
+    static {
+        if(BlockParty.getInstance().getMinecraftVersion().isGreaterOrEquals(v1_13)) {
+            clazz = Reflection.getNMSClass("Particles");
+        }
+    }
+
     private static Map<String, Object> particles = new HashMap<>();
 
     private String id;

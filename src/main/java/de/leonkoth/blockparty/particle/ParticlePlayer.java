@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import static de.leonkoth.blockparty.util.MinecraftVersion.v1_13;
 import static de.leonkoth.blockparty.util.Reflection.*;
 
 /**
@@ -47,7 +48,7 @@ public class ParticlePlayer {
         sendPacket = getMethod(playerConnection, "sendPacket", packet);
         playerConnectionField = getField(entityPlayer, "playerConnection");
 
-        if (BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
+        if (BlockParty.getInstance().getMinecraftVersion().isLower(v1_13)) {
             enumParticle = getNMSClass("EnumParticle");
             valueOf = getMethod(enumParticle, "valueOf", String.class);
             packetConstructor = getConstructor(packetPlayOutWorldParticles, enumParticle, boolean.class, float.class, float.class, float.class, float.class, float.class, float.class, float.class, int.class, int[].class);
@@ -65,17 +66,15 @@ public class ParticlePlayer {
      * @param particle Type of particle to be displayed
      */
     public ParticlePlayer(Particles particle) {
-
         try {
-            if (BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
+            if (BlockParty.getInstance().getMinecraftVersion().isLower(v1_13)) {
                 this.particle = valueOf.invoke(null, particle.name());
             } else {
-                this.particle = particle;
+                this.particle = particle.get();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -147,7 +146,7 @@ public class ParticlePlayer {
      */
     private Object createPacket(Object particle, float x, float y, float z, float xOffset, float yOffset, float zOffset, float data, int amount) {
         try {
-            if (BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
+            if (BlockParty.getInstance().getMinecraftVersion().isLower(v1_13)) {
                 return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount, null);
             } else {
                 return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount);

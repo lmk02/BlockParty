@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.leonkoth.blockparty.util.MinecraftVersion.v1_13;
+
 /**
  * Created by Leon on 15.03.2018.
  * Project Blockparty2
@@ -39,7 +41,7 @@ public class LobbyPhase implements Runnable {
         this.countdown = arena.getLobbyCountdown();
         this.displayScoreboard = new DisplayScoreboard();
 
-        if (blockParty.getMinecraftVersion().isLess(1, 13, 0)) {
+        if (blockParty.getMinecraftVersion().isLower(v1_13)) {
             sound = Sound.valueOf("BLOCK_NOTE_HARP");
         } else {
             sound = Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");

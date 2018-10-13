@@ -1,6 +1,8 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.boost.Boost;
+import de.leonkoth.blockparty.boost.TestBoost;
 import de.leonkoth.blockparty.locale.LocaleSection;
 import de.leonkoth.blockparty.locale.LocaleString;
 import de.leonkoth.blockparty.particle.ParticlePlayer;
@@ -33,16 +35,8 @@ public class BlockPartyTestCommand extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().clone().subtract(0, 1, 0), EntityType.ARMOR_STAND);
-        Item item = player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.DIAMOND));
-        armorStand.setPassenger(item); // 1.8 compability
-        armorStand.setGravity(false);
-        armorStand.setBasePlate(false);
-        armorStand.setVisible(false);
-        //item.setPickupDelay(Integer.MAX_VALUE);
-
-        ParticleEffect effect = new SpiralEffect(blockParty.getScheduledExecutorService(), armorStand.getLocation().clone().add(0, 1, 0),
-                new ParticlePlayer(Particles.DRIP_WATER), 50, 1.5, 3, 10, 1, true, 1).play();
+        Boost test = new TestBoost();
+        test.spawn(player.getLocation());
 
         return true;
     }
