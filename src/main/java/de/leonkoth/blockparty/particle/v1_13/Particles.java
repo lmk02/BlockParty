@@ -1,4 +1,6 @@
-package de.leonkoth.blockparty.util;
+package de.leonkoth.blockparty.particle.v1_13;
+
+import de.leonkoth.blockparty.util.Reflection;
 
 import java.util.HashMap;
 import java.util.Map;

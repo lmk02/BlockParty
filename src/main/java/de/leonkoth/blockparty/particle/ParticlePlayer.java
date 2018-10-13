@@ -1,6 +1,7 @@
-package de.leonkoth.blockparty.util;
+package de.leonkoth.blockparty.particle;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.particle.v1_13.Particles;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -61,19 +62,31 @@ public class ParticlePlayer {
     /**
      * Creates new instance of ParticlePlayer
      *
-     * @param particleName Type of particle to be displayed
+     * @param particle Type of particle to be displayed
      */
-    public ParticlePlayer(String particleName) {
+    public ParticlePlayer(Particles particle) {
 
         try {
             if (BlockParty.getInstance().getMinecraftVersion().isLess(1, 13, 0)) {
-                this.particle = valueOf.invoke(null, particleName);
+                this.particle = valueOf.invoke(null, particle.name());
             } else {
-                this.particle = Particles.valueOf(particleName).get();
+                this.particle = particle;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    /**
+     * Creates new instance of ParticlePlayer
+     * @deprecated Use {@link #ParticlePlayer(Particles)} instead
+     *
+     * @param particleName Name of particle to be displayed
+     */
+    @Deprecated
+    public ParticlePlayer(String particleName) {
+        this(Particles.valueOf(particleName));
     }
 
     /**
