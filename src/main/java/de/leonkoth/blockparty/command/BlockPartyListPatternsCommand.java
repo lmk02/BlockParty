@@ -2,10 +2,9 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.LocaleString;
-import de.leonkoth.blockparty.locale.Messenger;
-import de.leonkoth.blockparty.util.Util;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
+import de.pauhull.utils.file.FileUtils;
+import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
@@ -20,7 +19,7 @@ public class BlockPartyListPatternsCommand extends SubCommand {
     public static String SYNTAX = "/bp listpatterns [Arena]";
 
     @Getter
-    private LocaleString description = Locale.COMMAND_LIST_PATTERNS;
+    private LocaleString description = BlockPartyLocale.COMMAND_LIST_PATTERNS;
 
     public BlockPartyListPatternsCommand(BlockParty blockParty) {
         super(false, 1, "listpatterns", "blockparty.admin.listpatterns", blockParty);
@@ -42,16 +41,16 @@ public class BlockPartyListPatternsCommand extends SubCommand {
         } else {
             if (folder.isDirectory()) {
                 for (File file : Objects.requireNonNull(folder.listFiles())) {
-                    patternList.add(Util.removeExtension(file.getName()));
+                    patternList.add(FileUtils.removeExtension(file.getName()));
                 }
             }
         }
 
         if (patternList.isEmpty()) {
-            Messenger.message(true, sender, Locale.NO_PATTERNS);
+            BlockPartyLocale.NO_PATTERNS.message(sender);
         } else {
             String patterns = Arrays.toString(patternList.toArray()).replace("[", "").replace("]", "");
-            Messenger.message(true, sender, Locale.PATTERN_LIST, "%PATTERNS%", patterns);
+            BlockPartyLocale.PATTERN_LIST.message(sender, "%PATTERNS%", patterns);
         }
 
         return true;

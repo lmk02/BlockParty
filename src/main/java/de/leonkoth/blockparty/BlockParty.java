@@ -8,15 +8,14 @@ import de.leonkoth.blockparty.data.Config;
 import de.leonkoth.blockparty.data.Database;
 import de.leonkoth.blockparty.data.PlayerInfoManager;
 import de.leonkoth.blockparty.listener.*;
-import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.BlockInfo;
 import de.leonkoth.blockparty.util.DefaultManager;
-import de.leonkoth.blockparty.util.MinecraftVersion;
-import de.leonkoth.blockparty.util.Util;
 import de.leonkoth.blockparty.web.server.*;
+import de.pauhull.utils.file.FileUtils;
+import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -84,28 +83,24 @@ public class BlockParty {
     @Getter
     private String tablePrefix;
 
-    @Getter
-    private MinecraftVersion minecraftVersion;
-
-    public BlockParty(JavaPlugin plugin, MinecraftVersion minecraftVersion, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
+    public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
 
         this.config = config;
         this.plugin = plugin;
-        this.minecraftVersion = minecraftVersion;
         this.executorService = executorService;
         this.scheduledExecutorService = scheduledExecutorService;
 
         if (DEBUG) {
             System.out.println("[BlockParty] Using DEBUG mode");
-            System.out.println("[BlockParty] Detected Minecraft Version: " + minecraftVersion);
+            System.out.println("[BlockParty] Detected Minecraft Version: " + MinecraftVersion.CURRENT_VERSION);
         }
     }
 
     public void load() {
         // Copy Files
         DefaultManager.copyAll();
-        Locale.writeFiles();
+        BlockPartyLocale.init();
 
         this.tablePrefix = config.getConfig().getString("Database.TablePrefix");
 
@@ -136,13 +131,14 @@ public class BlockParty {
         new PlayerLeaveArenaListener(this);
         new PlayerQuitListener(this);
         new PlayerMoveListener(this);
-        new EntityPickupItemListener(this);
         new PlayerWinListener(this);
         new RoundPrepareListener(this);
         new RoundStartListener(this);
+        new PickupItemListener(this);
         new InteractListener(this);
         new PlayerInteractListener(this);
         new ServerListPingListener(this);
+
 
         // Init commands
         new BlockPartyCommand(this);
@@ -151,7 +147,7 @@ public class BlockParty {
 
     public void stop() {
 
-        for(Boost boost : Boost.boosts) {
+        for (Boost boost : Boost.boosts) {
             boost.remove();
         }
 
@@ -270,7 +266,7 @@ public class BlockParty {
                 continue;
 
             try {
-                Arena arena = Arena.getArenaData(Util.removeExtension(file.getName()));
+                Arena arena = Arena.getArenaData(FileUtils.removeExtension(file.getName()));
                 arenas.add(arena);
             } catch (Exception e) {
                 Bukkit.getLogger().severe("[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");
@@ -293,7 +289,7 @@ public class BlockParty {
             this.bungee = config.getConfig().getBoolean("BungeeCord");
             this.defaultArena = config.getConfig().getString("DefaultArena");
 
-            Locale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
+            BlockPartyLocale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
 
         } catch (Exception e) {
             e.printStackTrace();

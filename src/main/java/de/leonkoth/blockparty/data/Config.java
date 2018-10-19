@@ -1,6 +1,6 @@
 package de.leonkoth.blockparty.data;
 
-import de.leonkoth.blockparty.util.Defaults;
+import de.leonkoth.blockparty.util.DefaultManager;
 import lombok.Getter;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,7 +37,7 @@ public class Config {
     private void load(File file) {
         this.file = file;
 
-        Defaults.copy(file.getName());
+        DefaultManager.copy(file.getName());
 
         if (utf8) {
             try {

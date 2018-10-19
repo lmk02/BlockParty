@@ -20,6 +20,10 @@ public class PlayerJoinArenaEvent extends Event implements Cancellable {
     @Getter
     private boolean cancelled;
 
+    @Setter
+    @Getter
+    private String cancelMessage = null;
+
     @Getter
     private Arena arena;
 

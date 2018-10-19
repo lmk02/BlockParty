@@ -3,8 +3,7 @@ package de.leonkoth.blockparty.listener;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.event.PlayerLeaveArenaEvent;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.Bukkit;
@@ -37,14 +36,14 @@ public class PlayerLeaveArenaListener implements Listener {
             playerInfo.setPlayerData(null);
         }
 
-        arena.broadcast(true, Locale.PLAYER_LEFT_GAME, false, playerInfo, "%PLAYER%", player.getName());
+        arena.broadcast(BlockPartyLocale.PLAYER_LEFT_GAME, false, playerInfo, "%PLAYER%", player.getName());
 
         arena.getPlayersInArena().remove(playerInfo);
 
         if (blockParty.isBungee()) {
-            player.kickPlayer(Locale.LEFT_GAME.toString("%ARENA%", arena.getName()));
+            player.kickPlayer(BlockPartyLocale.LEFT_GAME.toString("%ARENA%", arena.getName()));
         } else {
-            Messenger.message(true, player, Locale.LEFT_GAME, "%ARENA%", arena.getName());
+            BlockPartyLocale.LEFT_GAME.message(player, "%ARENA%", arena.getName());
         }
     }
 

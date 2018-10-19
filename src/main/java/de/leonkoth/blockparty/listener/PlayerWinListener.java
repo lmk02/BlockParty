@@ -5,8 +5,7 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.event.PlayerWinEvent;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.Bukkit;
@@ -46,8 +45,8 @@ public class PlayerWinListener implements Listener {
             playerInfo.setPlayerState(PlayerState.WINNER);
             Player player = playerInfo.asPlayer();
             if (player != null) {
-                arena.broadcast(true, Locale.WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
-                Messenger.message(true, player, Locale.WINNER_ANNOUNCE_SELF);
+                arena.broadcast(BlockPartyLocale.WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
+                BlockPartyLocale.WINNER_ANNOUNCE_SELF.message(player);
             }
 
             playerInfo.setPoints(playerInfo.getPoints() + 15);

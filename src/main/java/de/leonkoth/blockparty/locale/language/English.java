@@ -1,7 +1,8 @@
 package de.leonkoth.blockparty.locale.language;
 
-import de.leonkoth.blockparty.locale.LocaleSection;
-import de.leonkoth.blockparty.locale.LocaleString;
+import de.pauhull.utils.locale.Language;
+import de.pauhull.utils.locale.storage.LocaleSection;
+import de.pauhull.utils.locale.storage.LocaleString;
 import org.bukkit.ChatColor;
 
 import java.io.File;
@@ -83,7 +84,7 @@ public class English extends Language {
     public static final LocaleString FLOOR_CREATE_FAIL = new LocaleString(ERROR, "Failed to set floor in arena \"%ARENA%\"");
     public static final LocaleString FLOOR_LOAD_FAIL = new LocaleString(ERROR, "Failed to load floor.");
     public static final LocaleString PATTERN_DOESNT_EXIST = new LocaleString(ERROR, "Pattern \"%PATTERN%\" in arena \"%ARENA%\" doesn't exist");
-    public static final LocaleString FLOOR_MIN_HEIHGT = new LocaleString(ERROR, "The floor has to be 1 block high");
+    public static final LocaleString FLOOR_MIN_HEIGHT = new LocaleString(ERROR, "The floor has to be 1 block high");
     public static final LocaleString PATTERN_ISNT_CORRECT_SIZE = new LocaleString(ERROR, "This pattern isn't the right size");
     public static final LocaleString IN_PROGRESS = new LocaleString(ERROR, "The game you are trying to join is already running");
     public static final LocaleString NO_ARENAS = new LocaleString(ERROR, "There are no arenas to list");
@@ -152,8 +153,12 @@ public class English extends Language {
     public static final LocaleString HEADER_TUTORIAL_PATTERNS = new LocaleString(HEADERS, "Pattern Tutorial");
     public static final LocaleString HEADER_LIST_ARENAS = new LocaleString(HEADERS, "All arenas");
 
-    public static void writeTo(File file) throws IOException {
-        Language.writeTo(English.class, file);
+    public static void writeTo(File file) {
+        try {
+            writeTo(English.class, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -2,7 +2,7 @@ package de.leonkoth.blockparty.listener;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.Bukkit;
@@ -43,16 +43,19 @@ public class PlayerJoinListener implements Listener {
             Arena arena = Arena.getByName(blockParty.getDefaultArena());
 
             if (arena == null) {
-                player.kickPlayer(Locale.ARENA_DOESNT_EXIST.toString("%ARENA%", blockParty.getDefaultArena()));
+                player.kickPlayer(BlockPartyLocale.ARENA_DOESNT_EXIST.toString("%ARENA%", blockParty.getDefaultArena()));
                 return;
             }
 
             if (!arena.isEnabled()) {
-                player.kickPlayer(Locale.ARENA_DISABLED.toString("%ARENA%", blockParty.getDefaultArena()));
+                player.kickPlayer(BlockPartyLocale.ARENA_DISABLED.toString("%ARENA%", blockParty.getDefaultArena()));
                 return;
             }
 
-            arena.addPlayer(player);
+            String error = arena.addPlayer(player).getCancelMessage();
+            if (error != null) {
+                player.kickPlayer(error);
+            }
         }
     }
 

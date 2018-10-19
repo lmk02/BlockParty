@@ -4,7 +4,7 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.event.PlayerEliminateEvent;
-import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.Bukkit;
@@ -51,7 +51,7 @@ public class PlayerEliminateListener implements Listener {
         player.teleport(arena.getLobbySpawn());
         player.getInventory().clear();
         player.updateInventory();
-        arena.broadcast(true, Locale.PLAYER_ELIMINATED, false, (PlayerInfo) null, "%PLAYER%", playerInfo.getName());
+        arena.broadcast(BlockPartyLocale.PLAYER_ELIMINATED, false, (PlayerInfo) null, "%PLAYER%", playerInfo.getName());
 
         if (arena.getArenaState() == ArenaState.INGAME || arena.getArenaState() == ArenaState.WINNERPHASE) {
             arena.getPhaseHandler().getGamePhase().eliminate(playerInfo);

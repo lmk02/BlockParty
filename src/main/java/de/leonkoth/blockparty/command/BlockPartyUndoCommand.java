@@ -1,10 +1,9 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.LocaleString;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.util.BlockInfo;
+import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +19,7 @@ public class BlockPartyUndoCommand extends SubCommand {
     public static Map<UUID, Set<BlockInfo>> oldBlocks = new HashMap<>();
 
     @Getter
-    private LocaleString description = Locale.COMMAND_UNDO;
+    private LocaleString description = BlockPartyLocale.COMMAND_UNDO;
 
     public BlockPartyUndoCommand(BlockParty blockParty) {
         super(true, 1, "undo", "blockparty.admin.undo", blockParty);
@@ -39,14 +38,14 @@ public class BlockPartyUndoCommand extends SubCommand {
         UUID uuid = player.getUniqueId();
 
         if (!oldBlocks.containsKey(uuid)) {
-            Messenger.message(true, sender, Locale.NO_UNDO);
+            BlockPartyLocale.NO_UNDO.message(sender);
             return false;
         }
 
         undo(oldBlocks.get(uuid));
 
         oldBlocks.remove(uuid);
-        Messenger.message(true, sender, Locale.CHANGES_UNDONE);
+        BlockPartyLocale.CHANGES_UNDONE.message(sender);
 
         return true;
     }

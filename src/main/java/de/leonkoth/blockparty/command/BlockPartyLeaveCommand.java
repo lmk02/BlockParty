@@ -3,11 +3,10 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.exception.BlockPartyException;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.LocaleString;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
+import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -18,7 +17,7 @@ public class BlockPartyLeaveCommand extends SubCommand {
     public static String SYNTAX = "/bp leave <Arena>";
 
     @Getter
-    private LocaleString description = Locale.COMMAND_LEAVE;
+    private LocaleString description = BlockPartyLocale.COMMAND_LEAVE;
 
     public BlockPartyLeaveCommand(BlockParty blockParty) {
         super(true, 1, "leave", "blockparty.user.leave", blockParty);
@@ -31,7 +30,7 @@ public class BlockPartyLeaveCommand extends SubCommand {
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
 
         if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-            Messenger.message(true, sender, Locale.NOT_IN_ARENA);
+            BlockPartyLocale.NOT_IN_ARENA.message(sender);
             return false;
         }
 

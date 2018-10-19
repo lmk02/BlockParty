@@ -4,8 +4,7 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.event.PlayerJoinArenaEvent;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerData;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
@@ -34,13 +33,15 @@ public class PlayerJoinArenaListener implements Listener {
         PlayerInfo playerInfo = event.getPlayerInfo();
 
         if (playerInfo.getPlayerState() != PlayerState.DEFAULT) {
-            Messenger.message(true, player, Locale.ALREADY_IN_GAME);
+            BlockPartyLocale.ALREADY_IN_GAME.message(player);
+            event.setCancelMessage(BlockPartyLocale.ALREADY_IN_GAME.toString());
             event.setCancelled(true);
             return;
         }
 
         if (arena.getPlayersInArena().size() >= arena.getMaxPlayers()) {
-            Messenger.message(true, player, Locale.ARENA_ALREADY_FULL);
+            BlockPartyLocale.ARENA_ALREADY_FULL.message(player);
+            event.setCancelMessage(BlockPartyLocale.ARENA_ALREADY_FULL.toString());
             event.setCancelled(true);
             return;
         }
@@ -51,7 +52,8 @@ public class PlayerJoinArenaListener implements Listener {
             if (arena.isAllowJoinDuringGame()) {
                 playerInfo.setPlayerState(PlayerState.SPECTATING);
             } else {
-                Messenger.message(true, player, Locale.IN_PROGRESS);
+                BlockPartyLocale.IN_PROGRESS.message(player);
+                event.setCancelMessage(BlockPartyLocale.IN_PROGRESS.toString());
                 event.setCancelled(true);
                 return;
             }
@@ -67,13 +69,13 @@ public class PlayerJoinArenaListener implements Listener {
         player.setExp(0);
         playerInfo.setCurrentArena(arena);
         arena.getPlayersInArena().add(playerInfo);
-        arena.broadcast(true, Locale.PLAYER_JOINED_GAME, false, playerInfo, "%PLAYER%", player.getName());
+        arena.broadcast(BlockPartyLocale.PLAYER_JOINED_GAME, false, playerInfo, "%PLAYER%", player.getName());
 
         player.getInventory().setItem(8, ItemType.LEAVEARENA.getItem());
         player.getInventory().setItem(7, ItemType.VOTEFORASONG.getItem());
         player.updateInventory();
 
-        Messenger.message(true, player, Locale.JOINED_GAME, "%ARENA%", arena.getName());
+        BlockPartyLocale.JOINED_GAME.message(player, "%ARENA%", arena.getName());
         arena.getPhaseHandler().startLobbyPhase();
 
     }

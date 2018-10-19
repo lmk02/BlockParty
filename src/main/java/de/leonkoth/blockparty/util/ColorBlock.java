@@ -1,6 +1,6 @@
 package de.leonkoth.blockparty.util;
 
-import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -8,7 +8,7 @@ import org.bukkit.material.Colorable;
 
 public class ColorBlock {
 
-    private static String[] colors = Locale.COLORS.getValues();
+    private static String[] colors = BlockPartyLocale.COLORS.getValues();
     private static String[] colorCodes = {"f", "6", "d", "9", "e", "a", "c", "8", "7", "b", "5", "1", "8", "2", "4", "0"};
 
     @Getter

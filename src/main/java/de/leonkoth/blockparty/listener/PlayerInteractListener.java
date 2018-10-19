@@ -30,8 +30,8 @@ public class PlayerInteractListener implements Listener {
         ItemStack item = event.getItem();
         Block block = event.getClickedBlock();
 
-        for(Boost boost : Boost.boosts) {
-            if(boost.getBlock().equals(block)) {
+        for (Boost boost : Boost.boosts) {
+            if (boost.getBlock().equals(block)) {
                 boost.remove();
                 boost.onCollect(block.getLocation(), player, PlayerInfo.getFromPlayer(player));
                 return;

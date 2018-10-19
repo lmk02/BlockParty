@@ -3,9 +3,10 @@ package de.leonkoth.blockparty.phase;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.display.DisplayScoreboard;
-import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.Util;
+import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -13,7 +14,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.leonkoth.blockparty.util.MinecraftVersion.v1_13;
+import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
 
 /**
  * Created by Leon on 15.03.2018.
@@ -41,7 +42,7 @@ public class LobbyPhase implements Runnable {
         this.countdown = arena.getLobbyCountdown();
         this.displayScoreboard = new DisplayScoreboard();
 
-        if (blockParty.getMinecraftVersion().isLower(v1_13)) {
+        if (MinecraftVersion.CURRENT_VERSION.isLower(v1_13)) {
             sound = Sound.valueOf("BLOCK_NOTE_HARP");
         } else {
             sound = Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");
@@ -82,7 +83,7 @@ public class LobbyPhase implements Runnable {
                     player.playSound(player.getLocation(), sound, 1, 1);
                 }
 
-                arena.broadcast(true, Locale.TIME_LEFT, false, (PlayerInfo) null, "%TIME%", Integer.toString(countdown));
+                arena.broadcast(BlockPartyLocale.TIME_LEFT, false, (PlayerInfo) null, "%TIME%", Integer.toString(countdown));
             }
 
             for (Player player : players) {
@@ -91,11 +92,11 @@ public class LobbyPhase implements Runnable {
                 player.setExp(exp);
             }
 
-            Util.showActionBar(Locale.ACTIONBAR_COUNTDOWN.toString("%NUMBER%", Integer.toString(countdown)), arena, false);
+            Util.showActionBar(BlockPartyLocale.ACTIONBAR_COUNTDOWN.toString("%NUMBER%", Integer.toString(countdown)), arena, false);
 
             //this.displayScoreboard.setScoreboard(i, 0, arena); TODO: show scoreboard
         } else {
-            arena.broadcast(true, Locale.START_ABORTED, false, (PlayerInfo) null);
+            arena.broadcast(BlockPartyLocale.START_ABORTED, false, (PlayerInfo) null);
             countdown = -1;
         }
 

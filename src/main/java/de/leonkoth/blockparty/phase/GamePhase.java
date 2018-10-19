@@ -5,7 +5,7 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.event.*;
-import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.ColorBlock;
@@ -35,6 +35,7 @@ public class GamePhase implements Runnable {
     private BlockParty blockParty;
     private Arena arena;
     private double timeRemaining;
+    private ColorBlock colorBlock;
 
     public GamePhase(BlockParty blockParty, String name) {
         this(blockParty, Arena.getByName(name));
@@ -50,8 +51,6 @@ public class GamePhase implements Runnable {
         this.timeModifier = 0.1; //TODO: Needs to be added to config
         this.currentTimeToSearch = timeToSearch;
     }
-
-    private ColorBlock colorBlock;
 
     private int getActivePlayerAmount() {
         int amount = 0;
@@ -126,7 +125,7 @@ public class GamePhase implements Runnable {
                 Bukkit.getPluginManager().callEvent(event);
                 firstPrepareEnter = false;
             }
-            Util.showActionBar(Locale.ACTIONBAR_DANCE.toString(), arena, true);
+            Util.showActionBar(BlockPartyLocale.ACTIONBAR_DANCE.toString(), arena, true);
             currentTime += 0.1;
         } else {
             if (currentTime < (currentTimeToSearch + preparingTime)) {
@@ -164,7 +163,7 @@ public class GamePhase implements Runnable {
                     }
 
                     //STOP
-                    Util.showActionBar(Locale.ACTIONBAR_STOP.toString(), arena, true);
+                    Util.showActionBar(BlockPartyLocale.ACTIONBAR_STOP.toString(), arena, true);
                     currentTime += 0.1;
                 } else {
                     if (currentLevel < levelAmount) {
