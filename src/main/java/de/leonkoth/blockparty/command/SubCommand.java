@@ -1,7 +1,7 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.locale.LocaleString;
+import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

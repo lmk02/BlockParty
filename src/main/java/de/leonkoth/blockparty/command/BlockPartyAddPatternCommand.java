@@ -4,9 +4,8 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.floor.PatternLoader;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.LocaleString;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
+import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
@@ -15,7 +14,7 @@ public class BlockPartyAddPatternCommand extends SubCommand {
     public static String SYNTAX = "/bp addpattern <Arena> <Pattern>";
 
     @Getter
-    private LocaleString description = Locale.COMMAND_ADD_PATTERN;
+    private LocaleString description = BlockPartyLocale.COMMAND_ADD_PATTERN;
 
     public BlockPartyAddPatternCommand(BlockParty blockParty) {
         super(false, 3, "addpattern", "blockparty.admin.addpattern", blockParty);
@@ -27,37 +26,29 @@ public class BlockPartyAddPatternCommand extends SubCommand {
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            Messenger.message(true, sender, Locale.ARENA_DOESNT_EXIST, "%ARENA%", args[1]);
+            BlockPartyLocale.ARENA_DOESNT_EXIST.message(sender, "%ARENA%", args[1]);
             return false;
         }
 
         if (!PatternLoader.exists(args[2])) {
-            Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[2] + ".floor");
+            BlockPartyLocale.FILE_DOESNT_EXIST.message(sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[2] + ".floor");
             return false;
         }
-
-        /*FloorPattern pattern;
-        try {
-            pattern = FloorPattern.create(args[2], arena.getFloor().getBounds());
-        } catch (FloorLoaderException e) {
-            e.printStackTrace();
-            return false;
-        }*/
 
         FloorPattern pattern = arena.getFloor().loadPattern(args[2]);
 
         if (pattern == null) {
-            Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST);
+            BlockPartyLocale.FILE_DOESNT_EXIST.message(sender);
             return false;
         }
 
         if (!pattern.getSize().equals(arena.getFloor().getSize())) {
-            Messenger.message(true, sender, Locale.PATTERN_ISNT_CORRECT_SIZE);
+            BlockPartyLocale.PATTERN_ISNT_CORRECT_SIZE.message(sender);
             return false;
         }
 
         if (arena.addPattern(pattern)) {
-            Messenger.message(true, sender, Locale.PATTERN_ADDED, "%ARENA%", args[1], "%PATTERN%", args[2]);
+            BlockPartyLocale.PATTERN_ADDED.message(sender, "%ARENA%", args[1], "%PATTERN%", args[2]);
         }
 
         return true;

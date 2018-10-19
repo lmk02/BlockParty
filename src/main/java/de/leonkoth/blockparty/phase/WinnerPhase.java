@@ -5,7 +5,7 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.event.GameEndEvent;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
-import de.leonkoth.blockparty.util.Util;
+import de.pauhull.utils.misc.RandomFireworkGenerator;
 import org.bukkit.Bukkit;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public class WinnerPhase implements Runnable {
         } else {
             if (arena.isEnableFireworksOnWin() && winner != null) {
                 for (PlayerInfo playerInfo : this.winner) {
-                    Util.shootRandomFirework(playerInfo.asPlayer().getLocation(), 3);
+                    RandomFireworkGenerator.shootRandomFirework(playerInfo.asPlayer().getLocation(), 3);
                 }
             }
         }

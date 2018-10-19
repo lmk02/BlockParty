@@ -1,8 +1,7 @@
 package de.leonkoth.blockparty.util;
 
 import de.leonkoth.blockparty.exception.InvalidSelectionException;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -54,8 +53,10 @@ public class Selection {
 
         selectedPoints.get(player.getUniqueId())[index] = location;
 
-        if (message) Messenger.message(true, player, Locale.POINT_SELECTED, "%POINT%", Integer.toString(index + 1),
-                "%LOCATION%", location.getX() + " " + location.getY() + " " + location.getZ());
+        if (message) {
+            BlockPartyLocale.POINT_SELECTED.message(player, "%POINT%",
+                    Integer.toString(index + 1), "%LOCATION%", location.getX() + " " + location.getY() + " " + location.getZ());
+        }
     }
 
     public Set<Block> getBlocks() {

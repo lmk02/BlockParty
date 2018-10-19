@@ -4,9 +4,8 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.floor.PatternLoader;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.LocaleString;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
+import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +19,7 @@ public class BlockPartyPlacePatternCommand extends SubCommand {
     public static String SYNTAX = "/bp placepattern <Pattern>";
 
     @Getter
-    private LocaleString description = Locale.COMMAND_PLACE_PATTERN;
+    private LocaleString description = BlockPartyLocale.COMMAND_PLACE_PATTERN;
 
     public BlockPartyPlacePatternCommand(BlockParty blockParty) {
         super(true, 2, "placepattern", "blockparty.admin.placepattern", blockParty);
@@ -33,7 +32,7 @@ public class BlockPartyPlacePatternCommand extends SubCommand {
         try {
             pattern = PatternLoader.readFloorPattern(new File(BlockParty.PLUGIN_FOLDER + "Floors/" + args[1] + ".floor"));
         } catch (FileNotFoundException e) {
-            Messenger.message(true, sender, Locale.FILE_DOESNT_EXIST, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[1] + ".floor");
+            BlockPartyLocale.FILE_DOESNT_EXIST.message(sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[1] + ".floor");
             return false;
         } catch (FloorLoaderException e) {
             //unusual
@@ -51,7 +50,7 @@ public class BlockPartyPlacePatternCommand extends SubCommand {
 
         BlockPartyUndoCommand.oldBlocks.put(player.getUniqueId(), pattern.place(player.getLocation()));
 
-        Messenger.message(true, sender, Locale.PATTERN_PLACED, "%FILE%", args[1] + ".floor");
+        BlockPartyLocale.PATTERN_PLACED.message(sender, "%FILE%", args[1] + ".floor");
 
         return true;
     }

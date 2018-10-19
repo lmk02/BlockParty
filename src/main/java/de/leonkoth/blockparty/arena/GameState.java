@@ -7,6 +7,6 @@ package de.leonkoth.blockparty.arena;
  */
 public enum GameState {
 
-    START, PLAY, STOP, WAIT;
+    START, PLAY, STOP, WAIT
 
 }

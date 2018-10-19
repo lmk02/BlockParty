@@ -1,8 +1,7 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.util.Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -57,7 +56,7 @@ public class BlockPartyCommand implements CommandExecutor {
         commands.add(new BlockPartyUndoCommand(blockParty));
         commands.add(new BlockPartyLoadImageCommand(blockParty));
 
-        if(BlockParty.DEBUG) {
+        if (BlockParty.DEBUG) {
             commands.add(new BlockPartyTestCommand(blockParty));
         }
     }
@@ -92,19 +91,19 @@ public class BlockPartyCommand implements CommandExecutor {
                         if (args.length >= subCommand.getMinArgs()) {
                             subCommand.onCommand(sender, args);
                         } else {
-                            Messenger.message(true, sender, Locale.SYNTAX, "%SYNTAX%", subCommand.getSyntax());
+                            BlockPartyLocale.SYNTAX.message(sender, "%SYNTAX%", subCommand.getSyntax());
                         }
                     } else {
-                        Messenger.message(true, sender, Locale.ONLY_PLAYERS);
+                        BlockPartyLocale.ONLY_PLAYERS.message(sender);
                     }
                 } else {
-                    Messenger.message(true, sender, Locale.NO_PERMISSIONS);
+                    BlockPartyLocale.NO_PERMISSIONS.message(sender);
                 }
             }
         }
 
         if (showHelp) {
-            Messenger.message(true, sender, Locale.COMMAND_NOT_FOUND);
+            BlockPartyLocale.COMMAND_NOT_FOUND.message(sender);
         }
 
         return true;

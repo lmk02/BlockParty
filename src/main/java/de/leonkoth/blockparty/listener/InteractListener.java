@@ -2,8 +2,7 @@ package de.leonkoth.blockparty.listener;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.locale.Locale;
-import de.leonkoth.blockparty.locale.Messenger;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.song.Song;
@@ -20,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+// TODO: clean up messy code
 public class InteractListener implements Listener {
 
     private BlockParty blockParty;
@@ -50,7 +50,9 @@ public class InteractListener implements Listener {
             Player player = event.getPlayer();
             ItemStack item = event.getItem();
 
-            event.setCancelled(this.handleItemInteract(player, item, null));
+            if (this.handleItemInteract(player, item, null)) {
+                event.setCancelled(true);
+            }
         }
 
     }
@@ -61,9 +63,9 @@ public class InteractListener implements Listener {
 
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
 
-        if (inventory != null && inventory.getName().equals(Locale.INVENTORY_VOTE_NAME.toString())) {
+        if (inventory != null && inventory.getName().equals(BlockPartyLocale.INVENTORY_VOTE_NAME.toString())) {
             if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-                Messenger.message(true, player, Locale.NOT_IN_ARENA);
+                BlockPartyLocale.NOT_IN_ARENA.message(player);
                 return false;
             }
             if (item.getItemMeta() == null)
@@ -71,11 +73,11 @@ public class InteractListener implements Listener {
             Arena arena = playerInfo.getCurrentArena();
             String name;
             if (arena.getSongManager().addVote(name = item.getItemMeta().getDisplayName())) {
-                Messenger.message(true, player, Locale.VOTE_SUCCESS, "%SONG%", name);
+                BlockPartyLocale.VOTE_SUCCESS.message(player, "%SONG%", name);
                 player.closeInventory();
                 player.getInventory().remove(ItemType.VOTEFORASONG.getItem());
             } else {
-                Messenger.message(true, player, Locale.VOTE_FAIL, "%SONG%", name);
+                BlockPartyLocale.VOTE_FAIL.message(player, "%SONG%", name);
             }
 
             return true;
@@ -84,7 +86,7 @@ public class InteractListener implements Listener {
         if (item.equals(ItemType.LEAVEARENA.getItem())) {
 
             if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-                Messenger.message(true, player, Locale.NOT_IN_ARENA);
+                BlockPartyLocale.NOT_IN_ARENA.message(player);
                 return false;
             }
 
@@ -98,12 +100,12 @@ public class InteractListener implements Listener {
 
         if (item.equals(ItemType.VOTEFORASONG.getItem())) {
             if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-                Messenger.message(true, player, Locale.NOT_IN_ARENA);
+                BlockPartyLocale.NOT_IN_ARENA.message(player);
                 return false;
             }
             Arena arena = playerInfo.getCurrentArena();
             List<Song> songs = arena.getSongManager().getSongs();
-            Inventory inv = Bukkit.createInventory(null, ((songs.size() / 9) + 1) * 9, Locale.INVENTORY_VOTE_NAME.toString());
+            Inventory inv = Bukkit.createInventory(null, ((songs.size() / 9) + 1) * 9, BlockPartyLocale.INVENTORY_VOTE_NAME.toString());
             for (int i = 0; i < songs.size(); i++) {
                 if (i > 54)
                     break;

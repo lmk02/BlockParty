@@ -5,7 +5,7 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.event.GameStartEvent;
-import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.ItemType;
@@ -50,7 +50,7 @@ public class GameStartListener implements Listener {
             player.updateInventory();
         }
 
-        arena.broadcast(true, Locale.GAME_STARTED, false, (PlayerInfo) null);
+        arena.broadcast(BlockPartyLocale.GAME_STARTED, false, (PlayerInfo) null);
     }
 
 }

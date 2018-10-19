@@ -66,10 +66,6 @@ public class Database {
         setupDatabase();
     }
 
-    public enum Type {
-        SQLITE, MYSQL;
-    }
-
     public void setupDatabase() {
         String table = "CREATE TABLE IF NOT EXISTS " + this.tableName + " ("
                 + "	id integer PRIMARY KEY,"
@@ -212,6 +208,10 @@ public class Database {
         } catch (SQLException s) {
             s.printStackTrace();
         }
+    }
+
+    public enum Type {
+        SQLITE, MYSQL;
     }
 
 }

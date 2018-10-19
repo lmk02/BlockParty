@@ -2,26 +2,22 @@ package de.leonkoth.blockparty.boost;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.Floor;
-import de.leonkoth.blockparty.locale.LocaleString;
-import de.leonkoth.blockparty.particle.ParticlePlayer;
-import de.leonkoth.blockparty.particle.effect.ParticleEffect;
-import de.leonkoth.blockparty.particle.effect.SpiralEffect;
-import de.leonkoth.blockparty.particle.v1_13.Particles;
 import de.leonkoth.blockparty.player.PlayerInfo;
+import de.pauhull.utils.locale.storage.LocaleString;
+import de.pauhull.utils.particle.ParticlePlayer;
+import de.pauhull.utils.particle.effect.ParticleEffect;
+import de.pauhull.utils.particle.effect.SpiralEffect;
+import de.pauhull.utils.particle.v1_13.Particles;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public abstract class Boost {
 
@@ -50,17 +46,17 @@ public abstract class Boost {
         this.name = name;
         this.scheduler = scheduler;
         this.particle = particle;
-        this.despawn = minDespawnMillis + (int)((maxDespawnMillis - minDespawnMillis) * Math.random());
+        this.despawn = minDespawnMillis + (int) ((maxDespawnMillis - minDespawnMillis) * Math.random());
     }
 
     public Boost spawn(Floor floor) {
         Location location = floor.pickRandomLocation(1, 0);
 
-        while(location.getBlock().getType() == Material.BEACON) {
+        while (location.getBlock().getType() == Material.BEACON) {
             location = floor.pickRandomLocation(1, 0);
         }
 
-        if(floor.getArena().isEnableLightnings()) {
+        if (floor.getArena().isEnableLightnings()) {
             location.getWorld().strikeLightningEffect(location);
         }
 
@@ -71,11 +67,11 @@ public abstract class Boost {
 
         block = location.getBlock();
 
-        if(block.getType() == Material.BEACON)
+        if (block.getType() == Material.BEACON)
             return null;
 
         block.setType(Material.BEACON);
-        block.setData((byte)0);
+        block.setData((byte) 0);
 
         Location spiralLocation = new Location(location.getWorld(), location.getBlockX() + 0.5, location.getBlockY(), location.getBlockZ() + 0.5);
 
@@ -85,7 +81,7 @@ public abstract class Boost {
         Bukkit.getScheduler().scheduleSyncDelayedTask(BlockParty.getInstance().getPlugin(), new Runnable() {
             @Override
             public void run() {
-                if(block.getType() == Material.BEACON) {
+                if (block.getType() == Material.BEACON) {
                     remove();
                 }
             }
@@ -97,11 +93,11 @@ public abstract class Boost {
     public synchronized void remove() {
         Boost.boosts.remove(this);
 
-        if(effect != null) {
+        if (effect != null) {
             effect.stop();
         }
 
-        if(block.getType() == Material.BEACON) {
+        if (block.getType() == Material.BEACON) {
             block.setType(Material.AIR);
         }
     }

@@ -6,13 +6,12 @@ import de.leonkoth.blockparty.event.PlayerJoinArenaEvent;
 import de.leonkoth.blockparty.event.PlayerLeaveArenaEvent;
 import de.leonkoth.blockparty.floor.Floor;
 import de.leonkoth.blockparty.floor.FloorPattern;
-import de.leonkoth.blockparty.locale.LocaleString;
-import de.leonkoth.blockparty.locale.Messenger;
 import de.leonkoth.blockparty.phase.PhaseHandler;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.song.SongManager;
-import de.leonkoth.blockparty.particle.ParticlePlayer;
+import de.pauhull.utils.locale.storage.LocaleString;
+import de.pauhull.utils.particle.ParticlePlayer;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -235,7 +234,7 @@ public class Arena {
         arenaDataManager.save(dataSet, save);
     }
 
-    public boolean addPlayer(Player player) {
+    public PlayerJoinArenaEvent addPlayer(Player player) {
 
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
 
@@ -247,7 +246,7 @@ public class Arena {
         PlayerJoinArenaEvent event = new PlayerJoinArenaEvent(this, player, playerInfo);
         Bukkit.getPluginManager().callEvent(event);
 
-        return !event.isCancelled();
+        return event;
     }
 
     public boolean removePlayer(Player player) {
@@ -313,11 +312,11 @@ public class Arena {
         arenaDataManager.saveLocation("Spawns.Game", gameSpawn);
     }
 
-    public void broadcast(boolean usePrefix, LocaleString message, boolean onlyIngame, PlayerInfo except, String... placeholders) {
-        broadcast(usePrefix, message, onlyIngame, new PlayerInfo[]{except}, placeholders);
+    public void broadcast(LocaleString message, boolean onlyIngame, PlayerInfo except, String... placeholders) {
+        broadcast(message, onlyIngame, new PlayerInfo[]{except}, placeholders);
     }
 
-    public void broadcast(boolean usePrefix, LocaleString message, boolean onlyIngame, PlayerInfo[] exceptions, String... placeholders) {
+    public void broadcast(LocaleString message, boolean onlyIngame, PlayerInfo[] exceptions, String... placeholders) {
 
         playerLoop:
         for (PlayerInfo playerInfo : playersInArena) {
@@ -332,7 +331,7 @@ public class Arena {
                 continue;
             }
 
-            Messenger.message(usePrefix, playerInfo.asPlayer(), message, placeholders);
+            message.message(playerInfo.asPlayer(), placeholders);
         }
     }
 

@@ -3,7 +3,7 @@ package de.leonkoth.blockparty.listener;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.event.BlockPickEvent;
-import de.leonkoth.blockparty.locale.Locale;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.ColorBlock;
 import org.bukkit.Bukkit;
@@ -25,7 +25,7 @@ public class BlockPickListener implements Listener {
     public void onBlockPick(BlockPickEvent event) {
         Arena arena = event.getArena();
         String name = ColorBlock.get(event.getAnnouncedBlock()).getName();
-        arena.broadcast(true, Locale.NEXT_BLOCK, true, (PlayerInfo) null, "%BLOCK%", name);
+        arena.broadcast(BlockPartyLocale.NEXT_BLOCK, true, (PlayerInfo) null, "%BLOCK%", name);
     }
 
 }

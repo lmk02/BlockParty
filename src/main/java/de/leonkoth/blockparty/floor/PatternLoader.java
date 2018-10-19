@@ -2,9 +2,9 @@ package de.leonkoth.blockparty.floor;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
-import de.leonkoth.blockparty.util.MinecraftVersion;
 import de.leonkoth.blockparty.util.Size;
-import de.leonkoth.blockparty.util.Util;
+import de.pauhull.utils.file.FileUtils;
+import de.pauhull.utils.misc.MinecraftVersion;
 import org.bukkit.Material;
 
 import java.io.*;
@@ -38,7 +38,7 @@ public class PatternLoader {
         int length = size.getBlockLength();
 
         // METADATA
-        MinecraftVersion minecraftVersion = BlockParty.DEBUG ? new MinecraftVersion(1, 12, 2) : BlockParty.getInstance().getMinecraftVersion();
+        MinecraftVersion minecraftVersion = /*BlockParty.DEBUG ? new MinecraftVersion(1, 12, 2) :*/ MinecraftVersion.CURRENT_VERSION;
         String pluginVersion = BlockParty.DEBUG ? "2.0.2" : BlockParty.getInstance().getPlugin().getDescription().getVersion();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss O");
         ZonedDateTime now = ZonedDateTime.now();
@@ -171,7 +171,7 @@ public class PatternLoader {
         if (BlockParty.DEBUG)
             System.out.println("[BlockParty] Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
 
-        return new FloorPattern(Util.removeExtension(file.getName()), new Size(width, 1, length), materials, data);
+        return new FloorPattern(FileUtils.removeExtension(file.getName()), new Size(width, 1, length), materials, data);
     }
 
     public static boolean exists(String name) {

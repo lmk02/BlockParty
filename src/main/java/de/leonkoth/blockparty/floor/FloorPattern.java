@@ -4,12 +4,16 @@ import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.util.BlockInfo;
 import de.leonkoth.blockparty.util.Bounds;
 import de.leonkoth.blockparty.util.Size;
+import de.pauhull.utils.file.FileUtils;
+import de.pauhull.utils.file.ImageLoader;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,7 +38,7 @@ public class FloorPattern {
         this.data = data;
     }
 
-    public static FloorPattern create(String name, Bounds bounds) throws FloorLoaderException {
+    public static FloorPattern createFromSelection(String name, Bounds bounds) throws FloorLoaderException {
 
         if (bounds.getSize().getHeight() != 1) {
             throw new FloorLoaderException(FloorLoaderException.Error.WRONG_HEIGHT);
@@ -57,6 +61,22 @@ public class FloorPattern {
         }
 
         return new FloorPattern(name, new Size(width, 1, length), blocks, data);
+    }
+
+    public static FloorPattern createFromImage(File image, boolean dithered) {
+
+        try {
+            ImageLoader.ImageInfo info = ImageLoader.loadImage(image, dithered);
+
+            Material[] materials = new Material[info.getWidth() * info.getHeight()];
+            for (int i = 0; i < materials.length; i++)
+                materials[i] = Material.STAINED_CLAY;
+
+            return new FloorPattern(FileUtils.removeExtension(image.getName()), new Size(info.getWidth(), 1, info.getHeight()), materials, info.getData());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Set<BlockInfo> place(Location location) {

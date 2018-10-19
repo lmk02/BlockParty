@@ -1,7 +1,8 @@
 package de.leonkoth.blockparty.locale.language;
 
-import de.leonkoth.blockparty.locale.LocaleSection;
-import de.leonkoth.blockparty.locale.LocaleString;
+import de.pauhull.utils.locale.Language;
+import de.pauhull.utils.locale.storage.LocaleSection;
+import de.pauhull.utils.locale.storage.LocaleString;
 import org.bukkit.ChatColor;
 
 import java.io.File;
@@ -83,7 +84,7 @@ public class German extends Language {
     public static final LocaleString FLOOR_LOAD_FAIL = new LocaleString(ERROR, "Konnte den Boden nicht laden.");
     public static final LocaleString FLOOR_CREATE_FAIL = new LocaleString(ERROR, "Konnte Boden in Arena \"%ARENA%\" nicht setzen");
     public static final LocaleString PATTERN_DOESNT_EXIST = new LocaleString(ERROR, "Vorlage \"%PATTERN%\" in Arena \"%ARENA%\" existiert nicht");
-    public static final LocaleString FLOOR_MIN_HEIHGT = new LocaleString(ERROR, "Der Boden muss flach sein");
+    public static final LocaleString FLOOR_MIN_HEIGHT = new LocaleString(ERROR, "Der Boden muss flach sein");
     public static final LocaleString PATTERN_ISNT_CORRECT_SIZE = new LocaleString(ERROR, "Diese Vorlage hat die falsche Größe");
     public static final LocaleString IN_PROGRESS = new LocaleString(ERROR, "Dieses Spiel läuft bereits");
     public static final LocaleString NO_ARENAS = new LocaleString(ERROR, "Es gibt noch keine Arenen");
@@ -152,8 +153,12 @@ public class German extends Language {
     public static final LocaleString HEADER_TUTORIAL_PATTERNS = new LocaleString(HEADERS, "Vorlagen-Tutorial");
     public static final LocaleString HEADER_LIST_ARENAS = new LocaleString(HEADERS, "Alle Arenen");
 
-    public static void writeTo(File file) throws IOException {
-        Language.writeTo(German.class, file);
+    public static void writeTo(File file) {
+        try {
+            writeTo(German.class, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

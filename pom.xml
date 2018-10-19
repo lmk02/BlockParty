@@ -84,6 +84,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>de.pauhull</groupId>
+            <artifactId>utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 

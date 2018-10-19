@@ -1,13 +1,13 @@
 package de.leonkoth.blockparty.floor.generator;
 
-import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.Floor;
+import de.pauhull.utils.misc.MinecraftVersion;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import java.util.Random;
 
-import static de.leonkoth.blockparty.util.MinecraftVersion.v1_13;
+import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
 
 public class AreaGenerator implements FloorGenerator {
 
@@ -16,7 +16,7 @@ public class AreaGenerator implements FloorGenerator {
     private boolean useLegacy;
 
     public AreaGenerator() {
-        this.useLegacy = BlockParty.getInstance().getMinecraftVersion().isLower(v1_13);
+        this.useLegacy = MinecraftVersion.CURRENT_VERSION.isLower(v1_13);
     }
 
     @Override
