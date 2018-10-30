@@ -1,13 +1,15 @@
 package de.leonkoth.blockparty.util;
 
 import de.leonkoth.blockparty.exception.InvalidSelectionException;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.POINT_SELECTED;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.PREFIX;
 
 public class Selection {
 
@@ -54,7 +56,7 @@ public class Selection {
         selectedPoints.get(player.getUniqueId())[index] = location;
 
         if (message) {
-            BlockPartyLocale.POINT_SELECTED.message(player, "%POINT%",
+            POINT_SELECTED.message(PREFIX, player, "%POINT%",
                     Integer.toString(index + 1), "%LOCATION%", location.getX() + " " + location.getY() + " " + location.getZ());
         }
     }

@@ -5,7 +5,6 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.event.PlayerWinEvent;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.pauhull.utils.image.ChatFace;
@@ -16,6 +15,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.List;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
 public class PlayerWinListener implements Listener {
 
@@ -55,12 +56,12 @@ public class PlayerWinListener implements Listener {
                         Player allPlayers = allPlayerInfo.asPlayer();
 
                         for (String line : lines) {
-                            allPlayers.sendMessage(BlockPartyLocale.PREFIX + line);
+                            allPlayers.sendMessage(PREFIX + line);
                         }
                     }
 
-                    arena.broadcast(BlockPartyLocale.WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
-                    BlockPartyLocale.WINNER_ANNOUNCE_SELF.message(player);
+                    arena.broadcast(WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
+                    WINNER_ANNOUNCE_SELF.message(PREFIX, player);
                 });
 
             }

@@ -2,19 +2,20 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
+
 public class BlockPartyStartCommand extends SubCommand {
 
     public static String SYNTAX = "/bp start [Arena]";
 
     @Getter
-    private LocaleString description = BlockPartyLocale.COMMAND_START;
+    private LocaleString description = COMMAND_START;
 
     public BlockPartyStartCommand(BlockParty blockParty) {
         super(false, 1, "start", "blockparty.admin.start", blockParty);
@@ -29,7 +30,7 @@ public class BlockPartyStartCommand extends SubCommand {
             arena = Arena.getByName(args[1]);
 
             if (arena == null) {
-                BlockPartyLocale.ARENA_DOESNT_EXIST.message(sender);
+                ARENA_DOESNT_EXIST.message(PREFIX, sender);
                 return false;
             }
         } else {
@@ -38,24 +39,24 @@ public class BlockPartyStartCommand extends SubCommand {
                 PlayerInfo info = PlayerInfo.getFromPlayer(player);
 
                 if (info == null || info.getCurrentArena() == null) {
-                    BlockPartyLocale.NOT_IN_ARENA.message(sender);
+                    NOT_IN_ARENA.message(PREFIX, sender);
                     return false;
                 }
 
                 arena = info.getCurrentArena();
             } else {
-                BlockPartyLocale.ONLY_PLAYERS.message(sender);
+                ONLY_PLAYERS.message(PREFIX, sender);
                 return false;
             }
         }
 
         if (!arena.isEnabled()) {
-            BlockPartyLocale.ARENA_DISABLED.message(sender, "%ARENA%", arena.getName());
+            ARENA_DISABLED.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
         if (!arena.getPhaseHandler().startGamePhase()) {
-            BlockPartyLocale.START_ABORTED.message(sender);
+            START_ABORTED.message(PREFIX, sender);
             return false;
         }
 

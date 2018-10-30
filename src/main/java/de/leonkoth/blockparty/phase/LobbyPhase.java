@@ -3,7 +3,6 @@ package de.leonkoth.blockparty.phase;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.display.DisplayScoreboard;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.Util;
 import de.pauhull.utils.misc.MinecraftVersion;
@@ -14,6 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
 
 /**
@@ -83,7 +83,7 @@ public class LobbyPhase implements Runnable {
                     player.playSound(player.getLocation(), sound, 1, 1);
                 }
 
-                arena.broadcast(BlockPartyLocale.TIME_LEFT, false, (PlayerInfo) null, "%TIME%", Integer.toString(countdown));
+                arena.broadcast(TIME_LEFT, false, (PlayerInfo) null, "%TIME%", Integer.toString(countdown));
             }
 
             for (Player player : players) {
@@ -92,11 +92,11 @@ public class LobbyPhase implements Runnable {
                 player.setExp(exp);
             }
 
-            Util.showActionBar(BlockPartyLocale.ACTIONBAR_COUNTDOWN.toString("%NUMBER%", Integer.toString(countdown)), arena, false);
+            Util.showActionBar(ACTIONBAR_COUNTDOWN.toString("%NUMBER%", Integer.toString(countdown)), arena, false);
 
             //this.displayScoreboard.setScoreboard(i, 0, arena); TODO: show scoreboard
         } else {
-            arena.broadcast(BlockPartyLocale.START_ABORTED, false, (PlayerInfo) null);
+            arena.broadcast(START_ABORTED, false, (PlayerInfo) null);
             countdown = -1;
         }
 

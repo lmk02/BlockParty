@@ -2,7 +2,6 @@ package de.leonkoth.blockparty.listener;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.boost.Boost;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.ItemType;
 import de.leonkoth.blockparty.util.Selection;
@@ -13,6 +12,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.BOOST_COLLECTED;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.PREFIX;
 
 public class PlayerInteractListener implements Listener {
 
@@ -35,7 +37,7 @@ public class PlayerInteractListener implements Listener {
             if (boost.getBlock().equals(block)) {
                 boost.remove();
                 String boostName = boost.getDisplayName().toString();
-                BlockPartyLocale.BOOST_COLLECTED.message(true, player, "%BOOST%", boostName);
+                BOOST_COLLECTED.message(PREFIX, player, "%BOOST%", boostName);
                 boost.onCollect(block.getLocation(), player, PlayerInfo.getFromPlayer(player));
                 return;
             }

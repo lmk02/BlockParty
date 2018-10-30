@@ -4,7 +4,6 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.floor.PatternLoader;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
@@ -14,12 +13,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.UUID;
 
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
+
 public class BlockPartyPlacePatternCommand extends SubCommand {
 
     public static String SYNTAX = "/bp placepattern <Pattern>";
 
     @Getter
-    private LocaleString description = BlockPartyLocale.COMMAND_PLACE_PATTERN;
+    private LocaleString description = COMMAND_PLACE_PATTERN;
 
     public BlockPartyPlacePatternCommand(BlockParty blockParty) {
         super(true, 2, "placepattern", "blockparty.admin.placepattern", blockParty);
@@ -32,7 +33,7 @@ public class BlockPartyPlacePatternCommand extends SubCommand {
         try {
             pattern = PatternLoader.readFloorPattern(new File(BlockParty.PLUGIN_FOLDER + "Floors/" + args[1] + ".floor"));
         } catch (FileNotFoundException e) {
-            BlockPartyLocale.FILE_DOESNT_EXIST.message(sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[1] + ".floor");
+            FILE_DOESNT_EXIST.message(PREFIX, sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[1] + ".floor");
             return false;
         } catch (FloorLoaderException e) {
             //unusual
@@ -50,7 +51,7 @@ public class BlockPartyPlacePatternCommand extends SubCommand {
 
         BlockPartyUndoCommand.oldBlocks.put(player.getUniqueId(), pattern.place(player.getLocation()));
 
-        BlockPartyLocale.PATTERN_PLACED.message(sender, "%FILE%", args[1] + ".floor");
+        PATTERN_PLACED.message(PREFIX, sender, "%FILE%", args[1] + ".floor");
 
         return true;
     }

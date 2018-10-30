@@ -1,7 +1,6 @@
 package de.leonkoth.blockparty.boost;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.pauhull.utils.locale.storage.LocaleString;
 import de.pauhull.utils.particle.v1_13.Particles;
@@ -9,6 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.SPEED_BOOST;
 
 public class SpeedBoost extends Boost {
 
@@ -23,7 +24,7 @@ public class SpeedBoost extends Boost {
 
     @Override
     public LocaleString getDisplayName() {
-        return BlockPartyLocale.SPEED_BOOST;
+        return SPEED_BOOST;
     }
 
 }

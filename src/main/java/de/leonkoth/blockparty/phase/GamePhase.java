@@ -5,7 +5,6 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.event.*;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.ColorBlock;
@@ -15,6 +14,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 
 import java.util.ArrayList;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.ACTIONBAR_DANCE;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.ACTIONBAR_STOP;
 
 /**
  * Created by Leon on 15.03.2018.
@@ -127,7 +129,7 @@ public class GamePhase implements Runnable {
                 Bukkit.getPluginManager().callEvent(event);
                 firstPrepareEnter = false;
             }
-            Util.showActionBar(BlockPartyLocale.ACTIONBAR_DANCE.toString(), arena, true);
+            Util.showActionBar(ACTIONBAR_DANCE.toString(), arena, true);
             currentTime += 0.1;
         } else {
             if (currentTime < (currentTimeToSearch + preparingTime)) {
@@ -165,7 +167,7 @@ public class GamePhase implements Runnable {
                     }
 
                     //STOP
-                    Util.showActionBar(BlockPartyLocale.ACTIONBAR_STOP.toString(), arena, true);
+                    Util.showActionBar(ACTIONBAR_STOP.toString(), arena, true);
                     currentTime += 0.1;
                 } else {
                     if (currentLevel < levelAmount) {

@@ -7,7 +7,8 @@
     <meta name="author" content="">
     <title>Musicplayer</title>
     <link href="../../bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css"
+          rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <style type='text/css'>
         #ex1Slider .slider-selection {
@@ -19,11 +20,13 @@
         body {
             background-color: #f5f5f5;
         }
+
     </style>
 </head>
 <body>
 
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -34,7 +37,8 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger alert-dismissible" role="alert" id="errorMsg" style="display:none;">
-                    <strong>Something went wrong!</strong> Please make sure you entered the right name and are connected to the server
+                    <strong>Something went wrong!</strong> Please make sure you entered the right name and are connected
+                    to the server
                 </div>
                 <input type="text" id="playerName" class="form-control" placeholder="Your name" required autofocus>
             </div>
@@ -53,9 +57,9 @@
                 <div class="card text-center">
                     <div class="card-header p-3">
                         <h3>Welcome</h3>
-                        <h2> <b id="pName">on this Server</b></h2>
+                        <h2><b id="pName">on this Server</b></h2>
                     </div>
-                    <div class="card-body p-3"> <i class="fa fa-cubes" style="font-size:36px"></i>
+                    <div class="card-body p-3"><i class="fa fa-cubes" style="font-size:36px"></i>
                         <small id="help" class="form-text text-muted">Official BlockParty webplayer</small>
                         <ul class="list-unstyled my-3">
                             <li class="mb-1">
@@ -64,7 +68,9 @@
                                         <i class="fa fa-check" style="font-size:16px"></i>
                                     </div>
                                     <div class="col-lg-9 p-1">
-                                        <p align="left" id="isOnline">You are currently offline. <a data-toggle="modal" href="#loginModal">Enter your name.</a></p>
+                                        <p align="left" id="isOnline">You are currently offline. <a data-toggle="modal"
+                                                                                                    href="#loginModal">Enter
+                                            your name.</a></p>
                                     </div>
                                 </div>
                             </li>
@@ -97,7 +103,8 @@
                                 <i class="fa fa-pause" style="font-size:36px"></i>
                             </div>
                             <div class="col-lg-9 p-3">
-                                <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="25"/>
+                                <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0"
+                                       data-slider-max="100" data-slider-step="1" data-slider-value="25"/>
                             </div>
                         </div>
                     </div>
@@ -107,9 +114,9 @@
                 <div class="card text-center">
                     <div class="card-header p-3">
                         <h3>Your</h3>
-                        <h2> <b>Stats</b> </h2>
+                        <h2><b>Stats</b></h2>
                     </div>
-                    <div class="card-body p-3"> <i class="fa fa-bar-chart" style="font-size:36px"></i>
+                    <div class="card-body p-3"><i class="fa fa-bar-chart" style="font-size:36px"></i>
                         <small id="help" class="form-text text-muted">Official BlockParty webplayer</small>
                         <ul class="list-unstyled my-3">
                             <li class="mb-1">Included in the next</li>
@@ -122,9 +129,11 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script type='text/javascript' src="../../bootstrap/js/bootstrap.js"></script>
-<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.min.js"></script>
+<script type='text/javascript'
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.min.js"></script>
 <script language="JavaScript" type="text/javascript">
     var xMLHttpRequest = new XMLHttpRequest();
     var xMLHttpRequestName = new XMLHttpRequest();
@@ -259,6 +268,7 @@
             audio.volume = r/100;
         }
     });
+
 </script>
 </body>
 </html>

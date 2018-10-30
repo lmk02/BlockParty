@@ -3,7 +3,6 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.floor.PatternLoader;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
@@ -13,12 +12,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
+
 public class BlockPartyLoadImageCommand extends SubCommand {
 
     public static String SYNTAX = "/bp loadimage <Image>";
 
     @Getter
-    private LocaleString description = BlockPartyLocale.COMMAND_LOAD_IMAGE;
+    private LocaleString description = COMMAND_LOAD_IMAGE;
 
     public BlockPartyLoadImageCommand(BlockParty blockParty) {
         super(false, 2, "loadimage", "blockparty.admin.loadimage", blockParty);
@@ -31,7 +32,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
         File file = new File(path);
 
         if (!file.exists() || file.isDirectory()) {
-            BlockPartyLocale.FILE_DOESNT_EXIST.message(sender, "%FILE%", path);
+            FILE_DOESNT_EXIST.message(PREFIX, sender, "%FILE%", path);
             return false;
         }
 
@@ -44,7 +45,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
         }
 
         if (!mimetype.startsWith("image")) {
-            BlockPartyLocale.NO_IMAGE.message(sender);
+            NO_IMAGE.message(PREFIX, sender);
             return false;
         }
 
@@ -58,7 +59,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
             return true;
         }
 
-        BlockPartyLocale.PATTERN_SAVE_SUCCESS.message(sender, "%PATTERN%", patternPath);
+        PATTERN_SAVE_SUCCESS.message(PREFIX, sender, "%PATTERN%", patternPath);
 
         return true;
     }

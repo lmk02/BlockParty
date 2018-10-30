@@ -2,7 +2,6 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
@@ -14,12 +13,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
+
 public class BlockPartyListPatternsCommand extends SubCommand {
 
     public static String SYNTAX = "/bp listpatterns [Arena]";
 
     @Getter
-    private LocaleString description = BlockPartyLocale.COMMAND_LIST_PATTERNS;
+    private LocaleString description = COMMAND_LIST_PATTERNS;
 
     public BlockPartyListPatternsCommand(BlockParty blockParty) {
         super(false, 1, "listpatterns", "blockparty.admin.listpatterns", blockParty);
@@ -47,10 +48,10 @@ public class BlockPartyListPatternsCommand extends SubCommand {
         }
 
         if (patternList.isEmpty()) {
-            BlockPartyLocale.NO_PATTERNS.message(sender);
+            NO_PATTERNS.message(PREFIX, sender);
         } else {
             String patterns = Arrays.toString(patternList.toArray()).replace("[", "").replace("]", "");
-            BlockPartyLocale.PATTERN_LIST.message(sender, "%PATTERNS%", patterns);
+            PATTERN_LIST.message(PREFIX, sender, "%PATTERNS%", patterns);
         }
 
         return true;

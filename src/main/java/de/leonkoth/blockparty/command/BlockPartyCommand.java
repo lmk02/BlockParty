@@ -1,7 +1,6 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.util.Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +10,8 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -91,19 +92,19 @@ public class BlockPartyCommand implements CommandExecutor {
                         if (args.length >= subCommand.getMinArgs()) {
                             subCommand.onCommand(sender, args);
                         } else {
-                            BlockPartyLocale.SYNTAX.message(sender, "%SYNTAX%", subCommand.getSyntax());
+                            SYNTAX.message(PREFIX, sender, "%SYNTAX%", subCommand.getSyntax());
                         }
                     } else {
-                        BlockPartyLocale.ONLY_PLAYERS.message(sender);
+                        ONLY_PLAYERS.message(PREFIX, sender);
                     }
                 } else {
-                    BlockPartyLocale.NO_PERMISSIONS.message(sender);
+                    NO_PERMISSIONS.message(PREFIX, sender);
                 }
             }
         }
 
         if (showHelp) {
-            BlockPartyLocale.COMMAND_NOT_FOUND.message(sender);
+            COMMAND_NOT_FOUND.message(PREFIX, sender);
         }
 
         return true;

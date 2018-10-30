@@ -3,7 +3,6 @@ package de.leonkoth.blockparty.command;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.pauhull.utils.locale.storage.LocaleString;
@@ -13,12 +12,14 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
+
 public class BlockPartyStopCommand extends SubCommand {
 
     public static String SYNTAX = "/bp stop";
 
     @Getter
-    private LocaleString description = BlockPartyLocale.COMMAND_STOP;
+    private LocaleString description = COMMAND_STOP;
 
     public BlockPartyStopCommand(BlockParty blockParty) {
         super(true, 1, "stop", "blockparty.admin.stop", blockParty);
@@ -36,17 +37,17 @@ public class BlockPartyStopCommand extends SubCommand {
         Arena arena = playerInfo.getCurrentArena();
 
         if (arena == null) {
-            BlockPartyLocale.NOT_IN_ARENA.message(sender);
+            NOT_IN_ARENA.message(PREFIX, sender);
             return false;
         }
 
         if (!arena.isEnabled()) {
-            BlockPartyLocale.ARENA_DISABLED.message(sender, "%ARENA%", arena.getName());
+            ARENA_DISABLED.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
         if (arena.getArenaState() != ArenaState.INGAME) {
-            BlockPartyLocale.NOT_RUNNING.message(sender);
+            NOT_RUNNING.message(PREFIX, sender);
             return false;
         }
 

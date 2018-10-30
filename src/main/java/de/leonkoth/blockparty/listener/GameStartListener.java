@@ -5,7 +5,6 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.arena.GameState;
 import de.leonkoth.blockparty.event.GameStartEvent;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.ItemType;
@@ -14,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.GAME_STARTED;
 
 public class GameStartListener implements Listener {
 
@@ -50,7 +51,7 @@ public class GameStartListener implements Listener {
             player.updateInventory();
         }
 
-        arena.broadcast(BlockPartyLocale.GAME_STARTED, false, (PlayerInfo) null);
+        arena.broadcast(GAME_STARTED, false, (PlayerInfo) null);
     }
 
 }
