@@ -8,6 +8,7 @@ import de.leonkoth.blockparty.event.PlayerWinEvent;
 import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
+import de.pauhull.utils.image.ChatFace;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,9 +20,11 @@ import java.util.List;
 public class PlayerWinListener implements Listener {
 
     private BlockParty blockParty;
+    private ChatFace chatFace;
 
     public PlayerWinListener(BlockParty blockParty) {
         this.blockParty = blockParty;
+        this.chatFace = new ChatFace(blockParty.getExecutorService());
 
         Bukkit.getPluginManager().registerEvents(this, blockParty.getPlugin());
     }
@@ -45,8 +48,21 @@ public class PlayerWinListener implements Listener {
             playerInfo.setPlayerState(PlayerState.WINNER);
             Player player = playerInfo.asPlayer();
             if (player != null) {
-                arena.broadcast(BlockPartyLocale.WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
-                BlockPartyLocale.WINNER_ANNOUNCE_SELF.message(player);
+
+                chatFace.getLinesAsync(player.getName(), lines -> {
+
+                    for (PlayerInfo allPlayerInfo : arena.getPlayersInArena()) {
+                        Player allPlayers = allPlayerInfo.asPlayer();
+
+                        for (String line : lines) {
+                            allPlayers.sendMessage(BlockPartyLocale.PREFIX + line);
+                        }
+                    }
+
+                    arena.broadcast(BlockPartyLocale.WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
+                    BlockPartyLocale.WINNER_ANNOUNCE_SELF.message(player);
+                });
+
             }
 
             playerInfo.setPoints(playerInfo.getPoints() + 15);
