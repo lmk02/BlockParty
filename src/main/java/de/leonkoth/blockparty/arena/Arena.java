@@ -12,6 +12,7 @@ import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.song.SongManager;
 import de.pauhull.utils.locale.storage.LocaleString;
 import de.pauhull.utils.particle.ParticlePlayer;
+import de.pauhull.utils.particle.v1_13.Particles;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -22,6 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.PREFIX;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -124,7 +127,7 @@ public class Arena {
         this.songManager = new SongManager(this, new ArrayList<>());
         this.arenaDataManager = new ArenaDataManager(this);
         this.phaseHandler = new PhaseHandler(blockParty, this);
-        this.particlePlayer = new ParticlePlayer("CLOUD");
+        this.particlePlayer = new ParticlePlayer(Particles.CLOUD);
         this.playersInArena = new ArrayList<>();
 
         if (save)
@@ -331,7 +334,7 @@ public class Arena {
                 continue;
             }
 
-            message.message(playerInfo.asPlayer(), placeholders);
+            message.message(PREFIX, playerInfo.asPlayer(), placeholders);
         }
     }
 
