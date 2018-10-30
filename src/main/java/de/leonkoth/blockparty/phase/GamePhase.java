@@ -116,6 +116,8 @@ public class GamePhase implements Runnable {
                 firstEnter = false;
             } else {
                 arena.getFloor().placeFloor();
+                FloorPlaceEvent event = new FloorPlaceEvent(arena, arena.getFloor());
+                Bukkit.getPluginManager().callEvent(event);
             }
         }
 

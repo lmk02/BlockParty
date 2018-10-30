@@ -104,6 +104,6 @@ public abstract class Boost {
 
     public abstract void onCollect(Location location, Player player, PlayerInfo playerInfo);
 
-    protected abstract LocaleString getDisplayName();
+    public abstract LocaleString getDisplayName();
 
 }

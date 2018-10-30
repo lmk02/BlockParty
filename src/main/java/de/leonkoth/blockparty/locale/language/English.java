@@ -15,6 +15,8 @@ public class English extends Language {
     public static final LocaleSection SUCCESS = new LocaleSection("Success", ChatColor.GREEN);
     public static final LocaleSection COMMANDS = new LocaleSection("Commands", ChatColor.GRAY);
     public static final LocaleSection HEADERS = new LocaleSection("Headers", ChatColor.YELLOW);
+    public static final LocaleSection ITEMS = new LocaleSection("Items", ChatColor.WHITE);
+    public static final LocaleSection BOOSTS = new LocaleSection("Boosts", ChatColor.WHITE);
 
     public static final LocaleString PREFIX = new LocaleString(INFO, "&8▌ &3BlockParty &8» &7");
     public static final LocaleString SCOREBOARD_TEXT = new LocaleString(INFO, "&3BlockParty", "Level: %LEVEL%", "Players: %CURRENTPLAYERS% / %MAXPLAYERS%", "Time Left: %TIME%", "Arena: %ARENA%");
@@ -45,7 +47,8 @@ public class English extends Language {
     public static final LocaleString ACTIONBAR_COUNTDOWN = new LocaleString(INFO, "&f&l%NUMBER% second(s) left");
     public static final LocaleString ACTIONBAR_DANCE = new LocaleString(INFO, "&a&l✔ &f&lDANCE &a&l✔");
     public static final LocaleString ACTIONBAR_STOP = new LocaleString(INFO, "&c&l✖ &f&lSTOP &c&l✖");
-    public static final LocaleString BOOSTS_SUMMONED = new LocaleString(INFO, "A boost has been summoned");
+    public static final LocaleString BOOST_SUMMONED = new LocaleString(INFO, "A boost has been summoned");
+    public static final LocaleString BOOST_COLLECTED = new LocaleString(INFO, "You collected a %BOOST%&7!");
     public static final LocaleString GAME_STARTED = new LocaleString(INFO, "Game started!");
     public static final LocaleString JOINED_GAME = new LocaleString(INFO, "You joined the arena &e%ARENA%");
     public static final LocaleString LEFT_GAME = new LocaleString(INFO, "You left the arena &e%ARENA%");
@@ -62,10 +65,6 @@ public class English extends Language {
     public static final LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aCongratulations! You won the game");
     public static final LocaleString STATS_MESSAGE = new LocaleString(INFO, "%PLAYER% has &e%WINS% &7wins and &e%POINTS% &7points.");
     public static final LocaleString SONG_PLAYING = new LocaleString(INFO, "Now playing \"%SONG%\"");
-    public static final LocaleString ITEM_LEAVE_ARENA = new LocaleString(INFO, "&4Leave");
-    public static final LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(INFO, "Vote for a song");
-    public static final LocaleString ITEM_SONG_LORE = new LocaleString(INFO, "Click to vote!");
-    public static final LocaleString ITEM_SELECT = new LocaleString(INFO, "Click to vote!");
     public static final LocaleString VOTE_SUCCESS = new LocaleString(INFO, "You voted for song \"%SONG%\"");
     public static final LocaleString INVENTORY_VOTE_NAME = new LocaleString(INFO, "Vote now");
     public static final LocaleString POINT_SELECTED = new LocaleString(INFO, "Point &e%POINT% &7selected (%LOCATION%)");
@@ -152,6 +151,13 @@ public class English extends Language {
     public static final LocaleString HEADER_TUTORIAL = new LocaleString(HEADERS, "BlockParty Setup");
     public static final LocaleString HEADER_TUTORIAL_PATTERNS = new LocaleString(HEADERS, "Pattern Tutorial");
     public static final LocaleString HEADER_LIST_ARENAS = new LocaleString(HEADERS, "All arenas");
+
+    public static final LocaleString ITEM_LEAVE_ARENA = new LocaleString(ITEMS, "&4Leave");
+    public static final LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(ITEMS, "Vote for a song");
+    public static final LocaleString ITEM_SONG_LORE = new LocaleString(ITEMS, "Click to vote!");
+    public static final LocaleString ITEM_SELECT = new LocaleString(ITEMS, "Click to vote!");
+
+    public static final LocaleString SPEED_BOOST = new LocaleString(BOOSTS, "&bSpeed Boost");
 
     public static void writeTo(File file) {
         try {

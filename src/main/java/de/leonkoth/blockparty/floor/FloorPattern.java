@@ -5,7 +5,7 @@ import de.leonkoth.blockparty.util.BlockInfo;
 import de.leonkoth.blockparty.util.Bounds;
 import de.leonkoth.blockparty.util.Size;
 import de.pauhull.utils.file.FileUtils;
-import de.pauhull.utils.file.ImageLoader;
+import de.pauhull.utils.image.ImageLoader;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;

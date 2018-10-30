@@ -2,6 +2,7 @@ package de.leonkoth.blockparty.listener;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.boost.Boost;
+import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.ItemType;
 import de.leonkoth.blockparty.util.Selection;
@@ -33,6 +34,8 @@ public class PlayerInteractListener implements Listener {
         for (Boost boost : Boost.boosts) {
             if (boost.getBlock().equals(block)) {
                 boost.remove();
+                String boostName = boost.getDisplayName().toString();
+                BlockPartyLocale.BOOST_COLLECTED.message(true, player, "%BOOST%", boostName);
                 boost.onCollect(block.getLocation(), player, PlayerInfo.getFromPlayer(player));
                 return;
             }

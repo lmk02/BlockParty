@@ -17,7 +17,8 @@ public class BlockPartyLocale extends Locale {
     public static BlockPartyLocaleString ACTIONBAR_COUNTDOWN;
     public static BlockPartyLocaleString ACTIONBAR_DANCE;
     public static BlockPartyLocaleString ACTIONBAR_STOP;
-    public static BlockPartyLocaleString BOOSTS_SUMMONED;
+    public static BlockPartyLocaleString BOOST_SUMMONED;
+    public static BlockPartyLocaleString BOOST_COLLECTED;
     public static BlockPartyLocaleString GAME_STARTED;
     public static BlockPartyLocaleString JOINED_GAME;
     public static BlockPartyLocaleString LEFT_GAME;
@@ -124,6 +125,8 @@ public class BlockPartyLocale extends Locale {
     public static BlockPartyLocaleString HEADER_TUTORIAL;
     public static BlockPartyLocaleString HEADER_TUTORIAL_PATTERNS;
     public static BlockPartyLocaleString HEADER_LIST_ARENAS;
+
+    public static BlockPartyLocaleString SPEED_BOOST;
 
     public static void init() {
         defaultLanguage = English.class;
