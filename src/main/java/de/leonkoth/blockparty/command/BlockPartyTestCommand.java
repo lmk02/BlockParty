@@ -2,7 +2,8 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.boost.Boost;
-import de.leonkoth.blockparty.boost.TestBoost;
+import de.leonkoth.blockparty.boost.SpeedBoost;
+import de.pauhull.utils.image.ChatFace;
 import de.pauhull.utils.locale.storage.LocaleSection;
 import de.pauhull.utils.locale.storage.LocaleString;
 import org.bukkit.ChatColor;
@@ -23,7 +24,10 @@ public class BlockPartyTestCommand extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        Boost test = new TestBoost();
+        ChatFace face = new ChatFace(blockParty.getExecutorService());
+        face.getLinesAsync("aasdasidjioasjdodoadododoodo", player::sendMessage);
+
+        Boost test = new SpeedBoost();
         test.spawn(player.getLocation());
 
         return true;

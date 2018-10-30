@@ -135,6 +135,7 @@ public class BlockParty {
         new RoundPrepareListener(this);
         new RoundStartListener(this);
         new PickupItemListener(this);
+        new FloorPlaceListener(this);
         new InteractListener(this);
         new PlayerInteractListener(this);
         new ServerListPingListener(this);
@@ -146,6 +147,8 @@ public class BlockParty {
     }
 
     public void stop() {
+
+        BlockPartyLocale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
 
         for (Boost boost : Boost.boosts) {
             boost.remove();
@@ -288,8 +291,6 @@ public class BlockParty {
             config.reload();
             this.bungee = config.getConfig().getBoolean("BungeeCord");
             this.defaultArena = config.getConfig().getString("DefaultArena");
-
-            BlockPartyLocale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
 
         } catch (Exception e) {
             e.printStackTrace();
