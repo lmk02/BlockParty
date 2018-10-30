@@ -1,7 +1,6 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.util.Selection;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
@@ -9,12 +8,14 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.COMMAND_POS;
+
 public class BlockPartyPosCommand extends SubCommand {
 
     public static String SYNTAX = "/bp pos <1|2>";
 
     @Getter
-    private LocaleString description = BlockPartyLocale.COMMAND_POS;
+    private LocaleString description = COMMAND_POS;
 
     public BlockPartyPosCommand(BlockParty blockParty) {
         super(true, 2, "pos", Selection.SELECT_PERMISSION, blockParty);

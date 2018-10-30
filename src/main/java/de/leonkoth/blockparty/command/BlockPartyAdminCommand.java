@@ -1,7 +1,6 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.util.Util;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
@@ -9,12 +8,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
+
 public class BlockPartyAdminCommand extends SubCommand {
 
     public static String SYNTAX = "/bp admin";
 
     @Getter
-    private LocaleString description = BlockPartyLocale.COMMAND_ADMIN;
+    private LocaleString description = COMMAND_ADMIN;
 
     public BlockPartyAdminCommand(BlockParty blockParty) {
         super(false, 1, "admin", "blockparty.admin.help", blockParty);
@@ -25,13 +26,13 @@ public class BlockPartyAdminCommand extends SubCommand {
 
         boolean console = !(sender instanceof Player);
         String separator = Util.getSeparator(6, console);
-        String template = BlockPartyLocale.HELP_FORMAT.toString();
-        String header = separator + " " + BlockPartyLocale.HEADER_ADMIN + " " + separator;
+        String template = HELP_FORMAT.toString();
+        String header = separator + " " + HEADER_ADMIN + " " + separator;
 
 
         sender.sendMessage(header);
 
-        sender.sendMessage(template.replace("%SYNTAX%", BlockPartyAdminCommand.SYNTAX).replace("%DESCRIPTION%", BlockPartyLocale.COMMAND_ADMIN.toString()));
+        sender.sendMessage(template.replace("%SYNTAX%", BlockPartyAdminCommand.SYNTAX).replace("%DESCRIPTION%", COMMAND_ADMIN.toString()));
 
         for (SubCommand command : BlockPartyCommand.commands) {
             if (!command.getPermission().startsWith("blockparty.admin"))

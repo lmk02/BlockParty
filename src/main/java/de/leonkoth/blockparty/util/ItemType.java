@@ -1,12 +1,13 @@
 package de.leonkoth.blockparty.util;
 
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
 /**
  * Created by Leon on 18.09.2018.
@@ -17,10 +18,10 @@ public enum ItemType {
 
     //TODO: add to config
 
-    LEAVEARENA(BlockPartyLocale.ITEM_LEAVE_ARENA.toString(), Material.ACACIA_DOOR_ITEM, null),
-    VOTEFORASONG(BlockPartyLocale.ITEM_VOTE_FOR_A_SONG.toString(), Material.FIREBALL, null),
-    SELECTITEM(BlockPartyLocale.ITEM_SELECT.toString(), Material.STICK, null),
-    SONG("", null, BlockPartyLocale.ITEM_SONG_LORE.toString());
+    LEAVEARENA(ITEM_LEAVE_ARENA.toString(), Material.ACACIA_DOOR_ITEM, null),
+    VOTEFORASONG(ITEM_VOTE_FOR_A_SONG.toString(), Material.FIREBALL, null),
+    SELECTITEM(ITEM_SELECT.toString(), Material.STICK, null),
+    SONG("", null, ITEM_SONG_LORE.toString());
 
     private String name;
     private Material type;

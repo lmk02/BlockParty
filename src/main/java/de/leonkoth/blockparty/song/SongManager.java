@@ -2,7 +2,6 @@ package de.leonkoth.blockparty.song;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import org.bukkit.Bukkit;
 
 import java.io.FileNotFoundException;
@@ -11,6 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.PREFIX;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.SONG_PLAYING;
 
 /**
  * Created by Leon on 17.03.2018.
@@ -151,7 +153,7 @@ public class SongManager {
                 this.votedSong = null;
             }
 
-            BlockPartyLocale.SONG_PLAYING.broadcast("%SONG%", this.votedSong.getName());
+            SONG_PLAYING.broadcast(PREFIX, "%SONG%", this.votedSong.getName());
             this.resetVotes();
         }
     }

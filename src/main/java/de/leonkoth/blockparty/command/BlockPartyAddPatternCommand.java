@@ -4,17 +4,18 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.floor.FloorPattern;
 import de.leonkoth.blockparty.floor.PatternLoader;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
 public class BlockPartyAddPatternCommand extends SubCommand {
 
     public static String SYNTAX = "/bp addpattern <Arena> <Pattern>";
 
     @Getter
-    private LocaleString description = BlockPartyLocale.COMMAND_ADD_PATTERN;
+    private LocaleString description = COMMAND_ADD_PATTERN;
 
     public BlockPartyAddPatternCommand(BlockParty blockParty) {
         super(false, 3, "addpattern", "blockparty.admin.addpattern", blockParty);
@@ -26,29 +27,29 @@ public class BlockPartyAddPatternCommand extends SubCommand {
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            BlockPartyLocale.ARENA_DOESNT_EXIST.message(sender, "%ARENA%", args[1]);
+            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         if (!PatternLoader.exists(args[2])) {
-            BlockPartyLocale.FILE_DOESNT_EXIST.message(sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[2] + ".floor");
+            FILE_DOESNT_EXIST.message(PREFIX, sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[2] + ".floor");
             return false;
         }
 
         FloorPattern pattern = arena.getFloor().loadPattern(args[2]);
 
         if (pattern == null) {
-            BlockPartyLocale.FILE_DOESNT_EXIST.message(sender);
+            FILE_DOESNT_EXIST.message(PREFIX, sender);
             return false;
         }
 
         if (!pattern.getSize().equals(arena.getFloor().getSize())) {
-            BlockPartyLocale.PATTERN_ISNT_CORRECT_SIZE.message(sender);
+            PATTERN_ISNT_CORRECT_SIZE.message(PREFIX, sender);
             return false;
         }
 
         if (arena.addPattern(pattern)) {
-            BlockPartyLocale.PATTERN_ADDED.message(sender, "%ARENA%", args[1], "%PATTERN%", args[2]);
+            PATTERN_ADDED.message(PREFIX, sender, "%ARENA%", args[1], "%PATTERN%", args[2]);
         }
 
         return true;

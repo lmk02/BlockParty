@@ -2,7 +2,6 @@ package de.leonkoth.blockparty.listener;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.Bukkit;
@@ -10,6 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.ARENA_DISABLED;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.ARENA_DOESNT_EXIST;
 
 /**
  * Created by Leon on 15.03.2018.
@@ -43,12 +45,12 @@ public class PlayerJoinListener implements Listener {
             Arena arena = Arena.getByName(blockParty.getDefaultArena());
 
             if (arena == null) {
-                player.kickPlayer(BlockPartyLocale.ARENA_DOESNT_EXIST.toString("%ARENA%", blockParty.getDefaultArena()));
+                player.kickPlayer(ARENA_DOESNT_EXIST.toString("%ARENA%", blockParty.getDefaultArena()));
                 return;
             }
 
             if (!arena.isEnabled()) {
-                player.kickPlayer(BlockPartyLocale.ARENA_DISABLED.toString("%ARENA%", blockParty.getDefaultArena()));
+                player.kickPlayer(ARENA_DISABLED.toString("%ARENA%", blockParty.getDefaultArena()));
                 return;
             }
 
