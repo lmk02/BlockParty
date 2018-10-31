@@ -10,8 +10,6 @@ import org.bukkit.command.CommandSender;
 @AllArgsConstructor
 public abstract class SubCommand {
 
-    // TODO: disable commands in config
-
     @Setter
     @Getter
     protected boolean onlyPlayers;

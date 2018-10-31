@@ -83,6 +83,9 @@ public class BlockParty {
     @Getter
     private String tablePrefix;
 
+    @Getter
+    private List<String> disabledSubCommands = new ArrayList<>();
+
     public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
         //TODO: join signs
@@ -125,23 +128,24 @@ public class BlockParty {
         new BlockPlaceListener(this);
         new BoostSpawnListener(this);
         new EntityDamageListener(this);
+        new FloorPlaceListener(this);
         new FoodLevelChangeListener(this);
         new GameEndListener(this);
         new GameStartListener(this);
+        new InteractListener(this);
+        new InventoryClickListener(this);
+        new PickupItemListener(this);
         new PlayerDropItemListener(this);
         new PlayerEliminateListener(this);
+        new PlayerInteractListener(this);
         new PlayerJoinArenaListener(this);
         new PlayerJoinListener(this);
         new PlayerLeaveArenaListener(this);
-        new PlayerQuitListener(this);
         new PlayerMoveListener(this);
+        new PlayerQuitListener(this);
         new PlayerWinListener(this);
         new RoundPrepareListener(this);
         new RoundStartListener(this);
-        new PickupItemListener(this);
-        new FloorPlaceListener(this);
-        new InteractListener(this);
-        new PlayerInteractListener(this);
         new ServerListPingListener(this);
 
         // Init commands
@@ -294,6 +298,10 @@ public class BlockParty {
             if (config.getConfig().isConfigurationSection("BungeeCord")) {
                 this.bungee = config.getConfig().getBoolean("BungeeCord.Enabled");
                 this.defaultArena = config.getConfig().getString("BungeeCord.DefaultArena");
+            }
+
+            if (config.getConfig().isList("DisabledSubCommands")) {
+                disabledSubCommands = config.getConfig().getStringList("DisabledSubCommands");
             }
 
         } catch (Exception e) {

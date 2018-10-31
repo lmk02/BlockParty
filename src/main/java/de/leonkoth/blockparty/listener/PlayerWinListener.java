@@ -66,8 +66,8 @@ public class PlayerWinListener implements Listener {
 
             }
 
-            playerInfo.setPoints(playerInfo.getPoints() + 15);
-            playerInfo.setWins(playerInfo.getWins() + 1);
+            playerInfo.addPoints(15);
+            playerInfo.addWins(1);
             this.blockParty.getPlayerInfoManager().savePlayerInfo(playerInfo);
         }
 

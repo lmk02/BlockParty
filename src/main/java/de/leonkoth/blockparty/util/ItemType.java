@@ -16,8 +16,6 @@ import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
  */
 public enum ItemType {
 
-    //TODO: add to config
-
     LEAVEARENA(ITEM_LEAVE_ARENA.toString(), Material.ACACIA_DOOR_ITEM, null),
     VOTEFORASONG(ITEM_VOTE_FOR_A_SONG.toString(), Material.FIREBALL, null),
     SELECTITEM(ITEM_SELECT.toString(), Material.STICK, null),

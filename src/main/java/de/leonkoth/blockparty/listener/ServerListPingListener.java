@@ -25,8 +25,6 @@ public class ServerListPingListener implements Listener {
         if (blockParty.isBungee()) {
             Arena arena = Arena.getByName(blockParty.getDefaultArena());
 
-            //TODO: custom MOTD in config
-
             if (arena == null || !arena.isEnabled()) {
                 setMOTD(arena, event, MOTD_DISABLED);
                 return;
