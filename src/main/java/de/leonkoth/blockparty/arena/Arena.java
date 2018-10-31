@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static de.leonkoth.blockparty.locale.BlockPartyLocale.PREFIX;
-
 /**
  * Created by Leon on 14.03.2018.
  * Project Blockparty2
@@ -315,17 +313,17 @@ public class Arena {
         arenaDataManager.saveLocation("Spawns.Game", gameSpawn);
     }
 
-    public void broadcast(LocaleString message, boolean onlyIngame, PlayerInfo except, String... placeholders) {
-        broadcast(message, onlyIngame, new PlayerInfo[]{except}, placeholders);
+    public void broadcast(LocaleString prefix, LocaleString message, boolean onlyIngame, PlayerInfo exception, String... placeholders) {
+        broadcast(prefix, message, onlyIngame, new PlayerInfo[]{exception}, placeholders);
     }
 
-    public void broadcast(LocaleString message, boolean onlyIngame, PlayerInfo[] exceptions, String... placeholders) {
+    public void broadcast(LocaleString prefix, LocaleString message, boolean onlyIngame, PlayerInfo[] exceptions, String... placeholders) {
 
         playerLoop:
         for (PlayerInfo playerInfo : playersInArena) {
 
-            for (PlayerInfo exeption : exceptions) {
-                if (playerInfo.equals(exeption)) {
+            for (PlayerInfo exception : exceptions) {
+                if (playerInfo.equals(exception)) {
                     continue playerLoop;
                 }
             }
@@ -334,7 +332,7 @@ public class Arena {
                 continue;
             }
 
-            message.message(PREFIX, playerInfo.asPlayer(), placeholders);
+            message.message(prefix, playerInfo.asPlayer(), placeholders);
         }
     }
 

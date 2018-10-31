@@ -36,9 +36,9 @@ public class GamePhase implements Runnable {
     private DisplayScoreboard displayScoreboard;
     private BlockParty blockParty;
     private Arena arena;
-    private double timeRemaining;
     private ColorBlock colorBlock;
 
+    @Deprecated
     public GamePhase(BlockParty blockParty, String name) {
         this(blockParty, Arena.getByName(name));
     }
@@ -76,25 +76,13 @@ public class GamePhase implements Runnable {
         Bukkit.getPluginManager().callEvent(event);
     }
 
-    public void eliminate(PlayerInfo playerInfo) {
+    public void checkForWin() {
         if (this.getActivePlayerAmount() == 1) {
             this.finishGame();
         }
     }
 
     private void finishGame() {
-
-        /*PlayerInfo winner = null;
-        for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
-            if (playerInfo.getPlayerState() == PlayerState.INGAME) {
-                winner = playerInfo;
-            }
-        }
-
-        Player player = (winner == null) ? null : winner.asPlayer();
-        PlayerWinEvent event = new PlayerWinEvent(arena, player, winner);
-        Bukkit.getPluginManager().callEvent(event);*/
-
         ArrayList<PlayerInfo> winners = new ArrayList<>();
         for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
             if (playerInfo.getPlayerState() == PlayerState.INGAME) {
@@ -117,7 +105,6 @@ public class GamePhase implements Runnable {
             if (firstEnter) {
                 firstEnter = false;
             } else {
-                arena.getFloor().placeFloor();
                 FloorPlaceEvent event = new FloorPlaceEvent(arena, arena.getFloor());
                 Bukkit.getPluginManager().callEvent(event);
             }

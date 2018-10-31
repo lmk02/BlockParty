@@ -158,6 +158,7 @@ public class German extends Language {
     public static final LocaleString ITEM_SELECT = new LocaleString(ITEMS, "Klicken zum Abstimmen!");
 
     public static final LocaleString SPEED_BOOST = new LocaleString(BOOSTS, "&bGeschwindigkeits-Boost");
+    public static final LocaleString JUMP_BOOST = new LocaleString(BOOSTS, "&aSprung-Boost");
 
     public static void writeTo(File file) {
         try {

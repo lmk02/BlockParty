@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.GAME_STARTED;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.PREFIX;
 
 public class GameStartListener implements Listener {
 
@@ -51,7 +52,7 @@ public class GameStartListener implements Listener {
             player.updateInventory();
         }
 
-        arena.broadcast(GAME_STARTED, false, (PlayerInfo) null);
+        arena.broadcast(PREFIX, GAME_STARTED, false, (PlayerInfo[]) null);
     }
 
 }

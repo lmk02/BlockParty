@@ -38,8 +38,8 @@ public class PatternLoader {
         int length = size.getBlockLength();
 
         // METADATA
-        MinecraftVersion minecraftVersion = /*BlockParty.DEBUG ? new MinecraftVersion(1, 12, 2) :*/ MinecraftVersion.CURRENT_VERSION;
-        String pluginVersion = BlockParty.DEBUG ? "2.0.2" : BlockParty.getInstance().getPlugin().getDescription().getVersion();
+        MinecraftVersion minecraftVersion = MinecraftVersion.CURRENT_VERSION;
+        String pluginVersion = BlockParty.getInstance().getPlugin().getDescription().getVersion();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss O");
         ZonedDateTime now = ZonedDateTime.now();
         printWriter.println("# Created at: " + formatter.format(now));

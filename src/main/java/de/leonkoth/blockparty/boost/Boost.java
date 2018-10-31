@@ -52,8 +52,14 @@ public abstract class Boost {
     public Boost spawn(Floor floor) {
         Location location = floor.pickRandomLocation(1, 0);
 
+        int tries = 0;
+        int maxTries = 50;
         while (location.getBlock().getType() == Material.BEACON) {
             location = floor.pickRandomLocation(1, 0);
+
+            if (++tries > maxTries) {
+                return null;
+            }
         }
 
         if (floor.getArena().isEnableLightnings()) {
