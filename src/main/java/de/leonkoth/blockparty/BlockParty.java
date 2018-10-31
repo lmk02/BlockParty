@@ -112,6 +112,8 @@ public class BlockParty {
         this.arenas = this.loadAllArenas();
         this.reload();
 
+        BlockPartyLocale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
+
     }
 
     public void start() {
@@ -147,8 +149,6 @@ public class BlockParty {
     }
 
     public void stop() {
-
-        BlockPartyLocale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
 
         for (Boost boost : Boost.boosts) {
             boost.remove();
