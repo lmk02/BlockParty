@@ -86,6 +86,11 @@ public class BlockPartyCommand implements CommandExecutor {
         boolean showHelp = true;
         for (SubCommand subCommand : commands) {
             if (subCommand.getName().equalsIgnoreCase(args[0])) {
+
+                if (blockParty.getDisabledSubCommands().contains(subCommand.getName())) {
+                    continue;
+                }
+
                 showHelp = false;
                 if (sender.hasPermission(subCommand.getPermission())) {
                     if (!subCommand.isOnlyPlayers() || sender instanceof Player) {

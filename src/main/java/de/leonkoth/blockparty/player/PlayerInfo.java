@@ -130,22 +130,20 @@ public class PlayerInfo {
         return null;
     }
 
+    public static boolean isInArena(PlayerInfo player) {
+        return player != null && player.isInArena();
+    }
+
     public static boolean isInArena(Player player) {
-        PlayerInfo playerInfo = getFromPlayer(player);
-
-        if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT)
-            return false;
-
-        return playerInfo.getCurrentArena() != null;
+        return isInArena(getFromPlayer(player));
     }
 
     public static boolean isInArena(String player) {
-        PlayerInfo playerInfo = getFromPlayer(player);
+        return isInArena(getFromPlayer(player));
+    }
 
-        if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT)
-            return false;
-
-        return playerInfo.getCurrentArena() != null;
+    public boolean isInArena() {
+        return currentArena != null && playerState != PlayerState.DEFAULT;
     }
 
     @Override
@@ -168,6 +166,22 @@ public class PlayerInfo {
 
     public Player asPlayer() {
         return Bukkit.getPlayer(uuid);
+    }
+
+    public void addPoints(int points) {
+        this.points += points;
+    }
+
+    public void removePoints(int points) {
+        this.points -= points;
+    }
+
+    public void addWins(int wins) {
+        this.wins += wins;
+    }
+
+    public void removeWins(int wins) {
+        this.wins -= wins;
     }
 
 }

@@ -2,6 +2,7 @@
 
 LocaleFileName: locale_en.yml
 SaveOnDisable: false
+DisabledSubCommands: []
 
 BungeeCord:
   Enabled: False

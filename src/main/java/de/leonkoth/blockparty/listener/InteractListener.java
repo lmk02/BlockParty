@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
-// TODO: clean up messy code
 public class InteractListener implements Listener {
 
     private BlockParty blockParty;
@@ -32,91 +30,55 @@ public class InteractListener implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-
-        if (event.getClickedInventory() == null || event.getCurrentItem() == null)
-            return;
-
-        ItemStack item = event.getCurrentItem();
-        Player player = (Player) event.getWhoClicked();
-
-        event.setCancelled(this.handleItemInteract(player, item, event.getClickedInventory()));
-    }
-
-    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+
+        Player player = event.getPlayer();
+        PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
+        ItemStack item = event.getItem();
+
+        if (playerInfo != null && playerInfo.isInArena()) {
+            event.setCancelled(true);
+        }
 
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-            Player player = event.getPlayer();
-            ItemStack item = event.getItem();
+            if (item.equals(ItemType.LEAVEARENA.getItem())) {
 
-            if (this.handleItemInteract(player, item, null)) {
-                event.setCancelled(true);
+                if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
+                    ERROR_NOT_IN_ARENA.message(PREFIX, player);
+                    return;
+                }
+
+                Arena arena = playerInfo.getCurrentArena();
+                arena.removePlayer(player);
+
+                return;
             }
+
+            if (item.equals(ItemType.VOTEFORASONG.getItem())) {
+
+                if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
+                    ERROR_NOT_IN_ARENA.message(PREFIX, player);
+                    return;
+                }
+
+                Arena arena = playerInfo.getCurrentArena();
+                List<Song> songs = arena.getSongManager().getSongs();
+                Inventory inventory = Bukkit.createInventory(null, (int) Math.ceil((double) songs.size() / 9.0) * 9, INVENTORY_VOTE_NAME.toString());
+
+                for (int i = 0; i < songs.size(); i++) {
+                    if (i > 54)
+                        break;
+
+                    Song song = songs.get(i);
+                    inventory.setItem(i, ItemType.SONG.getSongItem(song.getName()));
+                }
+
+                player.openInventory(inventory);
+            }
+
         }
 
-    }
-
-    private boolean handleItemInteract(Player player, ItemStack item, Inventory inventory) {
-        if (item == null)
-            return false;
-
-        PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
-
-        if (inventory != null && inventory.getName().equals(INVENTORY_VOTE_NAME.toString())) {
-            if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-                ERROR_NOT_IN_ARENA.message(PREFIX, player);
-                return false;
-            }
-            if (item.getItemMeta() == null)
-                return false;
-            Arena arena = playerInfo.getCurrentArena();
-            String name;
-            if (arena.getSongManager().addVote(name = item.getItemMeta().getDisplayName())) {
-                VOTE_SUCCESS.message(PREFIX, player, "%SONG%", name);
-                player.closeInventory();
-                player.getInventory().remove(ItemType.VOTEFORASONG.getItem());
-            } else {
-                ERROR_VOTE.message(PREFIX, player, "%SONG%", name);
-            }
-
-            return true;
-        }
-
-        if (item.equals(ItemType.LEAVEARENA.getItem())) {
-
-            if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-                ERROR_NOT_IN_ARENA.message(PREFIX, player);
-                return false;
-            }
-
-            Arena arena = playerInfo.getCurrentArena();
-
-            if (!arena.removePlayer(player)) {
-                Bukkit.getLogger().severe("[BlockParty] " + player.getName() + " couldn't leave arena " + arena.getName());
-            }
-            return true;
-        }
-
-        if (item.equals(ItemType.VOTEFORASONG.getItem())) {
-            if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-                ERROR_NOT_IN_ARENA.message(PREFIX, player);
-                return false;
-            }
-            Arena arena = playerInfo.getCurrentArena();
-            List<Song> songs = arena.getSongManager().getSongs();
-            Inventory inv = Bukkit.createInventory(null, ((songs.size() / 9) + 1) * 9, INVENTORY_VOTE_NAME.toString());
-            for (int i = 0; i < songs.size(); i++) {
-                if (i > 54)
-                    break;
-                Song s = songs.get(i);
-                inv.setItem(i, ItemType.SONG.getSongItem(s.getName()));
-            }
-            player.openInventory(inv);
-            return true;
-        }
-        return false;
     }
 
 }
