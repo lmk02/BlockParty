@@ -34,15 +34,15 @@ public class PlayerJoinArenaListener implements Listener {
         PlayerInfo playerInfo = event.getPlayerInfo();
 
         if (playerInfo.getPlayerState() != PlayerState.DEFAULT) {
-            ALREADY_IN_GAME.message(PREFIX, player);
-            event.setCancelMessage(ALREADY_IN_GAME.toString());
+            ERROR_INGAME.message(PREFIX, player);
+            event.setCancelMessage(ERROR_INGAME.toString());
             event.setCancelled(true);
             return;
         }
 
         if (arena.getPlayersInArena().size() >= arena.getMaxPlayers()) {
-            ARENA_ALREADY_FULL.message(PREFIX, player);
-            event.setCancelMessage(ARENA_ALREADY_FULL.toString());
+            ERROR_ARENA_FULL.message(PREFIX, player);
+            event.setCancelMessage(ERROR_ARENA_FULL.toString());
             event.setCancelled(true);
             return;
         }
@@ -53,8 +53,8 @@ public class PlayerJoinArenaListener implements Listener {
             if (arena.isAllowJoinDuringGame()) {
                 playerInfo.setPlayerState(PlayerState.SPECTATING);
             } else {
-                IN_PROGRESS.message(PREFIX, player);
-                event.setCancelMessage(IN_PROGRESS.toString());
+                ERROR_IN_PROGRESS.message(PREFIX, player);
+                event.setCancelMessage(ERROR_IN_PROGRESS.toString());
                 event.setCancelled(true);
                 return;
             }

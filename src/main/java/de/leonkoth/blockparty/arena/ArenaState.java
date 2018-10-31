@@ -7,6 +7,6 @@ package de.leonkoth.blockparty.arena;
  */
 public enum ArenaState {
 
-    LOBBY, INGAME, WINNERPHASE
+    LOBBY, INGAME, ENDING
 
 }

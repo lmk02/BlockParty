@@ -85,7 +85,7 @@ public class BlockParty {
 
     public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
-
+        //TODO: join signs
         this.config = config;
         this.plugin = plugin;
         this.executorService = executorService;
@@ -290,8 +290,11 @@ public class BlockParty {
             }
 
             config.reload();
-            this.bungee = config.getConfig().getBoolean("BungeeCord");
-            this.defaultArena = config.getConfig().getString("DefaultArena");
+
+            if (config.getConfig().isConfigurationSection("BungeeCord")) {
+                this.bungee = config.getConfig().getBoolean("BungeeCord.Enabled");
+                this.defaultArena = config.getConfig().getString("BungeeCord.DefaultArena");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

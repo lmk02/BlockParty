@@ -92,19 +92,19 @@ public class BlockPartyCommand implements CommandExecutor {
                         if (args.length >= subCommand.getMinArgs()) {
                             subCommand.onCommand(sender, args);
                         } else {
-                            SYNTAX.message(PREFIX, sender, "%SYNTAX%", subCommand.getSyntax());
+                            ERROR_SYNTAX.message(PREFIX, sender, "%SYNTAX%", subCommand.getSyntax());
                         }
                     } else {
-                        ONLY_PLAYERS.message(PREFIX, sender);
+                        ERROR_ONLY_PLAYERS.message(PREFIX, sender);
                     }
                 } else {
-                    NO_PERMISSIONS.message(PREFIX, sender);
+                    ERROR_NO_PERMISSIONS.message(PREFIX, sender);
                 }
             }
         }
 
         if (showHelp) {
-            COMMAND_NOT_FOUND.message(PREFIX, sender);
+            ERROR_COMMAND_NOT_FOUND.message(PREFIX, sender);
         }
 
         return true;

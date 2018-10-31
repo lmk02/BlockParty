@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static de.leonkoth.blockparty.locale.BlockPartyLocale.SPEED_BOOST;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.BOOST_SPEED;
 
 public class SpeedBoost extends Boost {
 
@@ -24,7 +24,7 @@ public class SpeedBoost extends Boost {
 
     @Override
     public LocaleString getDisplayName() {
-        return SPEED_BOOST;
+        return BOOST_SPEED;
     }
 
 }

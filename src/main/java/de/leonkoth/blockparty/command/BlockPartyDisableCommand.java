@@ -24,12 +24,12 @@ public class BlockPartyDisableCommand extends SubCommand {
 
         Arena arena = Arena.getByName(args[1]);
         if (arena == null) {
-            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         arena.setEnabled(false);
-        ARENA_DISABLE_SUCCESS.message(PREFIX, sender, "%ARENA%", args[1]);
+        SUCCESS_ARENA_DISABLE.message(PREFIX, sender, "%ARENA%", args[1]);
 
         return true;
 

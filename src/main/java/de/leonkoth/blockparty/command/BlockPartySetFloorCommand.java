@@ -34,10 +34,10 @@ public class BlockPartySetFloorCommand extends SubCommand {
         } catch (InvalidSelectionException e) {
             switch (e.getError()) {
                 case DIFFERENT_WORLDS:
-                    DIFFERENT_WORLDS.message(PREFIX, sender);
+                    ERROR_DIFFERENT_WORLDS.message(PREFIX, sender);
                     break;
                 case NO_SELECTION:
-                    SELECT_ERROR.message(PREFIX, sender);
+                    ERROR_SELECT.message(PREFIX, sender);
                     break;
             }
 
@@ -45,23 +45,23 @@ public class BlockPartySetFloorCommand extends SubCommand {
         }
 
         if (selection.getBounds().getSize().getHeight() != 1) {
-            FLOOR_MIN_HEIGHT.message(PREFIX, sender);
+            ERROR_FLOOR_HEIGHT.message(PREFIX, sender);
             return false;
         }
 
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         if (Floor.create(arena, selection.getBounds())) {
-            FLOOR_SET_SUCCESS.message(PREFIX, sender, "%ARENA%", args[1]); //TODO: show floor size in message
+            SUCCESS_FLOOR_SET.message(PREFIX, sender, "%ARENA%", args[1]); //TODO: show floor size in message
             return true;
         }
 
-        FLOOR_CREATE_FAIL.message(PREFIX, sender, "%ARENA%", args[1]);
+        ERROR_FLOOR_SET.message(PREFIX, sender, "%ARENA%", args[1]);
 
         return true;
 

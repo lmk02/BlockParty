@@ -28,16 +28,16 @@ public class BlockPartySetSpawnCommand extends SubCommand {
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         if (args[2].equalsIgnoreCase("lobby")) {
             arena.setLobbySpawn(player.getLocation());
-            LOBBY_SPAWN_SET.message(PREFIX, sender, "%ARENA%", arena.getName());
+            SUCCESS_SPAWN_SET_LOBBY.message(PREFIX, sender, "%ARENA%", arena.getName());
         } else if (args[2].equalsIgnoreCase("game")) {
             arena.setGameSpawn(player.getLocation());
-            GAME_SPAWN_SET.message(PREFIX, sender, "%ARENA%", arena.getName());
+            SUCCESS_SPAWN_SET_GAME.message(PREFIX, sender, "%ARENA%", arena.getName());
         } else {
             sender.sendMessage("§c" + SYNTAX);
             return false;

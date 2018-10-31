@@ -23,9 +23,9 @@ public class BlockPartyCreateCommand extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
 
         if (Arena.create(args[1])) {
-            ARENA_CREATE_SUCCESS.message(PREFIX, sender, "%ARENA%", args[1]);
+            SUCCESS_ARENA_CREATE.message(PREFIX, sender, "%ARENA%", args[1]);
         } else {
-            ARENA_CREATE_FAIL.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_CREATE.message(PREFIX, sender, "%ARENA%", args[1]);
         }
 
         return true;

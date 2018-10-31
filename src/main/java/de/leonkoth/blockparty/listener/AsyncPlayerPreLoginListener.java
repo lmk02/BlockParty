@@ -27,17 +27,17 @@ public class AsyncPlayerPreLoginListener implements Listener {
             Arena arena = Arena.getByName(blockParty.getDefaultArena());
 
             if (arena == null) {
-                event.disallow(KICK_OTHER, ARENA_DOESNT_EXIST.toString("%ARENA%", blockParty.getDefaultArena()));
+                event.disallow(KICK_OTHER, ERROR_ARENA_NOT_EXIST.toString("%ARENA%", blockParty.getDefaultArena()));
                 return;
             }
 
             if (!arena.isEnabled()) {
-                event.disallow(KICK_OTHER, ARENA_DISABLED.toString("%ARENA%", blockParty.getDefaultArena()));
+                event.disallow(KICK_OTHER, ERROR_ARENA_DISABLED.toString("%ARENA%", blockParty.getDefaultArena()));
                 return;
             }
 
             if (arena.getPlayersInArena().size() >= arena.getMaxPlayers()) {
-                event.disallow(KICK_OTHER, ARENA_ALREADY_FULL.toString());
+                event.disallow(KICK_OTHER, ERROR_ARENA_FULL.toString());
             }
 
         }

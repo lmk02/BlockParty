@@ -1,11 +1,14 @@
-BungeeCord: False
-# This is the default arena you will join when BungeeCord is enabled
-DefaultArena: Arena
+# BlockParty configuration
+
 LocaleFileName: locale_en.yml
 SaveOnDisable: false
 
+BungeeCord:
+  Enabled: False
+  DefaultArena: Arena
+
 MusicServer:
-  Enabled: false
+  Enabled: False
   WebSocketLibrary: jetty
   Port: 8080
 

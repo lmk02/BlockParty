@@ -39,7 +39,7 @@ public class BlockPartyUndoCommand extends SubCommand {
         UUID uuid = player.getUniqueId();
 
         if (!oldBlocks.containsKey(uuid)) {
-            NO_UNDO.message(PREFIX, sender);
+            ERROR_NO_UNDO.message(PREFIX, sender);
             return false;
         }
 

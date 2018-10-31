@@ -55,7 +55,7 @@ public class PlayerEliminateListener implements Listener {
         player.updateInventory();
         arena.broadcast(PREFIX, PLAYER_ELIMINATED, false, (PlayerInfo[]) null, "%PLAYER%", playerInfo.getName());
 
-        if (arena.getArenaState() == ArenaState.INGAME || arena.getArenaState() == ArenaState.WINNERPHASE) {
+        if (arena.getArenaState() == ArenaState.INGAME || arena.getArenaState() == ArenaState.ENDING) {
             arena.getPhaseHandler().getGamePhase().checkForWin();
         }
     }

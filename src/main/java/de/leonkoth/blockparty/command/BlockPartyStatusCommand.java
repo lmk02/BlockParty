@@ -25,12 +25,12 @@ public class BlockPartyStatusCommand extends SubCommand {
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         if (!arena.isEnabled()) {
-            ARENA_DISABLED.message(PREFIX, sender, "%ARENA%", arena.getName());
+            ERROR_ARENA_DISABLED.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
