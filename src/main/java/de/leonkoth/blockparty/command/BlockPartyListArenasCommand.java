@@ -26,7 +26,7 @@ public class BlockPartyListArenasCommand extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
 
         if (blockParty.getArenas().isEmpty()) {
-            NO_ARENAS.message(PREFIX, sender);
+            ERROR_NO_ARENAS.message(PREFIX, sender);
         } else {
             boolean console = !(sender instanceof Player);
             String separator = Util.getSeparator(6, console);

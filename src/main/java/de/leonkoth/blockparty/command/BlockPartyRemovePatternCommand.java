@@ -25,14 +25,14 @@ public class BlockPartyRemovePatternCommand extends SubCommand {
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         if (arena.removePattern(args[2])) {
-            PATTERN_REMOVED.message(PREFIX, sender, "%ARENA%", args[1], "%PATTERN%", args[2]);
+            SUCCESS_PATTERN_REMOVE.message(PREFIX, sender, "%ARENA%", args[1], "%PATTERN%", args[2]);
         } else {
-            PATTERN_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1], "%PATTERN%", args[2]);
+            ERROR_PATTERN_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1], "%PATTERN%", args[2]);
             return false;
         }
 

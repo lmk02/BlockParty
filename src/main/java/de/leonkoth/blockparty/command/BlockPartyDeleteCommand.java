@@ -25,12 +25,12 @@ public class BlockPartyDeleteCommand extends SubCommand {
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         arena.delete();
-        ARENA_DELETE_SUCCESS.message(PREFIX, sender, "%ARENA%", args[1]);
+        SUCCESS_ARENA_DELETE.message(PREFIX, sender, "%ARENA%", args[1]);
 
         return true;
 

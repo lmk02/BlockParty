@@ -43,7 +43,7 @@ public class PlayerWinListener implements Listener {
         arena.setGameState(GameState.WAIT);
         //}
 
-        arena.setArenaState(ArenaState.WINNERPHASE);
+        arena.setArenaState(ArenaState.ENDING);
 
         for (PlayerInfo playerInfo : playerInfos) {
             playerInfo.setPlayerState(PlayerState.WINNER);

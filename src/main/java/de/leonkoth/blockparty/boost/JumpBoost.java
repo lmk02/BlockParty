@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static de.leonkoth.blockparty.locale.BlockPartyLocale.JUMP_BOOST;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.BOOST_JUMP;
 
 public class JumpBoost extends Boost {
 
@@ -24,7 +24,7 @@ public class JumpBoost extends Boost {
 
     @Override
     public LocaleString getDisplayName() {
-        return JUMP_BOOST;
+        return BOOST_JUMP;
     }
 
 }

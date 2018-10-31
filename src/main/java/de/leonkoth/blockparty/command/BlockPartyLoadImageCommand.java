@@ -32,7 +32,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
         File file = new File(path);
 
         if (!file.exists() || file.isDirectory()) {
-            FILE_DOESNT_EXIST.message(PREFIX, sender, "%FILE%", path);
+            ERROR_FILE_NOT_EXIST.message(PREFIX, sender, "%FILE%", path);
             return false;
         }
 
@@ -45,7 +45,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
         }
 
         if (!mimetype.startsWith("image")) {
-            NO_IMAGE.message(PREFIX, sender);
+            ERROR_NO_IMAGE.message(PREFIX, sender);
             return false;
         }
 
@@ -59,7 +59,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
             return true;
         }
 
-        PATTERN_SAVE_SUCCESS.message(PREFIX, sender, "%PATTERN%", patternPath);
+        SUCCESS_PATTERN_SAVE.message(PREFIX, sender, "%PATTERN%", patternPath);
 
         return true;
     }

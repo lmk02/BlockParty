@@ -28,21 +28,21 @@ public class BlockPartyAddSongCommand extends SubCommand {
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         String name = args[2];
         for (Song s : arena.getSongManager().getSongs()) {
             if (s.getName().equalsIgnoreCase(name)) {
-                SONG_ALREADY_ADDED_TO_ARENA.message(PREFIX, sender, "%SONG%", name, "%ARENA%", arena.getName());
+                ERROR_SONG_ALREADY_ADDED.message(PREFIX, sender, "%SONG%", name, "%ARENA%", arena.getName());
                 return true;
             }
         }
 
         arena.getSongManager().addSong(name);
         arena.save();
-        SONG_ADDED_TO_ARENA.message(PREFIX, sender, "%SONG%", name, "%ARENA%", arena.getName());
+        SUCCESS_SONG_ADDED.message(PREFIX, sender, "%SONG%", name, "%ARENA%", arena.getName());
 
         return true;
     }

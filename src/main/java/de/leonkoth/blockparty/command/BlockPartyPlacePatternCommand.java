@@ -33,7 +33,7 @@ public class BlockPartyPlacePatternCommand extends SubCommand {
         try {
             pattern = PatternLoader.readFloorPattern(new File(BlockParty.PLUGIN_FOLDER + "Floors/" + args[1] + ".floor"));
         } catch (FileNotFoundException e) {
-            FILE_DOESNT_EXIST.message(PREFIX, sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[1] + ".floor");
+            ERROR_FILE_NOT_EXIST.message(PREFIX, sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[1] + ".floor");
             return false;
         } catch (FloorLoaderException e) {
             //unusual

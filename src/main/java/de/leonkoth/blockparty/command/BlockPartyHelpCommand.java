@@ -27,7 +27,7 @@ public class BlockPartyHelpCommand extends SubCommand {
         boolean console = !(sender instanceof Player);
         String separator = Util.getSeparator(6, console);
         String header = separator + " " + HEADER_HELP + " " + separator;
-        String template = HELP_FORMAT.toString();
+        String template = COMMAND_FORMAT.toString();
 
         if (!console) sender.sendMessage(" ");
         sender.sendMessage(header);

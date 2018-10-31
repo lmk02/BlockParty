@@ -48,7 +48,7 @@ public class BlockPartyListPatternsCommand extends SubCommand {
         }
 
         if (patternList.isEmpty()) {
-            NO_PATTERNS.message(PREFIX, sender);
+            ERROR_NO_PATTERNS.message(PREFIX, sender);
         } else {
             String patterns = Arrays.toString(patternList.toArray()).replace("[", "").replace("]", "");
             PATTERN_LIST.message(PREFIX, sender, "%PATTERNS%", patterns);

@@ -26,7 +26,7 @@ public class BlockPartyAdminCommand extends SubCommand {
 
         boolean console = !(sender instanceof Player);
         String separator = Util.getSeparator(6, console);
-        String template = HELP_FORMAT.toString();
+        String template = COMMAND_FORMAT.toString();
         String header = separator + " " + HEADER_ADMIN + " " + separator;
 
 

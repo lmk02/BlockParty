@@ -42,7 +42,7 @@ public class BlockPartyTutorialCommand extends SubCommand {
 
             sender.sendMessage(Util.getSeparator(ChatColor.stripColor(header).length(), console));
         } else if (args.length > 1) {
-            BlockPartyLocale.SYNTAX.message(PREFIX, sender, "%SYNTAX%", SYNTAX);
+            BlockPartyLocale.ERROR_SYNTAX.message(PREFIX, sender, "%SYNTAX%", SYNTAX);
         } else {
             String header = separator + " " + HEADER_TUTORIAL + " " + separator;
             sender.sendMessage(header);

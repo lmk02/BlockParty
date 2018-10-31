@@ -25,27 +25,27 @@ public class BlockPartyEnableCommand extends SubCommand {
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         if (arena.getFloor() == null) {
-            NO_FLOOR.message(PREFIX, sender);
+            ERROR_NO_FLOOR.message(PREFIX, sender);
             return false;
         }
 
         if (arena.getGameSpawn() == null) {
-            NO_GAME_SPAWN.message(PREFIX, sender);
+            ERROR_NO_GAME_SPAWN.message(PREFIX, sender);
             return false;
         }
 
         if (arena.getLobbySpawn() == null) {
-            NO_LOBBY_SPAWN.message(PREFIX, sender);
+            ERROR_NO_LOBBY_SPAWN.message(PREFIX, sender);
             return false;
         }
 
         arena.setEnabled(true);
-        ARENA_ENABLE_SUCCESS.message(PREFIX, sender, "%ARENA%", args[1]);
+        SUCCESS_ARENA_ENABLE.message(PREFIX, sender, "%ARENA%", args[1]);
 
         return true;
 

@@ -31,7 +31,7 @@ public class BlockPartyLeaveCommand extends SubCommand {
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
 
         if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-            NOT_IN_ARENA.message(PREFIX, sender);
+            ERROR_NOT_IN_ARENA.message(PREFIX, sender);
             return false;
         }
 

@@ -30,7 +30,7 @@ public class BlockPartyStartCommand extends SubCommand {
             arena = Arena.getByName(args[1]);
 
             if (arena == null) {
-                ARENA_DOESNT_EXIST.message(PREFIX, sender);
+                ERROR_ARENA_NOT_EXIST.message(PREFIX, sender);
                 return false;
             }
         } else {
@@ -39,24 +39,24 @@ public class BlockPartyStartCommand extends SubCommand {
                 PlayerInfo info = PlayerInfo.getFromPlayer(player);
 
                 if (info == null || info.getCurrentArena() == null) {
-                    NOT_IN_ARENA.message(PREFIX, sender);
+                    ERROR_NOT_IN_ARENA.message(PREFIX, sender);
                     return false;
                 }
 
                 arena = info.getCurrentArena();
             } else {
-                ONLY_PLAYERS.message(PREFIX, sender);
+                ERROR_ONLY_PLAYERS.message(PREFIX, sender);
                 return false;
             }
         }
 
         if (!arena.isEnabled()) {
-            ARENA_DISABLED.message(PREFIX, sender, "%ARENA%", arena.getName());
+            ERROR_ARENA_DISABLED.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
         if (!arena.getPhaseHandler().startGamePhase()) {
-            START_ABORTED.message(PREFIX, sender);
+            ERROR_START_ABORTED.message(PREFIX, sender);
             return false;
         }
 

@@ -22,7 +22,7 @@ public class BlockPartyReloadCommand extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
 
         blockParty.reload();
-        CONFIG_RELOADED.message(PREFIX, sender);
+        SUCCESS_CONFIG_RELOAD.message(PREFIX, sender);
 
         return true;
     }

@@ -35,10 +35,10 @@ public class BlockPartyCreatePatternCommand extends SubCommand {
         } catch (InvalidSelectionException e) {
             switch (e.getError()) {
                 case DIFFERENT_WORLDS:
-                    DIFFERENT_WORLDS.message(PREFIX, sender);
+                    ERROR_DIFFERENT_WORLDS.message(PREFIX, sender);
                     break;
                 case NO_SELECTION:
-                    SELECT_ERROR.message(PREFIX, sender);
+                    ERROR_SELECT.message(PREFIX, sender);
                     break;
             }
 
@@ -46,7 +46,7 @@ public class BlockPartyCreatePatternCommand extends SubCommand {
         }
 
         if (selection.getBounds().getSize().getHeight() != 1) {
-            FLOOR_MIN_HEIGHT.message(PREFIX, sender);
+            ERROR_FLOOR_HEIGHT.message(PREFIX, sender);
             return false;
         }
 
@@ -59,12 +59,12 @@ public class BlockPartyCreatePatternCommand extends SubCommand {
                     e.printStackTrace();
                     break;
                 case WRONG_HEIGHT:
-                    FLOOR_MIN_HEIGHT.message(PREFIX, sender);
+                    ERROR_FLOOR_HEIGHT.message(PREFIX, sender);
                     break;
             }
         }
 
-        PATTERN_SAVE_SUCCESS.message(PREFIX, sender, "%PATTERN%", args[1] + ".floor");
+        SUCCESS_PATTERN_SAVE.message(PREFIX, sender, "%PATTERN%", args[1] + ".floor");
 
         return true;
     }

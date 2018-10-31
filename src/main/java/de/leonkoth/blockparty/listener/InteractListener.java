@@ -66,7 +66,7 @@ public class InteractListener implements Listener {
 
         if (inventory != null && inventory.getName().equals(INVENTORY_VOTE_NAME.toString())) {
             if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-                NOT_IN_ARENA.message(PREFIX, player);
+                ERROR_NOT_IN_ARENA.message(PREFIX, player);
                 return false;
             }
             if (item.getItemMeta() == null)
@@ -78,7 +78,7 @@ public class InteractListener implements Listener {
                 player.closeInventory();
                 player.getInventory().remove(ItemType.VOTEFORASONG.getItem());
             } else {
-                VOTE_FAIL.message(PREFIX, player, "%SONG%", name);
+                ERROR_VOTE.message(PREFIX, player, "%SONG%", name);
             }
 
             return true;
@@ -87,7 +87,7 @@ public class InteractListener implements Listener {
         if (item.equals(ItemType.LEAVEARENA.getItem())) {
 
             if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-                NOT_IN_ARENA.message(PREFIX, player);
+                ERROR_NOT_IN_ARENA.message(PREFIX, player);
                 return false;
             }
 
@@ -101,7 +101,7 @@ public class InteractListener implements Listener {
 
         if (item.equals(ItemType.VOTEFORASONG.getItem())) {
             if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
-                NOT_IN_ARENA.message(PREFIX, player);
+                ERROR_NOT_IN_ARENA.message(PREFIX, player);
                 return false;
             }
             Arena arena = playerInfo.getCurrentArena();

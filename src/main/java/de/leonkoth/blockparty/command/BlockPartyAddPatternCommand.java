@@ -27,29 +27,29 @@ public class BlockPartyAddPatternCommand extends SubCommand {
         Arena arena = Arena.getByName(args[1]);
 
         if (arena == null) {
-            ARENA_DOESNT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
             return false;
         }
 
         if (!PatternLoader.exists(args[2])) {
-            FILE_DOESNT_EXIST.message(PREFIX, sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[2] + ".floor");
+            ERROR_FILE_NOT_EXIST.message(PREFIX, sender, "%FILE%", BlockParty.PLUGIN_FOLDER + "Floors/" + args[2] + ".floor");
             return false;
         }
 
         FloorPattern pattern = arena.getFloor().loadPattern(args[2]);
 
         if (pattern == null) {
-            FILE_DOESNT_EXIST.message(PREFIX, sender);
+            ERROR_FILE_NOT_EXIST.message(PREFIX, sender);
             return false;
         }
 
         if (!pattern.getSize().equals(arena.getFloor().getSize())) {
-            PATTERN_ISNT_CORRECT_SIZE.message(PREFIX, sender);
+            ERROR_WRONG_SIZE.message(PREFIX, sender);
             return false;
         }
 
         if (arena.addPattern(pattern)) {
-            PATTERN_ADDED.message(PREFIX, sender, "%ARENA%", args[1], "%PATTERN%", args[2]);
+            SUCCESS_PATTERN_ADD.message(PREFIX, sender, "%ARENA%", args[1], "%PATTERN%", args[2]);
         }
 
         return true;

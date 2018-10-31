@@ -96,7 +96,7 @@ public class LobbyPhase implements Runnable {
 
             //this.displayScoreboard.setScoreboard(i, 0, arena); TODO: show scoreboard
         } else {
-            arena.broadcast(PREFIX, START_ABORTED, false, (PlayerInfo[]) null);
+            arena.broadcast(PREFIX, ERROR_START_ABORTED, false, (PlayerInfo[]) null);
             countdown = -1;
         }
 
