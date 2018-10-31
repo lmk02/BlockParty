@@ -2,7 +2,7 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.boost.Boost;
-import de.leonkoth.blockparty.boost.SpeedBoost;
+import de.leonkoth.blockparty.boost.JumpBoost;
 import de.pauhull.utils.image.ChatFace;
 import de.pauhull.utils.locale.storage.LocaleSection;
 import de.pauhull.utils.locale.storage.LocaleString;
@@ -24,10 +24,36 @@ public class BlockPartyTestCommand extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        ChatFace face = new ChatFace(blockParty.getExecutorService());
-        face.getLinesAsync("aasdasidjioasjdodoadododoodo", player::sendMessage);
+        String[] players = {
+                "KubaJumper",
+                "realErik_",
+                "EvellynPJL",
+                "000000000000000k",
+                "MateusNz",
+                "godenzinhu",
+                "GANGMEMBERHUSAIN",
+                "NicoIstMeinz",
+                "7modie",
+                "BastiWillKekse",
+                "Naf3r",
+                "Zeynep_Viskes",
+                "Besciak_",
+                "MerliaGamer098",
+                "Cyberek",
+                "Cymbalista",
+                "oNoAbuuse",
+                "Shwek",
+                "WhyRuSoRude",
+                "MohaYassin",
+                "Wolfsherr",
+                "Kretyn",
+                "ReverseButterfly",
+                "JokkaRx"
+        };
 
-        Boost test = new SpeedBoost();
+        ChatFace face = new ChatFace(blockParty.getExecutorService());
+        face.getLinesAsync(players[(int) (Math.random() * players.length)], player::sendMessage);
+        Boost test = new JumpBoost();
         test.spawn(player.getLocation());
 
         return true;

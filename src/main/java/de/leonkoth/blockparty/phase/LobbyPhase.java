@@ -83,7 +83,7 @@ public class LobbyPhase implements Runnable {
                     player.playSound(player.getLocation(), sound, 1, 1);
                 }
 
-                arena.broadcast(TIME_LEFT, false, (PlayerInfo) null, "%TIME%", Integer.toString(countdown));
+                arena.broadcast(PREFIX, TIME_LEFT, false, (PlayerInfo[]) null, "%TIME%", Integer.toString(countdown));
             }
 
             for (Player player : players) {
@@ -96,7 +96,7 @@ public class LobbyPhase implements Runnable {
 
             //this.displayScoreboard.setScoreboard(i, 0, arena); TODO: show scoreboard
         } else {
-            arena.broadcast(START_ABORTED, false, (PlayerInfo) null);
+            arena.broadcast(PREFIX, START_ABORTED, false, (PlayerInfo[]) null);
             countdown = -1;
         }
 

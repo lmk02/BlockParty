@@ -10,9 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import static de.leonkoth.blockparty.locale.BlockPartyLocale.ARENA_DISABLED;
-import static de.leonkoth.blockparty.locale.BlockPartyLocale.ARENA_DOESNT_EXIST;
-
 /**
  * Created by Leon on 15.03.2018.
  * Project Blockparty2
@@ -41,19 +38,8 @@ public class PlayerJoinListener implements Listener {
         }
         blockParty.getPlayerInfoManager().createPlayerInfo(playerInfo);
 
-        if (blockParty.isBungee()) {
-            Arena arena = Arena.getByName(blockParty.getDefaultArena());
-
-            if (arena == null) {
-                player.kickPlayer(ARENA_DOESNT_EXIST.toString("%ARENA%", blockParty.getDefaultArena()));
-                return;
-            }
-
-            if (!arena.isEnabled()) {
-                player.kickPlayer(ARENA_DISABLED.toString("%ARENA%", blockParty.getDefaultArena()));
-                return;
-            }
-
+        Arena arena = Arena.getByName(blockParty.getDefaultArena());
+        if (blockParty.isBungee() && arena != null) {
             String error = arena.addPlayer(player).getCancelMessage();
             if (error != null) {
                 player.kickPlayer(error);

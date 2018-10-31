@@ -37,7 +37,7 @@ public class PlayerLeaveArenaListener implements Listener {
             playerInfo.setPlayerData(null);
         }
 
-        arena.broadcast(PLAYER_LEFT_GAME, false, playerInfo, "%PLAYER%", player.getName());
+        arena.broadcast(PREFIX, PLAYER_LEFT_GAME, false, playerInfo, "%PLAYER%", player.getName());
 
         arena.getPlayersInArena().remove(playerInfo);
 

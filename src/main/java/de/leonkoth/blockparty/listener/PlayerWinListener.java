@@ -60,7 +60,7 @@ public class PlayerWinListener implements Listener {
                         }
                     }
 
-                    arena.broadcast(WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
+                    arena.broadcast(PREFIX, WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
                     WINNER_ANNOUNCE_SELF.message(PREFIX, player);
                 });
 

@@ -119,9 +119,11 @@ public class BlockParty {
     public void start() {
 
         // Init listeners
+        new AsyncPlayerPreLoginListener(this);
         new BlockBreakListener(this);
         new BlockPickListener(this);
         new BlockPlaceListener(this);
+        new BoostSpawnListener(this);
         new EntityDamageListener(this);
         new FoodLevelChangeListener(this);
         new GameEndListener(this);
@@ -141,7 +143,6 @@ public class BlockParty {
         new InteractListener(this);
         new PlayerInteractListener(this);
         new ServerListPingListener(this);
-
 
         // Init commands
         new BlockPartyCommand(this);

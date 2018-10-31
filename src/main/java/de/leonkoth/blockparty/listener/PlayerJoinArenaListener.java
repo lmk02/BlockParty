@@ -70,7 +70,7 @@ public class PlayerJoinArenaListener implements Listener {
         player.setExp(0);
         playerInfo.setCurrentArena(arena);
         arena.getPlayersInArena().add(playerInfo);
-        arena.broadcast(PLAYER_JOINED_GAME, false, playerInfo, "%PLAYER%", player.getName());
+        arena.broadcast(PREFIX, PLAYER_JOINED_GAME, false, playerInfo, "%PLAYER%", player.getName());
 
         player.getInventory().setItem(8, ItemType.LEAVEARENA.getItem());
         player.getInventory().setItem(7, ItemType.VOTEFORASONG.getItem());

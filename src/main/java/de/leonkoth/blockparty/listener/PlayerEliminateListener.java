@@ -13,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.PLAYER_ELIMINATED;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.PREFIX;
 
 public class PlayerEliminateListener implements Listener {
 
@@ -52,10 +53,10 @@ public class PlayerEliminateListener implements Listener {
         player.teleport(arena.getLobbySpawn());
         player.getInventory().clear();
         player.updateInventory();
-        arena.broadcast(PLAYER_ELIMINATED, false, (PlayerInfo) null, "%PLAYER%", playerInfo.getName());
+        arena.broadcast(PREFIX, PLAYER_ELIMINATED, false, (PlayerInfo[]) null, "%PLAYER%", playerInfo.getName());
 
         if (arena.getArenaState() == ArenaState.INGAME || arena.getArenaState() == ArenaState.WINNERPHASE) {
-            arena.getPhaseHandler().getGamePhase().eliminate(playerInfo);
+            arena.getPhaseHandler().getGamePhase().checkForWin();
         }
     }
 

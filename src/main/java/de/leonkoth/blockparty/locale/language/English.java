@@ -158,6 +158,7 @@ public class English extends Language {
     public static final LocaleString ITEM_SELECT = new LocaleString(ITEMS, "Click to vote!");
 
     public static final LocaleString SPEED_BOOST = new LocaleString(BOOSTS, "&bSpeed Boost");
+    public static final LocaleString JUMP_BOOST = new LocaleString(BOOSTS, "&aJump Boost");
 
     public static void writeTo(File file) {
         try {

@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.NEXT_BLOCK;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.PREFIX;
 
 public class BlockPickListener implements Listener {
 
@@ -26,7 +27,7 @@ public class BlockPickListener implements Listener {
     public void onBlockPick(BlockPickEvent event) {
         Arena arena = event.getArena();
         String name = ColorBlock.get(event.getAnnouncedBlock()).getName();
-        arena.broadcast(NEXT_BLOCK, true, (PlayerInfo) null, "%BLOCK%", name);
+        arena.broadcast(PREFIX, NEXT_BLOCK, true, (PlayerInfo[]) null, "%BLOCK%", name);
     }
 
 }

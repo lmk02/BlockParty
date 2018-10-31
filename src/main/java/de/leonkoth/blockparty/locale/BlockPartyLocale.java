@@ -10,6 +10,8 @@ import java.io.File;
 
 public class BlockPartyLocale extends Locale {
 
+    //TODO: clean up names
+
     public static LocaleString PREFIX;
     public static LocaleString SCOREBOARD_TEXT;
     public static LocaleString COLORS;
@@ -128,6 +130,7 @@ public class BlockPartyLocale extends Locale {
     public static LocaleString HEADER_LIST_ARENAS;
 
     public static LocaleString SPEED_BOOST;
+    public static LocaleString JUMP_BOOST;
 
     public static void init() {
         defaultLanguage = English.class;
