@@ -84,7 +84,7 @@ public class English extends Language {
     public static final LocaleString ERROR_FLOOR_LOAD = new LocaleString(ERROR, "Failed to load floor.");
     public static final LocaleString ERROR_FLOOR_SET = new LocaleString(ERROR, "Failed to set floor in arena \"%ARENA%\"");
     public static final LocaleString ERROR_IN_PROGRESS = new LocaleString(ERROR, "The game you are trying to join is already running");
-    public static final LocaleString ERROR_INGAME = new LocaleString(ERROR, "You can't join another game while you are playing. Use &e/bp leave &7to leave the current match");
+    public static final LocaleString ERROR_INGAME = new LocaleString(ERROR, "You can't join another game while you are playing. Use &e/bp leave &cto leave the current match");
     public static final LocaleString ERROR_NO_ARENAS = new LocaleString(ERROR, "There are no arenas to list");
     public static final LocaleString ERROR_NO_FLOOR = new LocaleString(ERROR, "You have to set a floor first");
     public static final LocaleString ERROR_NO_GAME_SPAWN = new LocaleString(ERROR, "You have to set a game spawn first");

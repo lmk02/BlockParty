@@ -9,6 +9,7 @@ import de.leonkoth.blockparty.song.Song;
 import de.leonkoth.blockparty.util.ItemType;
 import de.leonkoth.blockparty.util.Selection;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -51,6 +52,21 @@ public class PlayerInteractListener implements Listener {
                 BOOST_COLLECTED.message(PREFIX, player, "%BOOST%", boostName);
                 boost.onCollect(block.getLocation(), player, PlayerInfo.getFromPlayer(player));
                 return;
+            }
+        }
+
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            for (Arena arena : blockParty.getArenas()) {
+                for (Location location : arena.getSigns().getSigns()) {
+                    if (block.getLocation().equals(location)) {
+                        if (player.hasPermission("blockparty.user.join")) {
+                            arena.addPlayer(player);
+                        } else {
+                            ERROR_NO_PERMISSIONS.message(PREFIX, player);
+                        }
+                        return;
+                    }
+                }
             }
         }
 

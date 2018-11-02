@@ -36,7 +36,7 @@ public class SignChangeListener implements Listener {
                 return;
             }
 
-            arena.getSigns().add(event.getBlock());
+            arena.addSign(sign.getLocation());
         }
     }
 

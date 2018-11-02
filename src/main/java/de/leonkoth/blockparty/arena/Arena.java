@@ -41,12 +41,11 @@ public class Arena {
 
     public static final double TIME_REDUCTION_PER_LEVEL = 0.5;
     public static final int MIN_PLAYERS = 2;
-    public static final int MAX_PLAYERS = 15;
+    public static final int MAX_PLAYERS = 20;
     public static final int LOBBY_COUNTDOWN = 30;
     public static final int DISTANCE_TO_OUT_AREA = 5;
     public static final int TIME_TO_SEARCH = 8;
     public static final int AMOUNT_OF_LEVELS = 15;
-    public static final int BOOST_DURATION = 10;
 
     private BlockParty blockParty;
 
@@ -92,7 +91,6 @@ public class Arena {
         this.data.setTimeToSearch(TIME_TO_SEARCH);
         this.data.setTimeReductionPerLevel(TIME_REDUCTION_PER_LEVEL);
         this.data.setLevelAmount(AMOUNT_OF_LEVELS);
-        this.data.setBoostDuration(BOOST_DURATION);
         this.data.setEnabled(false);
         this.data.setEnableLightnings(true);
         this.data.setEnableParticles(true);
@@ -158,7 +156,6 @@ public class Arena {
 
     public static void startUpdatingSigns(int millis) {
         BlockParty.getInstance().getScheduledExecutorService().scheduleAtFixedRate(() -> {
-
             if (BlockParty.getInstance().isSignsEnabled()) {
                 for (Arena arena : BlockParty.getInstance().getArenas()) {
                     arena.updateSigns();
@@ -255,6 +252,7 @@ public class Arena {
     public void updateSigns() {
         Iterator<Location> iterator = data.signs.getSigns().iterator();
         boolean save = false;
+
         while (iterator.hasNext()) {
             Location location = iterator.next();
             Block block = location.getBlock();
@@ -289,6 +287,8 @@ public class Arena {
                     sign.setLine(i, lines[i]);
                 }
 
+                sign.update();
+
             } else {
                 iterator.remove();
                 save = true;
@@ -302,7 +302,7 @@ public class Arena {
     private String[] getLines(FileConfiguration config, String path) {
         String[] arr = new String[4];
         for (int i = 1; i <= 4; i++) {
-            String newPath = path + ".Lines." + Integer.toString(i);
+            String newPath = path + "." + Integer.toString(i);
 
             if (!config.isString(newPath)) {
                 continue;
@@ -377,6 +377,16 @@ public class Arena {
     // Can be collapsed in IntelliJ IDEA
     // region Some getters/setters
 
+    public void addSign(Location location) {
+        data.signs.add(location);
+        arenaDataManager.save(data);
+    }
+
+    public void removeSign(Location location) {
+        data.signs.remove(location);
+        arenaDataManager.save(data);
+    }
+
     @Override
     public String toString() {
         return getName();
@@ -392,10 +402,6 @@ public class Arena {
 
     public int getLevelAmount() {
         return data.levelAmount;
-    }
-
-    public int getBoostDuration() {
-        return data.boostDuration;
     }
 
     public int getMinPlayers() {
