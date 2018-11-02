@@ -1,7 +1,6 @@
 package de.leonkoth.blockparty.arena;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.arena.ArenaDataManager.ArenaDataSet;
 import de.leonkoth.blockparty.event.PlayerEliminateEvent;
 import de.leonkoth.blockparty.event.PlayerJoinArenaEvent;
 import de.leonkoth.blockparty.event.PlayerLeaveArenaEvent;
@@ -83,9 +82,6 @@ public class Arena {
         this.arenaState = LOBBY;
         this.gameState = GameState.WAIT;
         this.data = new ArenaDataSet();
-        this.arenaDataManager = new ArenaDataManager(this);
-        this.phaseHandler = new PhaseHandler(blockParty, this);
-        this.particlePlayer = new ParticlePlayer(Particles.CLOUD);
         this.playersInArena = new ArrayList<>();
 
         this.data.setName(name);
@@ -115,6 +111,10 @@ public class Arena {
         this.data.setAutoKick(false);
         this.data.setSongManager(new SongManager(this, new ArrayList<>()));
         this.data.setSigns(new SignList());
+
+        this.arenaDataManager = new ArenaDataManager(this);
+        this.phaseHandler = new PhaseHandler(blockParty, this);
+        this.particlePlayer = new ParticlePlayer(Particles.CLOUD);
 
         if (save)
             this.saveData();

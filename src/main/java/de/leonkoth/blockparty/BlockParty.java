@@ -192,7 +192,7 @@ public class BlockParty {
             try {
                 this.webServer.stop();
             } catch (Exception e) {
-                this.getPlugin().getLogger().severe("§cCouldn't stop MusicServer");
+                Bukkit.getConsoleSender().sendMessage("§cCouldn't stop MusicServer");
             }
         }
     }
@@ -290,7 +290,7 @@ public class BlockParty {
                 Arena arena = Arena.loadFromFile(FileUtils.removeExtension(file.getName()));
                 arenas.add(arena);
             } catch (Exception e) {
-                Bukkit.getLogger().severe("§c[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");
+                Bukkit.getConsoleSender().sendMessage("§c[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");
 
                 if (DEBUG)
                     e.printStackTrace();

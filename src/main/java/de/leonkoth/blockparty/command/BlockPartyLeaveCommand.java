@@ -42,7 +42,7 @@ public class BlockPartyLeaveCommand extends SubCommand {
         }
 
         if (!arena.removePlayer(player)) {
-            Bukkit.getLogger().severe("§c[BlockParty] " + player.getName() + " couldn't leave arena " + arena.getName());
+            Bukkit.getConsoleSender().sendMessage("§c[BlockParty] " + player.getName() + " couldn't leave arena " + arena.getName());
             return false;
         }
 

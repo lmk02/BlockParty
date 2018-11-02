@@ -97,7 +97,7 @@ public class SongManager {
 
     private Song getMostVoted() {
         if (songs.isEmpty()) {
-            Bukkit.getLogger().severe("§c[BlockParty] No Song available! Please add a song.");
+            Bukkit.getConsoleSender().sendMessage("§c[BlockParty] No Song available! Please add a song.");
             return null;
         }
         Song mostVoted = songs.get(0);
