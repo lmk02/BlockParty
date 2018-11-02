@@ -19,7 +19,7 @@ public class ArenaDataSet {
 
     @Setter
     @Getter
-    int distanceToOutArea, timeToSearch, levelAmount, boostDuration, minPlayers, maxPlayers, lobbyCountdown;
+    int distanceToOutArea, timeToSearch, levelAmount, minPlayers, maxPlayers, lobbyCountdown;
 
     @Setter
     @Getter

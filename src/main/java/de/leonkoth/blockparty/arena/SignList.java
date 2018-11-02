@@ -74,16 +74,8 @@ public class SignList {
         signs.add(location);
     }
 
-    public void add(Block block) {
-        signs.add(block.getLocation());
-    }
-
     public void remove(Location location) {
         signs.remove(location);
-    }
-
-    public void remove(Block block) {
-        signs.remove(block);
     }
 
     public boolean contains(Location location) {

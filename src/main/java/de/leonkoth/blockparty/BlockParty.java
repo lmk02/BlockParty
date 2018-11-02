@@ -18,7 +18,6 @@ import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -44,9 +43,6 @@ public class BlockParty {
 
     @Getter
     private static BlockParty instance;
-
-    @Getter
-    private static ConsoleCommandSender sender = Bukkit.getConsoleSender();
 
     @Getter
     private boolean bungee;
@@ -132,8 +128,8 @@ public class BlockParty {
     public void start() {
 
         // Init listeners
-        new AsyncPlayerPreLoginListener(this);
         new AsyncPlayerChatListener(this);
+        new AsyncPlayerPreLoginListener(this);
         new BlockBreakListener(this);
         new BlockPickListener(this);
         new BlockPlaceListener(this);
@@ -143,7 +139,6 @@ public class BlockParty {
         new FoodLevelChangeListener(this);
         new GameEndListener(this);
         new GameStartListener(this);
-        new InteractListener(this);
         new InventoryClickListener(this);
         new PickupItemListener(this);
         new PlayerDropItemListener(this);
@@ -158,6 +153,7 @@ public class BlockParty {
         new RoundPrepareListener(this);
         new RoundStartListener(this);
         new ServerListPingListener(this);
+        new SignChangeListener(this);
 
         // Init commands
         new BlockPartyCommand(this);
@@ -192,17 +188,17 @@ public class BlockParty {
             try {
                 this.webServer.stop();
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§cCouldn't stop MusicServer");
+                Bukkit.getConsoleSender().sendMessage("§c[BlockParty] Couldn't stop MusicServer");
             }
         }
     }
 
     public void logStartMessage(boolean online) {
-        sender.sendMessage("§8*******************************");
-        sender.sendMessage("§8*  §7BlockParty §6v" + plugin.getDescription().getVersion());
-        sender.sendMessage("§8*  §7Authors: §6" + Arrays.toString(plugin.getDescription().getAuthors().toArray()));
-        sender.sendMessage("§8*  §7Music Server: " + (online ? "§aOnline" : "§cOffline"));
-        sender.sendMessage("§8*******************************");
+        Bukkit.getConsoleSender().sendMessage("§8*******************************");
+        Bukkit.getConsoleSender().sendMessage("§8*  §7BlockParty §6v" + plugin.getDescription().getVersion());
+        Bukkit.getConsoleSender().sendMessage("§8*  §7Authors: §6" + Arrays.toString(plugin.getDescription().getAuthors().toArray()));
+        Bukkit.getConsoleSender().sendMessage("§8*  §7Music Server: " + (online ? "§aOnline" : "§cOffline"));
+        Bukkit.getConsoleSender().sendMessage("§8*******************************");
     }
 
     private WebServer initWebServer() {
@@ -330,7 +326,7 @@ public class BlockParty {
             }
 
             arenaPrivateChat = !config.getConfig().isBoolean("ArenaPrivateChat") || config.getConfig().getBoolean("ArenaPrivateChat");
-            signsEnabled = !config.getConfig().isBoolean("JoinSigns.Enabled") || config.getConfig().isBoolean("JoinSignsEnabled");
+            signsEnabled = !config.getConfig().isBoolean("JoinSigns.Enabled") || config.getConfig().isBoolean("JoinSigns.Enabled");
 
         } catch (Exception e) {
             e.printStackTrace();

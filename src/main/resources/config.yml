@@ -35,28 +35,28 @@ JoinSigns:
 
   Lines:
     Disabled:
-      1: "&3&lBlockParty"
-      2: "%ARENA%"
-      3: "&4Disabled"
+      1: "&4[Off-%ARENA%]"
+      2: "Voting..."
+      3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
+      4: "&4• Disabled •"
     Lobby:
-      1: "&3&lBlockParty"
-      2: "%ARENA%"
-      3: "&aLobby"
-      4: "&8%PLAYERS%/%MAX_PLAYERS%"
+      1: "&5[Join-%ARENA%]"
+      2: "Voting..."
+      3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
+      4: "&5• Lobby •"
     LobbyFull:
-      1: "&3&lBlockParty"
-      2: "%ARENA%"
-      3: "&6Lobby full"
-      4: "&8%PLAYERS%/%MAX_PLAYERS%"
+      1: "&4[Full-%ARENA%]"
+      2: "Voting..."
+      3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
+      4: "&5• Lobby •"
     Ingame:
-      1: "&3&lBlockParty"
-      2: "%ARENA%"
-      3: "&9Ingame"
-      4: "&8%ALIVE% players alive"
+      1: "&7[Ingame-%ARENA%]"
+      2: "%ALIVE% players alive"
+      3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
+      4: "&7• Ingame •"
     Ending:
-      1: "&3&lBlockParty"
-      2: "%ARENA%"
-      3: "&8Ending..."
+      2: "&8&lLobby"
+      3: "&8&lrestarting..."
 
 BungeeCord:
   # When set to "True", players will automatically connect to DefaultArena (see below)
