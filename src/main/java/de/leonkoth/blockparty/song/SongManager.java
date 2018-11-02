@@ -44,7 +44,7 @@ public class SongManager {
             for (String name : names) {
                 songs.add(new WebSong(name));
             }
-        } else if (arena.isUseNoteblockSongs()) {
+        } else if (arena.isUseNoteBlockSongs()) {
             for (String name : names) {
                 songs.add(new NoteblockSong(name));
             }
@@ -62,7 +62,7 @@ public class SongManager {
     public void addSong(String name) {
         if (arena.isUseWebSongs()) {
             songs.add(new WebSong(name));
-        } else if (arena.isUseNoteblockSongs()) {
+        } else if (arena.isUseNoteBlockSongs()) {
             songs.add(new NoteblockSong(name));
         }
     }
@@ -97,7 +97,7 @@ public class SongManager {
 
     private Song getMostVoted() {
         if (songs.isEmpty()) {
-            Bukkit.getLogger().severe("[BlockParty] No Song available! Please add a song.");
+            Bukkit.getLogger().severe("§c[BlockParty] No Song available! Please add a song.");
             return null;
         }
         Song mostVoted = songs.get(0);

@@ -38,7 +38,7 @@ public class BlockPartyJoinCommand extends SubCommand {
         }
 
         if (arena.addPlayer(player).isCancelled()) {
-            Bukkit.getLogger().severe("[BlockParty] " + player.getName() + " couldn't join arena " + arena.getName());
+            Bukkit.getLogger().severe("§c[BlockParty] " + player.getName() + " couldn't join arena " + arena.getName());
             return false;
         }
 
