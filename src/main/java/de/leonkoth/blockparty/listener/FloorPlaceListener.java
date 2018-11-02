@@ -33,23 +33,25 @@ public class FloorPlaceListener implements Listener {
         Floor floor = event.getFloor();
         floor.placeFloor();
 
-        if (random.nextDouble() <= BOOST_SPAWN_PROBABILITY) {
-            Boost boost = null;
+        if (event.getArena().isEnableBoosts()) {
+            if (random.nextDouble() <= BOOST_SPAWN_PROBABILITY) {
+                Boost boost = null;
 
-            switch (random.nextInt(2)) {
-                case 0:
-                    boost = new SpeedBoost().spawn(floor);
-                    break;
+                switch (random.nextInt(2)) {
+                    case 0:
+                        boost = new SpeedBoost().spawn(floor);
+                        break;
 
-                case 1:
-                    boost = new JumpBoost().spawn(floor);
-                    break;
-            }
+                    case 1:
+                        boost = new JumpBoost().spawn(floor);
+                        break;
+                }
 
-            if (boost != null) {
-                BoostSpawnEvent boostSpawnEvent = new BoostSpawnEvent(floor.getArena(), boost,
-                        boost.getBlock().getLocation(), floor, boost.getBlock());
-                Bukkit.getPluginManager().callEvent(boostSpawnEvent);
+                if (boost != null) {
+                    BoostSpawnEvent boostSpawnEvent = new BoostSpawnEvent(floor.getArena(), boost,
+                            boost.getBlock().getLocation(), floor, boost.getBlock());
+                    Bukkit.getPluginManager().callEvent(boostSpawnEvent);
+                }
             }
         }
     }

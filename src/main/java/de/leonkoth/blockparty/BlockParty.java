@@ -17,6 +17,7 @@ import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -86,6 +87,15 @@ public class BlockParty {
     @Getter
     private List<String> disabledSubCommands = new ArrayList<>();
 
+    @Getter
+    private String arenaChatFormat;
+
+    @Getter
+    private boolean arenaPrivateChat, signsEnabled;
+
+    @Getter
+    private int signUpdateMillis;
+
     public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
         //TODO: join signs
@@ -123,6 +133,7 @@ public class BlockParty {
 
         // Init listeners
         new AsyncPlayerPreLoginListener(this);
+        new AsyncPlayerChatListener(this);
         new BlockBreakListener(this);
         new BlockPickListener(this);
         new BlockPlaceListener(this);
@@ -150,6 +161,8 @@ public class BlockParty {
 
         // Init commands
         new BlockPartyCommand(this);
+
+        Arena.startUpdatingSigns(signUpdateMillis);
 
     }
 
@@ -179,7 +192,7 @@ public class BlockParty {
             try {
                 this.webServer.stop();
             } catch (Exception e) {
-                this.getPlugin().getLogger().severe("Couldn't stop MusicServer");
+                this.getPlugin().getLogger().severe("§cCouldn't stop MusicServer");
             }
         }
     }
@@ -274,10 +287,10 @@ public class BlockParty {
                 continue;
 
             try {
-                Arena arena = Arena.getArenaData(FileUtils.removeExtension(file.getName()));
+                Arena arena = Arena.loadFromFile(FileUtils.removeExtension(file.getName()));
                 arenas.add(arena);
             } catch (Exception e) {
-                Bukkit.getLogger().severe("[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");
+                Bukkit.getLogger().severe("§c[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");
 
                 if (DEBUG)
                     e.printStackTrace();
@@ -303,6 +316,21 @@ public class BlockParty {
             if (config.getConfig().isList("DisabledSubCommands")) {
                 disabledSubCommands = config.getConfig().getStringList("DisabledSubCommands");
             }
+
+            if (config.getConfig().isString("ArenaChatFormat")) {
+                arenaChatFormat = ChatColor.translateAlternateColorCodes('&', config.getConfig().getString("ArenaChatFormat"));
+            } else {
+                arenaChatFormat = null;
+            }
+
+            if (config.getConfig().isInt("JoinSigns.UpdateMillis")) {
+                signUpdateMillis = config.getConfig().getInt("JoinSigns.UpdateMillis");
+            } else {
+                signUpdateMillis = 2500;
+            }
+
+            arenaPrivateChat = !config.getConfig().isBoolean("ArenaPrivateChat") || config.getConfig().getBoolean("ArenaPrivateChat");
+            signsEnabled = !config.getConfig().isBoolean("JoinSigns.Enabled") || config.getConfig().isBoolean("JoinSignsEnabled");
 
         } catch (Exception e) {
             e.printStackTrace();

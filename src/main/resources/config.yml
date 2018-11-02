@@ -1,29 +1,99 @@
 # BlockParty configuration
 
+# Locale file located in plugins/BlockParty/Locale/*.yml
 LocaleFileName: locale_en.yml
+
+# Saves all data on plugin shutdown. Not necessary
 SaveOnDisable: false
+
+# Disables listed sub commands, example:
+# DisabledSubCommands: ["help", "reload", "join"]
 DisabledSubCommands: []
 
+Chat:
+  # Chat format when in arena
+  # Placeholders:
+  # %ARENA%: Arena player is in
+  # %NAME%: Player name without formatting (e.g. rank, colors)
+  # %DISPLAY%: Name with formatting
+  # %MESSAGE%: Message sent
+  ArenaChatFormat: "&8[&7%ARENA%&8] &7%DISPLAY% &8> &r%MESSAGE%"
+
+  # Separates normal from arena chat
+  # Useful for non-bungee servers
+  ArenaPrivateChat: True
+
+# How to use join signs:
+# Line 1: [BlockParty]
+# Line 2: Arena name (case sensitive)
+JoinSigns:
+  # Enable join signs
+  Enabled: True
+
+  # Update signs every x milliseconds
+  UpdateMillis: 2500
+
+  Lines:
+    Disabled:
+      1: "&3&lBlockParty"
+      2: "%ARENA%"
+      3: "&4Disabled"
+    Lobby:
+      1: "&3&lBlockParty"
+      2: "%ARENA%"
+      3: "&aLobby"
+      4: "&8%PLAYERS%/%MAX_PLAYERS%"
+    LobbyFull:
+      1: "&3&lBlockParty"
+      2: "%ARENA%"
+      3: "&6Lobby full"
+      4: "&8%PLAYERS%/%MAX_PLAYERS%"
+    Ingame:
+      1: "&3&lBlockParty"
+      2: "%ARENA%"
+      3: "&9Ingame"
+      4: "&8%ALIVE% players alive"
+    Ending:
+      1: "&3&lBlockParty"
+      2: "%ARENA%"
+      3: "&8Ending..."
+
 BungeeCord:
+  # When set to "True", players will automatically connect to DefaultArena (see below)
+  # and will be kicked from the server when leaving the arena.
+  # This is mostly useful for BungeeCord servers
   Enabled: False
+
+  # Arena players will connect to when BungeeCord is enabled. Please note the spelling and case sensitivity
   DefaultArena: Arena
 
 MusicServer:
+  # When "True", music playback in browser will be activated. You will need a web server for this
   Enabled: False
+
+  # Available libraries: "websocket", "jetty", "tcp/ip", "mcjukebox"
   WebSocketLibrary: jetty
+
+  # Web server port (Not Minecraft server port!)
   Port: 8080
 
 Database:
-  #Use "MySQL" to enable MySQL
+  # Use "MySQL" to enable MySQL, "SQL" to store data locally
   Method: SQL
+
+  # Tables will have this prefix in front of the name
   TablePrefix: "bp_"
 
   SQLOptions:
+    # File to save database to when using SQL
     FileName: "database.db"
 
+  # MySQL credentials
   MySQLOptions:
     Host: localhost
     Port: 3306
     Database: database
     Username: username
     Password: password
+
+# End of  configuration

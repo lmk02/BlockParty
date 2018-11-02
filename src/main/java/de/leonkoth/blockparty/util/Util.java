@@ -16,6 +16,9 @@ public class Util {
 
     public static void showActionBar(String message, Arena arena, boolean onlyInGame) {
 
+        if (!arena.isEnableActionbarInfo())
+            return;
+
         for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
             Player player = playerInfo.asPlayer();
 

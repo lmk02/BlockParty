@@ -1,7 +1,6 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.util.Util;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
@@ -42,7 +41,7 @@ public class BlockPartyTutorialCommand extends SubCommand {
 
             sender.sendMessage(Util.getSeparator(ChatColor.stripColor(header).length(), console));
         } else if (args.length > 1) {
-            BlockPartyLocale.ERROR_SYNTAX.message(PREFIX, sender, "%SYNTAX%", SYNTAX);
+            ERROR_SYNTAX.message(PREFIX, sender, "%SYNTAX%", SYNTAX);
         } else {
             String header = separator + " " + HEADER_TUTORIAL + " " + separator;
             sender.sendMessage(header);
