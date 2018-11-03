@@ -33,7 +33,7 @@ public class PlayerLeaveArenaListener implements Listener {
         playerInfo.setPlayerState(PlayerState.DEFAULT);
         playerInfo.setCurrentArena(null);
 
-        if (playerInfo.getPlayerData() != null) {
+        if (!blockParty.isBungee() && playerInfo.getPlayerData() != null) {
             playerInfo.getPlayerData().apply(player);
             playerInfo.setPlayerData(null);
         }

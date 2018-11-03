@@ -60,7 +60,11 @@ public class PlayerJoinArenaListener implements Listener {
             }
         }
 
-        playerInfo.setPlayerData(PlayerData.create(player));
+        if (!blockParty.isBungee()) {
+            PlayerData data = PlayerData.create(player);
+            playerInfo.setPlayerData(data);
+        }
+
         player.getInventory().clear();
         player.teleport(arena.getLobbySpawn());
         player.setHealth(20);
