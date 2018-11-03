@@ -180,7 +180,7 @@ public class BlockParty {
         BlockPartyUndoCommand.oldBlocks.clear();
 
         for (PlayerInfo playerInfo : PlayerInfo.getAllPlayerInfos()) {
-            if (playerInfo.getPlayerData() != null) {
+            if (!bungee && playerInfo.getPlayerData() != null) {
                 playerInfo.getPlayerData().apply(playerInfo.asPlayer());
             }
         }

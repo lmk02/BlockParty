@@ -10,6 +10,7 @@ import de.leonkoth.blockparty.util.ItemType;
 import de.leonkoth.blockparty.util.Selection;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -55,7 +56,13 @@ public class PlayerInteractListener implements Listener {
             }
         }
 
+        signCheck:
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+
+            if (block == null || (block.getType() != Material.SIGN_POST && block.getType() != Material.WALL_SIGN)) {
+                break signCheck;
+            }
+
             for (Arena arena : blockParty.getArenas()) {
                 for (Location location : arena.getSigns().getSigns()) {
                     if (block.getLocation().equals(location)) {
