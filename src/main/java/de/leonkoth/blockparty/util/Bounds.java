@@ -1,5 +1,6 @@
 package de.leonkoth.blockparty.util;
 
+import de.leonkoth.blockparty.BlockParty;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -10,7 +11,13 @@ public class Bounds {
     private Location a, b;
 
     public Bounds(Location a, Location b) {
-        if (!b.getWorld().getName().equals(b.getWorld().getName())) {
+
+        if (BlockParty.DEBUG) {
+            System.out.println("a=" + (a == null ? "null" : a.toString()));
+            System.out.println("b=" + (b == null ? "null" : b.toString()));
+        }
+
+        if (!a.getWorld().getName().equals(b.getWorld().getName())) {
             throw new IllegalArgumentException("Worlds have to be the same");
         }
 
