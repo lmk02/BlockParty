@@ -84,7 +84,7 @@ public class German extends Language {
     public static final LocaleString ERROR_FLOOR_LOAD = new LocaleString(ERROR, "Konnte den Boden nicht laden.");
     public static final LocaleString ERROR_FLOOR_SET = new LocaleString(ERROR, "Konnte Boden in Arena \"%ARENA%\" nicht setzen");
     public static final LocaleString ERROR_IN_PROGRESS = new LocaleString(ERROR, "Dieses Spiel läuft bereits");
-    public static final LocaleString ERROR_INGAME = new LocaleString(ERROR, "Du kannst kein Spiel beitreten während du spielst. Benutze &e/bp leave&c, um dein gegenwärtiges Match zu verlassen");
+    public static final LocaleString ERROR_INGAME = new LocaleString(ERROR, "Du kannst kein Spiel betreten während du spielst. Benutze &e/bp leave&c, um dein gegenwärtiges Match zu verlassen");
     public static final LocaleString ERROR_NO_ARENAS = new LocaleString(ERROR, "Es gibt noch keine Arenen");
     public static final LocaleString ERROR_NO_FLOOR = new LocaleString(ERROR, "Du musst zuerst einen Boden setzen");
     public static final LocaleString ERROR_NO_GAME_SPAWN = new LocaleString(ERROR, "Du musst zuerst einen Spiel-Spawn setzen");

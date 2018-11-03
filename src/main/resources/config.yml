@@ -31,14 +31,14 @@ JoinSigns:
   Enabled: True
 
   # Update signs every x milliseconds
-  UpdateMillis: 2500
+  UpdateMillis: 1000
 
   Lines:
     Disabled:
       1: "&4[Off-%ARENA%]"
-      2: "Voting..."
+      2: "Not available"
       3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
-      4: "&4• Disabled •"
+      4: "&4• Stopped •"
     Lobby:
       1: "&5[Join-%ARENA%]"
       2: "Voting..."
@@ -50,10 +50,10 @@ JoinSigns:
       3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
       4: "&5• Lobby •"
     Ingame:
-      1: "&7[Ingame-%ARENA%]"
+      1: "&8[Ingame-%ARENA%]"
       2: "%ALIVE% players alive"
       3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
-      4: "&7• Ingame •"
+      4: "&8• Ingame •"
     Ending:
       2: "&8&lLobby"
       3: "&8&lrestarting..."

@@ -82,7 +82,7 @@ public class GamePhase implements Runnable {
         }
     }
 
-    private void finishGame() {
+    public void finishGame() {
         ArrayList<PlayerInfo> winners = new ArrayList<>();
         for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
             if (playerInfo.getPlayerState() == PlayerState.INGAME) {

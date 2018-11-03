@@ -10,15 +10,13 @@ import de.leonkoth.blockparty.phase.PhaseHandler;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.song.SongManager;
+import de.leonkoth.blockparty.util.ItemType;
 import de.pauhull.utils.locale.storage.LocaleString;
 import de.pauhull.utils.particle.ParticlePlayer;
 import de.pauhull.utils.particle.v1_13.Particles;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static de.leonkoth.blockparty.arena.ArenaState.LOBBY;
@@ -154,8 +153,8 @@ public class Arena {
         return null;
     }
 
-    public static void startUpdatingSigns(int millis) {
-        BlockParty.getInstance().getScheduledExecutorService().scheduleAtFixedRate(() -> {
+    public static ScheduledFuture<?> startUpdatingSigns(int millis) {
+        return BlockParty.getInstance().getScheduledExecutorService().scheduleAtFixedRate(() -> {
             if (BlockParty.getInstance().isSignsEnabled()) {
                 for (Arena arena : BlockParty.getInstance().getArenas()) {
                     arena.updateSigns();
@@ -183,6 +182,38 @@ public class Arena {
         for (Arena arena : BlockParty.getInstance().getArenas()) {
             arena.save();
         }
+    }
+
+    public void reset() {
+
+        if (isAutoKick()) {
+            kickAllPlayers();
+        } else {
+            for (PlayerInfo playerInfo : playersInArena) {
+                Player player = playerInfo.asPlayer();
+                player.getInventory().clear();
+                player.teleport(data.lobbySpawn);
+                player.setHealth(20);
+                player.setFoodLevel(20);
+                player.getInventory().clear();
+                player.setGameMode(GameMode.ADVENTURE);
+                player.setLevel(0);
+                player.setExp(0);
+                playerInfo.setCurrentArena(this);
+                player.getInventory().setItem(8, ItemType.LEAVEARENA.getItem());
+                player.getInventory().setItem(7, ItemType.VOTEFORASONG.getItem());
+                player.updateInventory();
+            }
+        }
+
+        this.arenaState = ArenaState.LOBBY;
+        this.gameState = GameState.WAIT;
+        this.data.floor.setStartFloor();
+        this.phaseHandler.cancelWinningPhase();
+        this.phaseHandler = new PhaseHandler(blockParty, this);
+        this.data.songManager.setVotedSong(null);
+        this.phaseHandler.startLobbyPhase();
+
     }
 
     public void save() {
@@ -257,7 +288,7 @@ public class Arena {
             Location location = iterator.next();
             Block block = location.getBlock();
 
-            if (block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN) {
+            if (block.getType() == Material.SIGN_POST || block.getType() == Material.WALL_SIGN) {
                 Sign sign = (Sign) block.getState();
                 String[] lines = new String[4];
 
@@ -327,9 +358,11 @@ public class Arena {
         playerLoop:
         for (PlayerInfo playerInfo : playersInArena) {
 
-            for (PlayerInfo exception : exceptions) {
-                if (playerInfo.equals(exception)) {
-                    continue playerLoop;
+            if (exceptions != null) {
+                for (PlayerInfo exception : exceptions) {
+                    if (playerInfo.equals(exception)) {
+                        continue playerLoop;
+                    }
                 }
             }
 

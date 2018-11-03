@@ -58,6 +58,7 @@ public class PhaseHandler {
             this.gamePhase = new GamePhase(blockParty, arena.getName());
             this.gamePhase.initialize();
             this.gamePhaseScheduler = scheduler.scheduleSyncRepeatingTask(blockParty.getPlugin(), gamePhase, 0L, 2L);
+            this.cancelLobbyPhase();
             return true;
         } else {
             return false;

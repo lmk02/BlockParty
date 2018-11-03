@@ -61,11 +61,12 @@ public class PlayerJoinArenaListener implements Listener {
         }
 
         playerInfo.setPlayerData(PlayerData.create(player));
+        player.getInventory().clear();
         player.teleport(arena.getLobbySpawn());
         player.setHealth(20);
         player.setFoodLevel(20);
         player.getInventory().clear();
-        player.setGameMode(GameMode.SURVIVAL);
+        player.setGameMode(GameMode.ADVENTURE);
         player.setLevel(0);
         player.setExp(0);
         playerInfo.setCurrentArena(arena);

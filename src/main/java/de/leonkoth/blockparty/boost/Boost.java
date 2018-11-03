@@ -21,7 +21,11 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public abstract class Boost {
 
+    // TODO: items as boost
+
     public static List<Boost> boosts = new ArrayList<>();
+
+    private static ParticlePlayer explosionEffect = new ParticlePlayer(Particles.EXPLOSION_NORMAL);
 
     @Getter
     protected String name;
@@ -102,6 +106,8 @@ public abstract class Boost {
         if (effect != null) {
             effect.stop();
         }
+
+        explosionEffect.play(this.getBlock().getLocation(), 1);
 
         if (block.getType() == Material.BEACON) {
             block.setType(Material.AIR);

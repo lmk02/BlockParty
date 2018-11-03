@@ -30,11 +30,11 @@ public class StripeGenerator implements FloorGenerator {
 
         byte data = 0;
 
-        for (int i = minI; i < maxI; i++) {
+        for (int i = minI; i <= maxI; i++) {
             if (i % stripeWidth == 0)
                 data = (byte) random.nextInt(16);
 
-            for (int j = minJ; j < maxJ; j++) {
+            for (int j = minJ; j <= maxJ; j++) {
                 Block block = floor.getWorld().getBlockAt(i, minY, j);
                 block.setType(Material.STAINED_CLAY);
                 block.setData(data);
