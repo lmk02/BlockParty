@@ -20,7 +20,7 @@ public class EntityDamageListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDamage(EntityDamageEvent event) {
+    public void onEntityDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
 
         if (entity instanceof Player) {

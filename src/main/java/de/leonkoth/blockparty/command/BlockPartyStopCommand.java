@@ -4,13 +4,10 @@ import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.player.PlayerInfo;
-import de.leonkoth.blockparty.player.PlayerState;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
@@ -51,12 +48,7 @@ public class BlockPartyStopCommand extends SubCommand {
             return false;
         }
 
-        ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
-        for (PlayerInfo players : arena.getPlayersInArena()) {
-            if (players.getPlayerState() == PlayerState.INGAME)
-                playerInfos.add(players);
-        }
-        arena.getPhaseHandler().startWinningPhase(playerInfos);
+        arena.getPhaseHandler().getGamePhase().finishGame();
 
         return true;
     }

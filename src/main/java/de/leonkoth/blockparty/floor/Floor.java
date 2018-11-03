@@ -127,7 +127,11 @@ public class Floor {
                 if (index < floorPatterns.size()) {
                     floorPatterns.get(index).place(bounds.getA());
                 } else {
-                    generators.get(index - floorPatterns.size()).generateFloor(this);
+                    FloorGenerator generator = generators.get(index - floorPatterns.size());
+                    generator.generateFloor(this);
+
+                    if (BlockParty.DEBUG)
+                        Bukkit.getConsoleSender().sendMessage("Using generator: " + generator.getClass().getName());
                 }
             } else {
                 floorPatterns.get(random.nextInt(floorPatterns.size())).place(bounds.getA());
@@ -195,6 +199,12 @@ public class Floor {
             if (block.getData() != data || block.getType() != material) {
                 block.setType(Material.AIR);
             }
+        }
+    }
+
+    public void clear() {
+        for (Block block : getFloorBlocks()) {
+            block.setType(Material.AIR);
         }
     }
 
@@ -279,7 +289,7 @@ public class Floor {
         int minZ = bounds.getA().getBlockZ();
 
         int x = minX + random.nextInt(size.getBlockWidth());
-        int y = minY + random.nextInt(rangeY);
+        int y = minY + (rangeY < 1 ? 0 : random.nextInt(rangeY));
         int z = minZ + random.nextInt(size.getBlockLength());
 
         return new Location(world, x, y, z);

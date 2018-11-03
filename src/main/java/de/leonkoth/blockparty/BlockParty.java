@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -92,9 +93,12 @@ public class BlockParty {
     @Getter
     private int signUpdateMillis;
 
+    @Getter
+    private ScheduledFuture<?> signUpdater = null;
+
     public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
-        //TODO: join signs
+
         this.config = config;
         this.plugin = plugin;
         this.executorService = executorService;
@@ -158,11 +162,11 @@ public class BlockParty {
         // Init commands
         new BlockPartyCommand(this);
 
-        Arena.startUpdatingSigns(signUpdateMillis);
-
     }
 
     public void stop() {
+
+        this.signUpdater.cancel(true);
 
         for (Boost boost : Boost.boosts) {
             boost.remove();
@@ -327,6 +331,12 @@ public class BlockParty {
 
             arenaPrivateChat = !config.getConfig().isBoolean("ArenaPrivateChat") || config.getConfig().getBoolean("ArenaPrivateChat");
             signsEnabled = !config.getConfig().isBoolean("JoinSigns.Enabled") || config.getConfig().isBoolean("JoinSigns.Enabled");
+
+            if (signUpdater != null) {
+                signUpdater.cancel(true);
+            }
+
+            this.signUpdater = Arena.startUpdatingSigns(signUpdateMillis);
 
         } catch (Exception e) {
             e.printStackTrace();

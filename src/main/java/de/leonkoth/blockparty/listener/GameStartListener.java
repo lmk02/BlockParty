@@ -9,6 +9,7 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.ItemType;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -44,6 +45,7 @@ public class GameStartListener implements Listener {
             Player player = playerInfo.asPlayer();
             playerInfo.setPlayerState(PlayerState.INGAME);
             player.teleport(arena.getGameSpawn());
+            player.setGameMode(GameMode.SURVIVAL);
             player.setLevel(0);
             player.setExp(0);
 

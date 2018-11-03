@@ -31,6 +31,7 @@ public class FloorPlaceListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onFloorPlace(FloorPlaceEvent event) {
         Floor floor = event.getFloor();
+        floor.clear();
         floor.placeFloor();
 
         if (event.getArena().isEnableBoosts()) {

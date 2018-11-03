@@ -19,13 +19,15 @@ public class Util {
         if (!arena.isEnableActionbarInfo())
             return;
 
+        ActionBarMessage actionBarMessage = new ActionBarMessage(ChatColor.translateAlternateColorCodes('&', message));
+
         for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
             Player player = playerInfo.asPlayer();
 
             if (onlyInGame && playerInfo.getPlayerState() != PlayerState.INGAME)
                 return;
 
-            new ActionBarMessage(ChatColor.translateAlternateColorCodes('&', message)).send(player);
+            actionBarMessage.send(player);
         }
 
     }

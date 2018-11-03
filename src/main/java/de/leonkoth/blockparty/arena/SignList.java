@@ -35,7 +35,7 @@ public class SignList {
     public static Sign getSign(Location location) {
         Block block = location.getBlock();
 
-        if (block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN) {
+        if (block.getType() == Material.SIGN_POST || block.getType() == Material.WALL_SIGN) {
             return (Sign) block.getState();
         } else {
             return null;
