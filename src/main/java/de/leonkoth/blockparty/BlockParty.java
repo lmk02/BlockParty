@@ -120,16 +120,16 @@ public class BlockParty {
         this.database = initDatabase();
         this.webServer = initWebServer();
 
-        this.playerInfoManager = new PlayerInfoManager(database);
-        this.players = this.playerInfoManager.loadAll();
-        this.arenas = this.loadAllArenas();
-        this.reload();
-
         BlockPartyLocale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
 
     }
 
     public void start() {
+
+        this.playerInfoManager = new PlayerInfoManager(database);
+        this.players = this.playerInfoManager.loadAll();
+        this.arenas = this.loadAllArenas();
+        this.reload();
 
         // Init listeners
         new AsyncPlayerChatListener(this);
@@ -279,10 +279,12 @@ public class BlockParty {
 
         File[] files = folder.listFiles();
 
-        if (files == null)
+        if (files == null) {
             return arenas;
+        }
 
         for (File file : files) {
+
             if (!file.isFile())
                 continue;
 
@@ -290,7 +292,7 @@ public class BlockParty {
                 Arena arena = Arena.loadFromFile(FileUtils.removeExtension(file.getName()));
                 arenas.add(arena);
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§c[BlockParty] File \"" + file.getName() + "\" isn't set up correctly!");
+                Bukkit.getConsoleSender().sendMessage("§c[BlockParty] File \"" + file.getName() + "\" couldn't be loaded!");
 
                 if (DEBUG)
                     e.printStackTrace();

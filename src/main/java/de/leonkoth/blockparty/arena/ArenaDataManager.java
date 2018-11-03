@@ -52,6 +52,7 @@ public class ArenaDataManager {
 
     public void reload() {
         this.config = YamlConfiguration.loadConfiguration(file);
+        this.loadData();
     }
 
     public void save(ArenaDataSet dataSet) {
