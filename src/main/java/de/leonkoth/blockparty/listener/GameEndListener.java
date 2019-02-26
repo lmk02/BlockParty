@@ -22,13 +22,8 @@ public class GameEndListener implements Listener {
     public void onGameEnd(GameEndEvent event) {
         Arena arena = event.getArena();
 
-        if (blockParty.isBungee()) {
-            Bukkit.getServer().shutdown();
-            return;
-        }
-
-        if (!arena.isAutoRestart()) {
-            arena.setEnabled(false);
+        if (arena.isAutoRestart()) {
+            Bukkit.getServer().spigot().restart();
             return;
         }
 

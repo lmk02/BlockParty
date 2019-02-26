@@ -156,7 +156,7 @@ public class German extends Language {
     public static final LocaleString ITEM_LEAVE_ARENA = new LocaleString(ITEMS, "&4Verlassen");
     public static final LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(ITEMS, "Stimme für einen Song ab");
     public static final LocaleString ITEM_SONG_LORE = new LocaleString(ITEMS, "Klicken zum Abstimmen!");
-    public static final LocaleString ITEM_SELECT = new LocaleString(ITEMS, "Klicken zum Abstimmen!");
+    public static final LocaleString ITEM_SELECT = new LocaleString(ITEMS, "Eckpunkte auswählen");
 
     public static final LocaleString MOTD_DISABLED = new LocaleString(MOTD, "&cArena aus");
     public static final LocaleString MOTD_LOBBY = new LocaleString(MOTD, "&aLobby", "%PLAYERS%/%MAX_PLAYERS%");

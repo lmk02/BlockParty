@@ -65,6 +65,7 @@ public class ArenaDataSet {
     }
 
     public void setAllValues(FileConfiguration configuration) {
+
         if (BlockParty.DEBUG)
             Bukkit.getConsoleSender().sendMessage("§c1");
         try {

@@ -102,7 +102,11 @@ public class LobbyPhase implements Runnable {
                 player.setExp(exp);
             }
 
-            Util.showActionBar(ACTIONBAR_COUNTDOWN.toString("%NUMBER%", Integer.toString(countdown)), arena, false);
+            try {
+                Util.showActionBar(ACTIONBAR_COUNTDOWN.toString("%NUMBER%", Integer.toString(countdown)), arena, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             //this.displayScoreboard.setScoreboard(i, 0, arena); TODO: show scoreboard
         } else {
