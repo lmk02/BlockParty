@@ -34,7 +34,7 @@ public class PlayerData {
     int foodLevel, level, fireTicks;
     @Getter
     @NonNull
-    boolean flying, allowFlight, invulnerable;
+    boolean flying, allowFlight;
     @Getter
     @NonNull
     float exp;
@@ -102,7 +102,6 @@ public class PlayerData {
         int fireTicks = player.getFireTicks();
         boolean flying = player.isFlying();
         boolean allowFlight = player.getAllowFlight();
-        boolean invulnerable = player.isInvulnerable();
         float exp = player.getExp();
         Location location = player.getLocation();
         ItemStack[] contents = player.getInventory().getContents();
@@ -111,7 +110,7 @@ public class PlayerData {
         Scoreboard scoreboard = player.getScoreboard();
         Collection<PotionEffect> activePotionEffects = player.getActivePotionEffects();
 
-        PlayerData playerData = new PlayerData(health, foodLevel, level, fireTicks, flying, allowFlight, invulnerable,
+        PlayerData playerData = new PlayerData(health, foodLevel, level, fireTicks, flying, allowFlight,
                 exp, location, contents, armorContents, gameMode, scoreboard, activePotionEffects);
 
         playerData.saveToFile(new File(BlockParty.PLUGIN_FOLDER + "/PlayerData", player.getUniqueId().toString() + ".yml"));
@@ -165,7 +164,6 @@ public class PlayerData {
         player.setExp(exp);
         player.setAllowFlight(allowFlight);
         player.setFlying(flying && allowFlight);
-        player.setInvulnerable(invulnerable);
         player.teleport(location);
         player.getInventory().setContents(contents);
         player.getInventory().setArmorContents(armorContents);

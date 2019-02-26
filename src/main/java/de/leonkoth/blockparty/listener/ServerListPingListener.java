@@ -25,32 +25,36 @@ public class ServerListPingListener implements Listener {
         if (blockParty.isBungee()) {
             Arena arena = Arena.getByName(blockParty.getDefaultArena());
 
-            if (arena == null || !arena.isEnabled()) {
-                setMOTD(arena, event, MOTD_DISABLED);
+            if (arena == null) {
+                return;
+            }
+
+            if (!arena.isEnabled()) {
+                setMotd(arena, event, MOTD_DISABLED);
                 return;
             }
 
             switch (arena.getArenaState()) {
                 case LOBBY:
                     if (arena.getPlayersInArena().size() >= arena.getMaxPlayers()) {
-                        setMOTD(arena, event, MOTD_LOBBY_FULL);
+                        setMotd(arena, event, MOTD_LOBBY_FULL);
                     } else {
-                        setMOTD(arena, event, MOTD_LOBBY);
+                        setMotd(arena, event, MOTD_LOBBY);
                     }
                     break;
 
                 case INGAME:
-                    setMOTD(arena, event, MOTD_INGAME);
+                    setMotd(arena, event, MOTD_INGAME);
                     break;
 
                 case ENDING:
-                    setMOTD(arena, event, MOTD_ENDING);
+                    setMotd(arena, event, MOTD_ENDING);
                     break;
             }
         }
     }
 
-    private void setMOTD(Arena arena, ServerListPingEvent event, LocaleString motd) {
+    private void setMotd(Arena arena, ServerListPingEvent event, LocaleString motd) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < motd.getLength(); i++) {
             if (i > 0)

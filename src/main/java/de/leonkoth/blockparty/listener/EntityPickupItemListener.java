@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 
 public class EntityPickupItemListener implements Listener {
 
@@ -19,14 +19,8 @@ public class EntityPickupItemListener implements Listener {
     }
 
     @EventHandler
-    public void onEntityPickupItem(EntityPickupItemEvent event) {
-        Player player;
-
-        if (event.getEntity() instanceof Player) {
-            player = (Player) event.getEntity();
-        } else {
-            return;
-        }
+    public void onEntityPickupItem(PlayerPickupItemEvent event) {
+        Player player = event.getPlayer();
 
         PlayerInfo info = PlayerInfo.getFromPlayer(player);
 
