@@ -1,4 +1,4 @@
 package de.leonkoth.blockparty.boost;
 
-public class PredictionBoost {
+public class PredictionBoost { //TODO
 }
