@@ -156,7 +156,7 @@ public class English extends Language {
     public static final LocaleString ITEM_LEAVE_ARENA = new LocaleString(ITEMS, "&4Leave");
     public static final LocaleString ITEM_VOTE_FOR_A_SONG = new LocaleString(ITEMS, "Vote for a song");
     public static final LocaleString ITEM_SONG_LORE = new LocaleString(ITEMS, "Click to vote!");
-    public static final LocaleString ITEM_SELECT = new LocaleString(ITEMS, "Click to vote!");
+    public static final LocaleString ITEM_SELECT = new LocaleString(ITEMS, "Select points");
 
     public static final LocaleString MOTD_DISABLED = new LocaleString(MOTD, "&cArena disabled");
     public static final LocaleString MOTD_LOBBY = new LocaleString(MOTD, "&aLobby", "&8%PLAYERS%/%MAX_PLAYERS%");

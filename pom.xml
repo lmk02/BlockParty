@@ -13,15 +13,17 @@
             <id>spigot</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
-
         <repository>
             <id>bstats-repo</id>
             <url>http://repo.bstats.org/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>candycraft-repo</id>
+            <url>https://repo.morx.me/repository/internal</url>
         </repository>
     </repositories>
 
@@ -82,12 +84,6 @@
             <artifactId>bstats-bukkit</artifactId>
             <version>1.2</version>
             <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>de.pauhull</groupId>
-            <artifactId>utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
