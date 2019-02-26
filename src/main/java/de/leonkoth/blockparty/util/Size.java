@@ -1,26 +1,20 @@
 package de.leonkoth.blockparty.util;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
+@AllArgsConstructor
 public class Size {
 
     @Getter
     @Setter
     double width, height, length;
 
-    public Size(double width, double height, double length) {
-        this.width = width;
-        this.height = height;
-        this.length = length;
-    }
-
     public Size() {
         this(0, 0, 0);
-    }
-
-    public double getVolume() {
-        return width * height * length;
     }
 
     @Override
@@ -31,6 +25,10 @@ public class Size {
         } else {
             return super.equals(obj);
         }
+    }
+
+    public double getVolume() {
+        return width * height * length;
     }
 
     public int getBlockWidth() {
@@ -45,12 +43,4 @@ public class Size {
         return (int) Math.floor(length);
     }
 
-    @Override
-    public String toString() {
-        return "Size{" +
-                "width=" + width +
-                ", height=" + height +
-                ", length=" + length +
-                '}';
-    }
 }
