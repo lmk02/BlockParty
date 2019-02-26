@@ -457,10 +457,6 @@ public class Arena {
         return data.enabled;
     }
 
-    public void setEnabled(boolean enabled) {
-        data.enabled = enabled;
-    }
-
     public boolean isEnableParticles() {
         return data.enableParticles;
     }
@@ -549,6 +545,11 @@ public class Arena {
 
     public void setLobbySpawn(Location lobbySpawn) {
         data.lobbySpawn = lobbySpawn;
+        arenaDataManager.save(data);
+    }
+
+    public void setEnabled(boolean enabled) {
+        data.enabled = enabled;
         arenaDataManager.save(data);
     }
 
