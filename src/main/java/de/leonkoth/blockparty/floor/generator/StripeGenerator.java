@@ -34,13 +34,21 @@ public class StripeGenerator implements FloorGenerator {
             if (i % stripeWidth == 0)
                 data = (byte) random.nextInt(16);
 
-            for (int j = minJ; j <= maxJ; j++) {
-                Block block = floor.getWorld().getBlockAt(i, minY, j);
-                block.setType(Material.STAINED_CLAY);
-                block.setData(data);
+            if(horizontal)
+            {
+                for (int j = minJ; j <= maxJ; j++) {
+                    Block block = floor.getWorld().getBlockAt(j, minY, i);
+                    block.setType(Material.STAINED_CLAY);
+                    block.setData(data);
+                }
+            } else {
+                for (int j = minJ; j <= maxJ; j++) {
+                    Block block = floor.getWorld().getBlockAt(i, minY, j);
+                    block.setType(Material.STAINED_CLAY);
+                    block.setData(data);
+                }
             }
         }
-
     }
 
 }
