@@ -71,17 +71,15 @@
         <!-- MCJukebox -->
         <dependency>
             <groupId>com.github.oliverdunk</groupId>
-            <artifactId>MCJukebox</artifactId>
-            <version>2.6.2-RELEASE</version>
-            <scope>provided</scope>
+            <artifactId>JukeboxAPI</artifactId>
+            <version>v2.5.3</version>
         </dependency>
 
         <!-- NoteBlockAPI -->
         <dependency>
-            <groupId>com.xxmicloxx</groupId>
+            <groupId>com.github.xxmicloxx</groupId>
             <artifactId>NoteBlockAPI</artifactId>
-            <version>1.9.0</version>
-            <scope>provided</scope>
+            <version>7f6c9cd5fa</version>
         </dependency>
 
         <!-- bStats -->

@@ -1,8 +1,8 @@
 package de.leonkoth.blockparty.song;
 
-import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
-import com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer;
-import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
+import com.xxmicloxx.NoteBlockAPI.RadioSongPlayer;
+import com.xxmicloxx.NoteBlockAPI.SongPlayer;
+import com.xxmicloxx.NoteBlockAPI.NBSDecoder;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.player.PlayerInfo;
@@ -29,7 +29,7 @@ public class NoteblockSong implements Song {
     @Setter
     private String name;
 
-    private com.xxmicloxx.NoteBlockAPI.model.Song song;
+    private com.xxmicloxx.NoteBlockAPI.Song song;
     private SongPlayer sp;
 
     public NoteblockSong(String name) {
@@ -59,8 +59,8 @@ public class NoteblockSong implements Song {
 
     @Override
     public void stop(BlockParty blockParty, Arena arena) {
-        for (UUID uuids : sp.getPlayerUUIDs())
-            sp.removePlayer(Bukkit.getPlayer(uuids));
+        for (String name : sp.getPlayerList())
+            sp.removePlayer(Bukkit.getPlayer(name));
         sp.setPlaying(false);
     }
 
