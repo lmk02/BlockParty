@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>blockparty-parent</artifactId>
@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>blockparty-spigot_v1_13_R1</artifactId>
+    <artifactId>blockparty-api</artifactId>
     <version>${project.parent.version}</version>
     <build>
         <plugins>
@@ -39,23 +39,11 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13-R0.1-SNAPSHOT</version>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>de.leonkoth</groupId>
-            <artifactId>blockparty-core</artifactId>
-            <version>2.0.2-RELEASE</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.leonkoth</groupId>
-            <artifactId>blockparty-api</artifactId>
-            <version>2.0.2-RELEASE</version>
-            <scope>compile</scope>
         </dependency>
 
     </dependencies>
+
 
 </project>

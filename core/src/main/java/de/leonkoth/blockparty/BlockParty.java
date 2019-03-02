@@ -10,8 +10,8 @@ import de.leonkoth.blockparty.data.PlayerInfoManager;
 import de.leonkoth.blockparty.listener.*;
 import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
-import de.leonkoth.blockparty.util.BlockInfo;
 import de.leonkoth.blockparty.util.DefaultManager;
+import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.VersionHandler;
 import de.leonkoth.blockparty.web.server.*;
@@ -25,7 +25,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -106,9 +109,8 @@ public class BlockParty {
         this.executorService = executorService;
         this.scheduledExecutorService = scheduledExecutorService;
 
-        VersionHandler versionHandler = new VersionHandler(this.getPlugin().getServer().getClass().getPackage().getName());
-        versionHandler.load();
-        blockPlacer = versionHandler.getBlockPlacer();
+        VersionHandler.init();
+        blockPlacer = VersionHandler.getBlockPlacer();
 
         if (DEBUG) {
             System.out.println("[BlockParty] Using DEBUG mode");
@@ -349,6 +351,10 @@ public class BlockParty {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isTimoCloud() {
+        return Bukkit.getPluginManager().getPlugin("TimoCloud") != null;
     }
 
 }

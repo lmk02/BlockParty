@@ -5,7 +5,6 @@ import de.leonkoth.blockparty.floor.Floor;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.pauhull.utils.misc.MinecraftVersion;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 
 import java.util.Random;
 

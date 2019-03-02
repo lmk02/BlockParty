@@ -1,6 +1,5 @@
-package de.leonkoth.blockparty.util;
+package de.leonkoth.blockparty.version;
 
-import de.leonkoth.blockparty.BlockParty;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,7 +23,7 @@ public class BlockInfo {
     }
 
     public void restore() {
-        BlockParty.getInstance().getBlockPlacer().place(location.getBlock(), material, data);
+        VersionHandler.getBlockPlacer().place(location.getBlock(), material, data);
     }
 
     public Block getBlock() {

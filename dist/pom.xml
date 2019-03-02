@@ -29,6 +29,16 @@
             <artifactId>blockparty-spigot_v1_13_R1</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-utils</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -38,7 +38,6 @@ public class WinnerPhase implements Runnable {
         Bukkit.getPluginManager().callEvent(event);
     }
 
-
     @Override
     public void run() {
         if (countdown < 0) {

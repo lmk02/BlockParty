@@ -1,7 +1,7 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.util.BlockInfo;
+import de.leonkoth.blockparty.version.BlockInfo;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;

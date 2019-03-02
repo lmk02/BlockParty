@@ -1,14 +1,12 @@
 package de.leonkoth.blockparty.version.v1_13_R1;
 
-import de.leonkoth.blockparty.util.BlockInfo;
+import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.IVersionedMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-
-import java.util.HashMap;
 
 /**
  * Created by Leon on 28.02.2019.

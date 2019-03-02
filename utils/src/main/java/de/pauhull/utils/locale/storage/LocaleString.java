@@ -1,5 +1,6 @@
 package de.pauhull.utils.locale.storage;
 
+import de.pauhull.utils.locale.Language;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * Use this class in {@link de.pauhull.utils.locale.Language} to create a string that can be changed in the config
+ * Use this class in {@link Language} to create a string that can be changed in the config
  *
  * @author pauhull
  * @version 1.0

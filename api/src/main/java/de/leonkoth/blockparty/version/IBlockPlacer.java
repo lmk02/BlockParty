@@ -1,6 +1,5 @@
 package de.leonkoth.blockparty.version;
 
-import de.leonkoth.blockparty.util.BlockInfo;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
