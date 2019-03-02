@@ -1,5 +1,7 @@
 package de.pauhull.utils.particle.effect;
 
+import de.pauhull.utils.scheduler.Scheduler;
+
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +23,7 @@ public abstract class ParticleEffect {
     /**
      * Used to create a new particle effect
      *
-     * @param scheduler    Scheduler for Timing (See {@link de.pauhull.utils.scheduler.Scheduler})
+     * @param scheduler    Scheduler for Timing (See {@link Scheduler})
      * @param runnable     Code which gets executed on particle update
      * @param initialDelay Start animation after x millis
      * @param period       Run code every x millis

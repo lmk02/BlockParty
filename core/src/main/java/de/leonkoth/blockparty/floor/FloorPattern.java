@@ -2,9 +2,9 @@ package de.leonkoth.blockparty.floor;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
-import de.leonkoth.blockparty.util.BlockInfo;
 import de.leonkoth.blockparty.util.Bounds;
 import de.leonkoth.blockparty.util.Size;
+import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.image.ImageLoader;

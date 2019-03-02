@@ -31,6 +31,10 @@
             <name>Releases</name>
             <url>http://repo.sinndev.com/content/repositories/releases/</url>
         </repository>
+        <repository>
+            <id>TimoCloud-API</id>
+            <url>https://maven.timo.cloud/repository/TimoCloud-API/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -40,14 +44,6 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.13.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.6</version>
             <scope>provided</scope>
         </dependency>
 
@@ -96,6 +92,26 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cloud.timo.TimoCloud</groupId>
+            <artifactId>TimoCloud-API</artifactId>
+            <version>5.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-utils</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-api</artifactId>
+            <version>${project.parent.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -176,6 +192,14 @@
             </plugin>
 
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
     </build>
 
 </project>

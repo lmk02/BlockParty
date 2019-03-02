@@ -1,9 +1,8 @@
 name: BlockParty
-version: 2.0.2
-authors: [Leon167, pauhull]
+version: ${project.parent.version}
 description: Official BlockParty Plugin
 main: de.leonkoth.blockparty.Main
-softdepend: [Multiverse-Core, MCJukebox, NoteBlockAPI]
+softdepend: [Multiverse-Core, MCJukebox, NoteBlockAPI, TimoCloud]
 
 commands:
   blockparty:

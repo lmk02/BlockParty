@@ -1,7 +1,7 @@
 package de.leonkoth.blockparty.version.v1_8_R3;
 
 
-import de.leonkoth.blockparty.util.BlockInfo;
+import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.IVersionedMaterial;
 import org.bukkit.Location;

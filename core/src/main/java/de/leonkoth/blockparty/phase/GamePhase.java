@@ -1,5 +1,6 @@
 package de.leonkoth.blockparty.phase;
 
+import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.GameState;
@@ -71,9 +72,11 @@ public class GamePhase implements Runnable {
         this.firstEnter = true;
 
         GameStartEvent event = new GameStartEvent(arena);
-
-
         Bukkit.getPluginManager().callEvent(event);
+
+        if (blockParty.isTimoCloud()) {
+            TimoCloudAPI.getBukkitAPI().getThisServer().setState("INGAME");
+        }
     }
 
     public void checkForWin() {
@@ -92,6 +95,10 @@ public class GamePhase implements Runnable {
 
         PlayerWinEvent event = new PlayerWinEvent(arena, winners);
         Bukkit.getPluginManager().callEvent(event);
+
+        if (blockParty.isTimoCloud()) {
+            TimoCloudAPI.getBukkitAPI().getThisServer().setState("RESTART");
+        }
     }
 
     @Override

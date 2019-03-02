@@ -1,5 +1,6 @@
 package de.pauhull.utils.message;
 
+import de.pauhull.utils.message.type.MessageType;
 import de.pauhull.utils.misc.MinecraftVersion;
 import de.pauhull.utils.misc.Reflection;
 import lombok.NonNull;
@@ -15,7 +16,7 @@ import static de.pauhull.utils.misc.MinecraftVersion.v1_12;
 
 /**
  * Utility for NMS titles and ActionBars.
- * Please use a {@link de.pauhull.utils.message.type.MessageType} and not this class directly
+ * Please use a {@link MessageType} and not this class directly
  *
  * @author pauhull
  * @version 1.0
