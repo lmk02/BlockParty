@@ -73,6 +73,7 @@
             <groupId>com.github.oliverdunk</groupId>
             <artifactId>JukeboxAPI</artifactId>
             <version>v2.5.3</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- NoteBlockAPI -->
@@ -80,6 +81,7 @@
             <groupId>com.github.xxmicloxx</groupId>
             <artifactId>NoteBlockAPI</artifactId>
             <version>7f6c9cd5fa</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- bStats -->
