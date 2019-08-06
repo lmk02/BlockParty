@@ -19,7 +19,7 @@ public class BlockBreakListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlace(BlockBreakEvent event) {
+    public void onBlockPlace(BlockBreakEvent event) { // TODO: Remove Sign on break
         Player player = event.getPlayer();
 
         if (PlayerInfo.isInArena(player)) {

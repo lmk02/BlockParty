@@ -45,7 +45,7 @@ public class JettyWebServer implements WebServer {
 
         this.server = new Server();
         ServerConnector connector = new ServerConnector(server);
-        connector.setPort(8080);
+        connector.setPort(this.port);
         server.addConnector(connector);
 
         server.setStopAtShutdown(true);

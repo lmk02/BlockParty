@@ -411,6 +411,8 @@ public class Arena {
     // region Some getters/setters
 
     public void addSign(Location location) {
+        if (data.signs == null)
+            data.signs = new SignList();
         data.signs.add(location);
         arenaDataManager.save(data);
     }

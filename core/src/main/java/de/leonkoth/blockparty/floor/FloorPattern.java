@@ -49,6 +49,8 @@ public class FloorPattern {
             throw new FloorLoaderException(FloorLoaderException.Error.WRONG_HEIGHT);
         }
 
+        IBlockPlacer blockPlacer = BlockParty.getInstance().getBlockPlacer();
+
         World world = bounds.getWorld();
         int width = bounds.getSize().getBlockWidth();
         int length = bounds.getSize().getBlockLength();
@@ -61,7 +63,7 @@ public class FloorPattern {
         for (int x = 0; x < width; x++) {
             for (int z = 0; z < length; z++) {
                 blocks[x + z * width] = world.getBlockAt(minX + x, minY, minZ + z).getType();
-                data[x + z * width] = BlockParty.getInstance().getBlockPlacer().getData(world, minX + x, minY, minZ + z);
+                data[x + z * width] = blockPlacer.getData(world, minX + x, minY, minZ + z);
             }
         }
 

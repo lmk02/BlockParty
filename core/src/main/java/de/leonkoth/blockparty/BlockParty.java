@@ -271,7 +271,7 @@ public class BlockParty {
             String databaseName = config.getConfig().getString("Database.MySQLOptions.Database");
             String password = config.getConfig().getString("Database.MySQLOptions.Password");
 
-            database = new Database(this, host, port, user, databaseName, password);
+            database = new Database(this, host, port, user, password, databaseName);
         } else {
 
             String fileName = config.getConfig().getString("Database.SQLOptions.FileName");

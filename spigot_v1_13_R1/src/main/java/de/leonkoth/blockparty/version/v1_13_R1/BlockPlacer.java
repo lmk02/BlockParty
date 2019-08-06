@@ -65,11 +65,11 @@ public class BlockPlacer implements IBlockPlacer {
 
     private byte getDataByMaterial(Material material)
     {
-        for (int i = 0; i < versionedMaterial.stainedClays().size(); i++)
-        {
-            if (versionedMaterial.stainedClays().get(i) == material)
-            {
-                return (byte) i;
+        if (versionedMaterial.stainedClays().contains(material)) {
+            for (int i = 0; i < versionedMaterial.stainedClays().size(); i++) {
+                if (versionedMaterial.stainedClays().get(i) == material) {
+                    return (byte) i;
+                }
             }
         }
 
