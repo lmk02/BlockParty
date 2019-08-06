@@ -44,7 +44,6 @@ public enum Particles implements IParticles{
     CLOUD{
         @Override
         public Object get() {
-            System.out.println("Version: " + MinecraftVersion.CURRENT_VERSION.toString());
             if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_13) && MinecraftVersion.CURRENT_VERSION.isLower(v1_14)) {
                 return de.pauhull.utils.particle.v1_13.Particles.CLOUD.get();
             } else if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_14)) {
