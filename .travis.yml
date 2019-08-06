@@ -5,5 +5,6 @@ deploy:
   provider: releases
   skip_cleanup: true
   file: out/artifacts/BlockParty/BlockParty.jar
+  api_key: ""
   on:
     tags: true
