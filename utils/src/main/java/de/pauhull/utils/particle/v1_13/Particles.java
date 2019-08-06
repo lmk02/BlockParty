@@ -2,11 +2,13 @@ package de.pauhull.utils.particle.v1_13;
 
 import de.pauhull.utils.misc.MinecraftVersion;
 import de.pauhull.utils.misc.Reflection;
+import de.pauhull.utils.particle.IParticles;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
+import static de.pauhull.utils.misc.MinecraftVersion.v1_14;
 
 /**
  * Particles for 1.13 update
@@ -14,7 +16,7 @@ import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
  * @author pauhull
  * @version 1.1
  */
-public enum Particles {
+public enum Particles implements IParticles {
 
     EXPLOSION_NORMAL("J"),
     EXPLOSION_LARGE("u"),
@@ -63,7 +65,7 @@ public enum Particles {
     private static Map<String, Object> particles = new HashMap<>();
 
     static {
-        if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_13)) {
+        if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_13) && MinecraftVersion.CURRENT_VERSION.isLower(v1_14)) {
             clazz = Reflection.getNMSClass("Particles");
         }
     }

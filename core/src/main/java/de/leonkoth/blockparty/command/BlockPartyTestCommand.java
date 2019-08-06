@@ -52,6 +52,10 @@ public class BlockPartyTestCommand extends SubCommand {
         };
 
         ChatFace face = new ChatFace(blockParty.getExecutorService());
+        for ( String g : face.getLinesSync(players[(int) (Math.random() * players.length)]))
+        {
+            player.sendMessage(g);
+        }
         face.getLinesAsync(players[(int) (Math.random() * players.length)], player::sendMessage);
         Boost test = new JumpBoost();
         test.spawn(player.getLocation());

@@ -1,6 +1,8 @@
 de\pauhull\utils\message\type\SubTitleMessage.class
 de\pauhull\utils\misc\ItemBuilder.class
 de\pauhull\utils\fetcher\CachedUUIDFetcher.class
+de\pauhull\utils\particle\Particles$1.class
+de\pauhull\utils\particle\Particles$3.class
 de\pauhull\utils\fetcher\UUIDCache.class
 de\pauhull\utils\image\ColorUtil$1.class
 de\pauhull\utils\image\ImageLoader$ClayColor.class
@@ -15,6 +17,7 @@ de\pauhull\utils\particle\effect\SpiralEffect$1.class
 de\pauhull\utils\image\ImageLoader$ImageInfo.class
 de\pauhull\utils\file\FileUtils.class
 de\pauhull\utils\particle\effect\ParticleEffect.class
+de\pauhull\utils\particle\Particles$2.class
 de\pauhull\utils\particle\v1_13\Particles.class
 de\pauhull\utils\fetcher\Profile.class
 de\pauhull\utils\message\type\ActionBarMessage.class
@@ -26,12 +29,16 @@ de\pauhull\utils\fetcher\TimedHashMap.class
 de\pauhull\utils\locale\Language.class
 de\pauhull\utils\misc\Maths.class
 de\pauhull\utils\misc\YAMLLocation.class
+de\pauhull\utils\particle\Particles.class
+de\pauhull\utils\particle\IParticles.class
 de\pauhull\utils\misc\TextWriter.class
+de\pauhull\utils\particle\Particles$4.class
 de\pauhull\utils\particle\ParticlePlayer.class
 de\pauhull\utils\locale\storage\LocaleSection.class
 de\pauhull\utils\message\NMSClasses.class
 de\pauhull\utils\misc\Reflection.class
 de\pauhull\utils\fetcher\UUIDFetcher.class
+de\pauhull\utils\particle\v1_14\Particles.class
 de\pauhull\utils\misc\MinecraftVersion.class
 de\pauhull\utils\scheduler\Scheduler.class
 de\pauhull\utils\image\ColorUtil.class
