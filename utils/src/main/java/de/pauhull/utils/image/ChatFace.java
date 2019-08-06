@@ -21,7 +21,7 @@ import java.util.function.Consumer;
  */
 public class ChatFace {
 
-    public static String API_URL = "http://minecraft.tools/download-skin/%s";
+    public static String API_URL = "https://minecraft.tools/download-skin/%s";
 
     @Getter
     private ExecutorService executorService;

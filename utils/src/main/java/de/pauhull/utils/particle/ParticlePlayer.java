@@ -1,7 +1,7 @@
 package de.pauhull.utils.particle;
 
 import de.pauhull.utils.misc.MinecraftVersion;
-import de.pauhull.utils.particle.v1_13.Particles;
+import de.pauhull.utils.particle.Particles;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

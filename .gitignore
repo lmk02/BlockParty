@@ -27,4 +27,3 @@ hs_err_pid*
 
 # IntelliJ project file
 *.iml
-/utils/pom.xml

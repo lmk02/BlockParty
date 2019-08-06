@@ -13,7 +13,7 @@ import de.leonkoth.blockparty.song.SongManager;
 import de.leonkoth.blockparty.util.ItemType;
 import de.pauhull.utils.locale.storage.LocaleString;
 import de.pauhull.utils.particle.ParticlePlayer;
-import de.pauhull.utils.particle.v1_13.Particles;
+import de.pauhull.utils.particle.Particles;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.*;

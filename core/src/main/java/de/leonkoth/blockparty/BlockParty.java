@@ -40,7 +40,7 @@ import java.util.concurrent.ScheduledFuture;
  */
 public class BlockParty {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static final String PLUGIN_NAME = "BlockParty";
     public static final String PLUGIN_FOLDER = "plugins/" + PLUGIN_NAME + "/";
 
