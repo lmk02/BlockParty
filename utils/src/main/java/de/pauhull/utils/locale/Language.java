@@ -2,6 +2,8 @@ package de.pauhull.utils.locale;
 
 import de.pauhull.utils.locale.storage.LocaleSection;
 import de.pauhull.utils.locale.storage.LocaleString;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -33,6 +35,12 @@ public abstract class Language {
         }
 
         FileConfiguration configuration = new YamlConfiguration();
+        try {
+            configuration.load(file);
+        } catch (InvalidConfigurationException e) {
+            Bukkit.getLogger().severe("Cannot load \"" + file.getName() + "\". Using default values.");
+            e.printStackTrace();
+        }
         for (Field field : languageClass.getFields()) {
             if (field.getType() == LocaleSection.class) {
 

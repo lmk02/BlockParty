@@ -129,7 +129,7 @@ public class PlayerInteractListener implements Listener {
                         break;
 
                     Song song = songs.get(i);
-                    inventory.setItem(i, ItemType.SONG.getSongItem(song.getName()));
+                    inventory.setItem(i, ItemType.SONG.getSongItem(song.getStrippedSongName()));
                 }
 
                 player.openInventory(inventory);

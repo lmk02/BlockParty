@@ -87,7 +87,7 @@ public class SongManager {
 
     public boolean addVote(String name) {
         for (Song s : songs) {
-            if (s.getName().equals(name)) {
+            if (s.getStrippedSongName().equals(name)) {
                 s.addVote();
                 return true;
             }

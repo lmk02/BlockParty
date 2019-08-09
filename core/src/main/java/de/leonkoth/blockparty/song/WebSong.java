@@ -77,4 +77,16 @@ public class WebSong implements Song {
         }
     }
 
+    public String getStrippedSongName()
+    {
+        String[] parts = name.split("\\.");
+        StringBuilder strippedName = new StringBuilder();
+        if(parts.length > 1) {
+            for (int i = 0; i < parts.length - 1; i++) {
+                strippedName.append(parts[i]);
+            }
+        } else return name;
+        return strippedName.toString();
+    }
+
 }

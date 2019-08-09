@@ -41,7 +41,7 @@ public class BlockPartyAddSongCommand extends SubCommand {
         }
 
         arena.getSongManager().addSong(name);
-        arena.save();
+        arena.saveData();
         SUCCESS_SONG_ADDED.message(PREFIX, sender, "%SONG%", name, "%ARENA%", arena.getName());
 
         return true;

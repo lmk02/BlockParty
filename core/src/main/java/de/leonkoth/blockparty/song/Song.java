@@ -36,4 +36,6 @@ public interface Song {
 
     void resetVotes();
 
+    String getStrippedSongName();
+
 }

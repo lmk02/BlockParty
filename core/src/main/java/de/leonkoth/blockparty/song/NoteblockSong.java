@@ -84,4 +84,9 @@ public class NoteblockSong implements Song {
         this.votes = 0;
     }
 
+    @Override
+    public String getStrippedSongName() {
+        return name;
+    }
+
 }
