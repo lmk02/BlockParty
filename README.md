@@ -1,2 +1,115 @@
 # BlockParty-2.0
 [![Build Status](https://travis-ci.org/Leon167/BlockParty-2.0.svg?branch=master)](https://travis-ci.org/Leon167/BlockParty-2.0)
+
+BlockParty 2 is an extension for Minecraft Servers, built with the Spigot/Bukkit API.
+
+## Installation
+
+Download the jar file and place it into your plugins folder. A new folder is created (named BlockParty) after the server is started.
+A few file and sub-folders should be located there.
+
+## Configuration
+
+#### config.yml
+
+```yaml
+# BlockParty configuration
+
+# Locale file located in plugins/BlockParty/Locale/*.yml
+LocaleFileName: locale_en.yml
+
+# Saves all data on plugin shutdown. Not necessary
+SaveOnDisable: false
+
+# Disables listed sub commands, example:
+# DisabledSubCommands: ["help", "reload", "join"]
+DisabledSubCommands: []
+
+Chat:
+  # Chat format when in arena
+  # Placeholders:
+  # %ARENA%: Arena player is in
+  # %NAME%: Player name without formatting (e.g. rank, colors)
+  # %DISPLAY%: Name with formatting
+  # %MESSAGE%: Message sent
+  ArenaChatFormat: "&8[&7%ARENA%&8] &7%DISPLAY% &8> &r%MESSAGE%"
+
+  # Separates normal from arena chat
+  # Useful for non-bungee servers
+  ArenaPrivateChat: True
+
+# How to use join signs:
+# Line 1: [BlockParty]
+# Line 2: Arena name (case sensitive)
+JoinSigns:
+  # Enable join signs
+  Enabled: True
+
+  # Update signs every x milliseconds
+  UpdateMillis: 1000
+
+  Lines:
+    Disabled:
+      1: "&4[Off-%ARENA%]"
+      2: "Not available"
+      3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
+      4: "&4• Stopped •"
+    Lobby:
+      1: "&5[Join-%ARENA%]"
+      2: "Voting..."
+      3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
+      4: "&5• Lobby •"
+    LobbyFull:
+      1: "&4[Full-%ARENA%]"
+      2: "Voting..."
+      3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
+      4: "&5• Lobby •"
+    Ingame:
+      1: "&8[Ingame-%ARENA%]"
+      2: "%ALIVE% players alive"
+      3: "&8&l%PLAYERS%/%MAX_PLAYERS%"
+      4: "&8• Ingame •"
+    Ending:
+      2: "&8&lLobby"
+      3: "&8&lrestarting..."
+
+BungeeCord:
+  # When set to "True", players will automatically connect to DefaultArena (see below)
+  # and will be kicked from the server when leaving the arena.
+  # This is mostly useful for BungeeCord servers
+  Enabled: False
+
+  # Arena players will connect to when BungeeCord is enabled. Please note the spelling and case sensitivity
+  DefaultArena: Arena
+
+MusicServer:
+  # When "True", music playback in browser will be activated. You will need a web server for this
+  Enabled: False
+
+  # Available libraries: "websocket", "jetty", "tcp/ip", "mcjukebox"
+  WebSocketLibrary: jetty
+
+  # Web server port (Not Minecraft server port!)
+  Port: 8080
+
+Database:
+  # Use "MySQL" to enable MySQL, "SQL" to store data locally
+  Method: SQL
+
+  # Tables will have this prefix in front of the name
+  TablePrefix: "bp_"
+
+  SQLOptions:
+    # File to save database to when using SQL
+    FileName: "database.db"
+
+  # MySQL credentials
+  MySQLOptions:
+    Host: localhost
+    Port: 3306
+    Database: database
+    Username: username
+    Password: password
+
+# End of  configuration
+```
