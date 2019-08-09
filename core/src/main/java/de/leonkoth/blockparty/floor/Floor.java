@@ -300,7 +300,10 @@ public class Floor {
         try {
             FloorPattern pattern = PatternLoader.readFloorPattern(file);
             return pattern;
-        } catch (FileNotFoundException | FloorLoaderException e) {
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (FloorLoaderException e) {
+            e.printStackTrace();
             return null;
         }
     }

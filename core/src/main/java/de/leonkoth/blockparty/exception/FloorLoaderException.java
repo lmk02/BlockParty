@@ -14,7 +14,7 @@ public class FloorLoaderException extends Exception {
 
     public enum Error {
 
-        WRONG_HEIGHT("Floor must be 1 block high"), NO_SIZE("Floor has to have a size");
+        WRONG_HEIGHT("Floor must be 1 block high"), NO_SIZE("Floor has to have a size"), INCOMPATIBLE_VERSION("Your floor version is incompatible to your minecraft version");
 
         @Getter
         private String message;
