@@ -102,7 +102,7 @@ public class PatternLoader {
 
     }
 
-    public static FloorPattern readFloorPattern(File file) throws FileNotFoundException, FloorLoaderException {
+    public static FloorPattern readFloorPattern(File file) throws FileNotFoundException, FloorLoaderException { //TODO: Called twice on plugin init
 
         if (!file.exists()) {
             throw new FileNotFoundException();
@@ -141,9 +141,14 @@ public class PatternLoader {
         for (String line : lines) {
             String[] splitted = line.split(" ");
             if (line.startsWith("m ") && splitted.length >= 3) {
-                Material material = Material.valueOf(splitted[1].toUpperCase());
-                int index = Integer.valueOf(splitted[2]);
-                materialMap.put(index, material);
+                try {
+                    Material material = Material.valueOf(splitted[1].toUpperCase());
+                    int index = Integer.valueOf(splitted[2]);
+                    materialMap.put(index, material);
+                } catch (IllegalArgumentException e)
+                {
+                    throw new FloorLoaderException(FloorLoaderException.Error.INCOMPATIBLE_VERSION);
+                }
             }
             if (line.startsWith("b ") && splitted.length >= 2) {
                 //int x = i % width;
