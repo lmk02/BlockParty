@@ -7,9 +7,11 @@ import de.leonkoth.blockparty.command.BlockPartyUndoCommand;
 import de.leonkoth.blockparty.data.Config;
 import de.leonkoth.blockparty.data.Database;
 import de.leonkoth.blockparty.data.PlayerInfoManager;
+import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.listener.*;
 import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
+import de.leonkoth.blockparty.util.BlockPartyExpansion;
 import de.leonkoth.blockparty.util.DefaultManager;
 import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
@@ -46,6 +48,9 @@ public class BlockParty {
 
     @Getter
     private IBlockPlacer blockPlacer;
+
+    @Getter
+    private DisplayScoreboard displayScoreboard;
 
     @Getter
     private static BlockParty instance;
@@ -103,6 +108,8 @@ public class BlockParty {
 
     public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
+
+        displayScoreboard = new DisplayScoreboard();
 
         this.config = config;
         this.plugin = plugin;
@@ -170,6 +177,11 @@ public class BlockParty {
         // Init commands
         new BlockPartyCommand(this);
 
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            if(new BlockPartyExpansion(this).register()){
+                Bukkit.getConsoleSender().sendMessage("[BlockParty] Successfully loaded BlockPartyExpansion for the PlaceholderAPI");
+            }
+        }
     }
 
     public void stop() {
@@ -203,6 +215,8 @@ public class BlockParty {
                 Bukkit.getConsoleSender().sendMessage("§c[BlockParty] Couldn't stop MusicServer");
             }
         }
+
+        this.getPlayerInfoManager().saveAllPlayerInfos(this.getPlayers());
     }
 
     public void logStartMessage(boolean online) {

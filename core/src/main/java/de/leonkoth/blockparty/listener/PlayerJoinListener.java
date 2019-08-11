@@ -34,7 +34,7 @@ public class PlayerJoinListener implements Listener {
 
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
         if (playerInfo == null) {
-            blockParty.getPlayers().add((playerInfo = new PlayerInfo(player.getName(), player.getUniqueId(), 0, 0)));
+            blockParty.getPlayers().add((playerInfo = new PlayerInfo(player.getName(), player.getUniqueId(), 0, 0, 0)));
         } else {
             playerInfo.setPlayerState(PlayerState.DEFAULT);
             playerInfo.setCurrentArena(null);

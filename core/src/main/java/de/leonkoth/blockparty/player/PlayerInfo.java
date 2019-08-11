@@ -16,7 +16,7 @@ import java.util.UUID;
 /**
  * Created by Leon on 15.03.2018.
  * Project Blockparty2
- * © 2016 - Leon Koth
+ * © 2019 - Leon Koth
  */
 
 public class PlayerInfo {
@@ -35,6 +35,10 @@ public class PlayerInfo {
     @Setter
     @Getter
     private int points;
+
+    @Setter
+    @Getter
+    private int gamesPlayed;
 
     @Setter
     @Getter
@@ -64,22 +68,24 @@ public class PlayerInfo {
     @Getter
     private int id;
 
-    public PlayerInfo(String name, UUID uuid, int wins, int points) {
+    public PlayerInfo(String name, UUID uuid, int wins, int points, int gamesPlayed) {
         this.name = name;
         this.uuid = uuid;
         this.playerState = PlayerState.DEFAULT;
         this.wins = wins;
         this.points = points;
+        this.gamesPlayed = gamesPlayed;
         this.id = getNextId();
         allPlayerInfos.add(this);
     }
 
-    public PlayerInfo(int id, String name, UUID uuid, int wins, int points) {
+    public PlayerInfo(int id, String name, UUID uuid, int wins, int points, int gamesPlayed) {
         this.name = name;
         this.uuid = uuid;
         this.playerState = PlayerState.DEFAULT;
         this.wins = wins;
         this.points = points;
+        this.gamesPlayed = gamesPlayed;
         this.id = id;
         allPlayerInfos.add(this);
     }
@@ -178,6 +184,10 @@ public class PlayerInfo {
 
     public void addWins(int wins) {
         this.wins += wins;
+    }
+
+    public void addGamesPlayed(int gamesplayed) {
+        this.gamesPlayed += gamesplayed;
     }
 
     public void removeWins(int wins) {

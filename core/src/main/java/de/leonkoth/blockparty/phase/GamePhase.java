@@ -34,7 +34,6 @@ public class GamePhase implements Runnable {
     private int stopTime = 4;
 
     private int preparingTime = 5;
-    private DisplayScoreboard displayScoreboard;
     private BlockParty blockParty;
     private Arena arena;
     private ColorBlock colorBlock;
@@ -50,8 +49,7 @@ public class GamePhase implements Runnable {
         this.timeToSearch = arena.getTimeToSearch();
         this.timeReductionPerLevel = arena.getTimeReductionPerLevel();
         this.levelAmount = arena.getLevelAmount();
-        this.displayScoreboard = new DisplayScoreboard();
-        this.timeModifier = 0.1; //TODO: Needs to be added to config
+        this.timeModifier = arena.getTimeModifier();
         this.currentTimeToSearch = timeToSearch;
     }
 
@@ -143,7 +141,7 @@ public class GamePhase implements Runnable {
                 RoundPrepareEvent event = new RoundPrepareEvent(seconds, arena, colorBlock);
                 Bukkit.getPluginManager().callEvent(event);
 
-                //this.displayScoreboard.setScoreboard((int)(currentTimeToSearch + preparingTime - currentTime + 1), currentLevel, arena);
+                this.blockParty.getDisplayScoreboard().setScoreboard((int)(currentTimeToSearch + preparingTime - currentTime + 1), currentLevel + 1, arena);
                 currentTime += 0.1;
 
             } else {

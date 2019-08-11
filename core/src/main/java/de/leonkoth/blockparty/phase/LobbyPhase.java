@@ -25,7 +25,6 @@ import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
 public class LobbyPhase implements Runnable {
 
     private int countdown;
-    private DisplayScoreboard displayScoreboard;
     private BlockParty blockParty;
     private Arena arena;
     private Sound sound;
@@ -41,7 +40,6 @@ public class LobbyPhase implements Runnable {
         this.blockParty = blockParty;
         this.arena = arena;
         this.countdown = arena.getLobbyCountdown();
-        this.displayScoreboard = new DisplayScoreboard();
 
         try {
             if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(MinecraftVersion.v1_9)) {
@@ -108,7 +106,7 @@ public class LobbyPhase implements Runnable {
                 e.printStackTrace();
             }
 
-            //this.displayScoreboard.setScoreboard(i, 0, arena); TODO: show scoreboard
+            this.blockParty.getDisplayScoreboard().setScoreboard(countdown, 0, arena);
         } else {
             arena.broadcast(PREFIX, ERROR_START_ABORTED, false, (PlayerInfo[]) null);
             countdown = -1;
