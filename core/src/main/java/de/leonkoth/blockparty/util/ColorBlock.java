@@ -14,15 +14,6 @@ public class ColorBlock {
 
     private static String[] colors = COLORS.getValues();
     private static String[] colorCodes = {"f", "6", "d", "9", "e", "a", "c", "8", "7", "b", "5", "1", "8", "2", "4", "0"};
-    private static Set<Material> colorableMaterials = new HashSet<>();
-
-    static {
-        colorableMaterials.addAll(BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().wools());
-        colorableMaterials.addAll(BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().stainedClays());
-        colorableMaterials.addAll(BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().stainedGlasses());
-        colorableMaterials.addAll(BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().stainedGlassPanes());
-        colorableMaterials.addAll(BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().carpets());
-    }
 
     @Getter
     private String name, colorCode;
@@ -35,13 +26,18 @@ public class ColorBlock {
     public static ColorBlock get(Block block) {
 
         Material material = block.getType();
+        String materialName = material.name();
         String name = format(material.name());
         String colorCode = "f";
 
-        if (colorableMaterials.contains(material)) {
-            byte data = BlockParty.getInstance().getBlockPlacer().getData(block.getWorld(), block.getX(), block.getY(), block.getZ());
-            name = colors[data];
-            colorCode = colorCodes[data];
+        for (String suffix : BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().colorableMaterialSuffix())
+        {
+            if (materialName.endsWith(suffix)) {
+                byte data = BlockParty.getInstance().getBlockPlacer().getData(block.getWorld(), block.getX(), block.getY(), block.getZ());
+                name = colors[data];
+                colorCode = colorCodes[data];
+                return new ColorBlock(name, colorCode);
+            }
         }
 
         return new ColorBlock(name, colorCode);

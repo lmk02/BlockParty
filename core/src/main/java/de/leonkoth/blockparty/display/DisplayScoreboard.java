@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty.display;
 
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -19,6 +20,9 @@ public class DisplayScoreboard {
 
     public void setScoreboard(int timeLeft, int level, Arena arena) {
 
+        if (!arena.isEnableScoreboard())
+            return;
+
         if (SCOREBOARD_TEXT.getValues().length < 2)
             return;
 
@@ -30,8 +34,15 @@ public class DisplayScoreboard {
 
         //ArrayList<Score> sc = new ArrayList<>();
 
+        int activePlayers;
+
+        if (arena.getArenaState() == ArenaState.LOBBY)
+        {
+            activePlayers = arena.getPlayersInArena().size();
+        } else activePlayers = arena.getIngamePlayers();
+
         for (int i = 0; i < SCOREBOARD_TEXT.getValues().length - 1; i++) {
-            Score score = objective.getScore(SCOREBOARD_TEXT.getValue(i + 1).replace("%LEVEL%", level + "").replace("%CURRENTPLAYERS%", arena.getPlayersInArena().size() + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
+            Score score = objective.getScore(SCOREBOARD_TEXT.getValue(i + 1).replace("%LEVEL%", level + "").replace("%CURRENTPLAYERS%", activePlayers + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
             score.setScore(SCOREBOARD_TEXT.getValues().length - 1 - i);
         }
 

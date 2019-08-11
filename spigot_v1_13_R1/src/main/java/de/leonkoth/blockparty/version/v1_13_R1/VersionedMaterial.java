@@ -20,38 +20,56 @@ public class VersionedMaterial implements IVersionedMaterial {
     private List<Material> stainedGlassList;
     private List<Material> stainedGlassPaneList;
     private List<Material> carpetList;
+    private List<String> colorableMaterialSuffix;
+    private List<Material> allColorableMaterials;
 
     public VersionedMaterial()
     {
+        allColorableMaterials = new ArrayList<>();
+
         stainedClayList = new ArrayList<>();
-        stainedClayList.add(Material.WHITE_TERRACOTTA);
-        stainedClayList.add(Material.ORANGE_TERRACOTTA);
-        stainedClayList.add(Material.MAGENTA_TERRACOTTA);
-        stainedClayList.add(Material.LIGHT_BLUE_TERRACOTTA);
-        stainedClayList.add(Material.YELLOW_TERRACOTTA);
-        stainedClayList.add(Material.LIME_TERRACOTTA);
-        stainedClayList.add(Material.PINK_TERRACOTTA);
-        stainedClayList.add(Material.GRAY_TERRACOTTA);
-        stainedClayList.add(Material.LIGHT_GRAY_TERRACOTTA);
-        stainedClayList.add(Material.CYAN_TERRACOTTA);
-        stainedClayList.add(Material.PURPLE_TERRACOTTA);
-        stainedClayList.add(Material.BLUE_TERRACOTTA);
-        stainedClayList.add(Material.BROWN_TERRACOTTA);
-        stainedClayList.add(Material.GREEN_TERRACOTTA);
-        stainedClayList.add(Material.RED_TERRACOTTA);
-        stainedClayList.add(Material.BLACK_TERRACOTTA);
 
         woolList = new ArrayList<>();
-        woolList.add(Material.WHITE_WOOL); //TODO: Add missing wool types
 
         stainedGlassList = new ArrayList<>();
-        stainedGlassList.add(Material.WHITE_STAINED_GLASS); //TODO: Add missing stained glass types
 
         stainedGlassPaneList = new ArrayList<>();
-        stainedGlassPaneList.add(Material.WHITE_STAINED_GLASS_PANE); //TODO: Add missing stained glass pane types
 
         carpetList = new ArrayList<>();
-        carpetList.add(Material.WHITE_CARPET); //TODO: Add missing carpet types
+
+        colorableMaterialSuffix = new ArrayList<>();
+        colorableMaterialSuffix.add("_TERRACOTTA");
+        colorableMaterialSuffix.add("_WOOL");
+        colorableMaterialSuffix.add("_GLASS");
+        colorableMaterialSuffix.add("_GLASS_PANE");
+        colorableMaterialSuffix.add("_CARPET");
+    }
+
+    @Override
+    public void addToMaterialList(String materialName)
+    {
+        if(materialName.contains("_TERRACOTTA"))
+        {
+            stainedClayList.add(Material.getMaterial(materialName));
+        } else if(materialName.contains("_WOOL"))
+        {
+            woolList.add(Material.getMaterial(materialName));
+        } else if(materialName.contains("_GLASS"))
+        {
+            stainedGlassList.add(Material.getMaterial(materialName));
+        } else if(materialName.contains("_GLASS_PANE"))
+        {
+            stainedGlassPaneList.add(Material.getMaterial(materialName));
+        } else if(materialName.contains("_CARPET"))
+        {
+            carpetList.add(Material.getMaterial(materialName));
+        }
+        allColorableMaterials.add(Material.getMaterial(materialName));
+    }
+
+    @Override
+    public List<String> colorableMaterialSuffix() {
+        return colorableMaterialSuffix;
     }
 
     @Override
@@ -82,6 +100,11 @@ public class VersionedMaterial implements IVersionedMaterial {
     @Override
     public List<Material> carpets() {
         return carpetList;
+    }
+
+    @Override
+    public List<Material> allColorableMaterials() {
+        return allColorableMaterials;
     }
 
     @Override

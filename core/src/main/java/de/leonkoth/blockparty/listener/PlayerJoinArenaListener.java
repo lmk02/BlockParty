@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.listener;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
+import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.event.PlayerJoinArenaEvent;
 import de.leonkoth.blockparty.player.PlayerData;
 import de.leonkoth.blockparty.player.PlayerInfo;
@@ -80,6 +81,8 @@ public class PlayerJoinArenaListener implements Listener {
         player.getInventory().setItem(8, ItemType.LEAVEARENA.getItem());
         player.getInventory().setItem(7, ItemType.VOTEFORASONG.getItem());
         player.updateInventory();
+
+        this.blockParty.getDisplayScoreboard().setScoreboard(0,0,arena);
 
         JOINED_GAME.message(PREFIX, player, "%ARENA%", arena.getName());
         arena.getPhaseHandler().startLobbyPhase();

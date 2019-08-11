@@ -72,6 +72,7 @@ public class Database {
                 + "	name varchar(255),"
                 + "	uuid varchar(255),"
                 + "	wins integer,"
+                + " gamesPlayed integer,"
                 + "	points integer)";
         if (databaseType == Type.SQLITE) {
             try (Connection conn = DriverManager.getConnection(this.url)) {
@@ -126,7 +127,7 @@ public class Database {
                         "user=" + this.user + "&password=" + this.password);
             }
             st = con.createStatement();
-            rs = st.executeQuery("SELECT id, name, uuid, wins, points " +
+            rs = st.executeQuery("SELECT id, name, uuid, wins, points, gamesPlayed " +
                     "FROM " + this.tableName);
         } catch (SQLException s) {
             s.printStackTrace();
@@ -148,10 +149,11 @@ public class Database {
 
     public void updatePlayerInfo(PlayerInfo playerInfo) {
         try (PreparedStatement ps = con.prepareStatement("UPDATE " + this.tableName +
-                " SET wins = ?, points = ? WHERE uuid = ?")) {
+                " SET wins = ?, points = ?, gamesPlayed = ? WHERE uuid = ?")) {
             ps.setInt(1, playerInfo.getWins());
             ps.setInt(2, playerInfo.getPoints());
-            ps.setString(3, playerInfo.getUuid().toString());
+            ps.setInt(3, playerInfo.getGamesPlayed());
+            ps.setString(4, playerInfo.getUuid().toString());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,12 +162,13 @@ public class Database {
 
     public void insertPlayerInfo(PlayerInfo playerInfo) {
         try (PreparedStatement ps = con.prepareStatement("INSERT INTO " + this.tableName +
-                "(id, name, uuid, wins, points) VALUES(?,?,?,?,?)")) {
+                "(id, name, uuid, wins, points, gamesPlayed) VALUES(?,?,?,?,?,?)")) {
             ps.setInt(1, playerInfo.getId());
             ps.setString(2, playerInfo.getName());
             ps.setString(3, playerInfo.getUuid().toString());
             ps.setInt(4, playerInfo.getWins());
             ps.setInt(5, playerInfo.getPoints());
+            ps.setInt(6, playerInfo.getGamesPlayed());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -182,7 +185,8 @@ public class Database {
             String uuid = rs.getString("uuid");
             int wins = rs.getInt("wins");
             int points = rs.getInt("points");
-            return new PlayerInfo(id, name, UUID.fromString(uuid), wins, points);
+            int gamesplayed = rs.getInt("gamesPlayed");
+            return new PlayerInfo(id, name, UUID.fromString(uuid), wins, points, gamesplayed);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -20,9 +20,12 @@ public class VersionedMaterial implements IVersionedMaterial {
     private List<Material> stainedGlassList;
     private List<Material> stainedGlassPaneList;
     private List<Material> carpetList;
+    private List<String> colorableMaterialSuffix;
+    private List<Material> allColorableMaterials;
 
     public VersionedMaterial()
     {
+        allColorableMaterials = new ArrayList<>();
         stainedClayList = new ArrayList<>();
         stainedClayList.add(Material.STAINED_CLAY);
         woolList = new ArrayList<>();
@@ -33,6 +36,24 @@ public class VersionedMaterial implements IVersionedMaterial {
         stainedGlassPaneList.add(Material.STAINED_GLASS_PANE);
         carpetList = new ArrayList<>();
         carpetList.add(Material.CARPET);
+
+        colorableMaterialSuffix = new ArrayList<>();
+        colorableMaterialSuffix.add("STAINED_CLAY");
+        colorableMaterialSuffix.add("WOOL");
+        colorableMaterialSuffix.add("STAINED_GLASS");
+        colorableMaterialSuffix.add("STAINED_GLASS_PANE");
+        colorableMaterialSuffix.add("CARPET");
+
+        allColorableMaterials.addAll(stainedClayList);
+        allColorableMaterials.addAll(stainedGlassList);
+        allColorableMaterials.addAll(stainedGlassPaneList);
+        allColorableMaterials.addAll(woolList);
+        allColorableMaterials.addAll(carpetList);
+    }
+
+    @Override
+    public List<String> colorableMaterialSuffix() {
+        return colorableMaterialSuffix;
     }
 
     @Override
@@ -63,6 +84,11 @@ public class VersionedMaterial implements IVersionedMaterial {
     @Override
     public List<Material> carpets() {
         return carpetList;
+    }
+
+    @Override
+    public List<Material> allColorableMaterials() {
+        return allColorableMaterials;
     }
 
     @Override
@@ -148,6 +174,11 @@ public class VersionedMaterial implements IVersionedMaterial {
     @Override
     public Material FIREBALL() {
         return Material.FIREBALL;
+    }
+
+    @Override
+    public void addToMaterialList(String materialName) {
+        this.allColorableMaterials.add(Material.getMaterial(materialName));
     }
 
 }

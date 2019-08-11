@@ -44,6 +44,7 @@ public class GameStartListener implements Listener {
         for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
             Player player = playerInfo.asPlayer();
             playerInfo.setPlayerState(PlayerState.INGAME);
+            playerInfo.addGamesPlayed(1);
             player.teleport(arena.getGameSpawn());
             player.setGameMode(GameMode.SURVIVAL);
             player.setLevel(0);

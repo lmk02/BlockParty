@@ -13,12 +13,14 @@ import java.util.List;
  */
 public interface IVersionedMaterial {
 
+    List<String> colorableMaterialSuffix();
     Material SIGN_POST();
     List<Material> stainedClays();
     List<Material> wools();
     List<Material> stainedGlasses();
     List<Material> stainedGlassPanes();
     List<Material> carpets();
+    List<Material> allColorableMaterials();
     Material STAINED_CLAY();
     Material WOOL();
     Material STAINED_GLASS();
@@ -36,5 +38,6 @@ public interface IVersionedMaterial {
     Material RECORD_7();
     Material RECORD_8();
     Material FIREBALL();
+    void addToMaterialList(String materialName);
 
 }

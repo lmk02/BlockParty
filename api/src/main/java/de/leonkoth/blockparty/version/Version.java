@@ -22,7 +22,7 @@ class Version { // package-private
     public static final Version v1_14_3 = new Version(1, 14, 3, "v1_14_R1");
     public static final Version v1_14_2 = new Version(1, 14, 2, "v1_14_R1");
     public static final Version v1_14_1 = new Version(1, 14, 1, "v1_14_R1");
-    public static final Version v1_14 = new Version(1, 14, "v1_14_R1"); // TODO: CHECK VERSIONS
+    public static final Version v1_14 = new Version(1, 14, "v1_14_R1");
     public static final Version v1_13_2 = new Version(1, 13, 2, "v1_13_R2");
     public static final Version v1_13_1 = new Version(1, 13, 1, "v1_13_R2");
     public static final Version v1_13 = new Version(1, 13, "v1_13_R1");

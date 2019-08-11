@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.listener;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
+import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.event.PlayerLeaveArenaEvent;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
@@ -38,11 +39,18 @@ public class PlayerLeaveArenaListener implements Listener {
             playerInfo.setPlayerData(null);
         }
 
+        this.blockParty.getPlayerInfoManager().savePlayerInfo(playerInfo);
+
         arena.broadcast(PREFIX, PLAYER_LEFT_GAME, false, playerInfo, "%PLAYER%", player.getName());
         arena.getPlayersInArena().remove(playerInfo);
 
         if (arena.getArenaState() == ArenaState.INGAME) {
             arena.eliminate(playerInfo);
+        }
+
+        if(arena.getArenaState() == ArenaState.LOBBY && !arena.getPhaseHandler().getLobbyPhase().isRunning())
+        {
+            this.blockParty.getDisplayScoreboard().setScoreboard(0,0,arena);
         }
 
         if (blockParty.isBungee()) {

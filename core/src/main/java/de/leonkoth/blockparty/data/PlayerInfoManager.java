@@ -31,8 +31,6 @@ public class PlayerInfoManager {
             playerInfos.add(pi);
         }
 
-        PlayerInfo playerInfo = new PlayerInfo();
-
         this.database.closeReadable();
         return playerInfos;
     }

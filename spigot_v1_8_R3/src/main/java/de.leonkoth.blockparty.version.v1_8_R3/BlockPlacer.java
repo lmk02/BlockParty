@@ -28,7 +28,7 @@ public class BlockPlacer implements IBlockPlacer {
 
     @Override
     public void place(Block block, Material material, byte data) {
-        block.setType(Material.STAINED_CLAY);
+        block.setType(material);
         block.setData(data);
     }
 
