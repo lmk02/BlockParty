@@ -125,7 +125,6 @@ public class BlockParty {
     }
 
     public void load() {
-        // Copy Files
         DefaultManager.copyAll();
         BlockPartyLocale.init();
 
