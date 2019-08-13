@@ -11,7 +11,6 @@ import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.listener.*;
 import de.leonkoth.blockparty.locale.BlockPartyLocale;
 import de.leonkoth.blockparty.player.PlayerInfo;
-import de.leonkoth.blockparty.util.BlockPartyExpansion;
 import de.leonkoth.blockparty.util.DefaultManager;
 import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
@@ -176,12 +175,6 @@ public class BlockParty {
 
         // Init commands
         new BlockPartyCommand(this);
-
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            if(new BlockPartyExpansion(this).register()){
-                Bukkit.getConsoleSender().sendMessage("[BlockParty] Successfully loaded BlockPartyExpansion for the PlaceholderAPI");
-            }
-        }
     }
 
     public void stop() {
