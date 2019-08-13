@@ -11,12 +11,10 @@ import de.pauhull.utils.file.FileUtils;
 public class DefaultManager {
 
     public static void copyAll() {
-        copy("Songs/LetItGo.nbs");
-        copy("Songs/ZeldaTheme.nbs");
+        copy("Songs/readme.md");
         copy("Floors/start.floor");
         copy("Floors/example.floor");
         copy("web/index.html");
-        //copy("web/songs/Vincent_Augustus_-_woah.mp3");
         copy("web/songs/readme.md");
         copy("web/bootstrap/css/bootstrap.css");
         copy("web/bootstrap/js/bootstrap.js");
