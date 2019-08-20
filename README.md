@@ -290,7 +290,7 @@ Head over to your config.yml in the `plugins/BlockParty/` folder. You can edit t
 
 ## Permissions
 
-* **blockparty.admin**
+* **blockparty.admin.***
   * This provides access to all BlockParty commands (/bp admin)
-* **blockparty.user**
+* **blockparty.user.***
   * This provides access to basic BlockParty commands (/bp help)
