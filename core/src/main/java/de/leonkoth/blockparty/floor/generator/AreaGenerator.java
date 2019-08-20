@@ -2,7 +2,9 @@ package de.leonkoth.blockparty.floor.generator;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.Floor;
+import de.leonkoth.blockparty.version.BlockPartyMaterial;
 import de.leonkoth.blockparty.version.IBlockPlacer;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import de.pauhull.utils.misc.MinecraftVersion;
 import org.bukkit.Material;
 
@@ -41,7 +43,7 @@ public class AreaGenerator implements FloorGenerator {
 
                 // Fill out area with dimensions areaSize x areaSize
 
-                Material def = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().STAINED_CLAY();
+                BlockPartyMaterial def = VersionedMaterial.TERRACOTTA.get();
 
                 for (int offX = x; offX <= Math.min(maxX, x + areaSize); offX++) {
                     for (int offZ = z; offZ <= Math.min(maxZ, z + areaSize); offZ++) {

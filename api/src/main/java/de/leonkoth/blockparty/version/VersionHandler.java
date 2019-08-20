@@ -6,9 +6,21 @@ import org.bukkit.Bukkit;
 public class VersionHandler {
 
     @Getter
-    private static IBlockPlacer blockPlacer = null;
+    private static IBlockPlacer blockPlacer;
 
-    public static boolean init() {
+    public static void init() {
+
+        blockPlacer = (IBlockPlacer) load("BlockPlacer", IBlockPlacer.class);
+
+        if(blockPlacer != null) {
+            Bukkit.getConsoleSender().sendMessage("§a[BlockParty] Loading VersionedMaterial.");
+            VersionedMaterial.values();
+        }
+
+    }
+
+    public static Object load(String className, Class<?> classI)
+    {
         Version currentVersion = Version.CURRENT_VERSION;
         int i = 0;
 
@@ -22,20 +34,28 @@ public class VersionHandler {
             i = 0;
         }
 
-        while (blockPlacer == null && currentVersion.isGreaterOrEquals(Version.v1_8_4)) {
+
+        Object obj = null;
+        boolean isBlockPartyMaterial = false;
+        if (classI == BlockPartyMaterial.class)
+            isBlockPartyMaterial = true;
+
+        while (obj == null && currentVersion.isGreaterOrEquals(Version.v1_8_4)) {
             try {
-                Class<?> clazz = Class.forName("de.leonkoth.blockparty.version." + currentVersion.getVersion() + ".BlockPlacer");
-                if (!IBlockPlacer.class.isAssignableFrom(clazz)) {
+                Class<?> clazz = Class.forName("de.leonkoth.blockparty.version." + currentVersion.getVersion() + "." + className);
+                if (!classI.isAssignableFrom(clazz)) {
                     throw new RuntimeException("Incompatible class: " + clazz.getName());
                 } else {
-                    Class<? extends IBlockPlacer> blockPlacerClass = (Class<? extends IBlockPlacer>) clazz;
-                    blockPlacer = blockPlacerClass.newInstance();
+                    if(isBlockPartyMaterial) {
+                        Class<? extends BlockPartyMaterial> dynClass = (Class<? extends BlockPartyMaterial>) clazz;
+                        obj = dynClass.newInstance();
+                    } else {
+                        Class<? extends IBlockPlacer> dynClass = (Class<? extends IBlockPlacer>) clazz;
+                        obj = dynClass.newInstance();
+                    }
                 }
             } catch (ReflectiveOperationException e) {
                 if (e instanceof ClassNotFoundException) {
-                    String ver = currentVersion.getVersion() == null ? currentVersion.toString() : currentVersion.getVersion();
-                    Bukkit.getConsoleSender().sendMessage("§c[BlockParty] Version " + ver + " is not available.");
-                    Bukkit.getConsoleSender().sendMessage("§c[BlockParty] Trying to find compatible class...");
                     i++;
                     currentVersion = Version.versionList.get(i);
                     continue;
@@ -45,13 +65,11 @@ public class VersionHandler {
             }
         }
 
-        if (blockPlacer == null) {
-            Bukkit.getConsoleSender().sendMessage("§c[BlockParty] No compatible class available.");
-            return false;
-        }
-
-        Bukkit.getConsoleSender().sendMessage("§a[BlockParty] Trying to use version " + currentVersion.getVersion());
-        return true;
+        if (obj == null) {
+            Bukkit.getConsoleSender().sendMessage("§c[BlockParty] No compatible class available for " + className + ".");
+        } else
+            Bukkit.getConsoleSender().sendMessage("§a[BlockParty] Using " + className + " version " + currentVersion.getVersion());
+        return obj;
     }
 
 }

@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty.arena;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -36,7 +37,7 @@ public class SignList {
     public static Sign getSign(Location location) {
         Block block = location.getBlock();
 
-        if (block.getType() == BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().SIGN_POST() || block.getType() == Material.WALL_SIGN) {
+        if (VersionedMaterial.SIGN.equals(block.getType())) {
             return (Sign) block.getState();
         } else {
             return null;

@@ -5,6 +5,7 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.ItemType;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,12 +41,14 @@ public class InventoryClickListener implements Listener {
         if (item == null || item.getItemMeta() == null || inventory == null) {
             return;
         }
-
-        if (inventory.getName().equals(INVENTORY_VOTE_NAME.toString())) {
+        if (event.getView().getTitle().equals(INVENTORY_VOTE_NAME.toString())) {
             if (playerInfo == null || playerInfo.getCurrentArena() == null || playerInfo.getPlayerState() == PlayerState.DEFAULT) {
                 ERROR_NOT_IN_ARENA.message(PREFIX, player);
                 return;
             }
+
+            if(!VersionedMaterial.MUSIC_DISC.equals(item.getType()))
+                return;
 
             Arena arena = playerInfo.getCurrentArena();
             String name = item.getItemMeta().getDisplayName();

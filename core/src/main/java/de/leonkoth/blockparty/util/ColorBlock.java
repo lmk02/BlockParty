@@ -1,12 +1,10 @@
 package de.leonkoth.blockparty.util;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.COLORS;
 
@@ -30,7 +28,7 @@ public class ColorBlock {
         String name = format(material.name());
         String colorCode = "f";
 
-        for (String suffix : BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().colorableMaterialSuffix())
+        for (String suffix : VersionedMaterial.getColorableMaterialSuffix()) // TODO: Move or Replace
         {
             if (materialName.endsWith(suffix)) {
                 byte data = BlockParty.getInstance().getBlockPlacer().getData(block.getWorld(), block.getX(), block.getY(), block.getZ());

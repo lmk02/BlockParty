@@ -8,6 +8,7 @@ import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.song.Song;
 import de.leonkoth.blockparty.util.ItemType;
 import de.leonkoth.blockparty.util.Selection;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -59,7 +60,7 @@ public class PlayerInteractListener implements Listener {
         signCheck:
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-            if (block == null || (block.getType() != BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().SIGN_POST() && block.getType() != Material.WALL_SIGN)) {
+            if (block == null || !VersionedMaterial.SIGN.equals(block.getType())) {
                 break signCheck;
             }
 

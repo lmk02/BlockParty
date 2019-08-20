@@ -5,7 +5,9 @@ import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.util.Bounds;
 import de.leonkoth.blockparty.util.Size;
 import de.leonkoth.blockparty.version.BlockInfo;
+import de.leonkoth.blockparty.version.BlockPartyMaterial;
 import de.leonkoth.blockparty.version.IBlockPlacer;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.image.ImageLoader;
 import lombok.Getter;
@@ -77,7 +79,8 @@ public class FloorPattern {
 
             Material[] materials = new Material[info.getWidth() * info.getHeight()];
 
-            Material def = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().STAINED_CLAY();
+            Material def = VersionedMaterial.TERRACOTTA.get(0);
+
 
             for (int i = 0; i < materials.length; i++)
                 materials[i] = def;

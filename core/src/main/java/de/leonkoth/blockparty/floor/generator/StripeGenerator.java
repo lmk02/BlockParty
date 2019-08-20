@@ -2,7 +2,9 @@ package de.leonkoth.blockparty.floor.generator;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.Floor;
+import de.leonkoth.blockparty.version.BlockPartyMaterial;
 import de.leonkoth.blockparty.version.IBlockPlacer;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import org.bukkit.Material;
 
 import java.util.Random;
@@ -37,7 +39,7 @@ public class StripeGenerator implements FloorGenerator {
 
         byte data = 0;
 
-        Material def = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().STAINED_CLAY();
+        BlockPartyMaterial def = VersionedMaterial.TERRACOTTA.get();
 
         for (int i = minI; i <= maxI; i++) {
             if (i % stripeWidth == 0)

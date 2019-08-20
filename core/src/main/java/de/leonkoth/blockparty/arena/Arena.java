@@ -11,6 +11,7 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.song.SongManager;
 import de.leonkoth.blockparty.util.ItemType;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import de.pauhull.utils.locale.storage.LocaleString;
 import de.pauhull.utils.particle.ParticlePlayer;
 import de.pauhull.utils.particle.Particles;
@@ -166,6 +167,17 @@ public class Arena {
         }, 0, millis, TimeUnit.MILLISECONDS);
     }
 
+    public static Runnable startUpdatingSigns() {
+
+        return () -> {
+            if (BlockParty.getInstance().isSignsEnabled()) {
+                for (Arena arena : BlockParty.getInstance().getArenas()) {
+                    arena.updateSigns();
+                }
+            }
+        };
+    }
+
     public static boolean isLoaded(String name) {
 
         if (BlockParty.getInstance().getArenas() == null)
@@ -286,11 +298,12 @@ public class Arena {
         Iterator<Location> iterator = data.signs.getSigns().iterator();
         boolean save = false;
 
+
         while (iterator.hasNext()) {
             Location location = iterator.next();
             Block block = location.getBlock();
 
-            if (block.getType() == BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().SIGN_POST() || block.getType() == Material.WALL_SIGN) {
+            if (VersionedMaterial.SIGN.equals(block.getType())) {
                 Sign sign = (Sign) block.getState();
                 String[] lines = new String[4];
 
@@ -315,7 +328,6 @@ public class Arena {
                             break;
                     }
                 }
-
                 for (int i = 0; i < 4; i++) {
                     sign.setLine(i, lines[i]);
                 }
@@ -335,7 +347,7 @@ public class Arena {
     private String[] getLines(FileConfiguration config, String path) {
         String[] arr = new String[4];
         for (int i = 1; i <= 4; i++) {
-            String newPath = path + "." + Integer.toString(i);
+            String newPath = path + "." + i;
 
             if (!config.isString(newPath)) {
                 continue;

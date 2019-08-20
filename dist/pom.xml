@@ -31,6 +31,11 @@
         </dependency>
         <dependency>
             <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-spigot_v1_14_R1</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.leonkoth</groupId>
             <artifactId>blockparty-utils</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

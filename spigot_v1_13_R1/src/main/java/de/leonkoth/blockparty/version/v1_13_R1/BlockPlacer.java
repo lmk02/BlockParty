@@ -2,15 +2,13 @@ package de.leonkoth.blockparty.version.v1_13_R1;
 
 import de.leonkoth.blockparty.util.DualHashMap;
 import de.leonkoth.blockparty.version.BlockInfo;
+import de.leonkoth.blockparty.version.BlockPartyMaterial;
 import de.leonkoth.blockparty.version.IBlockPlacer;
-import de.leonkoth.blockparty.version.IVersionedMaterial;
+import de.leonkoth.blockparty.version.IBlockPartyMaterials;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Leon on 28.02.2019.
@@ -21,12 +19,10 @@ import java.util.Map;
  */
 public class BlockPlacer implements IBlockPlacer {
 
-    private IVersionedMaterial versionedMaterial;
     private DualHashMap<Byte, String> dataAndMaterialColorPrefix;
 
     public BlockPlacer()
     {
-        this.versionedMaterial = new VersionedMaterial();
         dataAndMaterialColorPrefix = new DualHashMap<>();
         dataAndMaterialColorPrefix.put((byte) 0, "WHITE");
         dataAndMaterialColorPrefix.put((byte) 1, "ORANGE");
@@ -45,25 +41,28 @@ public class BlockPlacer implements IBlockPlacer {
         dataAndMaterialColorPrefix.put((byte) 14, "RED");
         dataAndMaterialColorPrefix.put((byte) 15, "BLACK");
 
-        for (String colors : dataAndMaterialColorPrefix.values())
-        {
-            for(String colorableMaterial : this.versionedMaterial.colorableMaterialSuffix())
-            {
-                this.versionedMaterial.addToMaterialList(colors + colorableMaterial);
-            }
-        }
+    }
 
+    @Override
+    public void place(World world, int x, int y, int z, BlockPartyMaterial material, byte data) {
+        Block block = world.getBlockAt(x, y, z);
+        block.setType(material.get(data));
     }
 
     @Override
     public void place(World world, int x, int y, int z, Material material, byte data) {
         Block block = world.getBlockAt(x, y, z);
-        block.setType(getMaterial(material, data));
+        block.setType(material);
+    }
+
+    @Override
+    public void place(Block block, BlockPartyMaterial material, byte data) {
+        block.setType(material.get(data));
     }
 
     @Override
     public void place(Block block, Material material, byte data) {
-        block.setType(getMaterial(material, data));
+        block.setType(material);
     }
 
     @Override
@@ -74,40 +73,6 @@ public class BlockPlacer implements IBlockPlacer {
     @Override
     public Byte getData(World world, int x, int y, int z) {
         return this.getDataByMaterial(world.getBlockAt(x, y, z).getType());
-    }
-
-    @Override
-    public IVersionedMaterial getVersionedMaterial() {
-        return versionedMaterial;
-    }
-
-    private Material getMaterial(Material material, byte data)
-    {
-        if (data < 16)
-        {
-            if (material == versionedMaterial.STAINED_CLAY())
-            {
-                return versionedMaterial.stainedClays().get(data);
-            }
-            if (material == versionedMaterial.WOOL())
-            {
-                return versionedMaterial.stainedClays().get(data);
-            }
-            if (material == versionedMaterial.STAINED_GLASS())
-            {
-                return versionedMaterial.stainedClays().get(data);
-            }
-            if (material == versionedMaterial.STAINED_GLASS_PANE())
-            {
-                return versionedMaterial.stainedClays().get(data);
-            }
-            if (material == versionedMaterial.CARPET())
-            {
-                return versionedMaterial.stainedClays().get(data);
-            }
-        }
-
-        return material;
     }
 
     private String getMaterialColorPrefixByData(byte data)

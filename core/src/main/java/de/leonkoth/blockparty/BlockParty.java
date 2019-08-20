@@ -14,6 +14,7 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.DefaultManager;
 import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
+import de.leonkoth.blockparty.version.Version;
 import de.leonkoth.blockparty.version.VersionHandler;
 import de.leonkoth.blockparty.web.server.*;
 import de.pauhull.utils.file.FileUtils;
@@ -178,7 +179,8 @@ public class BlockParty {
 
     public void stop() {
 
-        this.signUpdater.cancel(true);
+        if(this.signUpdater != null)
+            this.signUpdater.cancel(true);
 
         for (Boost boost : Boost.boosts) { // TODO: Causes ConcurrentModificationException
             boost.remove();
@@ -352,7 +354,11 @@ public class BlockParty {
                 signUpdater.cancel(true);
             }
 
-            this.signUpdater = Arena.startUpdatingSigns(signUpdateMillis);
+            if(Version.CURRENT_VERSION.isLower(Version.v1_14))
+            {
+                this.signUpdater = Arena.startUpdatingSigns(signUpdateMillis);
+            } else
+                this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, Arena.startUpdatingSigns(), 0, 20);
 
         } catch (Exception e) {
             e.printStackTrace();

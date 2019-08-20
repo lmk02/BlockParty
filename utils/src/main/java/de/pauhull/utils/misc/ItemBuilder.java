@@ -1,6 +1,7 @@
 package de.pauhull.utils.misc;
 
 import de.leonkoth.blockparty.version.VersionHandler;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import lombok.Getter;
 import lombok.ToString;
 import org.bukkit.Color;
@@ -71,7 +72,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setOwner(String owner) {
-        if (stack.getType() != VersionHandler.getBlockPlacer().getVersionedMaterial().SKULL_ITEM()) {
+        if (!VersionedMaterial.SKELETON_SKULL.equals(stack.getType())) {
             throw new IllegalArgumentException(stack.getType().name() + " is not a skull (SKULL_ITEM)");
         }
 

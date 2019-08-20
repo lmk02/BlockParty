@@ -12,6 +12,7 @@
         <module>dist</module>
         <module>spigot_v1_8_R3</module>
         <module>spigot_v1_13_R1</module>
+        <module>spigot_v1_14_R1</module>
         <module>utils</module>
         <module>api</module>
         <module>expansion</module>
