@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty.util;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,8 +18,8 @@ import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
  */
 public enum ItemType {
 
-    LEAVEARENA(ITEM_LEAVE_ARENA.toString(), BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().ACACIA_DOOR_ITEM(), null), //TODO: add to config (slot & item)
-    VOTEFORASONG(ITEM_VOTE_FOR_A_SONG.toString(), BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().FIREBALL(), null),
+    LEAVEARENA(ITEM_LEAVE_ARENA.toString(), VersionedMaterial.DOOR.get(0), null), //TODO: add to config (slot & item)
+    VOTEFORASONG(ITEM_VOTE_FOR_A_SONG.toString(), VersionedMaterial.FIRE_CHARGE.get(0), null),
     SELECTITEM(ITEM_SELECT.toString(), Material.STICK, null),
     SONG("", null, ITEM_SONG_LORE.toString());
 
@@ -63,38 +64,7 @@ public enum ItemType {
 
         Random r = new Random();
         int t = r.nextInt(10) + 1;
-        switch (t) {
-            case 1:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_10();
-                break;
-            case 2:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_11();
-                break;
-            case 3:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_12();
-                break;
-            case 4:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_3();
-                break;
-            case 5:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_4();
-                break;
-            case 6:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_5();
-                break;
-            case 7:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_6();
-                break;
-            case 8:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_7();
-                break;
-            case 9:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_8();
-                break;
-            default:
-                this.type = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().RECORD_3();
-                break;
-        }
+        this.type = VersionedMaterial.MUSIC_DISC.get(t);
         return this.getItem();
     }
 

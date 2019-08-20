@@ -13,7 +13,7 @@ import java.util.List;
  * @version 1.0
  */
 // this class is needed because blockparty-api cannot access blockparty-utils without a dependency loop
-class Version { // package-private
+public class Version { // package-private
 
     public static final Version CURRENT_VERSION = new Version();
 

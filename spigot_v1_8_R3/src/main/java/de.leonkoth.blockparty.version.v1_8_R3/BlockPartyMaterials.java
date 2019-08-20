@@ -1,6 +1,6 @@
-package de.leonkoth.blockparty.version.v1_13_R1;
+package de.leonkoth.blockparty.version.v1_8_R3;
 
-import de.leonkoth.blockparty.version.IVersionedMaterial;
+import de.leonkoth.blockparty.version.IBlockPartyMaterials;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author Leon Koth
  * © 2018
  */
-public class VersionedMaterial implements IVersionedMaterial {
+public class BlockPartyMaterials implements IBlockPartyMaterials {
 
     private List<Material> stainedClayList;
     private List<Material> woolList;
@@ -23,48 +23,32 @@ public class VersionedMaterial implements IVersionedMaterial {
     private List<String> colorableMaterialSuffix;
     private List<Material> allColorableMaterials;
 
-    public VersionedMaterial()
+    public BlockPartyMaterials()
     {
         allColorableMaterials = new ArrayList<>();
-
         stainedClayList = new ArrayList<>();
-
+        stainedClayList.add(Material.STAINED_CLAY);
         woolList = new ArrayList<>();
-
+        woolList.add(Material.WOOL);
         stainedGlassList = new ArrayList<>();
-
+        stainedGlassList.add(Material.STAINED_GLASS);
         stainedGlassPaneList = new ArrayList<>();
-
+        stainedGlassPaneList.add(Material.STAINED_GLASS_PANE);
         carpetList = new ArrayList<>();
+        carpetList.add(Material.CARPET);
 
         colorableMaterialSuffix = new ArrayList<>();
-        colorableMaterialSuffix.add("_TERRACOTTA");
-        colorableMaterialSuffix.add("_WOOL");
-        colorableMaterialSuffix.add("_GLASS");
-        colorableMaterialSuffix.add("_GLASS_PANE");
-        colorableMaterialSuffix.add("_CARPET");
-    }
+        colorableMaterialSuffix.add("STAINED_CLAY");
+        colorableMaterialSuffix.add("WOOL");
+        colorableMaterialSuffix.add("STAINED_GLASS");
+        colorableMaterialSuffix.add("STAINED_GLASS_PANE");
+        colorableMaterialSuffix.add("CARPET");
 
-    @Override
-    public void addToMaterialList(String materialName)
-    {
-        if(materialName.contains("_TERRACOTTA"))
-        {
-            stainedClayList.add(Material.getMaterial(materialName));
-        } else if(materialName.contains("_WOOL"))
-        {
-            woolList.add(Material.getMaterial(materialName));
-        } else if(materialName.contains("_GLASS"))
-        {
-            stainedGlassList.add(Material.getMaterial(materialName));
-        } else if(materialName.contains("_GLASS_PANE"))
-        {
-            stainedGlassPaneList.add(Material.getMaterial(materialName));
-        } else if(materialName.contains("_CARPET"))
-        {
-            carpetList.add(Material.getMaterial(materialName));
-        }
-        allColorableMaterials.add(Material.getMaterial(materialName));
+        allColorableMaterials.addAll(stainedClayList);
+        allColorableMaterials.addAll(stainedGlassList);
+        allColorableMaterials.addAll(stainedGlassPaneList);
+        allColorableMaterials.addAll(woolList);
+        allColorableMaterials.addAll(carpetList);
     }
 
     @Override
@@ -74,7 +58,7 @@ public class VersionedMaterial implements IVersionedMaterial {
 
     @Override
     public Material SIGN_POST() {
-        return Material.SIGN;
+        return Material.SIGN_POST;
     }
 
     @Override
@@ -109,87 +93,92 @@ public class VersionedMaterial implements IVersionedMaterial {
 
     @Override
     public Material STAINED_CLAY() {
-        return Material.TERRACOTTA;
+        return Material.STAINED_CLAY;
     }
 
     @Override
     public Material WOOL() {
-        return Material.WHITE_WOOL;
+        return Material.WOOL;
     }
 
     @Override
     public Material STAINED_GLASS() {
-        return Material.WHITE_STAINED_GLASS;
+        return Material.STAINED_GLASS;
     }
 
     @Override
     public Material STAINED_GLASS_PANE() {
-        return Material.WHITE_STAINED_GLASS_PANE;
+        return Material.STAINED_GLASS_PANE;
     }
 
     @Override
     public Material CARPET() {
-        return Material.WHITE_CARPET;
+        return Material.CARPET;
     }
 
     @Override
     public Material SKULL_ITEM() {
-        return Material.SKELETON_SKULL;
+        return Material.SKULL_ITEM;
     }
 
     @Override
     public Material ACACIA_DOOR_ITEM() {
-        return Material.ACACIA_DOOR;
+        return Material.ACACIA_DOOR_ITEM;
     }
 
     @Override
     public Material RECORD_10() {
-        return Material.MUSIC_DISC_BLOCKS;
+        return Material.RECORD_10;
     }
 
     @Override
     public Material RECORD_11() {
-        return Material.MUSIC_DISC_11;
+        return Material.RECORD_11;
     }
 
     @Override
     public Material RECORD_12() {
-        return Material.MUSIC_DISC_CAT;
+        return Material.RECORD_12;
     }
 
     @Override
     public Material RECORD_3() {
-        return Material.MUSIC_DISC_CHIRP;
+        return Material.RECORD_3;
     }
 
     @Override
     public Material RECORD_4() {
-        return Material.MUSIC_DISC_FAR;
+        return Material.RECORD_4;
     }
 
     @Override
     public Material RECORD_5() {
-        return Material.MUSIC_DISC_WARD;
+        return Material.RECORD_5;
     }
 
     @Override
     public Material RECORD_6() {
-        return Material.MUSIC_DISC_MALL;
+        return Material.RECORD_6;
     }
 
     @Override
     public Material RECORD_7() {
-        return Material.MUSIC_DISC_MELLOHI;
+        return Material.RECORD_7;
     }
 
     @Override
     public Material RECORD_8() {
-        return Material.MUSIC_DISC_STAL;
+        return Material.RECORD_8;
     }
 
     @Override
     public Material FIREBALL() {
-        return Material.LEGACY_FIREBALL;
+        return Material.FIREBALL;
+    }
+
+    @Override
+    public void addToMaterialList(String materialName) {
+        this.allColorableMaterials.add(Material.getMaterial(materialName));
     }
 
 }

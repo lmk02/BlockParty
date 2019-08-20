@@ -2,7 +2,9 @@ package de.leonkoth.blockparty.floor.generator;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.Floor;
+import de.leonkoth.blockparty.version.BlockPartyMaterial;
 import de.leonkoth.blockparty.version.IBlockPlacer;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
@@ -20,7 +22,7 @@ public class SingleBlockGenerator implements FloorGenerator {
 
     @Override
     public void generateFloor(Floor floor) {
-        Material def = BlockParty.getInstance().getBlockPlacer().getVersionedMaterial().STAINED_CLAY();
+        BlockPartyMaterial def = VersionedMaterial.TERRACOTTA.get();
         for (Block block : floor.getFloorBlocks()) {
             this.blockPlacer.place(block, def, (byte) random.nextInt(16));
         }
