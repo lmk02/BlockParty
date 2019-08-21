@@ -23,6 +23,7 @@ public class ChatFace {
 
     public static String API_URL = "https://minecraft.tools/download-skin/%s";
 
+
     @Getter
     private ExecutorService executorService;
 
