@@ -56,6 +56,7 @@ public class PlayerJoinListener implements Listener {
             if (error != null) {
                 player.kickPlayer(error);
             }
+            event.setJoinMessage(null);
         }
     }
 

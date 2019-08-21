@@ -66,7 +66,7 @@ public class English extends Language {
     public static final LocaleString POINT_SELECTED = new LocaleString(INFO, "Point &e%POINT% &7selected (%LOCATION%)");
     public static final LocaleString PREPARE = new LocaleString(INFO, "Prepare for the next round!");
     public static final LocaleString SONG_PLAYING = new LocaleString(INFO, "Now playing \"%SONG%\"");
-    public static final LocaleString STATS_MESSAGE = new LocaleString(INFO, "%PLAYER% has &e%WINS% &7wins and &e%POINTS% &7points.");
+    public static final LocaleString STATS_MESSAGE = new LocaleString(INFO, "%PLAYER% has &e%WINS% &7wins, &e%POINTS% &7points and played %GAMES_PLAYED% games.");
     public static final LocaleString TIME_LEFT = new LocaleString(INFO, "The game starts in &e%TIME% &7seconds");
     public static final LocaleString VOTE_SUCCESS = new LocaleString(INFO, "You voted for song \"%SONG%\"");
     public static final LocaleString WAND_GIVEN = new LocaleString(INFO, "Left click to set position 1, right for position 2");
