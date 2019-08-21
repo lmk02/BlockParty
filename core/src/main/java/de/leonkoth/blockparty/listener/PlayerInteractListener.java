@@ -123,7 +123,8 @@ public class PlayerInteractListener implements Listener {
 
                 Arena arena = playerInfo.getCurrentArena();
                 List<Song> songs = arena.getSongManager().getSongs();
-                Inventory inventory = Bukkit.createInventory(null, (int) Math.ceil((double) songs.size() / 9.0) * 9, INVENTORY_VOTE_NAME.toString());
+                int size = songs.size() < 1 ? 9 : (int) Math.ceil((double) songs.size() / 9.0) * 9;
+                Inventory inventory = Bukkit.createInventory(null, size, INVENTORY_VOTE_NAME.toString());
 
                 for (int i = 0; i < songs.size(); i++) {
                     if (i > 54)

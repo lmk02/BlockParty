@@ -66,7 +66,7 @@ public class German extends Language {
     public static final LocaleString POINT_SELECTED = new LocaleString(INFO, "Punkt &e%POINT% &7ausgewählt (%LOCATION%)");
     public static final LocaleString PREPARE = new LocaleString(INFO, "Bereite dich auf die nächste Runde vor!");
     public static final LocaleString SONG_PLAYING = new LocaleString(INFO, "Nächster Song: \"%SONG%\"");
-    public static final LocaleString STATS_MESSAGE = new LocaleString(INFO, "%PLAYER% hat &e%WINS% &7mal gewonnen und &e%POINTS% &7Punkte.");
+    public static final LocaleString STATS_MESSAGE = new LocaleString(INFO, "%PLAYER% hat &e%WINS% &7mal gewonnen, &e%POINTS% &7Punkte und %GAMES_PLAYED% Spiele gespielt.");
     public static final LocaleString TIME_LEFT = new LocaleString(INFO, "Spiel startet in &e%TIME% &7Sekunde(n)");
     public static final LocaleString VOTE_SUCCESS = new LocaleString(INFO, "Du hast für den Song \"%SONG%\" abgestimmt");
     public static final LocaleString WAND_GIVEN = new LocaleString(INFO, "Linksklick, um Position 1 zu setzen; Rechtsklick für Position 2");

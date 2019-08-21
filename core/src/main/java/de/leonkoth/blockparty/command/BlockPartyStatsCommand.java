@@ -35,7 +35,7 @@ public class BlockPartyStatsCommand extends SubCommand {
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(name);
 
         if (playerInfo != null) {
-            STATS_MESSAGE.message(PREFIX, sender, "%PLAYER%", playerInfo.getName(), "%WINS%", Integer.toString(playerInfo.getWins()), "%POINTS%", Integer.toString(playerInfo.getPoints()));
+            STATS_MESSAGE.message(PREFIX, sender, "%PLAYER%", playerInfo.getName(), "%WINS%", Integer.toString(playerInfo.getWins()), "%POINTS%", Integer.toString(playerInfo.getPoints()), "%GAMES_PLAYED%", Integer.toString(playerInfo.getGamesPlayed()));
             return true;
         } else {
             PLAYER_DOES_NOT_EXIST.message(PREFIX, sender, "%PLAYER%", name);
