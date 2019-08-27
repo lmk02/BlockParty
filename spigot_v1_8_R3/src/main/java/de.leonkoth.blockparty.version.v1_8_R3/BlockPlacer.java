@@ -28,6 +28,20 @@ public class BlockPlacer implements IBlockPlacer {
     }
 
     @Override
+    public void place(Location location, BlockPartyMaterial bpMaterial, byte data) {
+        Block block = location.getBlock();
+        block.setType(bpMaterial.get(0));
+        block.setData(data);
+    }
+
+    @Override
+    public void place(Location location, Material material, byte data) {
+        Block block = location.getBlock();
+        block.setType(material);
+        block.setData(data);
+    }
+
+    @Override
     public void place(Block block, BlockPartyMaterial bpMaterial, byte data) {
         block.setType(bpMaterial.get(0));
         block.setData(data);

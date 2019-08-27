@@ -4,7 +4,7 @@ description: Official BlockParty Plugin
 main: de.leonkoth.blockparty.Main
 authors: [Leon167, pauhull]
 website: https://github.com/Leon167/BlockParty-2.0/
-softdepend: [Multiverse-Core, MCJukebox, NoteBlockAPI, TimoCloud]
+softdepend: [Multiverse-Core, ReWorld, MCJukebox, NoteBlockAPI, TimoCloud]
 
 commands:
   blockparty:
