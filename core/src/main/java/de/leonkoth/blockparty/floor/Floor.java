@@ -192,7 +192,7 @@ public class Floor {
     }
 
     public void removeBlocks() {
-        Byte data = currentBlock.getData();
+        byte data = currentBlock.getData();
         Material material = currentBlock.getType();
 
         for (Block block : getFloorBlocks()) {

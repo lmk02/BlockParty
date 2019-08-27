@@ -45,6 +45,9 @@ public class PlayerWinListener implements Listener {
 
         arena.setArenaState(ArenaState.ENDING);
 
+        arena.getFloor().clearInventories();
+        arena.getFloor().setEndFloor();
+
         for (PlayerInfo playerInfo : playerInfos) {
             playerInfo.setPlayerState(PlayerState.WINNER);
             Player player = playerInfo.asPlayer();
@@ -63,7 +66,7 @@ public class PlayerWinListener implements Listener {
                     arena.broadcast(PREFIX, WINNER_ANNOUNCE_ALL, false, playerInfo, "%PLAYER%", player.getName());
                     WINNER_ANNOUNCE_SELF.message(PREFIX, player);
                 });
-
+                player.teleport(arena.getGameSpawn());
             }
 
             playerInfo.addPoints(15);
@@ -71,8 +74,7 @@ public class PlayerWinListener implements Listener {
             this.blockParty.getPlayerInfoManager().savePlayerInfo(playerInfo);
         }
 
-        arena.getFloor().clearInventories();
-        arena.getFloor().setEndFloor();
+
         arena.getPhaseHandler().startWinningPhase(null);
     }
 

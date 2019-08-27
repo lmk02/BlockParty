@@ -26,7 +26,7 @@ public class Sign extends BlockPartyMaterial {
         this.materials.add(Material.JUNGLE_SIGN);
         this.materials.add(Material.JUNGLE_WALL_SIGN);
         this.materials.add(Material.OAK_SIGN);
-        this.materials.add(Material.DARK_OAK_SIGN);
+        this.materials.add(Material.OAK_WALL_SIGN);
     }
 
     @Override

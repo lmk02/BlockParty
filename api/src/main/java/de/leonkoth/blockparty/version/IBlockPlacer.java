@@ -18,6 +18,10 @@ public interface IBlockPlacer {
 
     void place(World world, int x, int y, int z, Material material, byte data);
 
+    void place(Location location, BlockPartyMaterial bpMaterial, byte data);
+
+    void place(Location location, Material material, byte data);
+
     void place(Block block, BlockPartyMaterial bpMaterial, byte data);
 
     void place(Block block, Material material, byte data);
