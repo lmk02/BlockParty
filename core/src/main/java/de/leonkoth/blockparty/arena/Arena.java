@@ -17,7 +17,10 @@ import de.pauhull.utils.particle.ParticlePlayer;
 import de.pauhull.utils.particle.Particles;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,8 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import static de.leonkoth.blockparty.arena.ArenaState.LOBBY;
 
@@ -156,26 +157,14 @@ public class Arena {
         return null;
     }
 
-    public static ScheduledFuture<?> startUpdatingSigns(int millis) {
-        return BlockParty.getInstance().getScheduledExecutorService().scheduleAtFixedRate(() -> {
+    public static int startUpdatingSigns(int ticks) {
+
+        return Bukkit.getScheduler().scheduleSyncRepeatingTask(BlockParty.getInstance().getPlugin(), () -> {
             if (BlockParty.getInstance().isSignsEnabled()) {
-                for (Arena arena : BlockParty.getInstance().getArenas()) {
-                    arena.updateSigns();
-                }
+                BlockParty.getInstance().getArenas().forEach(Arena::updateSigns);
             }
+        }, 0, ticks);
 
-        }, 0, millis, TimeUnit.MILLISECONDS);
-    }
-
-    public static Runnable startUpdatingSigns() {
-
-        return () -> {
-            if (BlockParty.getInstance().isSignsEnabled()) {
-                for (Arena arena : BlockParty.getInstance().getArenas()) {
-                    arena.updateSigns();
-                }
-            }
-        };
     }
 
     public static boolean isLoaded(String name) {

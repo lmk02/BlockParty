@@ -1,19 +1,18 @@
 package de.leonkoth.blockparty.arena;
 
-import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.version.VersionedMaterial;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class SignList {
+public class SignList implements Iterable<Location> {
 
     @Getter
     private List<Location> signs;
@@ -86,6 +85,11 @@ public class SignList {
 
     public boolean contains(Block block) {
         return signs.contains(block.getLocation());
+    }
+
+    @Override
+    public Iterator<Location> iterator() {
+        return signs.iterator();
     }
 
 }
