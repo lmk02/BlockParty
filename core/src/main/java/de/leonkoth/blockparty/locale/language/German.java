@@ -116,6 +116,8 @@ public class German extends Language {
     public static final LocaleString SUCCESS_PATTERN_REMOVE = new LocaleString(SUCCESS, "Vorlage \"%PATTERN%\" von Arena \"%ARENA%\" entfernt");
     public static final LocaleString SUCCESS_PATTERN_SAVE = new LocaleString(SUCCESS, "Vorlage nach \"%PATTERN%\" gespeichert");
     public static final LocaleString SUCCESS_SONG_ADDED = new LocaleString(SUCCESS, "Song \"%SONG%\" wurde zur Arena \"%ARENA%\" hinzugefügt");
+    public static final LocaleString SUCCESS_SIGN_ADDED = new LocaleString(SUCCESS, "Schild für Arena \"%ARENA%\" erstellt");
+    public static final LocaleString SUCCESS_SIGN_REMOVED = new LocaleString(SUCCESS, "Schild von Arena \"%ARENA%\" entfernt");
 
     public static final LocaleString COMMAND_FORMAT = new LocaleString(COMMANDS, "&e%SYNTAX% &7- %DESCRIPTION%");
     public static final LocaleString COMMAND_BLOCK_PARTY = new LocaleString(COMMANDS, "Plugin-Info ansehen");

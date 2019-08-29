@@ -9,8 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
-import static de.leonkoth.blockparty.locale.BlockPartyLocale.ERROR_ARENA_NOT_EXIST;
-import static de.leonkoth.blockparty.locale.BlockPartyLocale.PREFIX;
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
 public class SignChangeListener implements Listener {
 
@@ -35,6 +34,8 @@ public class SignChangeListener implements Listener {
                 event.getBlock().breakNaturally();
                 return;
             }
+
+            SUCCESS_SIGN_ADDED.message(PREFIX, player, "%ARENA%", arena.getName());
 
             arena.addSign(sign.getLocation());
         }

@@ -14,7 +14,6 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.DefaultManager;
 import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
-import de.leonkoth.blockparty.version.Version;
 import de.leonkoth.blockparty.version.VersionHandler;
 import de.leonkoth.blockparty.web.server.*;
 import de.pauhull.utils.file.FileUtils;
@@ -27,13 +26,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -104,7 +99,7 @@ public class BlockParty {
     private int signUpdateMillis;
 
     @Getter
-    private ScheduledFuture<?> signUpdater = null;
+    private int signUpdaterTask;
 
     public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
@@ -179,11 +174,13 @@ public class BlockParty {
 
     public void stop() {
 
-        if(this.signUpdater != null)
-            this.signUpdater.cancel(true);
+        if(Bukkit.getScheduler().isCurrentlyRunning(this.signUpdaterTask)) {
+            Bukkit.getScheduler().cancelTask(this.signUpdaterTask);
+        }
 
-        for (Boost boost : Boost.boosts) { // TODO: Causes ConcurrentModificationException
-            boost.remove();
+        Iterator<Boost> iterator = Boost.boosts.iterator();
+        while(iterator.hasNext()) {
+            iterator.next().remove();
         }
 
         for (Set<BlockInfo> blocks : BlockPartyUndoCommand.oldBlocks.values()) {
@@ -326,6 +323,8 @@ public class BlockParty {
 
             config.reload();
 
+            BlockPartyLocale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
+
             if (config.getConfig().isConfigurationSection("BungeeCord")) {
                 this.bungee = config.getConfig().getBoolean("BungeeCord.Enabled");
                 this.defaultArena = config.getConfig().getString("BungeeCord.DefaultArena");
@@ -350,15 +349,11 @@ public class BlockParty {
             arenaPrivateChat = !config.getConfig().isBoolean("ArenaPrivateChat") || config.getConfig().getBoolean("ArenaPrivateChat");
             signsEnabled = !config.getConfig().isBoolean("JoinSigns.Enabled") || config.getConfig().isBoolean("JoinSigns.Enabled");
 
-            if (signUpdater != null) {
-                signUpdater.cancel(true);
+            if(Bukkit.getScheduler().isCurrentlyRunning(signUpdaterTask)) {
+                Bukkit.getScheduler().cancelTask(signUpdaterTask);
             }
 
-            if(Version.CURRENT_VERSION.isLower(Version.v1_14))
-            {
-                this.signUpdater = Arena.startUpdatingSigns(signUpdateMillis);
-            } else
-                this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, Arena.startUpdatingSigns(), 0, 20);
+            this.signUpdaterTask = Arena.startUpdatingSigns(signUpdateMillis  / 50);
 
         } catch (Exception e) {
             e.printStackTrace();

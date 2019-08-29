@@ -87,6 +87,8 @@ public class BlockPartyLocale extends Locale {
     public static LocaleString SUCCESS_PATTERN_ADD;
     public static LocaleString SUCCESS_PATTERN_REMOVE;
     public static LocaleString SUCCESS_PATTERN_SAVE;
+    public static LocaleString SUCCESS_SIGN_ADDED;
+    public static LocaleString SUCCESS_SIGN_REMOVED;
     public static LocaleString SUCCESS_SONG_ADDED;
     public static LocaleString SUCCESS_SPAWN_SET_GAME;
     public static LocaleString SUCCESS_SPAWN_SET_LOBBY;

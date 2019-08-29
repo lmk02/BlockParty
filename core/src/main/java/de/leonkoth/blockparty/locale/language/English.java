@@ -116,6 +116,8 @@ public class English extends Language {
     public static final LocaleString SUCCESS_PATTERN_REMOVE = new LocaleString(SUCCESS, "Successfully removed pattern \"%PATTERN%\" from arena \"%ARENA%\"");
     public static final LocaleString SUCCESS_PATTERN_SAVE = new LocaleString(SUCCESS, "Saved pattern to \"%PATTERN%\"");
     public static final LocaleString SUCCESS_SONG_ADDED = new LocaleString(SUCCESS, "Song \"%SONG%\" has been added to arena \"%ARENA%\"");
+    public static final LocaleString SUCCESS_SIGN_ADDED = new LocaleString(SUCCESS, "Added sign to arena \"%ARENA%\"");
+    public static final LocaleString SUCCESS_SIGN_REMOVED = new LocaleString(SUCCESS, "Removed sign from arena \"%ARENA%\"");
 
     public static final LocaleString COMMAND_FORMAT = new LocaleString(COMMANDS, "&e%SYNTAX% &7- %DESCRIPTION%");
     public static final LocaleString COMMAND_BLOCK_PARTY = new LocaleString(COMMANDS, "See plugin info");
