@@ -21,7 +21,7 @@ public class Main extends JavaPlugin {
     private ScheduledExecutorService scheduledExecutorService;
 
     private void init() {
-        config = new Config(new File(BlockParty.PLUGIN_FOLDER + "config.yml"));
+        config = new Config(new File(BlockParty.PLUGIN_FOLDER + "config.yml"), true);
         metrics = new Metrics(this);
         executorService = Scheduler.createExecutorService();
         scheduledExecutorService = Scheduler.createScheduledExecutorService();
