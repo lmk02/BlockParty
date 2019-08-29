@@ -108,7 +108,21 @@ public class LobbyPhase implements Runnable {
 
             this.blockParty.getDisplayScoreboard().setScoreboard(countdown, 0, arena);
         } else {
+
             arena.broadcast(PREFIX, ERROR_START_ABORTED, false, (PlayerInfo[]) null);
+
+            for(PlayerInfo info : arena.getPlayersInArena()) {
+                Player player = info.asPlayer();
+                player.setExp(0);
+                player.setLevel(0);
+            }
+
+            arena.getPlayersInArena().forEach(info -> {
+                Player player = info.asPlayer();
+                player.setExp(0);
+                player.setLevel(0);
+            });
+
             countdown = -1;
         }
 
