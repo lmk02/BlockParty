@@ -24,7 +24,7 @@ public class PlayerInfoManager {
     }
 
     public List<PlayerInfo> loadAll() {
-        this.database.openReadable();
+        this.database.openReadable(true);
         List<PlayerInfo> playerInfos = new ArrayList<>();
         PlayerInfo pi;
         while ((pi = this.database.readPlayerInfo()) != null) {
@@ -33,6 +33,14 @@ public class PlayerInfoManager {
 
         this.database.closeReadable();
         return playerInfos;
+    }
+
+    public PlayerInfo load(PlayerInfo playerInfo)
+    {
+        this.database.openReadable(false);
+        playerInfo = this.database.updateStats(playerInfo);
+        this.database.closeReadable();
+        return playerInfo;
     }
 
     public void savePlayerInfo(PlayerInfo playerInfo) {

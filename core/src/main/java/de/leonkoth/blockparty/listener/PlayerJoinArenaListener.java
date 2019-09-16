@@ -53,6 +53,8 @@ public class PlayerJoinArenaListener implements Listener {
         } else {
             if (arena.isAllowJoinDuringGame()) {
                 playerInfo.setPlayerState(PlayerState.SPECTATING);
+                if (arena.isEnableSpectatorMode())
+                    player.setGameMode(GameMode.SPECTATOR);
             } else {
                 ERROR_IN_PROGRESS.message(PREFIX, player);
                 event.setCancelMessage(ERROR_IN_PROGRESS.toString());
@@ -84,7 +86,8 @@ public class PlayerJoinArenaListener implements Listener {
 
         this.blockParty.getDisplayScoreboard().setScoreboard(0,0,arena);
 
-        JOINED_GAME.message(PREFIX, player, "%ARENA%", arena.getName());
+        if (arena.isEnableJoinMessage())
+            JOINED_GAME.message(PREFIX, player, "%ARENA%", arena.getName());
         arena.getPhaseHandler().startLobbyPhase();
 
     }

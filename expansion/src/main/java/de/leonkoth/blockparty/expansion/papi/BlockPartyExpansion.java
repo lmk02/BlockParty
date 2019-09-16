@@ -99,10 +99,12 @@ public class BlockPartyExpansion extends PlaceholderExpansion {
             return "";
         }
 
+        String[] ids = identifier.split("_");
+
         for (Placeholder placeholder : Placeholder.values())
         {
-            if (identifier.equalsIgnoreCase(placeholder.getIdentifier()))
-                return placeholder.onRequest(player);
+            if (ids[0].equalsIgnoreCase(placeholder.getIdentifier()))
+                return placeholder.onRequest(player, ids.length > 1 ? ids[1] : null);
         }
 
         return null;

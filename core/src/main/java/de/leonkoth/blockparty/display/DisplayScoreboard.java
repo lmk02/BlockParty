@@ -29,7 +29,13 @@ public class DisplayScoreboard {
         Scoreboard playerboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = playerboard.registerNewObjective("Score", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(SCOREBOARD_TEXT.getValue(0).replace("%LEVEL%", level + "").replace("%CURRENTPLAYERS%", arena.getPlayersInArena().size() + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
+        objective.setDisplayName(SCOREBOARD_TEXT.getValue(0)
+                .replace("%LEVEL%", level + "")
+                .replace("%CURRENTPLAYERS%", arena.getPlayersInArena().size() + "")
+                .replace("%MAXPLAYERS%", arena.getMaxPlayers() + "")
+                .replace("%TIME%", timeLeft + "")
+                .replace("%ARENA%", arena.getName())
+                .replace("%SONG%", arena.getSongManager().getVotedSong() == null ? "..." : arena.getSongManager().getVotedSong().getStrippedSongName())); // TODO ... to config;
         //Score[] scores = new Score[Locale.SCOREBOARD_TEXT.length-1];
 
         //ArrayList<Score> sc = new ArrayList<>();
@@ -42,7 +48,13 @@ public class DisplayScoreboard {
         } else activePlayers = arena.getIngamePlayers();
 
         for (int i = 0; i < SCOREBOARD_TEXT.getValues().length - 1; i++) {
-            Score score = objective.getScore(SCOREBOARD_TEXT.getValue(i + 1).replace("%LEVEL%", level + "").replace("%CURRENTPLAYERS%", activePlayers + "").replace("%MAXPLAYERS%", arena.getMaxPlayers() + "").replace("%TIME%", timeLeft + "").replace("%ARENA%", arena.getName()));
+            Score score = objective.getScore(SCOREBOARD_TEXT.getValue(i + 1)
+                    .replace("%LEVEL%", level + "")
+                    .replace("%CURRENTPLAYERS%", activePlayers + "")
+                    .replace("%MAXPLAYERS%", arena.getMaxPlayers() + "")
+                    .replace("%TIME%", timeLeft + "")
+                    .replace("%ARENA%", arena.getName())
+                    .replace("%SONG%", arena.getSongManager().getVotedSong() == null ? "..." : arena.getSongManager().getVotedSong().getStrippedSongName())); // TODO ... to config
             score.setScore(SCOREBOARD_TEXT.getValues().length - 1 - i);
         }
 

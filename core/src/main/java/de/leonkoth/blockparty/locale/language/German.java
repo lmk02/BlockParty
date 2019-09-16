@@ -21,7 +21,7 @@ public class German extends Language {
 
     public static final LocaleString PREFIX = new LocaleString(INFO, "&8▌ &3BlockParty &8» &7");
     public static final LocaleString COLORS = new LocaleString(INFO, "Weiß", "Orange", "Magenta", "Hellblau", "Gelb", "Hellgrün", "Pink", "Grau", "Hellgrau", "Türkis", "Lila", "Blau", "Braun", "Grün", "Rot", "Schwarz");
-    public static final LocaleString SCOREBOARD_TEXT = new LocaleString(INFO, "&3BlockParty", "Level: %LEVEL%", "Players: %CURRENTPLAYERS% / %MAXPLAYERS%", "Time Left: %TIME%", "Arena: %ARENA%");
+    public static final LocaleString SCOREBOARD_TEXT = new LocaleString(INFO, "&3BlockParty", "Level: %LEVEL%", "Players: %CURRENTPLAYERS% / %MAXPLAYERS%", "Time Left: %TIME%", "Arena: %ARENA%", "Song: %SONG%");
     public static final LocaleString TUTORIAL = new LocaleString(INFO,
             "Erstelle mit &e/bp create <Arena> &7eine Arena.",
             "Benutze &e/bp setspawn <Arena> lobby &7um den Lobby-Spawn zu setzen.",

@@ -17,8 +17,11 @@ public class BlockPartyStatsCommand extends SubCommand {
     @Getter
     private LocaleString description = COMMAND_STATS;
 
+    private BlockParty blockParty;
+
     public BlockPartyStatsCommand(BlockParty blockParty) {
         super(true, 1, "stats", "blockparty.user.stats", blockParty);
+        this.blockParty = blockParty;
     }
 
     @Override
@@ -35,6 +38,7 @@ public class BlockPartyStatsCommand extends SubCommand {
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(name);
 
         if (playerInfo != null) {
+            playerInfo = this.blockParty.getPlayerInfoManager().load(playerInfo);
             STATS_MESSAGE.message(PREFIX, sender, "%PLAYER%", playerInfo.getName(), "%WINS%", Integer.toString(playerInfo.getWins()), "%POINTS%", Integer.toString(playerInfo.getPoints()), "%GAMES_PLAYED%", Integer.toString(playerInfo.getGamesPlayed()));
             return true;
         } else {
