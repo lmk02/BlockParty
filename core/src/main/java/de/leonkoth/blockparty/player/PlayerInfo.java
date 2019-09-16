@@ -96,6 +96,11 @@ public class PlayerInfo {
         allPlayerInfos.add(this);
     }
 
+    public void updateStats()
+    {
+        BlockParty.getInstance().getPlayerInfoManager().load(this);
+    }
+
     private static int getNextId() {
         int i = 1;
         boolean eq;

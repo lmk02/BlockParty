@@ -110,6 +110,8 @@ public class Arena {
         this.data.setTimerResetOnPlayerJoin(false);
         this.data.setEnableFallingBlocks(false);
         this.data.setAutoKick(false);
+        this.data.setEnableJoinMessage(true);
+        this.data.setEnableSpectatorMode(false);
         this.data.setSongManager(new SongManager(this, new ArrayList<>()));
         this.data.setSigns(new SignList());
 
@@ -525,6 +527,10 @@ public class Arena {
     public boolean isAllowJoinDuringGame() {
         return data.allowJoinDuringGame;
     }
+
+    public boolean isEnableJoinMessage()  { return data.enableJoinMessage; }
+
+    public boolean isEnableSpectatorMode()  { return data.enableSpectatorMode; }
 
     public String getName() {
         return data.name;

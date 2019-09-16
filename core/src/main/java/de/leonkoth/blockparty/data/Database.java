@@ -118,7 +118,7 @@ public class Database {
         }
     }
 
-    public void openReadable() {
+    public void openReadable(boolean selectAll) {
         try {
             if (databaseType == Type.SQLITE) {
                 con = DriverManager.getConnection(this.url);
@@ -127,7 +127,8 @@ public class Database {
                         "user=" + this.user + "&password=" + this.password);
             }
             st = con.createStatement();
-            rs = st.executeQuery("SELECT id, name, uuid, wins, points, gamesPlayed " +
+            if (selectAll)
+                rs = st.executeQuery("SELECT id, name, uuid, wins, points, gamesPlayed " +
                     "FROM " + this.tableName);
         } catch (SQLException s) {
             s.printStackTrace();
@@ -191,6 +192,23 @@ public class Database {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public PlayerInfo updateStats(PlayerInfo playerInfo)
+    {
+        try (PreparedStatement ps = con.prepareStatement("SELECT wins, points, gamesPlayed " +
+                "FROM " + this.tableName + " WHERE uuid = ?")) {
+            ps.setString(1, playerInfo.getUuid().toString());
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next())
+                return playerInfo;
+            playerInfo.setWins(rs.getInt("wins"));
+            playerInfo.setPoints(rs.getInt("points"));
+            playerInfo.setGamesPlayed(rs.getInt("gamesPlayed"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return playerInfo;
     }
 
     public void closeReadable() {

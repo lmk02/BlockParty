@@ -16,6 +16,7 @@ import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.VersionHandler;
 import de.leonkoth.blockparty.web.server.*;
+import de.leonkoth.utils.ui.UIListener;
 import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
@@ -167,6 +168,7 @@ public class BlockParty {
         new RoundStartListener(this);
         new ServerListPingListener(this);
         new SignChangeListener(this);
+        //new UIListener(this.getPlugin());
 
         // Init commands
         new BlockPartyCommand(this);
@@ -334,8 +336,8 @@ public class BlockParty {
                 disabledSubCommands = config.getConfig().getStringList("DisabledSubCommands");
             }
 
-            if (config.getConfig().isString("ArenaChatFormat")) {
-                arenaChatFormat = ChatColor.translateAlternateColorCodes('&', config.getConfig().getString("ArenaChatFormat"));
+            if (config.getConfig().isString("Chat.ArenaChatFormat")) {
+                arenaChatFormat = ChatColor.translateAlternateColorCodes('&', config.getConfig().getString("Chat.ArenaChatFormat"));
             } else {
                 arenaChatFormat = null;
             }
@@ -346,7 +348,7 @@ public class BlockParty {
                 signUpdateMillis = 2500;
             }
 
-            arenaPrivateChat = !config.getConfig().isBoolean("ArenaPrivateChat") || config.getConfig().getBoolean("ArenaPrivateChat");
+            arenaPrivateChat = !config.getConfig().isBoolean("Chat.ArenaPrivateChat") || config.getConfig().getBoolean("Chat.ArenaPrivateChat");
             signsEnabled = !config.getConfig().isBoolean("JoinSigns.Enabled") || config.getConfig().isBoolean("JoinSigns.Enabled");
 
             if(Bukkit.getScheduler().isCurrentlyRunning(signUpdaterTask)) {

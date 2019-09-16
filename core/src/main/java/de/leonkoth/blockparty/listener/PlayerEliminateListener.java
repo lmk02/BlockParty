@@ -7,6 +7,7 @@ import de.leonkoth.blockparty.event.PlayerEliminateEvent;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -50,6 +51,8 @@ public class PlayerEliminateListener implements Listener {
         }
 
         playerInfo.setPlayerState(PlayerState.SPECTATING);
+        if (arena.isEnableSpectatorMode())
+            player.setGameMode(GameMode.SPECTATOR);
         player.teleport(arena.getLobbySpawn());
         player.getInventory().clear();
         player.updateInventory();
