@@ -12,6 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import static de.leonkoth.blockparty.locale.BlockPartyLocale.LEFT_GAME;
+
 public class GameEndListener implements Listener {
 
     private BlockParty blockParty;
@@ -40,6 +42,11 @@ public class GameEndListener implements Listener {
         }
 
         if (arena.isAutoRestart()) {
+            if (blockParty.isBungee()) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    player.kickPlayer(LEFT_GAME.toString("%ARENA%", arena.getName()));
+                }
+            }
             Bukkit.getServer().spigot().restart();
             return;
         }
