@@ -10,6 +10,6 @@ commands:
   blockparty:
     aliases: [bp, bparty]
     description: Get information on how to use this Plugin
-    usage: /blockparty to get more information
+    usage: /blockparty - to get more information
 
 api-version: 1.13

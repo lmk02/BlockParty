@@ -41,8 +41,8 @@ public class PhaseHandler {
     }
 
     public boolean startLobbyPhase() {
-        arena.setArenaState(ArenaState.LOBBY);
         if (this.arena.getPlayersInArena().size() >= arena.getMinPlayers() && !scheduler.isCurrentlyRunning(lobbyPhaseScheduler) && !scheduler.isQueued(lobbyPhaseScheduler)) {
+            arena.setArenaState(ArenaState.LOBBY);
             this.lobbyPhase = new LobbyPhase(blockParty, arena.getName());
             this.lobbyPhase.initialize();
             this.lobbyPhaseScheduler = scheduler.scheduleSyncRepeatingTask(blockParty.getPlugin(), lobbyPhase, 0L, 20L);
@@ -53,8 +53,8 @@ public class PhaseHandler {
     }
 
     public boolean startGamePhase() {
-        arena.setArenaState(ArenaState.INGAME);
         if (this.arena.getPlayersInArena().size() >= arena.getMinPlayers() && !scheduler.isCurrentlyRunning(gamePhaseScheduler) && !scheduler.isQueued(gamePhaseScheduler)) {
+            arena.setArenaState(ArenaState.INGAME);
             this.gamePhase = new GamePhase(blockParty, arena.getName());
             this.gamePhase.initialize();
             this.gamePhaseScheduler = scheduler.scheduleSyncRepeatingTask(blockParty.getPlugin(), gamePhase, 0L, 2L);
