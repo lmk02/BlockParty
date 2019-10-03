@@ -25,6 +25,10 @@ SaveOnDisable: false
 # DisabledSubCommands: ["help", "reload", "join"]
 DisabledSubCommands: []
 
+# Enables command shortcuts
+# Command shortcuts: /start <arenaName> - /stop
+EnableCommandShortcuts: false
+
 Chat:
   # Chat format when in arena
   # Placeholders:
