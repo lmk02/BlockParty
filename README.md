@@ -1,5 +1,5 @@
 # BlockParty-2.0
-[![Build Status](https://travis-ci.org/Leon167/BlockParty-2.0.svg?branch=master)](https://travis-ci.org/Leon167/BlockParty-2.0) [![GitHub license](https://img.shields.io/github/license/Leon167/BlockParty-2.0)](https://github.com/Leon167/BlockParty-2.0/blob/master/LICENSE) ![GitHub release](https://img.shields.io/github/release/Leon167/BlockParty-2.0)
+![Jenkins](https://img.shields.io/jenkins/build/https/jenkins.simpleunity.org/job/BlockParty) [![GitHub license](https://img.shields.io/github/license/Leon167/BlockParty-2.0)](https://github.com/Leon167/BlockParty-2.0/blob/master/LICENSE) ![GitHub release](https://img.shields.io/github/release/Leon167/BlockParty-2.0)
 
 BlockParty 2 is an extension for Minecraft Servers, built with the Spigot/Bukkit API.
 
@@ -24,6 +24,10 @@ SaveOnDisable: false
 # Disables listed sub commands, example:
 # DisabledSubCommands: ["help", "reload", "join"]
 DisabledSubCommands: []
+
+# Enables command shortcuts
+# Command shortcuts: /start <arenaName> - /stop
+EnableCommandShortcuts: false
 
 Chat:
   # Chat format when in arena
