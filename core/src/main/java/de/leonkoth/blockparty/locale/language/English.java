@@ -103,6 +103,8 @@ public class English extends Language {
     public static final LocaleString ERROR_SYNTAX = new LocaleString(ERROR, "Syntax: %SYNTAX%");
     public static final LocaleString ERROR_VOTE = new LocaleString(ERROR, "Voting for song \"%SONG%\" failed");
     public static final LocaleString ERROR_WRONG_SIZE = new LocaleString(ERROR, "This pattern isn't the right size");
+    public static final LocaleString ERROR_ISSUE_SEND = new LocaleString(ERROR, "An error occurred while posting on GitHub! Head over to https://github.com/Leon167/BlockParty/issues !");
+
 
     public static final LocaleString SUCCESS_ARENA_CREATE = new LocaleString(SUCCESS, "Successfully created arena \"%ARENA%\"");
     public static final LocaleString SUCCESS_ARENA_DELETE = new LocaleString(SUCCESS, "Successfully deleted arena \"%ARENA%\"");
@@ -118,6 +120,7 @@ public class English extends Language {
     public static final LocaleString SUCCESS_SONG_ADDED = new LocaleString(SUCCESS, "Song \"%SONG%\" has been added to arena \"%ARENA%\"");
     public static final LocaleString SUCCESS_SIGN_ADDED = new LocaleString(SUCCESS, "Added sign to arena \"%ARENA%\"");
     public static final LocaleString SUCCESS_SIGN_REMOVED = new LocaleString(SUCCESS, "Removed sign from arena \"%ARENA%\"");
+    public static final LocaleString SUCCESS_ISSUE_SEND = new LocaleString(SUCCESS, "Bug successfully posted on GitHub (https://github.com/Leon167/BlockParty/issues)");
 
     public static final LocaleString COMMAND_FORMAT = new LocaleString(COMMANDS, "&e%SYNTAX% &7- %DESCRIPTION%");
     public static final LocaleString COMMAND_BLOCK_PARTY = new LocaleString(COMMANDS, "See plugin info");
@@ -148,6 +151,7 @@ public class English extends Language {
     public static final LocaleString COMMAND_TUTORIAL = new LocaleString(COMMANDS, "Shows a tutorial on how to set up the game");
     public static final LocaleString COMMAND_UNDO = new LocaleString(COMMANDS, "Reverts changes");
     public static final LocaleString COMMAND_WAND = new LocaleString(COMMANDS, "Get wand tool");
+    public static final LocaleString COMMAND_REPORT_BUG = new LocaleString(COMMANDS, "Report a bug to GitHub");
 
     public static final LocaleString HEADER_HELP = new LocaleString(HEADERS, "BlockParty Commands");
     public static final LocaleString HEADER_ADMIN = new LocaleString(HEADERS, "Admin Commands");

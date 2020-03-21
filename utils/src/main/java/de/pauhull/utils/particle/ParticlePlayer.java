@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
+import static de.pauhull.utils.misc.MinecraftVersion.v1_15;
 import static de.pauhull.utils.misc.Reflection.getNMSClass;
 import static de.pauhull.utils.misc.Reflection.sendPacket;
 
@@ -43,11 +44,19 @@ public class ParticlePlayer {
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
-        } else {
+        } else if (MinecraftVersion.CURRENT_VERSION.isLower(v1_15)) {
             particleParamClass = getNMSClass("ParticleParam");
 
             try {
                 packetConstructor = packetPlayOutWorldParticlesClass.getConstructor(particleParamClass, boolean.class, float.class, float.class, float.class, float.class, float.class, float.class, float.class, int.class);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        } else {
+            particleParamClass = getNMSClass("ParticleParam");
+
+            try {
+                packetConstructor = packetPlayOutWorldParticlesClass.getConstructor(particleParamClass, boolean.class, double.class, double.class, double.class, float.class, float.class, float.class, float.class, int.class);
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
@@ -129,8 +138,10 @@ public class ParticlePlayer {
         try {
             if (MinecraftVersion.CURRENT_VERSION.isLower(v1_13)) {
                 return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount, null);
-            } else {
+            } else if (MinecraftVersion.CURRENT_VERSION.isLower(v1_15)) {
                 return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount);
+            } else {
+                return packetConstructor.newInstance(particle, true, (double) x, (double) y, (double) z, xOffset, yOffset, zOffset, data, amount);
             }
         } catch (Exception e) {
             e.printStackTrace();

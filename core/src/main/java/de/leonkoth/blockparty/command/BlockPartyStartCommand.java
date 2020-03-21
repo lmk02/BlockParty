@@ -59,11 +59,11 @@ public class BlockPartyStartCommand extends SubCommand implements CommandExecuto
 
         Arena arena;
 
-        if (args.length > 0) {
-            arena = Arena.getByName(args[0]);
+        if (args.length > 1) {
+            arena = Arena.getByName(args[1]);
 
             if (arena == null) {
-                ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[0]);
+                ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
                 return false;
             }
         } else {

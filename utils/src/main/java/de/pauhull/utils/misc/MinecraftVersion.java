@@ -17,6 +17,9 @@ public class MinecraftVersion {
     public static final MinecraftVersion CURRENT_VERSION = new MinecraftVersion();
 
     //region VERSIONS
+    public static final MinecraftVersion v1_15_2 = new MinecraftVersion(1, 15, 2, "v1_15_R1");
+    public static final MinecraftVersion v1_15_1 = new MinecraftVersion(1, 15, 1, "v1_15_R1");
+    public static final MinecraftVersion v1_15 = new MinecraftVersion(1, 15, "v1_15_R1");
     public static final MinecraftVersion v1_14_4 = new MinecraftVersion(1, 14, 4, "v1_14_R1");
     public static final MinecraftVersion v1_14_3 = new MinecraftVersion(1, 14, 3, "v1_14_R1");
     public static final MinecraftVersion v1_14_2 = new MinecraftVersion(1, 14, 2, "v1_14_R1");
