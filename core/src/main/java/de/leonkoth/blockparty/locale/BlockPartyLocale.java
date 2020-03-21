@@ -77,6 +77,7 @@ public class BlockPartyLocale extends Locale {
     public static LocaleString ERROR_SYNTAX;
     public static LocaleString ERROR_VOTE;
     public static LocaleString ERROR_WRONG_SIZE;
+    public static LocaleString ERROR_ISSUE_SEND;
 
     public static LocaleString SUCCESS_ARENA_CREATE;
     public static LocaleString SUCCESS_ARENA_DELETE;
@@ -92,6 +93,7 @@ public class BlockPartyLocale extends Locale {
     public static LocaleString SUCCESS_SONG_ADDED;
     public static LocaleString SUCCESS_SPAWN_SET_GAME;
     public static LocaleString SUCCESS_SPAWN_SET_LOBBY;
+    public static LocaleString SUCCESS_ISSUE_SEND;
 
     public static LocaleString COMMAND_FORMAT;
     public static LocaleString COMMAND_ADD_PATTERN;
@@ -122,6 +124,7 @@ public class BlockPartyLocale extends Locale {
     public static LocaleString COMMAND_TUTORIAL;
     public static LocaleString COMMAND_UNDO;
     public static LocaleString COMMAND_WAND;
+    public static LocaleString COMMAND_REPORT_BUG;
 
     public static LocaleString HEADER_ADMIN;
     public static LocaleString HEADER_HELP;

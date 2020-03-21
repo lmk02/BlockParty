@@ -12,20 +12,37 @@ import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
 public class BlockPartyJoinCommand extends SubCommand {
 
-    public static String SYNTAX = "/bp join <Arena>";
+    public static String SYNTAX = "/bp join [<Arena>]";
 
     @Getter
     private LocaleString description = COMMAND_JOIN;
 
+    private BlockParty blockParty;
+
     public BlockPartyJoinCommand(BlockParty blockParty) {
-        super(true, 2, "join", "blockparty.user.join", blockParty);
+        super(true, 1, "join", "blockparty.user.join", blockParty);
+        this.blockParty = blockParty;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
 
         Player player = (Player) sender;
-        Arena arena = Arena.getByName(args[1]);
+        Arena arena = null;
+        if (args.length < 1 ) {
+            arena = Arena.getByName(args[1]);
+        } else {
+            for (Arena arenas : this.blockParty.getArenas())
+            {
+                if (arenas.getPlayersInArena().size() < arenas.getMaxPlayers())
+                {
+                    if (arena == null || arenas.getPlayersInArena().size() > arena.getPlayersInArena().size())
+                    {
+                        arena = arenas;
+                    }
+                }
+            }
+        }
 
         if (arena == null) {
             ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);

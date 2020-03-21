@@ -19,6 +19,8 @@ import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.VersionHandler;
 import de.leonkoth.blockparty.web.server.*;
 import de.leonkoth.utils.ui.UIListener;
+import de.leonkoth.utils.web.GitHub.Issue;
+import de.leonkoth.utils.web.GitHub.IssueBuilder;
 import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
@@ -110,6 +112,9 @@ public class BlockParty {
     @Getter
     private int signUpdaterTask;
 
+    @Getter
+    private Issue issue;
+
     public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
 
@@ -119,6 +124,7 @@ public class BlockParty {
         this.plugin = plugin;
         this.executorService = executorService;
         this.scheduledExecutorService = scheduledExecutorService;
+        this.issue = new Issue("http://localhost/api/issues.php", "BlockParty");
 
         VersionHandler.init();
         blockPlacer = VersionHandler.getBlockPlacer();
@@ -299,7 +305,7 @@ public class BlockParty {
         Database database;
 
         String databaseMethod = config.getConfig().getString("Database.Method");
-        if (databaseMethod.equalsIgnoreCase("MySQL")) {
+        if ("MySQL".equalsIgnoreCase(databaseMethod)) {
 
             String host = config.getConfig().getString("Database.MySQLOptions.Host");
             int port = config.getConfig().getInt("Database.MySQLOptions.Port");

@@ -16,10 +16,12 @@ de\leonkoth\utils\ui\UIEvent.class
 de\pauhull\utils\image\ImageLoader$ImageInfo.class
 de\leonkoth\utils\ui\UIItem.class
 de\pauhull\utils\particle\effect\ParticleEffect.class
+de\leonkoth\utils\web\GitHub\IssueBuilder.class
 de\pauhull\utils\particle\Particles$2.class
 de\pauhull\utils\message\type\ActionBarMessage.class
 de\pauhull\utils\file\Config.class
 de\leonkoth\utils\ui\UIListener.class
+de\leonkoth\utils\web\GitHub\IssueTest.class
 de\leonkoth\utils\ui\IConfigUI$UIInfo.class
 de\pauhull\utils\misc\YAMLLocation.class
 de\pauhull\utils\particle\Particles.class
@@ -35,6 +37,7 @@ de\pauhull\utils\fetcher\UUIDCache.class
 de\leonkoth\utils\ui\UIBuilder.class
 de\pauhull\utils\locale\storage\LocaleString.class
 de\pauhull\utils\image\ImageLoader.class
+de\leonkoth\utils\web\GitHub\Issue.class
 de\pauhull\utils\particle\effect\SpiralEffect$1.class
 de\pauhull\utils\file\FileUtils.class
 de\pauhull\utils\particle\v1_13\Particles.class

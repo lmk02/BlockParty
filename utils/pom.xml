@@ -5,7 +5,7 @@
     <parent>
         <artifactId>blockparty-parent</artifactId>
         <groupId>de.leonkoth</groupId>
-        <version>2.0.3.4-RELEASE</version>
+        <version>2.0.3.5-ALPHA</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,6 +22,39 @@
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>de.leonkoth:blockparty-*</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                            </filters>
+
+                            <minimizeJar>true</minimizeJar>
+
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -60,6 +93,15 @@
             <version>${project.parent.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.4.1</version>
+            <scope>compile</scope>
+        </dependency>
+
 
     </dependencies>
 

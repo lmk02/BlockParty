@@ -11,7 +11,6 @@ import de.leonkoth.blockparty.util.Selection;
 import de.leonkoth.blockparty.version.VersionedMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,13 +46,15 @@ public class PlayerInteractListener implements Listener {
             event.setCancelled(true);
         }
 
-        for (Boost boost : Boost.boosts) {
-            if (boost.getBlock().equals(block)) {
-                boost.remove();
-                String boostName = boost.getDisplayName().toString();
-                BOOST_COLLECTED.message(PREFIX, player, "%BOOST%", boostName);
-                boost.onCollect(block.getLocation(), player, PlayerInfo.getFromPlayer(player));
-                return;
+        if(playerInfo != null && playerInfo.getPlayerState() == PlayerState.INGAME) {
+            for (Boost boost : Boost.boosts) {
+                if (boost.getBlock().equals(block)) {
+                    boost.remove();
+                    String boostName = boost.getDisplayName().toString();
+                    BOOST_COLLECTED.message(PREFIX, player, "%BOOST%", boostName);
+                    boost.onCollect(block.getLocation(), player, PlayerInfo.getFromPlayer(player));
+                    return;
+                }
             }
         }
 

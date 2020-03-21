@@ -103,6 +103,7 @@ public class German extends Language {
     public static final LocaleString ERROR_SYNTAX = new LocaleString(ERROR, "Syntax: %SYNTAX%");
     public static final LocaleString ERROR_VOTE = new LocaleString(ERROR, "Fehler beim Abstimmen für Song \"%SONG%\"");
     public static final LocaleString ERROR_WRONG_SIZE = new LocaleString(ERROR, "Diese Vorlage hat die falsche Größe");
+    public static final LocaleString ERROR_ISSUE_SEND = new LocaleString(ERROR, "Beim posten des Bugs ist ein Fehler aufgetreten! Bitte manuell auf https://github.com/Leon167/BlockParty/issues eintragen!");
 
     public static final LocaleString SUCCESS_ARENA_CREATE = new LocaleString(SUCCESS, "Arena \"%ARENA%\" erstellt");
     public static final LocaleString SUCCESS_ARENA_DELETE = new LocaleString(SUCCESS, "Arena \"%ARENA%\" gelöscht");
@@ -118,6 +119,7 @@ public class German extends Language {
     public static final LocaleString SUCCESS_SONG_ADDED = new LocaleString(SUCCESS, "Song \"%SONG%\" wurde zur Arena \"%ARENA%\" hinzugefügt");
     public static final LocaleString SUCCESS_SIGN_ADDED = new LocaleString(SUCCESS, "Schild für Arena \"%ARENA%\" erstellt");
     public static final LocaleString SUCCESS_SIGN_REMOVED = new LocaleString(SUCCESS, "Schild von Arena \"%ARENA%\" entfernt");
+    public static final LocaleString SUCCESS_ISSUE_SEND = new LocaleString(SUCCESS, "Der Bug wurde erfolgreich auf GitHub eingetragen (https://github.com/Leon167/BlockParty/issues)");
 
     public static final LocaleString COMMAND_FORMAT = new LocaleString(COMMANDS, "&e%SYNTAX% &7- %DESCRIPTION%");
     public static final LocaleString COMMAND_BLOCK_PARTY = new LocaleString(COMMANDS, "Plugin-Info ansehen");
@@ -148,6 +150,7 @@ public class German extends Language {
     public static final LocaleString COMMAND_TUTORIAL = new LocaleString(COMMANDS, "Zeigt, wie man das Spiel aufsetzt");
     public static final LocaleString COMMAND_UNDO = new LocaleString(COMMANDS, "Macht Änderungen rückgängig");
     public static final LocaleString COMMAND_WAND = new LocaleString(COMMANDS, "Auswählwerkzeug erhalten");
+    public static final LocaleString COMMAND_REPORT_BUG = new LocaleString(COMMANDS, "Poste einen Bug auf GitHub");
 
     public static final LocaleString HEADER_HELP = new LocaleString(HEADERS, "BlockParty Befehle");
     public static final LocaleString HEADER_ADMIN = new LocaleString(HEADERS, "Admin Befehle");
