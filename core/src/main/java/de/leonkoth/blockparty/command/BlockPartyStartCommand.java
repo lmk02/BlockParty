@@ -36,7 +36,7 @@ public class BlockPartyStartCommand extends SubCommand implements CommandExecuto
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
         String[] sArgs = Arrays.copyOfRange(args, 1, args.length);
-        return onCommand(sender, null, "start", args);
+        return onCommand(sender, null, "start", sArgs);
     }
 
     @Override
@@ -59,11 +59,11 @@ public class BlockPartyStartCommand extends SubCommand implements CommandExecuto
 
         Arena arena;
 
-        if (args.length > 1) {
-            arena = Arena.getByName(args[1]);
+        if (args.length > 0) {
+            arena = Arena.getByName(args[0]);
 
             if (arena == null) {
-                ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+                ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[0]);
                 return false;
             }
         } else {
