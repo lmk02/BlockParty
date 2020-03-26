@@ -100,11 +100,15 @@ public class BlockPlacer implements IBlockPlacer {
     {
 
         String materialName = material.name();
-        materialName = materialName.substring(0, materialName.lastIndexOf("_"));
+        int last =  materialName.lastIndexOf("_");
 
-        if (dataAndMaterialColorPrefix.containsValue(materialName))
-        {
-            return dataAndMaterialColorPrefix.getKey(materialName);
+        if (last > -1) {
+
+            materialName = materialName.substring(0, last);
+
+            if (dataAndMaterialColorPrefix.containsValue(materialName)) {
+                return dataAndMaterialColorPrefix.getKey(materialName);
+            }
         }
 
         return 0;
