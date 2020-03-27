@@ -10,6 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css"
           rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style type='text/css'>
         #ex1Slider .slider-selection {
             background: #BABABA;
@@ -262,7 +263,7 @@
         }
     }
     $("#ex1").mousemove(function () {
-        var r = $("#ex1").val();
+        let r = $("#ex1").val();
         if(audio != null)
         {
             audio.volume = r/100;

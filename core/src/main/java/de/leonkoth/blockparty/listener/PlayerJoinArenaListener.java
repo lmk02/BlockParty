@@ -81,7 +81,8 @@ public class PlayerJoinArenaListener implements Listener {
         arena.broadcast(PREFIX, PLAYER_JOINED_GAME, false, playerInfo, "%PLAYER%", player.getName());
 
         player.getInventory().setItem(8, ItemType.LEAVEARENA.getItem());
-        player.getInventory().setItem(7, ItemType.VOTEFORASONG.getItem());
+        if(arena.isEnableVoteItem())
+            player.getInventory().setItem(7, ItemType.VOTEFORASONG.getItem());
         player.updateInventory();
 
         this.blockParty.getDisplayScoreboard().setScoreboard(0,0,arena);
