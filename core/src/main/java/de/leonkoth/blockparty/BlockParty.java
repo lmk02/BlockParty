@@ -3,8 +3,6 @@ package de.leonkoth.blockparty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.boost.Boost;
 import de.leonkoth.blockparty.command.BlockPartyCommand;
-import de.leonkoth.blockparty.command.BlockPartyStartCommand;
-import de.leonkoth.blockparty.command.BlockPartyStopCommand;
 import de.leonkoth.blockparty.command.BlockPartyUndoCommand;
 import de.leonkoth.blockparty.data.Config;
 import de.leonkoth.blockparty.data.Database;
@@ -18,28 +16,20 @@ import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.VersionHandler;
 import de.leonkoth.blockparty.web.server.*;
-import de.leonkoth.utils.ui.UIListener;
 import de.leonkoth.utils.web.GitHub.Issue;
-import de.leonkoth.utils.web.GitHub.IssueBuilder;
 import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandMap;
-import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
-
-import static org.bukkit.Bukkit.getServer;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -183,30 +173,10 @@ public class BlockParty {
         new ServerListPingListener(this);
         new SignChangeListener(this);
         //new UIListener(this.getPlugin());
+        new CommandListener(this);
 
         // Init commands
         new BlockPartyCommand(this);
-        if(config.getConfig().getBoolean("EnableCommandShortcuts"))
-        {
-            CommandMap commandMap = null;
-            try{
-                Field field = SimplePluginManager.class.getDeclaredField("commandMap");
-                field.setAccessible(true);
-                commandMap = (CommandMap)(field.get(getServer().getPluginManager()));
-            }catch(NoSuchFieldException e){
-                e.printStackTrace();
-            }
-            catch(IllegalAccessException e){
-                e.printStackTrace();
-            }
-
-            Command start = new BlockPartyStartCommand(this).getStartShortcut();
-            Command stop = new BlockPartyStopCommand(this).getStopShortcut();
-
-            commandMap.register("_", start);
-            commandMap.register("_", stop);
-
-        }
     }
 
     public void stop() {
