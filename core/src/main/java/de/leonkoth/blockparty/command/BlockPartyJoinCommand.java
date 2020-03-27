@@ -45,7 +45,11 @@ public class BlockPartyJoinCommand extends SubCommand {
         }
 
         if (arena == null) {
-            ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            if (args.length < 2) {
+                ERROR_NO_ARENAS.message(PREFIX, sender);
+            } else {
+                ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[1]);
+            }
             return false;
         }
 
