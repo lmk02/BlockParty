@@ -112,6 +112,7 @@ public class Arena {
         this.data.setAutoKick(false);
         this.data.setEnableJoinMessage(true);
         this.data.setEnableSpectatorMode(false);
+        this.data.setEnableVoteItem(true);
         this.data.setSongManager(new SongManager(this, new ArrayList<>()));
         this.data.setSigns(new SignList());
 
@@ -531,6 +532,8 @@ public class Arena {
     public boolean isEnableJoinMessage()  { return data.enableJoinMessage; }
 
     public boolean isEnableSpectatorMode()  { return data.enableSpectatorMode; }
+
+    public boolean isEnableVoteItem()  { return data.enableVoteItem; }
 
     public String getName() {
         return data.name;

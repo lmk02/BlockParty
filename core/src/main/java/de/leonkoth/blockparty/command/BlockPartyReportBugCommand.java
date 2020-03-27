@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.StringJoiner;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
@@ -56,7 +58,7 @@ public class BlockPartyReportBugCommand extends SubCommand {
                 ERROR_ISSUE_SEND.message(PREFIX, sender);
             } else
                 SUCCESS_ISSUE_SEND.message(PREFIX, sender);
-        } catch (IOException e) {
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             ERROR_ISSUE_SEND.message(PREFIX, sender);
         }
 

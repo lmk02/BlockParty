@@ -23,6 +23,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.eclipse.jetty.client.HttpClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -105,6 +106,9 @@ public class BlockParty {
     @Getter
     private Issue issue;
 
+    @Getter
+    private HttpClient client;
+
     public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
 
@@ -114,7 +118,6 @@ public class BlockParty {
         this.plugin = plugin;
         this.executorService = executorService;
         this.scheduledExecutorService = scheduledExecutorService;
-        this.issue = new Issue("http://localhost/api/issues.php", "BlockParty");
 
         VersionHandler.init();
         blockPlacer = VersionHandler.getBlockPlacer();
@@ -144,6 +147,18 @@ public class BlockParty {
         this.players = this.playerInfoManager.loadAll();
         this.arenas = this.loadAllArenas();
         this.reload();
+
+        try {
+            this.client = new HttpClient();
+            this.client.setFollowRedirects(false);
+            this.client.start();
+            this.issue = new Issue("http://localhost/api/issues.php", "BlockParty", this.client);
+        } catch (Exception e) {
+            this.client = null;
+            this.issue = null;
+            Bukkit.getConsoleSender().sendMessage("§c[BlockParty] There was an error creating the HttpClient. BlockParty will continue to run. " +
+                    "There will be some API restrictions an /bp reportbug won't work.");
+        }
 
         // Init listeners
         new AsyncPlayerChatListener(this);

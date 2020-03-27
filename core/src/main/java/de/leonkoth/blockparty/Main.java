@@ -22,7 +22,7 @@ public class Main extends JavaPlugin {
 
     private void init() {
         config = new Config(new File(BlockParty.PLUGIN_FOLDER + "config.yml"), true);
-        metrics = new Metrics(this);
+        metrics = new Metrics(this, 1805);
         executorService = Scheduler.createExecutorService();
         scheduledExecutorService = Scheduler.createScheduledExecutorService();
         blockParty = new BlockParty(this, config, executorService, scheduledExecutorService);

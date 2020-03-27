@@ -120,7 +120,7 @@ public class English extends Language {
     public static final LocaleString SUCCESS_SONG_ADDED = new LocaleString(SUCCESS, "Song \"%SONG%\" has been added to arena \"%ARENA%\"");
     public static final LocaleString SUCCESS_SIGN_ADDED = new LocaleString(SUCCESS, "Added sign to arena \"%ARENA%\"");
     public static final LocaleString SUCCESS_SIGN_REMOVED = new LocaleString(SUCCESS, "Removed sign from arena \"%ARENA%\"");
-    public static final LocaleString SUCCESS_ISSUE_SEND = new LocaleString(SUCCESS, "Bug successfully posted on GitHub (https://github.com/Leon167/BlockParty/issues)");
+    public static final LocaleString SUCCESS_ISSUE_SEND = new LocaleString(SUCCESS, "Bug successfully posted on GitHub ( https://github.com/Leon167/BlockParty/issues )");
 
     public static final LocaleString COMMAND_FORMAT = new LocaleString(COMMANDS, "&e%SYNTAX% &7- %DESCRIPTION%");
     public static final LocaleString COMMAND_BLOCK_PARTY = new LocaleString(COMMANDS, "See plugin info");
