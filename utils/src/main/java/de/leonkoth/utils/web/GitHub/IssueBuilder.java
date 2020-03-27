@@ -26,7 +26,7 @@ public class IssueBuilder {
                 "\\n" +
                 " - " + plugin.getDescription().getName() + " version " + plugin.getDescription().getVersion() + "\\n" +
                 " - Server version " + plugin.getServer().getVersion() + "\\n" +
-                " - Server name " + plugin.getServer().getServerName() + "\\n" +
+                " - Server name " + plugin.getServer().getName() + "\\n" +
                 (plugin.getServer().getIp().equals("") ? "" : " - Server ip " + plugin.getServer().getIp() + "\\n"));
     }
 

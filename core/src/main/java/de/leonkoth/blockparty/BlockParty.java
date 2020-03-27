@@ -18,9 +18,7 @@ import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.VersionHandler;
 import de.leonkoth.blockparty.web.server.*;
-import de.leonkoth.utils.ui.UIListener;
 import de.leonkoth.utils.web.GitHub.Issue;
-import de.leonkoth.utils.web.GitHub.IssueBuilder;
 import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
@@ -30,6 +28,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.eclipse.jetty.client.HttpClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -115,6 +114,9 @@ public class BlockParty {
     @Getter
     private Issue issue;
 
+    @Getter
+    private HttpClient client;
+
     public BlockParty(JavaPlugin plugin, Config config, ExecutorService executorService, ScheduledExecutorService scheduledExecutorService) {
         instance = this;
 
@@ -124,7 +126,6 @@ public class BlockParty {
         this.plugin = plugin;
         this.executorService = executorService;
         this.scheduledExecutorService = scheduledExecutorService;
-        this.issue = new Issue("http://localhost/api/issues.php", "BlockParty");
 
         VersionHandler.init();
         blockPlacer = VersionHandler.getBlockPlacer();
@@ -154,6 +155,18 @@ public class BlockParty {
         this.players = this.playerInfoManager.loadAll();
         this.arenas = this.loadAllArenas();
         this.reload();
+
+        try {
+            this.client = new HttpClient();
+            this.client.setFollowRedirects(false);
+            this.client.start();
+            this.issue = new Issue("http://localhost/api/issues.php", "BlockParty", this.client);
+        } catch (Exception e) {
+            this.client = null;
+            this.issue = null;
+            Bukkit.getConsoleSender().sendMessage("§c[BlockParty] There was an error creating the HttpClient. BlockParty will continue to run. " +
+                    "There will be some API restrictions an /bp reportbug won't work.");
+        }
 
         // Init listeners
         new AsyncPlayerChatListener(this);
@@ -193,10 +206,7 @@ public class BlockParty {
                 Field field = SimplePluginManager.class.getDeclaredField("commandMap");
                 field.setAccessible(true);
                 commandMap = (CommandMap)(field.get(getServer().getPluginManager()));
-            }catch(NoSuchFieldException e){
-                e.printStackTrace();
-            }
-            catch(IllegalAccessException e){
+            }catch(NoSuchFieldException | IllegalAccessException e){
                 e.printStackTrace();
             }
 

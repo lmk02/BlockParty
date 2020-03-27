@@ -119,7 +119,7 @@ public class German extends Language {
     public static final LocaleString SUCCESS_SONG_ADDED = new LocaleString(SUCCESS, "Song \"%SONG%\" wurde zur Arena \"%ARENA%\" hinzugefügt");
     public static final LocaleString SUCCESS_SIGN_ADDED = new LocaleString(SUCCESS, "Schild für Arena \"%ARENA%\" erstellt");
     public static final LocaleString SUCCESS_SIGN_REMOVED = new LocaleString(SUCCESS, "Schild von Arena \"%ARENA%\" entfernt");
-    public static final LocaleString SUCCESS_ISSUE_SEND = new LocaleString(SUCCESS, "Der Bug wurde erfolgreich auf GitHub eingetragen (https://github.com/Leon167/BlockParty/issues)");
+    public static final LocaleString SUCCESS_ISSUE_SEND = new LocaleString(SUCCESS, "Der Bug wurde erfolgreich auf GitHub eingetragen ( https://github.com/Leon167/BlockParty/issues )");
 
     public static final LocaleString COMMAND_FORMAT = new LocaleString(COMMANDS, "&e%SYNTAX% &7- %DESCRIPTION%");
     public static final LocaleString COMMAND_BLOCK_PARTY = new LocaleString(COMMANDS, "Plugin-Info ansehen");
