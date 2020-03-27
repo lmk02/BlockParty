@@ -1,15 +1,12 @@
 package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.util.Util;
 import de.leonkoth.utils.web.GitHub.IssueBuilder;
 import de.pauhull.utils.locale.storage.LocaleString;
 import lombok.Getter;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.io.IOException;
 import java.util.StringJoiner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -18,7 +15,7 @@ import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
 public class BlockPartyReportBugCommand extends SubCommand {
 
-    public static String SYNTAX = "/bp reportbug <arenaName> <bug description>";
+    public static String SYNTAX = "/bp reportbug <Arena> <Bug Description>";
 
     @Getter
     private LocaleString description = COMMAND_REPORT_BUG;

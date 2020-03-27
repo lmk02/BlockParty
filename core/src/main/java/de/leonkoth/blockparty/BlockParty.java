@@ -157,7 +157,7 @@ public class BlockParty {
             this.client = null;
             this.issue = null;
             Bukkit.getConsoleSender().sendMessage("§c[BlockParty] There was an error creating the HttpClient. BlockParty will continue to run. " +
-                    "There will be some API restrictions an /bp reportbug won't work.");
+                    "There will be some API restrictions and /bp reportbug won't work.");
         }
 
         // Init listeners
