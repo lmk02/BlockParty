@@ -11,7 +11,7 @@ public interface WebServer {
 
     void send(String ip, String arena, String song, String play);
 
-    void start() throws IOException;
+    void start() throws Exception;
 
     void stop() throws Exception;
 

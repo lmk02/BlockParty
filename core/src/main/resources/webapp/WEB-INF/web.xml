@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>BlockParty</display-name>
+  <servlet>
+    <servlet-name>freemarker</servlet-name>
+    <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
+    <init-param>
+      <param-name>TemplatePath</param-name>
+      <param-value>WEB-INF</param-value>
+    </init-param>
+    <init-param>
+      <param-name>NoCache</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ContentType</param-name>
+      <param-value>text/html; charset=UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>template_update_delay</param-name>
+      <param-value>0</param-value>
+    </init-param>
+    <init-param>
+      <param-name>default_encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>number_format</param-name>
+      <param-value>0.##########</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>freemarker</servlet-name>
+    <url-pattern>*.ftl</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlets -->
+
+  <servlet>
+    <servlet-name>musicplayer_servlet</servlet-name>
+    <servlet-class>de.leonkoth.blockparty.web.server.handler.MusicPlayerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>musicplayer_servlet</servlet-name>
+    <url-pattern>/api/Musicplayer</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>namerequest_servlet</servlet-name>
+    <servlet-class>de.leonkoth.blockparty.web.server.handler.NameServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>namerequest_servlet</servlet-name>
+    <url-pattern>/api/NameRequest</url-pattern>
+  </servlet-mapping>
+
+  <!-- ******************************************************** -->
+  
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>FreeMarker MVC Views</web-resource-name>
+      <url-pattern>*.ftl</url-pattern>
+    </web-resource-collection>
+    <auth-constraint/>
+  </security-constraint>
+</web-app>

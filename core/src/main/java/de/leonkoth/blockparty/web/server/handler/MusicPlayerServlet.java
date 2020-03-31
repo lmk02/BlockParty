@@ -20,9 +20,10 @@ import java.io.IOException;
  * © 2016 - Leon Koth
  */
 
-@WebServlet(urlPatterns = "/Musicplayer")
+
 public class MusicPlayerServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/event-stream");
         response.setCharacterEncoding("UTF-8");

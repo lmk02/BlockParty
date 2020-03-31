@@ -1,17 +1,13 @@
 package de.leonkoth.blockparty.web.server;
 
-import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.web.server.handler.MusicPlayerServlet;
-import de.leonkoth.blockparty.web.server.handler.NameServlet;
+import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.session.SessionHandler;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.log.Log;
-
-import java.io.IOException;
+import org.eclipse.jetty.util.log.StdErrLog;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.webapp.*;
+import org.eclipse.jetty.servlet.listener.*;
+import org.eclipse.jetty.servlet.*;
 
 
 /**
@@ -25,6 +21,15 @@ public class JettyWebServer implements WebServer {
     private Server server;
 
     private int port;
+
+    public static final String[] webappDefaultConfigurationClasses = new String[]{
+            "org.eclipse.jetty.webapp.WebInfConfiguration"
+            ,"org.eclipse.jetty.webapp.WebXmlConfiguration"
+            ,"org.eclipse.jetty.webapp.MetaInfConfiguration"
+            ,"org.eclipse.jetty.webapp.FragmentConfiguration"
+            ,"org.eclipse.jetty.annotations.AnnotationConfiguration"
+            ,"org.eclipse.jetty.webapp.JettyWebXmlConfiguration"
+    };
 
     public JettyWebServer() {
         this.port = 8080;
@@ -40,36 +45,29 @@ public class JettyWebServer implements WebServer {
     }
 
     @Override
-    public void start() throws IOException {
-        Log.setLog(new JettyLogger());
+    public void start() throws Exception {
+        //Log.setLog(new JettyLogger());
+        Log.setLog(new StdErrLog());
 
-        this.server = new Server();
-        ServerConnector connector = new ServerConnector(server);
-        connector.setPort(this.port);
-        server.addConnector(connector);
+        this.server = new Server(this.port);
+
 
         server.setStopAtShutdown(true);
 
-        ServletContextHandler sch = new ServletContextHandler();
-        ServletHolder holder = new ServletHolder("default", new DefaultServlet());
-        holder.setInitParameter("resourceBase", "./" + BlockParty.PLUGIN_FOLDER + "/web/");
-        holder.setInitParameter("directoriesListed", "true");
 
-        SessionHandler sessionHandler = new SessionHandler();
-        sessionHandler.setHandler(sch);
 
-        sch.addServlet(holder, "/*");
-        sch.addServlet(NameServlet.class, "/NameRequest");
-        sch.addServlet(MusicPlayerServlet.class, "/Musicplayer");
+        WebAppContext webapp = new WebAppContext();
+        webapp.setContextPath("/");
+        webapp.setBaseResource(Resource.newClassPathResource("/webapp"));
+        webapp.setConfigurationClasses(webappDefaultConfigurationClasses);
+        webapp.setDescriptor("WEB-INF/web.xml");
+        webapp.setClassLoader(getClass().getClassLoader());
+        Thread.currentThread().setContextClassLoader(JettyWebServer.class.getClassLoader());
+        //webapp.addServlet(new ServletHolder(new MusicPlayerServlet()), "/Musicserver");
 
-        server.setHandler(sessionHandler);
+        server.setHandler(webapp);
 
-        try {
-            if (this.server != null) {
-                this.server.start();
-            }
-        } catch (Exception e) {
-        }
+        this.server.start();
     }
 
     @Override
