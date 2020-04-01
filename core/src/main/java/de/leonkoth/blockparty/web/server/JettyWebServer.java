@@ -1,6 +1,8 @@
 package de.leonkoth.blockparty.web.server;
 
 import de.leonkoth.blockparty.BlockParty;
+import de.leonkoth.blockparty.web.server.handler.ArenaConfigServlet;
+import de.leonkoth.blockparty.web.server.handler.ConfigServlet;
 import de.leonkoth.blockparty.web.server.handler.MusicPlayerServlet;
 import de.leonkoth.blockparty.web.server.handler.NameServlet;
 import org.eclipse.jetty.server.Server;
@@ -59,8 +61,10 @@ public class JettyWebServer implements WebServer {
         sessionHandler.setHandler(sch);
 
         sch.addServlet(holder, "/*");
-        sch.addServlet(NameServlet.class, "/NameRequest");
-        sch.addServlet(MusicPlayerServlet.class, "/Musicplayer");
+        sch.addServlet(NameServlet.class, "/api/namerequest");
+        sch.addServlet(MusicPlayerServlet.class, "/api/musicplayer");
+        sch.addServlet(ConfigServlet.class, "/api/config");
+        sch.addServlet(ArenaConfigServlet.class, "/api/config/arena");
 
         server.setHandler(sessionHandler);
 

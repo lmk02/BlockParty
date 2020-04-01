@@ -12,9 +12,13 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArenaDataSet {
@@ -147,6 +151,104 @@ public class ArenaDataSet {
         } else {
             configuration.set(path, object);
         }
+    }
+
+    public JSONObject toJson()
+    {
+        JSONObject json = new JSONObject();
+        try {
+            for (Field field : ArenaDataSet.class.getDeclaredFields()) {
+                Object value = field.get(this);
+                if (value instanceof SongManager)
+                {
+                    SongManager songManager = (SongManager) value;
+                    json.put(field.getName(), new JSONArray(songManager.getSongNames()));
+                } else if (value instanceof Floor)
+                {
+                    Floor floor = (Floor) value;
+                    JSONObject jsonFloor = new JSONObject();
+                    jsonFloor.put("A", locationToJson(floor.getBounds().getA()));
+                    jsonFloor.put("B", locationToJson(floor.getBounds().getB()));
+                    jsonFloor.put("Patterns", new JSONArray(floor.getPatternNames()));
+                    jsonFloor.put("Width", floor.getSize().getWidth());
+                    jsonFloor.put("Length", floor.getSize().getLength());
+                    json.put(field.getName(), jsonFloor);
+                } else if (value instanceof Location) {
+                    json.put(field.getName(), locationToJson((Location) value));
+                } else if (value instanceof SignList){
+                    SignList signList = (SignList) value;
+                    json.put(field.getName(), new JSONArray(signList.toStringList()));
+                } else json.put(field.getName(), field.get(this));
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    public void insert(JSONObject json, Arena arena)
+    {
+        try {
+            for (Field field : ArenaDataSet.class.getDeclaredFields()) {
+                String name = field.getName();
+                if (json.has(name)) {
+                    Class<?> type = field.getType();
+                    if (type == SongManager.class) {
+                        List<String> songs = new ArrayList<>();
+                        for(Object s : json.getJSONArray(name).toList())
+                        {
+                            if(s instanceof String)
+                            {
+                                songs.add((String)s);
+                            }
+                        }
+                        field.set(this, new SongManager(arena, songs));
+                    } else if (type == Floor.class) {
+                        JSONObject jFloor = json.getJSONObject(name);
+                        List<String> floorNames = new ArrayList<>();
+                        for(Object s : jFloor.getJSONArray("Patterns").toList())
+                        {
+                            if(s instanceof String)
+                            {
+                                floorNames.add((String)s);
+                            }
+                        }
+                        field.set(this, new Floor(floorNames, new Bounds(jsonToLocation(jFloor.getJSONObject("A")), jsonToLocation(jFloor.getJSONObject("B"))), arena, new Size(jFloor.getInt("Width"), 1, jFloor.getInt("Length"))));
+                    } else if (type == Location.class) {
+                        field.set(this, jsonToLocation(json.getJSONObject(name)));
+                    } else if (type == SignList.class) {
+                        List<String> locations = new ArrayList<>();
+                        for(Object s : json.getJSONArray(name).toList())
+                        {
+                            if(s instanceof String)
+                            {
+                                locations.add((String)s);
+                            }
+                        }
+                        field.set(this, SignList.fromStringList(locations));
+                    } else field.set(this, json.get(name));
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private JSONObject locationToJson(Location location)
+    {
+        JSONObject json = new JSONObject();
+        json.put("World", location.getWorld().getName());
+        json.put("X", location.getX());
+        json.put("Y", location.getY());
+        json.put("Z", location.getZ());
+        json.put("Yaw", location.getYaw());
+        json.put("Pitch", location.getPitch());
+        return json;
+    }
+
+    private Location jsonToLocation(JSONObject json)
+    {
+        return new Location(Bukkit.getWorld(json.getString("World")), json.getDouble("X"), json.getDouble("Y"), json.getDouble("Z"), json.getFloat("Yaw"), json.getFloat("Pitch"));
     }
 
     private String getCapitalizedName(String name) {

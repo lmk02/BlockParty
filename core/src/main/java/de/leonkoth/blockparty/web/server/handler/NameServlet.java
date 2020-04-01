@@ -17,9 +17,10 @@ import java.io.IOException;
  * © 2016 - Leon Koth
  */
 
-@WebServlet(urlPatterns = "/NameRequest")
+@WebServlet(urlPatterns = "/api/namerequest")
 public class NameServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String playerName = request.getParameter("playerName");
