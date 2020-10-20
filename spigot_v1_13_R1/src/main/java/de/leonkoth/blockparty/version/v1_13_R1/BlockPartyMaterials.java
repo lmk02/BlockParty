@@ -189,7 +189,7 @@ public class BlockPartyMaterials implements IBlockPartyMaterials {
 
     @Override
     public Material FIREBALL() {
-        return Material.LEGACY_FIREBALL;
+        return Material.FIRE_CHARGE;
     }
 
 }
