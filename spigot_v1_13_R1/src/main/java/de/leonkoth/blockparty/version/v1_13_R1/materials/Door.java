@@ -1,11 +1,7 @@
 package de.leonkoth.blockparty.version.v1_13_R1.materials;
 
 import de.leonkoth.blockparty.version.BlockPartyMaterial;
-import de.leonkoth.blockparty.version.IVersionedMaterial;
 import org.bukkit.Material;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Package de.leonkoth.blockparty.version.v1_13_R1.materials
@@ -30,7 +26,7 @@ public class Door extends BlockPartyMaterial {
     }
 
     @Override
-    public Boolean equals(Material material) {
+    public boolean equals(Material material) {
         return material == this.door;
     }
 
