@@ -249,13 +249,23 @@ public class Arena {
         return event;
     }
 
-    public boolean removePlayer(Player player) {
+    /**
+     * Call the {@link PlayerLeaveArenaEvent}.
+     *
+     * @param player the player leaving the arena
+     * @return if the event was NOT cancelled
+     */
+    private boolean callPlayerLeaveArenaEvent(Player player) {
 
         PlayerInfo playerInfo = PlayerInfo.getFromPlayer(player);
         PlayerLeaveArenaEvent event = new PlayerLeaveArenaEvent(this, player, playerInfo);
         Bukkit.getPluginManager().callEvent(event);
 
-        return event.isCancelled();
+        return !event.isCancelled();
+    }
+
+    public boolean removePlayer(PlayerInfo playerInfo) {
+        return callPlayerLeaveArenaEvent(playerInfo.asPlayer()) && playersInArena.remove(playerInfo);
     }
 
     public boolean removePattern(String name) {
@@ -381,17 +391,15 @@ public class Arena {
     }
 
     public void kickAllPlayers() {
-        Iterator iterator = playersInArena.iterator();
-
-        while (iterator.hasNext()) {
-            PlayerInfo info = (PlayerInfo) iterator.next();
-            removePlayer(info.asPlayer());
-        }
+        playersInArena.removeIf(info -> callPlayerLeaveArenaEvent(info.asPlayer()));
     }
 
     public void delete() {
-        for (PlayerInfo playerInfo : playersInArena) {
-            removePlayer(playerInfo.asPlayer());
+        Iterator<PlayerInfo> iterator = playersInArena.iterator();
+        while (iterator.hasNext()) {
+            PlayerInfo playerInfo = iterator.next();
+            callPlayerLeaveArenaEvent(playerInfo.asPlayer());
+            iterator.remove();
         }
 
         blockParty.getArenas().remove(this);

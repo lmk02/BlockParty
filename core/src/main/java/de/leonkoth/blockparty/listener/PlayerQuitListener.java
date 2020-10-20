@@ -36,7 +36,7 @@ public class PlayerQuitListener implements Listener {
         Arena arena = playerInfo.getCurrentArena();
 
         if (arena != null)
-            arena.removePlayer(player);
+            arena.removePlayer(playerInfo);
     }
 
 }

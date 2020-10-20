@@ -41,7 +41,7 @@ public class BlockPartyLeaveCommand extends SubCommand {
             throw new BlockPartyException("Arena " + playerInfo.getCurrentArena() + " does not exist or got deleted.");
         }
 
-        if (!arena.removePlayer(player)) {
+        if (!arena.removePlayer(playerInfo)) {
             Bukkit.getConsoleSender().sendMessage("§c[BlockParty] " + player.getName() + " couldn't leave arena " + arena.getName());
             return false;
         }
