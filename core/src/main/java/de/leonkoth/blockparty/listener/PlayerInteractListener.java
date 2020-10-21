@@ -110,7 +110,7 @@ public class PlayerInteractListener implements Listener {
                 }
 
                 Arena arena = playerInfo.getCurrentArena();
-                arena.removePlayer(player);
+                arena.removePlayer(playerInfo);
 
                 return;
             }

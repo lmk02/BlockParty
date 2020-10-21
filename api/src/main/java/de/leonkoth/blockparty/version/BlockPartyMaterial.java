@@ -28,13 +28,8 @@ public abstract class BlockPartyMaterial implements IVersionedMaterial {
     protected abstract String getSuffix();
 
     @Override
-    public Boolean equals(Material material) {
-        for (Material m : this.materials)
-        {
-            if (m.equals(material))
-                return true;
-        }
-        return false;
+    public boolean equals(Material material) {
+        return materials.contains(material);
     }
 
     @Override

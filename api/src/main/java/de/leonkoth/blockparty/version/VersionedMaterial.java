@@ -1,6 +1,5 @@
 package de.leonkoth.blockparty.version;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public enum VersionedMaterial implements IVersionedMaterial {
     }
 
     @Override
-    public Boolean equals(Material material) {
+    public boolean equals(Material material) {
         return bpMaterial.equals(material);
     }
 

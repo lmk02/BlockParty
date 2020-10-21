@@ -18,6 +18,9 @@ public class Version { // package-private
     public static final Version CURRENT_VERSION = new Version();
 
     //region VERSIONS
+    public static final Version v1_16_3 = new Version(1, 16, 3, "v1_16_R2");
+    public static final Version v1_16_2 = new Version(1, 16, 2, "v1_16_R2");
+    public static final Version v1_16_1 = new Version(1, 16, 1, "v1_16_R1");
     public static final Version v1_15_2 = new Version(1, 15, 2, "v1_15_R1");
     public static final Version v1_15_1 = new Version(1, 15, 1, "v1_15_R1");
     public static final Version v1_15 = new Version(1, 15, "v1_15_R1");

@@ -10,9 +10,11 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 import static de.pauhull.utils.misc.MinecraftVersion.v1_11;
 import static de.pauhull.utils.misc.MinecraftVersion.v1_12;
+import static de.pauhull.utils.misc.MinecraftVersion.v1_16_1;
 
 /**
  * Utility for NMS titles and ActionBars.
@@ -34,9 +36,9 @@ public class NMSClasses {
     public static Method a;
     public static Method valueOf;
 
-    public static Constructor packetPlayOutTitleConstructor1;
-    public static Constructor packetPlayOutTitleConstructor2;
-    public static Constructor packetPlayOutChatConstructor;
+    public static Constructor<?> packetPlayOutTitleConstructor1;
+    public static Constructor<?> packetPlayOutTitleConstructor2;
+    public static Constructor<?> packetPlayOutChatConstructor;
 
     public static Object enumTitleActionTitle;
     public static Object enumTitleActionSubTitle;
@@ -65,7 +67,11 @@ public class NMSClasses {
             } else {
                 chatMessageTypeClass = Reflection.getNMSClass("ChatMessageType");
                 gameInfo = chatMessageTypeClass.getMethod("valueOf", String.class).invoke(null, "GAME_INFO");
-                packetPlayOutChatConstructor = packetPlayOutChatClass.getConstructor(iChatBaseComponentClass, chatMessageTypeClass);
+                if (MinecraftVersion.CURRENT_VERSION.isLower(v1_16_1)) {
+                    packetPlayOutChatConstructor = packetPlayOutChatClass.getConstructor(iChatBaseComponentClass, chatMessageTypeClass);
+                } else {
+                    packetPlayOutChatConstructor = packetPlayOutChatClass.getConstructor(iChatBaseComponentClass, chatMessageTypeClass, UUID.class);
+                }
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
@@ -119,7 +125,9 @@ public class NMSClasses {
 
             Object actionBarComponent = a.invoke(null, "{\"text\":\"" + actionBar + "\"}");
             Object packet;
-            if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_12)) {
+            if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_16_1)) {
+                packet = packetPlayOutChatConstructor.newInstance(actionBarComponent, gameInfo, null);
+            } else if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_12)) {
                 packet = packetPlayOutChatConstructor.newInstance(actionBarComponent, gameInfo);
             } else {
                 packet = packetPlayOutChatConstructor.newInstance(actionBarComponent, (byte) 2);

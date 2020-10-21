@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface IVersionedMaterial {
 
-    Boolean equals(Material material);
+    boolean equals(Material material);
 
     Material get(int t);
 
