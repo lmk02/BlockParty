@@ -85,9 +85,9 @@
 
         <!-- NoteBlockAPI -->
         <dependency>
-            <groupId>com.github.xxmicloxx</groupId>
+            <groupId>com.github.koca2000</groupId>
             <artifactId>NoteBlockAPI</artifactId>
-            <version>7f6c9cd5fa</version>
+            <version>1.6.1</version>
             <scope>provided</scope>
         </dependency>
 

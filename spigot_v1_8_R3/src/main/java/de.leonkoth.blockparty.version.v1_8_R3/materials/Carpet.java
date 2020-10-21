@@ -26,7 +26,7 @@ public class Carpet extends BlockPartyMaterial {
     }
 
     @Override
-    public Boolean equals(Material material) {
+    public boolean equals(Material material) {
         return material == this.carpet;
     }
 

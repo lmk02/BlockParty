@@ -42,7 +42,6 @@ public class PlayerLeaveArenaListener implements Listener {
         this.blockParty.getPlayerInfoManager().savePlayerInfo(playerInfo);
 
         arena.broadcast(PREFIX, PLAYER_LEFT_GAME, false, playerInfo, "%PLAYER%", player.getName());
-        arena.getPlayersInArena().remove(playerInfo);
 
         if (arena.getArenaState() == ArenaState.INGAME) {
             arena.eliminate(playerInfo);
