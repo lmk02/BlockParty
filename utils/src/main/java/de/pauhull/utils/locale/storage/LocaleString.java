@@ -120,14 +120,15 @@ public class LocaleString {
     }
 
     /**
-     * Broadcast message to all players on server
+     * Broadcast message to all viewers
      *
+     * @param audience     An audience.
      * @param prefix       Message prefix
      * @param placeholders Placeholders
      */
-    public void broadcast(LocaleString prefix, String... placeholders) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            message(prefix, player, placeholders);
+    public void broadcast(Iterable<? extends CommandSender> audience, LocaleString prefix, String... placeholders) {
+        for (CommandSender sender : audience) {
+            message(prefix, sender, placeholders);
         }
     }
 
