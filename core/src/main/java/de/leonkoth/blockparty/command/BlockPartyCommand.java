@@ -2,10 +2,13 @@ package de.leonkoth.blockparty.command;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,6 +66,18 @@ public class BlockPartyCommand implements CommandExecutor {
         if (BlockParty.DEBUG) {
             commands.add(new BlockPartyTestCommand(blockParty));
         }
+
+        Permission admin = new Permission("blockparty.admin.*", "Provides access to all BlockParty commands", PermissionDefault.OP);
+        Permission user = new Permission("blockparty.user.*", "Provides access to basic BlockParty commands", PermissionDefault.TRUE);
+        for (SubCommand command : commands) {
+            if (command.getPermission().startsWith("blockparty.admin")) {
+                admin.getChildren().put(command.permission, true);
+            } else {
+                user.getChildren().put(command.permission, true);
+            }
+        }
+        Bukkit.getPluginManager().addPermission(admin);
+        Bukkit.getPluginManager().addPermission(user);
     }
 
     @Override
