@@ -11,5 +11,11 @@ commands:
     aliases: [bp, bparty]
     description: Get information on how to use this Plugin
     usage: /blockparty - to get more information
+    permission: blockparty.command
+
+permissions:
+  blockparty.command:
+    default: true
+    description: Access to the main command.
 
 api-version: 1.13
