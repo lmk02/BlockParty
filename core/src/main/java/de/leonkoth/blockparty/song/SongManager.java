@@ -153,7 +153,7 @@ public class SongManager {
                 this.votedSong = null;
             }
 
-            SONG_PLAYING.broadcast(PREFIX, "%SONG%", this.votedSong.getName());
+            SONG_PLAYING.broadcast(arena.getPlayers(), PREFIX, "%SONG%", this.votedSong.getName());
             this.resetVotes();
         }
     }

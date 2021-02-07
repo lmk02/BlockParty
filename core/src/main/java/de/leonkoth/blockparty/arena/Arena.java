@@ -28,7 +28,9 @@ import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import static de.leonkoth.blockparty.arena.ArenaState.LOBBY;
@@ -585,6 +587,17 @@ public class Arena {
 
     public SignList getSigns() {
         return data.signs;
+    }
+
+    public Collection<Player> getPlayers() {
+        List<Player> list = new LinkedList<>();
+        for (PlayerInfo playerInfo : this.playersInArena) {
+            Player player = playerInfo.asPlayer();
+            if (player != null) {
+                list.add(player);
+            }
+        }
+        return list;
     }
 
     // endregion
