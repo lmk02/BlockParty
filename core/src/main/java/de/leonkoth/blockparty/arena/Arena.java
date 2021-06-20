@@ -13,8 +13,9 @@ import de.leonkoth.blockparty.song.SongManager;
 import de.leonkoth.blockparty.util.ItemType;
 import de.leonkoth.blockparty.version.VersionedMaterial;
 import de.pauhull.utils.locale.storage.LocaleString;
-import de.pauhull.utils.particle.ParticlePlayer;
+import de.pauhull.utils.particle.ParticlePlayerProvider;
 import de.pauhull.utils.particle.Particles;
+import de.pauhull.utils.particle.ParticlePlayer;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -120,7 +121,7 @@ public class Arena {
 
         this.arenaDataManager = new ArenaDataManager(this);
         this.phaseHandler = new PhaseHandler(blockParty, this);
-        this.particlePlayer = new ParticlePlayer(Particles.CLOUD);
+        this.particlePlayer = ParticlePlayerProvider.get(Particles.CLOUD);
 
         if (save)
             this.saveData();
