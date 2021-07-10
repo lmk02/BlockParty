@@ -27,3 +27,6 @@ hs_err_pid*
 
 # IntelliJ project file
 *.iml
+
+# Maven build directory
+target/
