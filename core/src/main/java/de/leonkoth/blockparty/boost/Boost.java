@@ -5,6 +5,7 @@ import de.leonkoth.blockparty.floor.Floor;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.pauhull.utils.locale.storage.LocaleString;
 import de.pauhull.utils.particle.ParticlePlayer;
+import de.pauhull.utils.particle.ParticlePlayerProvider;
 import de.pauhull.utils.particle.effect.ParticleEffect;
 import de.pauhull.utils.particle.effect.SpiralEffect;
 import de.pauhull.utils.particle.Particles;
@@ -25,7 +26,7 @@ public abstract class Boost {
 
     public static List<Boost> boosts = new ArrayList<>();
 
-    private static ParticlePlayer explosionEffect = new ParticlePlayer(Particles.EXPLOSION_NORMAL);
+    private static ParticlePlayer explosionEffect = ParticlePlayerProvider.get(Particles.EXPLOSION_NORMAL);
 
     @Getter
     protected String name;
@@ -85,7 +86,7 @@ public abstract class Boost {
 
         Location spiralLocation = new Location(location.getWorld(), location.getBlockX() + 0.5, location.getBlockY(), location.getBlockZ() + 0.5);
 
-        effect = new SpiralEffect(scheduler, spiralLocation, new ParticlePlayer(particle),
+        effect = new SpiralEffect(scheduler, spiralLocation, ParticlePlayerProvider.get(particle),
                 50, 1.5, 3, 10, 1.75, true, 1).play();
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(BlockParty.getInstance().getPlugin(), new Runnable() {

@@ -109,30 +109,6 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setUnbreakable(boolean unbreakable) {
-        ItemMeta meta = stack.getItemMeta();
-        meta.spigot().setUnbreakable(unbreakable);
-        stack.setItemMeta(meta);
-        return this;
-    }
-
-    public ItemBuilder setPotion(PotionType type, boolean isExtended, int level, boolean splash) {
-        if (stack.getType() != Material.POTION)
-            throw new IllegalArgumentException(stack.getType().name() + " is not a potion (POTION)");
-
-        Potion potion = new Potion(1);
-        potion.setType(type);
-
-        if (!type.isInstant()) {
-            potion.setHasExtendedDuration(isExtended);
-        }
-
-        potion.setLevel(level);
-        potion.setSplash(splash);
-        potion.apply(stack);
-        return this;
-    }
-
     public ItemStack asItem() {
         return stack;
     }
