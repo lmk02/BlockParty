@@ -266,20 +266,32 @@ public class Floor {
     }
 
     private Block getRandomBlock() {
-        Block block = getRandomLocation().getBlock();
-        return block.getType() == Material.AIR ? getRandomBlock() : block;
-    }
-
-    public Location getRandomLocation() {
 
         int minX = bounds.getA().getBlockX();
-        int minY = bounds.getA().getBlockY();
         int minZ = bounds.getA().getBlockZ();
+        int minY = bounds.getA().getBlockY();
+        int maxX = bounds.getB().getBlockX();
+        int maxZ = bounds.getB().getBlockZ();
 
-        int x = minX + random.nextInt(bounds.getSize().getBlockWidth());
-        int z = minZ + random.nextInt(bounds.getSize().getBlockLength());
+        Map<Material, Block> materialMaps = new HashMap<>();
 
-        return new Location(world, x, minY, z);
+        int y = bounds.getA().getBlockY();
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                Block block = world.getBlockAt(x, y, z);
+                Material material = block.getType();
+                if(materialMaps.containsKey(material) || block.getType() == Material.AIR) {
+                    continue;
+                }
+
+                materialMaps.put(material, block);
+            }
+        }
+
+        List<Material> materials = new ArrayList<>(materialMaps.keySet());
+        Collections.shuffle(materials);
+
+        return materialMaps.get(materials.get(random.nextInt(materials.size())));
     }
 
     public void playParticles(int amount, int offsetY, int rangeY) {
