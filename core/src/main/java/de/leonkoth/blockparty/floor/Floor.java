@@ -28,7 +28,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
@@ -88,7 +91,6 @@ public class Floor {
                 floorPatterns.add(pattern);
             } catch (FileNotFoundException | FloorLoaderException e) {
                 Bukkit.getConsoleSender().sendMessage("§c[BlockParty] Couldn't find file \"Floors/" + name + ".floor\"");
-                //e.printStackTrace();
             }
         }
 
@@ -206,12 +208,6 @@ public class Floor {
         }
     }
 
-    public void clear() {
-        for (Block block : getFloorBlocks()) {
-            block.setType(Material.AIR);
-        }
-    }
-
     public List<Block> getFloorBlocks() {
 
         int minX = bounds.getA().getBlockX();
@@ -269,7 +265,6 @@ public class Floor {
 
         int minX = bounds.getA().getBlockX();
         int minZ = bounds.getA().getBlockZ();
-        int minY = bounds.getA().getBlockY();
         int maxX = bounds.getB().getBlockX();
         int maxZ = bounds.getB().getBlockZ();
 
@@ -280,17 +275,16 @@ public class Floor {
             for (int z = minZ; z <= maxZ; z++) {
                 Block block = world.getBlockAt(x, y, z);
                 Material material = block.getType();
-                if(materialMaps.containsKey(material) || block.getType() == Material.AIR) {
+
+                if (block.getType() == Material.AIR) {
                     continue;
                 }
 
-                materialMaps.put(material, block);
+                materialMaps.putIfAbsent(material, block);
             }
         }
 
         List<Material> materials = new ArrayList<>(materialMaps.keySet());
-        Collections.shuffle(materials);
-
         return materialMaps.get(materials.get(random.nextInt(materials.size())));
     }
 
@@ -318,8 +312,7 @@ public class Floor {
     public FloorPattern loadPattern(String name) {
         File file = new File(BlockParty.PLUGIN_FOLDER + "Floors/" + name + ".floor");
         try {
-            FloorPattern pattern = PatternLoader.readFloorPattern(file);
-            return pattern;
+            return PatternLoader.readFloorPattern(file);
         } catch (FileNotFoundException e) {
             return null;
         } catch (FloorLoaderException e) {
