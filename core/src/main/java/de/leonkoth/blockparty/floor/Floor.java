@@ -28,7 +28,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
