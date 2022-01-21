@@ -5,7 +5,7 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.Util;
-import de.pauhull.utils.misc.MinecraftVersion;
+import de.leonkoth.blockparty.version.Version;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
-import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
+import static de.leonkoth.blockparty.version.Version.v1_13;
+import static de.leonkoth.blockparty.version.Version.v1_9;
 
 /**
  * Created by Leon on 15.03.2018.
@@ -42,8 +43,8 @@ public class LobbyPhase implements Runnable {
         this.countdown = arena.getLobbyCountdown();
 
         try {
-            if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(MinecraftVersion.v1_9)) {
-                if (MinecraftVersion.CURRENT_VERSION.isLower(v1_13)) {
+            if (Version.CURRENT_VERSION.isGreaterOrEquals(v1_9)) {
+                if (Version.CURRENT_VERSION.isLower(v1_13)) {
                     sound = Sound.valueOf("BLOCK_NOTE_HARP");
                 } else {
                     sound = Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");

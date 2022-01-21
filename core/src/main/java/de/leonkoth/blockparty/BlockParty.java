@@ -14,11 +14,11 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.DefaultManager;
 import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
+import de.leonkoth.blockparty.version.Version;
 import de.leonkoth.blockparty.version.VersionHandler;
 import de.leonkoth.blockparty.web.server.*;
 import de.leonkoth.utils.web.GitHub.Issue;
 import de.pauhull.utils.file.FileUtils;
-import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -124,7 +124,7 @@ public class BlockParty {
 
         if (DEBUG) {
             System.out.println("[BlockParty] Using DEBUG mode");
-            System.out.println("[BlockParty] Detected Minecraft Version: " + MinecraftVersion.CURRENT_VERSION);
+            System.out.println("[BlockParty] Detected Minecraft Version: " + Version.CURRENT_VERSION);
         }
     }
 

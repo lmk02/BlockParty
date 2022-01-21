@@ -1,14 +1,14 @@
 package de.leonkoth.blockparty.listener;
 
 import de.leonkoth.blockparty.BlockParty;
-import de.pauhull.utils.misc.MinecraftVersion;
+import de.leonkoth.blockparty.version.Version;
 
-import static de.pauhull.utils.misc.MinecraftVersion.v1_12;
+import static de.leonkoth.blockparty.version.Version.v1_12;
 
 public class PickupItemListener {
 
     public PickupItemListener(BlockParty blockParty) {
-        if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_12)) {
+        if (Version.CURRENT_VERSION.isGreaterOrEquals(v1_12)) {
             new EntityPickupItemListener(blockParty);
         } else {
             new PlayerPickupItemListener(blockParty);
