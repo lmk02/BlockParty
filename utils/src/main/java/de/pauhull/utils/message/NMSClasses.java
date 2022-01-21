@@ -1,7 +1,7 @@
 package de.pauhull.utils.message;
 
+import de.leonkoth.blockparty.version.Version;
 import de.pauhull.utils.message.type.MessageType;
-import de.pauhull.utils.misc.MinecraftVersion;
 import de.pauhull.utils.misc.Reflection;
 import lombok.NonNull;
 import org.bukkit.entity.Player;
@@ -12,9 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-import static de.pauhull.utils.misc.MinecraftVersion.v1_11;
-import static de.pauhull.utils.misc.MinecraftVersion.v1_12;
-import static de.pauhull.utils.misc.MinecraftVersion.v1_16_1;
+import static de.leonkoth.blockparty.version.Version.*;
 
 /**
  * Utility for NMS titles and ActionBars.
@@ -52,7 +50,7 @@ public class NMSClasses {
             iChatBaseComponentClass = Reflection.getNMSClass("IChatBaseComponent");
             packetPlayOutChatClass = Reflection.getNMSClass("PacketPlayOutChat");
 
-            if (MinecraftVersion.CURRENT_VERSION.isLower(v1_11)) {
+            if (Version.CURRENT_VERSION.isLower(v1_11)) {
                 packetPlayOutTitleClass = Reflection.getNMSClass("PacketPlayOutTitle");
                 enumTitleActionClass = Reflection.getNMSClass("PacketPlayOutTitle$EnumTitleAction");
 
@@ -67,7 +65,7 @@ public class NMSClasses {
             } else {
                 chatMessageTypeClass = Reflection.getNMSClass("ChatMessageType");
                 gameInfo = chatMessageTypeClass.getMethod("valueOf", String.class).invoke(null, "GAME_INFO");
-                if (MinecraftVersion.CURRENT_VERSION.isLower(v1_16_1)) {
+                if (Version.CURRENT_VERSION.isLower(v1_16_1)) {
                     packetPlayOutChatConstructor = packetPlayOutChatClass.getConstructor(iChatBaseComponentClass, chatMessageTypeClass);
                 } else {
                     packetPlayOutChatConstructor = packetPlayOutChatClass.getConstructor(iChatBaseComponentClass, chatMessageTypeClass, UUID.class);
@@ -125,9 +123,9 @@ public class NMSClasses {
 
             Object actionBarComponent = a.invoke(null, "{\"text\":\"" + actionBar + "\"}");
             Object packet;
-            if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_16_1)) {
+            if (Version.CURRENT_VERSION.isGreaterOrEquals(v1_16_1)) {
                 packet = packetPlayOutChatConstructor.newInstance(actionBarComponent, gameInfo, null);
-            } else if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_12)) {
+            } else if (Version.CURRENT_VERSION.isGreaterOrEquals(v1_12)) {
                 packet = packetPlayOutChatConstructor.newInstance(actionBarComponent, gameInfo);
             } else {
                 packet = packetPlayOutChatConstructor.newInstance(actionBarComponent, (byte) 2);

@@ -1,6 +1,6 @@
 package de.pauhull.utils.particle;
 
-import de.pauhull.utils.misc.MinecraftVersion;
+import de.leonkoth.blockparty.version.Version;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -8,8 +8,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
-import static de.pauhull.utils.misc.MinecraftVersion.v1_15;
+import static de.leonkoth.blockparty.version.Version.v1_13;
+import static de.leonkoth.blockparty.version.Version.v1_15;
 import static de.pauhull.utils.misc.Reflection.getNMSClass;
 import static de.pauhull.utils.misc.Reflection.sendPacket;
 
@@ -34,7 +34,7 @@ class NmsParticlePlayer implements ParticlePlayer {
 
         packetPlayOutWorldParticlesClass = getNMSClass("PacketPlayOutWorldParticles");
 
-        if (MinecraftVersion.CURRENT_VERSION.isLower(v1_13)) {
+        if (Version.CURRENT_VERSION.isLower(v1_13)) {
             enumParticleClass = getNMSClass("EnumParticle");
 
             try {
@@ -43,7 +43,7 @@ class NmsParticlePlayer implements ParticlePlayer {
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
-        } else if (MinecraftVersion.CURRENT_VERSION.isLower(v1_15)) {
+        } else if (Version.CURRENT_VERSION.isLower(v1_15)) {
             particleParamClass = getNMSClass("ParticleParam");
 
             try {
@@ -72,7 +72,7 @@ class NmsParticlePlayer implements ParticlePlayer {
      */
     NmsParticlePlayer(Particles particle) {
         try {
-            if (MinecraftVersion.CURRENT_VERSION.isLower(v1_13)) {
+            if (Version.CURRENT_VERSION.isLower(v1_13)) {
                 this.particle = valueOf.invoke(null, particle.name());
             } else {
                 this.particle = particle.get();
@@ -113,9 +113,9 @@ class NmsParticlePlayer implements ParticlePlayer {
      */
     private Object createPacket(Object particle, float x, float y, float z, float xOffset, float yOffset, float zOffset, float data, int amount) {
         try {
-            if (MinecraftVersion.CURRENT_VERSION.isLower(v1_13)) {
+            if (Version.CURRENT_VERSION.isLower(v1_13)) {
                 return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount, null);
-            } else if (MinecraftVersion.CURRENT_VERSION.isLower(v1_15)) {
+            } else if (Version.CURRENT_VERSION.isLower(v1_15)) {
                 return packetConstructor.newInstance(particle, true, x, y, z, xOffset, yOffset, zOffset, data, amount);
             } else {
                 return packetConstructor.newInstance(particle, true, (double) x, (double) y, (double) z, xOffset, yOffset, zOffset, data, amount);

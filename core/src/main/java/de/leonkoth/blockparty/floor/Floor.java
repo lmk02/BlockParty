@@ -12,7 +12,7 @@ import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.Bounds;
 import de.leonkoth.blockparty.util.ColorBlock;
 import de.leonkoth.blockparty.util.Size;
-import de.pauhull.utils.misc.MinecraftVersion;
+import de.leonkoth.blockparty.version.Version;
 import de.pauhull.utils.particle.ParticlePlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
+import static de.leonkoth.blockparty.version.Version.v1_13;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -195,11 +195,11 @@ public class Floor {
     }
 
     public void removeBlocks() {
-        byte data = MinecraftVersion.CURRENT_VERSION.isLower(v1_13) ? currentBlock.getData() : 0;
+        byte data = Version.CURRENT_VERSION.isLower(v1_13) ? currentBlock.getData() : 0;
         Material material = currentBlock.getType();
 
         for (Block block : getFloorBlocks()) {
-            byte floorData = MinecraftVersion.CURRENT_VERSION.isLower(v1_13) ? block.getData() : 0;
+            byte floorData = Version.CURRENT_VERSION.isLower(v1_13) ? block.getData() : 0;
             if (floorData != data || block.getType() != material) {
                 block.setType(Material.AIR);
             }
@@ -238,7 +238,7 @@ public class Floor {
 
     public void updateInventories(Block block) {
         ItemStack stack;
-        if (MinecraftVersion.CURRENT_VERSION.isLower(v1_13)) {
+        if (Version.CURRENT_VERSION.isLower(v1_13)) {
             stack = new ItemStack(block.getType(), 1, block.getData());
         } else {
             stack = new ItemStack(block.getType(), 1);

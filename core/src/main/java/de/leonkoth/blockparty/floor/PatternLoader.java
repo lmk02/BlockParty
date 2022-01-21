@@ -3,8 +3,8 @@ package de.leonkoth.blockparty.floor;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.exception.FloorLoaderException;
 import de.leonkoth.blockparty.util.Size;
+import de.leonkoth.blockparty.version.Version;
 import de.pauhull.utils.file.FileUtils;
-import de.pauhull.utils.misc.MinecraftVersion;
 import org.bukkit.Material;
 
 import java.io.*;
@@ -38,7 +38,7 @@ public class PatternLoader {
         int length = size.getBlockLength();
 
         // METADATA
-        MinecraftVersion minecraftVersion = MinecraftVersion.CURRENT_VERSION;
+        Version minecraftVersion = Version.CURRENT_VERSION;
         String pluginVersion = BlockParty.getInstance().getPlugin().getDescription().getVersion();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss O");
         ZonedDateTime now = ZonedDateTime.now();

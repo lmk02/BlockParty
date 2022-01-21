@@ -15,26 +15,27 @@ import java.util.List;
 // this class is needed because blockparty-api cannot access blockparty-utils without a dependency loop
 public class Version { // package-private
 
-    public static final Version CURRENT_VERSION = new Version();
-
     //region VERSIONS
-    public static final Version v1_17 = new Version(1, 17, "v1_17_R1");
-    public static final Version v1_16_5 = new Version(1, 16, 5, "v1_16_R3");
-    public static final Version v1_16_4 = new Version(1, 16, 4, "v1_16_R3");
-    public static final Version v1_16_3 = new Version(1, 16, 3, "v1_16_R2");
-    public static final Version v1_16_2 = new Version(1, 16, 2, "v1_16_R2");
-    public static final Version v1_16_1 = new Version(1, 16, 1, "v1_16_R1");
-    public static final Version v1_15_2 = new Version(1, 15, 2, "v1_15_R1");
-    public static final Version v1_15_1 = new Version(1, 15, 1, "v1_15_R1");
-    public static final Version v1_15 = new Version(1, 15, "v1_15_R1");
-    public static final Version v1_14_4 = new Version(1, 14, 4, "v1_14_R1");
-    public static final Version v1_14_3 = new Version(1, 14, 3, "v1_14_R1");
-    public static final Version v1_14_2 = new Version(1, 14, 2, "v1_14_R1");
-    public static final Version v1_14_1 = new Version(1, 14, 1, "v1_14_R1");
-    public static final Version v1_14 = new Version(1, 14, "v1_14_R1");
-    public static final Version v1_13_2 = new Version(1, 13, 2, "v1_13_R2");
-    public static final Version v1_13_1 = new Version(1, 13, 1, "v1_13_R2");
-    public static final Version v1_13 = new Version(1, 13, "v1_13_R1");
+    //public static final Version v1_18_1 = new Version(1, 18, 1, "v1_18_R1", 2865);
+    //public static final Version v1_18 = new Version(1, 18, "v1_18_R1", 2860);
+    //public static final Version v1_17_1 = new Version(1, 17, 1, "v1_17_R1", 2730);
+    public static final Version v1_17 = new Version(1, 17, "v1_17_R1", 2724);
+    public static final Version v1_16_5 = new Version(1, 16, 5, "v1_16_R3", 2586);
+    public static final Version v1_16_4 = new Version(1, 16, 4, "v1_16_R3", 2584);
+    public static final Version v1_16_3 = new Version(1, 16, 3, "v1_16_R2", 2580);
+    public static final Version v1_16_2 = new Version(1, 16, 2, "v1_16_R2", 2578);
+    public static final Version v1_16_1 = new Version(1, 16, 1, "v1_16_R1", 2567);
+    public static final Version v1_15_2 = new Version(1, 15, 2, "v1_15_R1", 2230);
+    public static final Version v1_15_1 = new Version(1, 15, 1, "v1_15_R1", 2227);
+    public static final Version v1_15 = new Version(1, 15, "v1_15_R1", 2225);
+    public static final Version v1_14_4 = new Version(1, 14, 4, "v1_14_R1", 1976);
+    public static final Version v1_14_3 = new Version(1, 14, 3, "v1_14_R1", 1968);
+    public static final Version v1_14_2 = new Version(1, 14, 2, "v1_14_R1", 1963);
+    public static final Version v1_14_1 = new Version(1, 14, 1, "v1_14_R1", 1957);
+    public static final Version v1_14 = new Version(1, 14, "v1_14_R1", 1952);
+    public static final Version v1_13_2 = new Version(1, 13, 2, "v1_13_R2", 1631);
+    public static final Version v1_13_1 = new Version(1, 13, 1, "v1_13_R2", 1628);
+    public static final Version v1_13 = new Version(1, 13, "v1_13_R1", 1519);
     public static final Version v1_12_2 = new Version(1, 12, 2, "v1_12_R1");
     public static final Version v1_12_1 = new Version(1, 12, 1, "v1_12_R1");
     public static final Version v1_12 = new Version(1, 12, "v1_12_R1");
@@ -72,6 +73,14 @@ public class Version { // package-private
     public static List<Version> versionList = new ArrayList<>();
 
     static {
+        versionList.add(v1_17);
+        versionList.add(v1_16_5);
+        versionList.add(v1_16_4);
+        versionList.add(v1_16_3);
+        versionList.add(v1_16_2);
+        versionList.add(v1_16_1);
+        versionList.add(v1_15_2);
+        versionList.add(v1_15_1);
         versionList.add(v1_15);
         versionList.add(v1_14);
         versionList.add(v1_13_1);
@@ -86,11 +95,16 @@ public class Version { // package-private
         versionList.add(v1_8);
     }
 
+    public static final Version CURRENT_VERSION = Version.current();
+
     @Getter
     private int major, minor, patch;
 
     @Getter
     private String version;
+
+    @Getter
+    private int dataVersion;
 
     /**
      * Creates new Minecraft version from parameters (e.g. 1.13.1)
@@ -100,16 +114,11 @@ public class Version { // package-private
      * @param patch Patch (third number)
      */
     public Version(int major, int minor, int patch) {
-        this.major = major;
-        this.minor = minor;
-        this.patch = patch;
+        this(major, minor, patch, null);
     }
 
     public Version(int major, int minor, int patch, String version) {
-        this.major = major;
-        this.minor = minor;
-        this.patch = patch;
-        this.version = version;
+        this(major, minor, patch, version, 0);
     }
 
     /**
@@ -126,16 +135,41 @@ public class Version { // package-private
         this(major, minor, 0, version);
     }
 
+    public Version(int major, int minor, String version, int dataVersion) {
+        this(major, minor, 0, version, dataVersion);
+    }
+
+    public Version(int major, int minor, int patch, String version, int dataVersion) {
+        this.major = major;
+        this.minor = minor;
+        this.patch = patch;
+        this.version = version;
+        this.dataVersion = dataVersion;
+    }
+
     /**
      * Detects current Minecraft version
      */
-    public Version() {
+    public static Version current() {
         String[] split = Bukkit.getBukkitVersion().split("-")[0].split("\\.");
-        String pack = Bukkit.getServer().getClass().getPackage().getName();
-        this.version = pack.substring(pack.lastIndexOf('.') + 1);
-        this.major = 1;
-        this.minor = Integer.parseInt(split[1]);
-        this.patch = split.length > 2 ? Integer.parseInt(split[2]) : 0;
+        if (split.length < 2) {
+            int dataVersion;
+            try {
+                dataVersion = Bukkit.getUnsafe().getDataVersion();
+            } catch (NoSuchMethodError e) {
+                return v1_12;
+            }
+            for (Version lv : versionList) {
+                if (lv.dataVersion == dataVersion) {
+                    return lv;
+                }
+            }
+        } else {
+            String pack = Bukkit.getServer().getClass().getPackage().getName();
+            return new Version(1, Integer.parseInt(split[1]),
+                    split.length > 2 ? Integer.parseInt(split[2]) : 0, pack.substring(pack.lastIndexOf('.') + 1));
+        }
+        return v1_12;
     }
 
     /**

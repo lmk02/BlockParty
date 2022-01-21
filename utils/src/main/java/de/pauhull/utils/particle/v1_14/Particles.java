@@ -1,13 +1,13 @@
 package de.pauhull.utils.particle.v1_14;
 
-import de.pauhull.utils.misc.MinecraftVersion;
+import de.leonkoth.blockparty.version.Version;
 import de.pauhull.utils.misc.Reflection;
 import de.pauhull.utils.particle.IParticles;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.pauhull.utils.misc.MinecraftVersion.v1_14;
+import static de.leonkoth.blockparty.version.Version.v1_14;
 
 /**
  * Particles for 1.14 update
@@ -26,7 +26,7 @@ public enum Particles implements IParticles {
     private static Map<String, Object> particles = new HashMap<>();
 
     static {
-        if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(v1_14)) {
+        if (Version.CURRENT_VERSION.isGreaterOrEquals(v1_14)) {
             clazz = Reflection.getNMSClass("Particles");
         }
     }
