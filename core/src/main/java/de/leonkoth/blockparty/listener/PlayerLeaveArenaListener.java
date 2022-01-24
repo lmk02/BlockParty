@@ -49,7 +49,7 @@ public class PlayerLeaveArenaListener implements Listener {
 
         if(arena.getArenaState() == ArenaState.LOBBY && !arena.getPhaseHandler().getLobbyPhase().isRunning())
         {
-            player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
         }
 
         if (blockParty.isBungee()) {
