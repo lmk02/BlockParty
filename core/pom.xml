@@ -19,25 +19,20 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
+            <id>sonatype-public</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>bstats-repo</id>
-            <url>http://repo.bstats.org/content/repositories/releases/</url>
+            <url>https://repo.bstats.org/content/repositories/releases/</url>
         </repository>
         <repository>
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
-        </repository>
-        <repository>
-            <id>sinndev-repo</id>
-            <name>Releases</name>
-            <url>http://repo.sinndev.com/content/repositories/releases/</url>
-        </repository>
-        <repository>
-            <id>TimoCloud-API</id>
-            <url>https://maven.timo.cloud/repository/TimoCloud-API/</url>
         </repository>
     </repositories>
 
@@ -47,13 +42,6 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
@@ -103,13 +91,6 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>cloud.timo.TimoCloud</groupId>
-            <artifactId>TimoCloud-API</artifactId>
-            <version>5.3.1</version>
             <scope>provided</scope>
         </dependency>
 

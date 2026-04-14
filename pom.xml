@@ -13,12 +13,24 @@
         <module>spigot_v1_8_R3</module>
         <module>spigot_v1_13_R1</module>
         <module>spigot_v1_14_R1</module>
+        <module>spigot_v1_21_R3</module>
         <module>utils</module>
         <module>api</module>
         <module>expansion</module>
     </modules>
     <packaging>pom</packaging>
     <name>BlockParty</name>
+
+    <repositories>
+        <repository>
+            <id>spigot</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>sonatype-public</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- Lombok -->

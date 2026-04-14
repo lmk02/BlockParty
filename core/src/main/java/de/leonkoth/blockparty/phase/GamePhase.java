@@ -1,6 +1,5 @@
 package de.leonkoth.blockparty.phase;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.GameState;
@@ -73,7 +72,7 @@ public class GamePhase implements Runnable {
         Bukkit.getPluginManager().callEvent(event);
 
         if (blockParty.isTimoCloud()) {
-            TimoCloudAPI.getBukkitAPI().getThisServer().setState("INGAME");
+            setTimoCloudState("INGAME");
         }
     }
 
@@ -95,7 +94,7 @@ public class GamePhase implements Runnable {
         Bukkit.getPluginManager().callEvent(event);
 
         if (blockParty.isTimoCloud()) {
-            TimoCloudAPI.getBukkitAPI().getThisServer().setState("RESTART");
+            setTimoCloudState("RESTART");
         }
     }
 
@@ -200,6 +199,17 @@ public class GamePhase implements Runnable {
                     this.blockParty.getWebServer().send(playerInfo.asPlayer().getAddress().getHostName(), arena.getName(), "song", message);
                 }
             }
+        }
+    }
+
+    private void setTimoCloudState(String state) {
+        try {
+            Class<?> apiClass = Class.forName("cloud.timo.TimoCloud.api.TimoCloudAPI");
+            Object bukkitApi = apiClass.getMethod("getBukkitAPI").invoke(null);
+            Object server = bukkitApi.getClass().getMethod("getThisServer").invoke(bukkitApi);
+            server.getClass().getMethod("setState", String.class).invoke(server, state);
+        } catch (ReflectiveOperationException ignored) {
+            // Optional integration: ignore when TimoCloud API is not present or changed.
         }
     }
 

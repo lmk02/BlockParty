@@ -36,6 +36,11 @@
         </dependency>
         <dependency>
             <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-spigot_v1_21_R3</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.leonkoth</groupId>
             <artifactId>blockparty-utils</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
@@ -47,7 +52,7 @@
         <dependency>
             <groupId>de.leonkoth</groupId>
             <artifactId>blockparty-expansion</artifactId>
-            <version>1.0.3</version>
+            <version>${project.parent.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -83,7 +88,6 @@
                             </filters>
 
                             <minimizeJar>true</minimizeJar>
-
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>

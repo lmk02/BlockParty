@@ -17,6 +17,26 @@ public class MinecraftVersion {
     public static final MinecraftVersion CURRENT_VERSION = new MinecraftVersion();
 
     //region VERSIONS
+    public static final MinecraftVersion v1_21_4 = new MinecraftVersion(1, 21, 4, "v1_21_R3");
+    public static final MinecraftVersion v1_21_3 = new MinecraftVersion(1, 21, 3, "v1_21_R2");
+    public static final MinecraftVersion v1_21_2 = new MinecraftVersion(1, 21, 2, "v1_21_R2");
+    public static final MinecraftVersion v1_21_1 = new MinecraftVersion(1, 21, 1, "v1_21_R1");
+    public static final MinecraftVersion v1_21 = new MinecraftVersion(1, 21, "v1_21_R1");
+    public static final MinecraftVersion v1_20_6 = new MinecraftVersion(1, 20, 6, "v1_20_R4");
+    public static final MinecraftVersion v1_20_5 = new MinecraftVersion(1, 20, 5, "v1_20_R4");
+    public static final MinecraftVersion v1_20_4 = new MinecraftVersion(1, 20, 4, "v1_20_R3");
+    public static final MinecraftVersion v1_20_3 = new MinecraftVersion(1, 20, 3, "v1_20_R3");
+    public static final MinecraftVersion v1_20_2 = new MinecraftVersion(1, 20, 2, "v1_20_R2");
+    public static final MinecraftVersion v1_20_1 = new MinecraftVersion(1, 20, 1, "v1_20_R1");
+    public static final MinecraftVersion v1_20 = new MinecraftVersion(1, 20, "v1_20_R1");
+    public static final MinecraftVersion v1_19_4 = new MinecraftVersion(1, 19, 4, "v1_19_R3");
+    public static final MinecraftVersion v1_19_3 = new MinecraftVersion(1, 19, 3, "v1_19_R2");
+    public static final MinecraftVersion v1_19_2 = new MinecraftVersion(1, 19, 2, "v1_19_R1");
+    public static final MinecraftVersion v1_19_1 = new MinecraftVersion(1, 19, 1, "v1_19_R1");
+    public static final MinecraftVersion v1_19 = new MinecraftVersion(1, 19, "v1_19_R1");
+    public static final MinecraftVersion v1_18_2 = new MinecraftVersion(1, 18, 2, "v1_18_R2");
+    public static final MinecraftVersion v1_18_1 = new MinecraftVersion(1, 18, 1, "v1_18_R1");
+    public static final MinecraftVersion v1_18 = new MinecraftVersion(1, 18, "v1_18_R1");
     public static final MinecraftVersion v1_17 = new MinecraftVersion(1, 17, "v1_17_R1");
     public static final MinecraftVersion v1_16_5 = new MinecraftVersion(1, 16, 5, "v1_16_R3");
     public static final MinecraftVersion v1_16_4 = new MinecraftVersion(1, 16, 4, "v1_16_R3");
@@ -71,6 +91,8 @@ public class MinecraftVersion {
     public static List<MinecraftVersion> versionList = new ArrayList<>();
 
     static {
+        versionList.add(v1_21_4);
+        versionList.add(v1_15);
         versionList.add(v1_14);
         versionList.add(v1_13_1);
         versionList.add(v1_13);

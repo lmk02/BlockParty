@@ -56,8 +56,12 @@ public class VersionHandler {
                 }
             } catch (ReflectiveOperationException e) {
                 if (e instanceof ClassNotFoundException) {
-                    i++;
+                    if (i >= Version.versionList.size()) {
+                        break;
+                    }
+
                     currentVersion = Version.versionList.get(i);
+                    i++;
                     continue;
                 }
 
