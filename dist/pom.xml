@@ -30,6 +30,26 @@
         </dependency>
         <dependency>
             <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-spigot_v1_16_R3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-spigot_v1_18_R2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-spigot_v1_19_R3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-spigot_v1_20_R1</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.leonkoth</groupId>
+            <artifactId>blockparty-spigot_v1_21_R1</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.leonkoth</groupId>
             <artifactId>blockparty-utils</artifactId>
         </dependency>
         <dependency>

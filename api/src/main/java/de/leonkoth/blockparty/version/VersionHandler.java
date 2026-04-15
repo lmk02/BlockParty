@@ -35,6 +35,17 @@ public class VersionHandler {
         }
 
 
+        // On 1.17+ the CraftBukkit package no longer carries a version suffix, so
+        // currentVersion.getVersion() returns "craftbukkit" rather than e.g. "v1_16_R3".
+        // In that case skip the exact-match attempt and start directly at the first
+        // versionList entry that is <= the running version.
+        boolean hasNmsVersion = currentVersion.getVersion() != null
+                && currentVersion.getVersion().startsWith("v");
+
+        if (!hasNmsVersion && i < Version.versionList.size()) {
+            currentVersion = Version.versionList.get(i);
+        }
+
         Object obj = null;
         boolean isBlockPartyMaterial = false;
         if (classI == BlockPartyMaterial.class)

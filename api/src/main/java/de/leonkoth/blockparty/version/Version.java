@@ -18,6 +18,22 @@ public class Version { // package-private
     public static final Version CURRENT_VERSION = new Version();
 
     //region VERSIONS
+    public static final Version v1_21_4 = new Version(1, 21, 4, "v1_21_R1");
+    public static final Version v1_21_1 = new Version(1, 21, 1, "v1_21_R1");
+    public static final Version v1_21 = new Version(1, 21, "v1_21_R1");
+    public static final Version v1_20_6 = new Version(1, 20, 6, "v1_20_R4");
+    public static final Version v1_20_4 = new Version(1, 20, 4, "v1_20_R3");
+    public static final Version v1_20_2 = new Version(1, 20, 2, "v1_20_R2");
+    public static final Version v1_20_1 = new Version(1, 20, 1, "v1_20_R1");
+    public static final Version v1_20 = new Version(1, 20, "v1_20_R1");
+    public static final Version v1_19_4 = new Version(1, 19, 4, "v1_19_R3");
+    public static final Version v1_19_3 = new Version(1, 19, 3, "v1_19_R3");
+    public static final Version v1_19_2 = new Version(1, 19, 2, "v1_19_R2");
+    public static final Version v1_19_1 = new Version(1, 19, 1, "v1_19_R1");
+    public static final Version v1_19 = new Version(1, 19, "v1_19_R1");
+    public static final Version v1_18_2 = new Version(1, 18, 2, "v1_18_R2");
+    public static final Version v1_18_1 = new Version(1, 18, 1, "v1_18_R1");
+    public static final Version v1_18 = new Version(1, 18, "v1_18_R1");
     public static final Version v1_17 = new Version(1, 17, "v1_17_R1");
     public static final Version v1_16_5 = new Version(1, 16, 5, "v1_16_R3");
     public static final Version v1_16_4 = new Version(1, 16, 4, "v1_16_R3");
@@ -72,6 +88,15 @@ public class Version { // package-private
     public static List<Version> versionList = new ArrayList<>();
 
     static {
+        versionList.add(v1_21);
+        versionList.add(v1_20_4);
+        versionList.add(v1_20);
+        versionList.add(v1_19_3);
+        versionList.add(v1_19);
+        versionList.add(v1_18_2);
+        versionList.add(v1_18);
+        versionList.add(v1_16_5);
+        versionList.add(v1_16_1);
         versionList.add(v1_15);
         versionList.add(v1_14);
         versionList.add(v1_13_1);

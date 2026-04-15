@@ -17,6 +17,11 @@
         <module>spigot_v1_8_R3</module>
         <module>spigot_v1_13_R1</module>
         <module>spigot_v1_14_R1</module>
+        <module>spigot_v1_16_R3</module>
+        <module>spigot_v1_18_R2</module>
+        <module>spigot_v1_19_R3</module>
+        <module>spigot_v1_20_R1</module>
+        <module>spigot_v1_21_R1</module>
         <module>expansion</module>
         <module>dist</module>
     </modules>
@@ -146,6 +151,31 @@
             <dependency>
                 <groupId>de.leonkoth</groupId>
                 <artifactId>blockparty-spigot_v1_14_R1</artifactId>
+                <version>${blockparty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.leonkoth</groupId>
+                <artifactId>blockparty-spigot_v1_16_R3</artifactId>
+                <version>${blockparty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.leonkoth</groupId>
+                <artifactId>blockparty-spigot_v1_18_R2</artifactId>
+                <version>${blockparty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.leonkoth</groupId>
+                <artifactId>blockparty-spigot_v1_19_R3</artifactId>
+                <version>${blockparty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.leonkoth</groupId>
+                <artifactId>blockparty-spigot_v1_20_R1</artifactId>
+                <version>${blockparty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.leonkoth</groupId>
+                <artifactId>blockparty-spigot_v1_21_R1</artifactId>
                 <version>${blockparty.version}</version>
             </dependency>
         </dependencies>
