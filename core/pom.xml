@@ -23,21 +23,8 @@
             <url>https://jitpack.io</url>
         </repository>
         <repository>
-            <id>bstats-repo</id>
-            <url>http://repo.bstats.org/content/repositories/releases/</url>
-        </repository>
-        <repository>
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
-        </repository>
-        <repository>
-            <id>sinndev-repo</id>
-            <name>Releases</name>
-            <url>http://repo.sinndev.com/content/repositories/releases/</url>
-        </repository>
-        <repository>
-            <id>TimoCloud-API</id>
-            <url>https://maven.timo.cloud/repository/TimoCloud-API/</url>
         </repository>
     </repositories>
 
@@ -71,7 +58,7 @@
             <groupId>org.eclipse.jetty.aggregate</groupId>
             <artifactId>jetty-all</artifactId>
             <version>9.4.15.v20190215</version>
-            <type>pom</type>
+            <classifier>uber</classifier>
             <scope>compile</scope>
         </dependency>
 
@@ -107,9 +94,9 @@
         </dependency>
 
         <dependency>
-            <groupId>cloud.timo.TimoCloud</groupId>
+            <groupId>cloud.timo.timocloud</groupId>
             <artifactId>TimoCloud-API</artifactId>
-            <version>5.3.1</version>
+            <version>6.7.9</version>
             <scope>provided</scope>
         </dependency>
 
@@ -136,31 +123,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.18.6.0</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>delombok</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <sourceDirectory>/src</sourceDirectory>
-                    <addOutputDirectory>true</addOutputDirectory>
-                    <encoding>lombok.encoding</encoding>
-                </configuration>
             </plugin>
 
             <!-- Shade JAR -->
