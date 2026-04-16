@@ -42,10 +42,25 @@ public class AudioManager {
             return new NoOpAudioProvider();
         }
 
-        blockParty.getPlugin().getLogger().warning(
-                "Audio provider \"" + providerType.name().toLowerCase() + "\" is not available on this branch yet. Audio will stay disabled."
-        );
-        return new NoOpAudioProvider();
+        try {
+            return switch (providerType) {
+                case OPENAUDIOMC -> new OpenAudioMcAudioProvider(blockParty);
+                default -> {
+                    blockParty.getPlugin().getLogger().warning(
+                            "Audio provider \"" + providerType.name().toLowerCase() + "\" is not available on this branch yet. Audio will stay disabled."
+                    );
+                    yield new NoOpAudioProvider();
+                }
+            };
+        } catch (Throwable throwable) {
+            blockParty.getPlugin().getLogger().warning(
+                    "Could not create audio provider \"" + providerType.name().toLowerCase() + "\". Audio will stay disabled."
+            );
+            if (BlockParty.DEBUG) {
+                throwable.printStackTrace();
+            }
+            return new NoOpAudioProvider();
+        }
     }
 
     public void initialize() {
