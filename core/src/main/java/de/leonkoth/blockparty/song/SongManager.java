@@ -2,6 +2,9 @@ package de.leonkoth.blockparty.song;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.audio.AudioManager;
+import de.leonkoth.blockparty.audio.AudioProviderType;
+import de.leonkoth.blockparty.audio.TrackCatalogEntry;
 import org.bukkit.Bukkit;
 
 import java.io.FileNotFoundException;
@@ -73,7 +76,9 @@ public class SongManager {
 
     public Song getSong(String name) {
         for (Song song : songs) {
-            if (song.getName().equalsIgnoreCase(name) || song.getStrippedSongName().equalsIgnoreCase(name)) {
+            if (song.getName().equalsIgnoreCase(name)
+                    || song.getStrippedSongName().equalsIgnoreCase(name)
+                    || getDisplayName(song).equalsIgnoreCase(name)) {
                 return song;
             }
         }
@@ -97,7 +102,9 @@ public class SongManager {
 
     public boolean addVote(String name) {
         for (Song s : songs) {
-            if (s.getStrippedSongName().equals(name)) {
+            if (s.getStrippedSongName().equals(name)
+                    || s.getName().equalsIgnoreCase(name)
+                    || getDisplayName(s).equalsIgnoreCase(name)) {
                 s.addVote();
                 return true;
             }
@@ -106,12 +113,14 @@ public class SongManager {
     }
 
     private Song getMostVoted() {
-        if (songs.isEmpty()) {
+        List<Song> playableSongs = getPlayableSongs();
+        if (playableSongs.isEmpty()) {
             Bukkit.getConsoleSender().sendMessage("§c[BlockParty] No Song available! Please add a song.");
             return null;
         }
-        Song mostVoted = songs.get(0);
-        for (Song song : songs) {
+
+        Song mostVoted = playableSongs.get(0);
+        for (Song song : playableSongs) {
             if (song.getVotes() > mostVoted.getVotes())
                 mostVoted = song;
         }
@@ -163,7 +172,7 @@ public class SongManager {
                 this.votedSong = null;
             }
 
-            SONG_PLAYING.broadcast(arena.getPlayers(), PREFIX, "%SONG%", this.votedSong.getName());
+            SONG_PLAYING.broadcast(arena.getPlayers(), PREFIX, "%SONG%", getDisplayName(this.votedSong));
             this.resetVotes();
         }
     }
@@ -189,11 +198,11 @@ public class SongManager {
     public boolean debugPlayTrack(BlockParty blockParty, String name) {
         Song debugSong = getSong(name);
 
-        if (debugSong == null && arena.isUseWebSongs()) {
+        if (debugSong == null && arena.isUseWebSongs() && canCreateDebugWebSong(name)) {
             debugSong = new WebSong(name);
         }
 
-        if (debugSong == null) {
+        if (debugSong == null || !isPlayableSong(debugSong)) {
             return false;
         }
 
@@ -201,7 +210,7 @@ public class SongManager {
 
         try {
             this.votedSong.play(blockParty, this.arena);
-            SONG_PLAYING.broadcast(arena.getPlayers(), PREFIX, "%SONG%", this.votedSong.getName());
+            SONG_PLAYING.broadcast(arena.getPlayers(), PREFIX, "%SONG%", getDisplayName(this.votedSong));
             return true;
         } catch (FileNotFoundException e) {
             BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Song " + this.votedSong.getName() + " not available. Please check your arena config!");
@@ -257,6 +266,76 @@ public class SongManager {
 
     public void setVotedSong(Song song) {
         this.votedSong = song;
+    }
+
+    public String getDisplayName(Song song) {
+        if (song == null) {
+            return "...";
+        }
+
+        if (arena.isUseWebSongs()) {
+            AudioManager audioManager = BlockParty.getInstance().getAudioManager();
+            if (audioManager != null && audioManager.getProviderType() == AudioProviderType.CENTRAL_HUB) {
+                return audioManager.getTrackCatalogService().getDisplayName(song.getName());
+            }
+        }
+
+        return song.getStrippedSongName();
+    }
+
+    public String getCurrentSongDisplayName() {
+        return votedSong == null ? "..." : getDisplayName(votedSong);
+    }
+
+    public List<Song> getValidSongs() {
+        return new ArrayList<>(getPlayableSongs());
+    }
+
+    public List<Song> getInvalidSongs() {
+        List<Song> invalidSongs = new ArrayList<>();
+        for (Song song : songs) {
+            if (!isPlayableSong(song)) {
+                invalidSongs.add(song);
+            }
+        }
+        return invalidSongs;
+    }
+
+    private List<Song> getPlayableSongs() {
+        List<Song> playableSongs = new ArrayList<>();
+        for (Song song : songs) {
+            if (isPlayableSong(song)) {
+                playableSongs.add(song);
+            }
+        }
+        return playableSongs;
+    }
+
+    private boolean isPlayableSong(Song song) {
+        if (song == null) {
+            return false;
+        }
+
+        if (!arena.isUseWebSongs()) {
+            return true;
+        }
+
+        AudioManager audioManager = BlockParty.getInstance().getAudioManager();
+        if (audioManager == null || audioManager.getProviderType() != AudioProviderType.CENTRAL_HUB) {
+            return true;
+        }
+
+        TrackCatalogEntry track = audioManager.getTrackCatalogService().getTrack(song.getName());
+        return track != null && track.enabled();
+    }
+
+    private boolean canCreateDebugWebSong(String name) {
+        AudioManager audioManager = BlockParty.getInstance().getAudioManager();
+        if (audioManager == null || audioManager.getProviderType() != AudioProviderType.CENTRAL_HUB) {
+            return true;
+        }
+
+        return audioManager.getTrackCatalogService().hasTrack(name);
     }
 
 }
