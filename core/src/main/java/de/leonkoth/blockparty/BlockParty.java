@@ -97,6 +97,9 @@ public class BlockParty {
     private boolean arenaPrivateChat, signsEnabled;
 
     @Getter
+    private boolean debugEnabled;
+
+    @Getter
     private int signUpdateMillis;
 
     @Getter
@@ -327,6 +330,7 @@ public class BlockParty {
 
             arenaPrivateChat = !config.getConfig().isBoolean("Chat.ArenaPrivateChat") || config.getConfig().getBoolean("Chat.ArenaPrivateChat");
             signsEnabled = !config.getConfig().isBoolean("JoinSigns.Enabled") || config.getConfig().isBoolean("JoinSigns.Enabled");
+            debugEnabled = config.getConfig().getBoolean("Debug.Enabled");
 
             if(Bukkit.getScheduler().isCurrentlyRunning(signUpdaterTask)) {
                 Bukkit.getScheduler().cancelTask(signUpdaterTask);

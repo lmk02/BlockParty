@@ -95,6 +95,10 @@ Audio:
     # Auto-generated on first startup when using the central hub provider
     ServerKey: ""
 
+Debug:
+  # Enables admin-only debug tools such as force-starting solo games and testing audio actions
+  Enabled: False
+
 Database:
   # Use "MySQL" to enable MySQL, "SQL" to store data locally
   Method: SQL

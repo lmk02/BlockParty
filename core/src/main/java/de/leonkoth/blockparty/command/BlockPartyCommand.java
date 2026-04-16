@@ -55,6 +55,7 @@ public class BlockPartyCommand implements CommandExecutor {
         commands.add(new BlockPartyAddPatternCommand(blockParty));
         commands.add(new BlockPartyJoinCommand(blockParty));
         commands.add(new BlockPartyStatusCommand(blockParty));
+        commands.add(new BlockPartyDebugCommand(blockParty));
         commands.add(new BlockPartyPosCommand(blockParty));
         commands.add(new BlockPartyPlacePatternCommand(blockParty));
         commands.add(new BlockPartyUndoCommand(blockParty));

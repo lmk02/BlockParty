@@ -53,7 +53,15 @@ public class PhaseHandler {
     }
 
     public boolean startGamePhase() {
-        if (this.arena.getPlayersInArena().size() >= arena.getMinPlayers() && !scheduler.isCurrentlyRunning(gamePhaseScheduler) && !scheduler.isQueued(gamePhaseScheduler)) {
+        return startGamePhase(false);
+    }
+
+    public boolean forceStartGamePhase() {
+        return startGamePhase(true);
+    }
+
+    private boolean startGamePhase(boolean ignoreMinPlayers) {
+        if ((ignoreMinPlayers || this.arena.getPlayersInArena().size() >= arena.getMinPlayers()) && !scheduler.isCurrentlyRunning(gamePhaseScheduler) && !scheduler.isQueued(gamePhaseScheduler)) {
             arena.setArenaState(ArenaState.INGAME);
             this.gamePhase = new GamePhase(blockParty, arena.getName());
             this.gamePhase.initialize();
@@ -85,6 +93,18 @@ public class PhaseHandler {
 
     public void cancelGamePhase() {
         Bukkit.getScheduler().cancelTask(gamePhaseScheduler);
+    }
+
+    public boolean isGamePhaseActive() {
+        return scheduler.isCurrentlyRunning(gamePhaseScheduler) || scheduler.isQueued(gamePhaseScheduler);
+    }
+
+    public boolean debugSkipCurrentRound() {
+        return isGamePhaseActive() && gamePhase != null && gamePhase.debugSkipToStopPhase();
+    }
+
+    public boolean debugAdvanceToNextRound() {
+        return isGamePhaseActive() && gamePhase != null && gamePhase.debugAdvanceToNextRound();
     }
 
 }

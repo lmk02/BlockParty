@@ -29,4 +29,8 @@ public interface AudioProvider {
     default void handlePlayerLeave(Player player, Arena arena) {
     }
 
+    default String getConnectUrl(Arena arena) {
+        return null;
+    }
+
 }
