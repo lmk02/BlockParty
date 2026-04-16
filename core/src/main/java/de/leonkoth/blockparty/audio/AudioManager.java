@@ -45,6 +45,7 @@ public class AudioManager {
         try {
             return switch (providerType) {
                 case OPENAUDIOMC -> new OpenAudioMcAudioProvider(blockParty);
+                case CENTRAL_HUB -> new CentralHubAudioProvider(blockParty);
                 default -> {
                     blockParty.getPlugin().getLogger().warning(
                             "Audio provider \"" + providerType.name().toLowerCase() + "\" is not available on this branch yet. Audio will stay disabled."
