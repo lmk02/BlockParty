@@ -1,7 +1,15 @@
-# BlockParty-2.0
+# BlockParty 3.x
 ![Jenkins](https://img.shields.io/jenkins/build/https/jenkins.simpleunity.org/job/BlockParty) [![GitHub license](https://img.shields.io/github/license/Leon167/BlockParty-2.0)](https://github.com/Leon167/BlockParty-2.0/blob/master/LICENSE) ![GitHub release](https://img.shields.io/github/release/Leon167/BlockParty-2.0)
 
-BlockParty 2 is an extension for Minecraft Servers, built with the Spigot/Bukkit API.
+BlockParty 3 is the modernized BlockParty line for current Minecraft servers, built on a Java 21 baseline with a Paper-first compatibility target.
+
+## Support policy
+
+- `BlockParty 3.x` supports `Minecraft 1.20.6+` and `1.21.x`
+- `Java 21` is required to build and run this line
+- Legacy support for `1.8` through `1.19.x` belongs on the `2.x` line
+
+See [COMPATIBILITY.md](COMPATIBILITY.md) for the runtime matrix and release split.
 
 ## Installation
 

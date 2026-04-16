@@ -52,7 +52,6 @@ public class GameStartListener implements Listener {
 
             player.getInventory().remove(ItemType.VOTEFORASONG.getItem());
             player.getInventory().remove(ItemType.LEAVEARENA.getItem());
-            player.updateInventory();
         }
 
         arena.broadcast(PREFIX, GAME_STARTED, false, (PlayerInfo[]) null);

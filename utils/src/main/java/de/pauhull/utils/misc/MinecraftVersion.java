@@ -17,6 +17,22 @@ public class MinecraftVersion {
     public static final MinecraftVersion CURRENT_VERSION = new MinecraftVersion();
 
     //region VERSIONS
+    public static final MinecraftVersion v1_21_4 = new MinecraftVersion(1, 21, 4, "v1_21_R1");
+    public static final MinecraftVersion v1_21_1 = new MinecraftVersion(1, 21, 1, "v1_21_R1");
+    public static final MinecraftVersion v1_21 = new MinecraftVersion(1, 21, "v1_21_R1");
+    public static final MinecraftVersion v1_20_6 = new MinecraftVersion(1, 20, 6, "v1_20_R4");
+    public static final MinecraftVersion v1_20_4 = new MinecraftVersion(1, 20, 4, "v1_20_R3");
+    public static final MinecraftVersion v1_20_2 = new MinecraftVersion(1, 20, 2, "v1_20_R2");
+    public static final MinecraftVersion v1_20_1 = new MinecraftVersion(1, 20, 1, "v1_20_R1");
+    public static final MinecraftVersion v1_20 = new MinecraftVersion(1, 20, "v1_20_R1");
+    public static final MinecraftVersion v1_19_4 = new MinecraftVersion(1, 19, 4, "v1_19_R3");
+    public static final MinecraftVersion v1_19_3 = new MinecraftVersion(1, 19, 3, "v1_19_R3");
+    public static final MinecraftVersion v1_19_2 = new MinecraftVersion(1, 19, 2, "v1_19_R2");
+    public static final MinecraftVersion v1_19_1 = new MinecraftVersion(1, 19, 1, "v1_19_R1");
+    public static final MinecraftVersion v1_19 = new MinecraftVersion(1, 19, "v1_19_R1");
+    public static final MinecraftVersion v1_18_2 = new MinecraftVersion(1, 18, 2, "v1_18_R2");
+    public static final MinecraftVersion v1_18_1 = new MinecraftVersion(1, 18, 1, "v1_18_R1");
+    public static final MinecraftVersion v1_18 = new MinecraftVersion(1, 18, "v1_18_R1");
     public static final MinecraftVersion v1_17 = new MinecraftVersion(1, 17, "v1_17_R1");
     public static final MinecraftVersion v1_16_5 = new MinecraftVersion(1, 16, 5, "v1_16_R3");
     public static final MinecraftVersion v1_16_4 = new MinecraftVersion(1, 16, 4, "v1_16_R3");
@@ -71,6 +87,16 @@ public class MinecraftVersion {
     public static List<MinecraftVersion> versionList = new ArrayList<>();
 
     static {
+        versionList.add(v1_21);
+        versionList.add(v1_20_4);
+        versionList.add(v1_20);
+        versionList.add(v1_19_3);
+        versionList.add(v1_19);
+        versionList.add(v1_18_2);
+        versionList.add(v1_18);
+        versionList.add(v1_16_5);
+        versionList.add(v1_16_1);
+        versionList.add(v1_15);
         versionList.add(v1_14);
         versionList.add(v1_13_1);
         versionList.add(v1_13);
@@ -129,11 +155,10 @@ public class MinecraftVersion {
      */
     public MinecraftVersion() {
         String[] split = Bukkit.getBukkitVersion().split("-")[0].split("\\.");
-        String pack = Bukkit.getServer().getClass().getPackage().getName();
-        this.version = pack.substring(pack.lastIndexOf('.') + 1);
         this.major = 1;
         this.minor = Integer.parseInt(split[1]);
         this.patch = split.length > 2 ? Integer.parseInt(split[2]) : 0;
+        this.version = this.minor >= 21 ? "v1_21_R1" : "v1_20_R1";
     }
 
     /**

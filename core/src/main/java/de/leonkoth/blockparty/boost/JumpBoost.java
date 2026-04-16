@@ -19,7 +19,7 @@ public class JumpBoost extends Boost {
 
     @Override
     public void onCollect(Location location, Player player, PlayerInfo playerInfo) {
-        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 200, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 200, 1));
     }
 
     @Override

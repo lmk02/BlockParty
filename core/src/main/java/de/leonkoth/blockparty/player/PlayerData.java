@@ -79,7 +79,15 @@ public class PlayerData {
                 } else if (field.getType() == float.class) {
                     field.set(playerData, (float) config.getDouble(name));
                 } else if (field.getType() == ItemStack[].class) {
-                    field.set(playerData, ((List<ItemStack>) config.get(name)).toArray(new ItemStack[0]));
+                    List<?> items = config.getList(name);
+                    if (items == null) {
+                        field.set(playerData, new ItemStack[0]);
+                    } else {
+                        field.set(playerData, items.stream()
+                                .filter(ItemStack.class::isInstance)
+                                .map(ItemStack.class::cast)
+                                .toArray(ItemStack[]::new));
+                    }
                 } else {
                     field.set(playerData, config.get(name));
                 }
@@ -154,8 +162,9 @@ public class PlayerData {
 
     public void apply(Player player) {
 
-        if (file != null)
+        if (file != null) {
             file.delete();
+        }
 
         player.setHealth(health);
         player.setFoodLevel(foodLevel);

@@ -83,7 +83,6 @@ public class PlayerJoinArenaListener implements Listener {
         player.getInventory().setItem(8, ItemType.LEAVEARENA.getItem());
         if(arena.isEnableVoteItem())
             player.getInventory().setItem(7, ItemType.VOTEFORASONG.getItem());
-        player.updateInventory();
 
         this.blockParty.getDisplayScoreboard().setScoreboard(0,0,arena);
 

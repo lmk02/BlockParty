@@ -24,6 +24,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -211,7 +212,6 @@ public class Arena {
                 playerInfo.setCurrentArena(this);
                 player.getInventory().setItem(8, ItemType.LEAVEARENA.getItem());
                 player.getInventory().setItem(7, ItemType.VOTEFORASONG.getItem());
-                player.updateInventory();
             }
         }
 
@@ -334,7 +334,8 @@ public class Arena {
                     }
                 }
                 for (int i = 0; i < 4; i++) {
-                    sign.setLine(i, lines[i]);
+                    sign.getSide(Side.FRONT).setLine(i, lines[i]);
+                    sign.getSide(Side.BACK).setLine(i, lines[i]);
                 }
 
                 sign.update();

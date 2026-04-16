@@ -30,3 +30,9 @@ hs_err_pid*
 
 # Maven build directory
 target/
+
+.claude
+
+.mvn
+
+.vscode
