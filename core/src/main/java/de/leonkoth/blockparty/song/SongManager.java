@@ -71,6 +71,16 @@ public class SongManager {
         return songs;
     }
 
+    public Song getSong(String name) {
+        for (Song song : songs) {
+            if (song.getName().equalsIgnoreCase(name) || song.getStrippedSongName().equalsIgnoreCase(name)) {
+                return song;
+            }
+        }
+
+        return null;
+    }
+
     public void setSongs(ArrayList<Song> songs) {
         this.songs = songs;
     }
@@ -173,6 +183,30 @@ public class SongManager {
     public void stop(BlockParty blockParty) {
         if (this.votedSong != null) {
             this.votedSong.stop(blockParty, this.arena);
+        }
+    }
+
+    public boolean debugPlayTrack(BlockParty blockParty, String name) {
+        Song debugSong = getSong(name);
+
+        if (debugSong == null && arena.isUseWebSongs()) {
+            debugSong = new WebSong(name);
+        }
+
+        if (debugSong == null) {
+            return false;
+        }
+
+        this.votedSong = debugSong;
+
+        try {
+            this.votedSong.play(blockParty, this.arena);
+            SONG_PLAYING.broadcast(arena.getPlayers(), PREFIX, "%SONG%", this.votedSong.getName());
+            return true;
+        } catch (FileNotFoundException e) {
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Song " + this.votedSong.getName() + " not available. Please check your arena config!");
+            this.votedSong = null;
+            return false;
         }
     }
 

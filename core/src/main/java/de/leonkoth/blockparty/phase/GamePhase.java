@@ -193,4 +193,47 @@ public class GamePhase implements Runnable {
         return this.currentTimeToSearch + this.preparingTime - this.currentTime;
     }
 
+    public int getCurrentLevelDisplay() {
+        return currentLevel + 1;
+    }
+
+    public String getDebugStage() {
+        if (currentTime < preparingTime) {
+            return "prepare";
+        }
+
+        if (currentTime < (currentTimeToSearch + preparingTime)) {
+            return "dance";
+        }
+
+        if (currentTime < (currentTimeToSearch + preparingTime + stopTime)) {
+            return "stop";
+        }
+
+        return "transition";
+    }
+
+    public boolean isInStopWindow() {
+        return currentTime >= (currentTimeToSearch + preparingTime)
+                && currentTime < (currentTimeToSearch + preparingTime + stopTime);
+    }
+
+    public boolean debugSkipToStopPhase() {
+        if ("stop".equals(getDebugStage()) || "transition".equals(getDebugStage())) {
+            return false;
+        }
+
+        currentTime = currentTimeToSearch + preparingTime;
+        return true;
+    }
+
+    public boolean debugAdvanceToNextRound() {
+        if (!isInStopWindow()) {
+            return false;
+        }
+
+        currentTime = currentTimeToSearch + preparingTime + stopTime;
+        return true;
+    }
+
 }

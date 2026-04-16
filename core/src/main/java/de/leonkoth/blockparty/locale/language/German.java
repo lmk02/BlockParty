@@ -128,6 +128,7 @@ public class German extends Language {
     public static final LocaleString COMMAND_ADMIN = new LocaleString(COMMANDS, "Zeigt alle Admin-Befehle");
     public static final LocaleString COMMAND_CREATE = new LocaleString(COMMANDS, "Erstellt arena");
     public static final LocaleString COMMAND_CREATE_PATTERN = new LocaleString(COMMANDS, "Speichert Selektion zu Vorlage");
+    public static final LocaleString COMMAND_DEBUG = new LocaleString(COMMANDS, "Debug-Werkzeuge für Arena und Audio");
     public static final LocaleString COMMAND_DELETE = new LocaleString(COMMANDS, "Löscht Arena");
     public static final LocaleString COMMAND_DISABLE = new LocaleString(COMMANDS, "Schaltet Arena aus");
     public static final LocaleString COMMAND_ENABLE = new LocaleString(COMMANDS, "Schaltet Arena an");

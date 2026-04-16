@@ -100,6 +100,15 @@ public class CentralHubAudioProvider implements AudioProvider {
         stopForPlayer(player, arena);
     }
 
+    @Override
+    public String getConnectUrl(Arena arena) {
+        if (arena == null) {
+            return null;
+        }
+
+        return buildFrontendUrl(arena);
+    }
+
     private void publishAudioEvent(Arena arena, String action, String trackIdentifier, Player player) {
         if (httpClient == null || arena == null) {
             return;

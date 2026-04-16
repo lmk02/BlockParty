@@ -129,6 +129,7 @@ public class English extends Language {
     public static final LocaleString COMMAND_ADMIN = new LocaleString(COMMANDS, "Shows all admin commands");
     public static final LocaleString COMMAND_CREATE = new LocaleString(COMMANDS, "Creates a new arena");
     public static final LocaleString COMMAND_CREATE_PATTERN = new LocaleString(COMMANDS, "Creates a pattern from selection");
+    public static final LocaleString COMMAND_DEBUG = new LocaleString(COMMANDS, "Arena and audio debug tools");
     public static final LocaleString COMMAND_DELETE = new LocaleString(COMMANDS, "Deletes arena");
     public static final LocaleString COMMAND_DISABLE = new LocaleString(COMMANDS, "Disables arena");
     public static final LocaleString COMMAND_ENABLE = new LocaleString(COMMANDS, "Enables arena");

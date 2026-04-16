@@ -102,6 +102,7 @@ public class BlockPartyLocale extends Locale {
     public static LocaleString COMMAND_BLOCK_PARTY;
     public static LocaleString COMMAND_CREATE;
     public static LocaleString COMMAND_CREATE_PATTERN;
+    public static LocaleString COMMAND_DEBUG;
     public static LocaleString COMMAND_DELETE;
     public static LocaleString COMMAND_DISABLE;
     public static LocaleString COMMAND_ENABLE;
