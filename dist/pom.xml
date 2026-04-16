@@ -59,7 +59,10 @@
                                     <excludes><exclude>META-INF/**</exclude></excludes>
                                 </filter>
                             </filters>
-                            <minimizeJar>true</minimizeJar>
+                            <!-- Paper resolves the plugin entrypoint reflectively from plugin.yml,
+                                 so jar minimization can incorrectly strip the main class and other
+                                 plugin classes from the distributable artifact. -->
+                            <minimizeJar>false</minimizeJar>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
