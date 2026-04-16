@@ -126,6 +126,7 @@ public class BlockPartyLocale extends Locale {
     public static LocaleString COMMAND_UNDO;
     public static LocaleString COMMAND_WAND;
     public static LocaleString COMMAND_REPORT_BUG;
+    public static LocaleString COMMAND_SONGS;
 
     public static LocaleString HEADER_ADMIN;
     public static LocaleString HEADER_HELP;

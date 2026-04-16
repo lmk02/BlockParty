@@ -36,7 +36,7 @@ public class DisplayScoreboard {
                 .replace("%MAXPLAYERS%", arena.getMaxPlayers() + "")
                 .replace("%TIME%", timeLeft + "")
                 .replace("%ARENA%", arena.getName())
-                .replace("%SONG%", arena.getSongManager().getVotedSong() == null ? "..." : arena.getSongManager().getVotedSong().getStrippedSongName())); // TODO ... to config;
+                .replace("%SONG%", arena.getSongManager().getCurrentSongDisplayName())); // TODO ... to config;
         //Score[] scores = new Score[Locale.SCOREBOARD_TEXT.length-1];
 
         //ArrayList<Score> sc = new ArrayList<>();
@@ -55,7 +55,7 @@ public class DisplayScoreboard {
                     .replace("%MAXPLAYERS%", arena.getMaxPlayers() + "")
                     .replace("%TIME%", timeLeft + "")
                     .replace("%ARENA%", arena.getName())
-                    .replace("%SONG%", arena.getSongManager().getVotedSong() == null ? "..." : arena.getSongManager().getVotedSong().getStrippedSongName())); // TODO ... to config
+                    .replace("%SONG%", arena.getSongManager().getCurrentSongDisplayName())); // TODO ... to config
             score.setScore(SCOREBOARD_TEXT.getValues().length - 1 - i);
         }
 

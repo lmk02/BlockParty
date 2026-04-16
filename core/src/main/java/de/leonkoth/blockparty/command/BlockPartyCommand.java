@@ -6,13 +6,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
@@ -21,7 +24,7 @@ import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
  * Project Blockparty2
  * © 2016 - Leon Koth
  */
-public class BlockPartyCommand implements CommandExecutor {
+public class BlockPartyCommand implements CommandExecutor, TabCompleter {
 
     public static List<SubCommand> commands = new ArrayList<>();
 
@@ -31,6 +34,7 @@ public class BlockPartyCommand implements CommandExecutor {
         this.blockParty = blockParty;
 
         blockParty.getPlugin().getCommand("blockparty").setExecutor(this);
+        blockParty.getPlugin().getCommand("blockparty").setTabCompleter(this);
 
         commands.add(new BlockPartySetFloorCommand(blockParty));
         commands.add(new BlockPartyListArenasCommand(blockParty));
@@ -50,6 +54,7 @@ public class BlockPartyCommand implements CommandExecutor {
         commands.add(new BlockPartyStatsCommand(blockParty));
         commands.add(new BlockPartyEnableCommand(blockParty));
         commands.add(new BlockPartyAddSongCommand(blockParty));
+        commands.add(new BlockPartySongsCommand(blockParty));
         commands.add(new BlockPartySetSpawnCommand(blockParty));
         commands.add(new BlockPartyCreatePatternCommand(blockParty));
         commands.add(new BlockPartyAddPatternCommand(blockParty));
@@ -133,5 +138,55 @@ public class BlockPartyCommand implements CommandExecutor {
 
         return true;
 
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (!command.getName().equalsIgnoreCase("blockparty")) {
+            return Collections.emptyList();
+        }
+
+        if (args.length == 0) {
+            return Collections.emptyList();
+        }
+
+        if (args.length == 1) {
+            List<String> suggestions = new ArrayList<>();
+            String partial = args[0].toLowerCase(Locale.ROOT);
+
+            for (SubCommand subCommand : commands) {
+                if (blockParty.getDisabledSubCommands().contains(subCommand.getName())) {
+                    continue;
+                }
+
+                if (!sender.hasPermission(subCommand.getPermission())) {
+                    continue;
+                }
+
+                if (subCommand.getName().toLowerCase(Locale.ROOT).startsWith(partial)) {
+                    suggestions.add(subCommand.getName());
+                }
+            }
+
+            return suggestions;
+        }
+
+        for (SubCommand subCommand : commands) {
+            if (!subCommand.getName().equalsIgnoreCase(args[0])) {
+                continue;
+            }
+
+            if (blockParty.getDisabledSubCommands().contains(subCommand.getName())) {
+                return Collections.emptyList();
+            }
+
+            if (!sender.hasPermission(subCommand.getPermission())) {
+                return Collections.emptyList();
+            }
+
+            return subCommand.tabComplete(sender, args);
+        }
+
+        return Collections.emptyList();
     }
 }

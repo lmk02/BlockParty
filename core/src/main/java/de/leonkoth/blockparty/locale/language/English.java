@@ -145,6 +145,7 @@ public class English extends Language {
     public static final LocaleString COMMAND_REMOVE_PATTERN = new LocaleString(COMMANDS, "Removes pattern from arena");
     public static final LocaleString COMMAND_SET_FLOOR = new LocaleString(COMMANDS, "Sets floor area for arena");
     public static final LocaleString COMMAND_SET_SPAWN = new LocaleString(COMMANDS, "Sets lobby or game spawn for arena");
+    public static final LocaleString COMMAND_SONGS = new LocaleString(COMMANDS, "Lists configured arena tracks");
     public static final LocaleString COMMAND_START = new LocaleString(COMMANDS, "Starts arena");
     public static final LocaleString COMMAND_STATS = new LocaleString(COMMANDS, "Shows a player's stats");
     public static final LocaleString COMMAND_STATUS = new LocaleString(COMMANDS, "Shows arena status");

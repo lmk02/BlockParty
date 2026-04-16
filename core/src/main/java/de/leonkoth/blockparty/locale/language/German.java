@@ -144,6 +144,7 @@ public class German extends Language {
     public static final LocaleString COMMAND_REMOVE_PATTERN = new LocaleString(COMMANDS, "Entfernt Vorlage aus Arena");
     public static final LocaleString COMMAND_SET_FLOOR = new LocaleString(COMMANDS, "Setzt Boden für Arena");
     public static final LocaleString COMMAND_SET_SPAWN = new LocaleString(COMMANDS, "Setzt Lobby- oder Gamespawn");
+    public static final LocaleString COMMAND_SONGS = new LocaleString(COMMANDS, "Listet konfigurierte Arena-Tracks");
     public static final LocaleString COMMAND_START = new LocaleString(COMMANDS, "Startet Arena");
     public static final LocaleString COMMAND_STATS = new LocaleString(COMMANDS, "Zeigt die Statistiken eines Spielers");
     public static final LocaleString COMMAND_STATUS = new LocaleString(COMMANDS, "Zeigt Arena Status");

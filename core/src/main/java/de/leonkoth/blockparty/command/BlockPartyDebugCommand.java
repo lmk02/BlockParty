@@ -6,6 +6,8 @@ import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.audio.AudioManager;
 import de.leonkoth.blockparty.audio.AudioProvider;
 import de.leonkoth.blockparty.audio.AudioProviderType;
+import de.leonkoth.blockparty.audio.TrackCatalogEntry;
+import de.leonkoth.blockparty.audio.TrackCatalogService;
 import de.leonkoth.blockparty.event.PlayerWinEvent;
 import de.leonkoth.blockparty.phase.GamePhase;
 import de.leonkoth.blockparty.player.PlayerInfo;
@@ -17,6 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,7 +27,7 @@ import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
 public class BlockPartyDebugCommand extends SubCommand {
 
-    public static final String SYNTAX = "/bp debug <force-start|force-win|skip-round|next-round|audio|status|connect-url> ...";
+    public static final String SYNTAX = "/bp debug <force-start|force-win|skip-round|next-round|audio|tracks|status|connect-url> ...";
 
     public BlockPartyDebugCommand(BlockParty blockParty) {
         super(false, 2, "debug", "blockparty.admin.debug", blockParty);
@@ -43,6 +46,7 @@ public class BlockPartyDebugCommand extends SubCommand {
             case "skip-round" -> skipRound(sender, args);
             case "next-round" -> nextRound(sender, args);
             case "audio" -> handleAudio(sender, args);
+            case "tracks" -> handleTracks(sender, args);
             case "status" -> status(sender, args);
             case "connect-url" -> connectUrl(sender, args);
             default -> sendDebugHelp(sender);
@@ -143,7 +147,52 @@ public class BlockPartyDebugCommand extends SubCommand {
             return false;
         }
 
-        sender.sendMessage(PREFIX + "Playing track " + args[4] + " in arena " + arena.getName() + ".");
+        sender.sendMessage(PREFIX + "Playing track " + arena.getSongManager().getCurrentSongDisplayName() + " in arena " + arena.getName() + ".");
+        return true;
+    }
+
+    private boolean handleTracks(CommandSender sender, String[] args) {
+        if (args.length < 3) {
+            return sendTracksHelp(sender);
+        }
+
+        return switch (args[2].toLowerCase(Locale.ROOT)) {
+            case "refresh" -> refreshTracks(sender);
+            case "status" -> tracksStatus(sender);
+            default -> sendTracksHelp(sender);
+        };
+    }
+
+    private boolean refreshTracks(CommandSender sender) {
+        AudioManager audioManager = blockParty.getAudioManager();
+        if (audioManager == null || audioManager.getProviderType() != AudioProviderType.CENTRAL_HUB) {
+            sender.sendMessage(PREFIX + "Track catalog sync is only available with the Central Hub provider.");
+            return false;
+        }
+
+        if (!audioManager.getTrackCatalogService().refreshAsync()) {
+            sender.sendMessage(PREFIX + "Couldn't start a track catalog refresh right now.");
+            return false;
+        }
+
+        sender.sendMessage(PREFIX + "Refreshing the Aura track catalog in the background.");
+        return true;
+    }
+
+    private boolean tracksStatus(CommandSender sender) {
+        AudioManager audioManager = blockParty.getAudioManager();
+        if (audioManager == null) {
+            sender.sendMessage(PREFIX + "Audio is not initialized.");
+            return false;
+        }
+
+        TrackCatalogService catalogService = audioManager.getTrackCatalogService();
+        sender.sendMessage(PREFIX + "Aura track catalog:");
+        sender.sendMessage("§8- §7Provider: §e" + audioManager.getProviderType().name().toLowerCase(Locale.ROOT));
+        sender.sendMessage("§8- §7Available: §e" + catalogService.isCatalogAvailable());
+        sender.sendMessage("§8- §7Tracks: §e" + catalogService.getTracks().size());
+        sender.sendMessage("§8- §7LastRefresh: §e" + (catalogService.getLastRefreshMillis() > 0 ? catalogService.getLastRefreshMillis() : "never"));
+        sender.sendMessage("§8- §7LastError: §e" + (catalogService.getLastError() != null ? catalogService.getLastError() : "none"));
         return true;
     }
 
@@ -216,8 +265,12 @@ public class BlockPartyDebugCommand extends SubCommand {
         sender.sendMessage("§8- §7ArenaState: §e" + arena.getArenaState().name());
         sender.sendMessage("§8- §7GameState: §e" + arena.getGameState().name());
         sender.sendMessage("§8- §7Players: §e" + arena.getPlayersInArena().size() + " total / " + ingamePlayers + " ingame");
-        sender.sendMessage("§8- §7Song: §e" + (votedSong != null ? votedSong.getName() : "none"));
+        sender.sendMessage("§8- §7Song: §e" + (votedSong != null ? arena.getSongManager().getDisplayName(votedSong) : "none"));
         sender.sendMessage("§8- §7AudioProvider: §e" + (audioManager != null ? audioManager.getProviderType().name().toLowerCase(Locale.ROOT) : "none"));
+        if (audioManager != null) {
+            sender.sendMessage("§8- §7CatalogTracks: §e" + audioManager.getTrackCatalogService().getTracks().size());
+            sender.sendMessage("§8- §7CatalogAvailable: §e" + audioManager.getTrackCatalogService().isCatalogAvailable());
+        }
 
         if (arena.getPhaseHandler().isGamePhaseActive() && gamePhase != null) {
             sender.sendMessage("§8- §7Round: §e" + gamePhase.getCurrentLevelDisplay());
@@ -398,6 +451,7 @@ public class BlockPartyDebugCommand extends SubCommand {
         sender.sendMessage("§8- §e/bp debug next-round [arena] §7Advance from stop to the next round");
         sender.sendMessage("§8- §e/bp debug status [arena] §7Show arena, round, song, and provider state");
         sender.sendMessage("§8- §e/bp debug connect-url [arena] [player] §7Send the Central Hub player URL");
+        sender.sendMessage("§8- §e/bp debug tracks ... §7Show Aura catalog debug commands");
         sender.sendMessage("§8- §e/bp debug audio ... §7Show audio debug commands");
         return false;
     }
@@ -409,6 +463,106 @@ public class BlockPartyDebugCommand extends SubCommand {
         sender.sendMessage("§8- §e/bp debug audio resume [arena] §7Resume the current track");
         sender.sendMessage("§8- §e/bp debug audio stop [arena] §7Stop the current track");
         return false;
+    }
+
+    private boolean sendTracksHelp(CommandSender sender) {
+        sender.sendMessage(PREFIX + "Debug track catalog commands:");
+        sender.sendMessage("§8- §e/bp debug tracks refresh §7Refresh the Aura track catalog");
+        sender.sendMessage("§8- §e/bp debug tracks status §7Show cache state and last refresh result");
+        return false;
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String[] args) {
+        if (args.length == 2) {
+            return filterByPrefix(List.of("force-start", "force-win", "skip-round", "next-round", "audio", "tracks", "status", "connect-url"), args[1]);
+        }
+
+        if (args.length == 3) {
+            return switch (args[1].toLowerCase(Locale.ROOT)) {
+                case "audio" -> filterByPrefix(List.of("play", "pause", "resume", "stop"), args[2]);
+                case "tracks" -> filterByPrefix(List.of("refresh", "status"), args[2]);
+                case "force-start", "skip-round", "next-round", "status", "connect-url" -> completeArenaArg(args[2]);
+                case "force-win" -> completeArenaOrPlayerArg(args[2]);
+                default -> Collections.emptyList();
+            };
+        }
+
+        if (args.length == 4) {
+            if (args[1].equalsIgnoreCase("audio")) {
+                return switch (args[2].toLowerCase(Locale.ROOT)) {
+                    case "play", "pause", "resume", "stop" -> completeArenaArg(args[3]);
+                    default -> Collections.emptyList();
+                };
+            }
+
+            if (args[1].equalsIgnoreCase("force-win") || args[1].equalsIgnoreCase("connect-url")) {
+                return completeArenaPlayers(args[2], args[3]);
+            }
+        }
+
+        if (args.length == 5 && args[1].equalsIgnoreCase("audio") && args[2].equalsIgnoreCase("play")) {
+            return completeTrackIds(args[4]);
+        }
+
+        return Collections.emptyList();
+    }
+
+    private List<String> completeArenaArg(String partial) {
+        return filterByPrefix(blockParty.getArenas().stream().map(Arena::getName).toList(), partial);
+    }
+
+    private List<String> completeArenaOrPlayerArg(String partial) {
+        List<String> suggestions = new ArrayList<>(completeArenaArg(partial));
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getName().toLowerCase(Locale.ROOT).startsWith(partial.toLowerCase(Locale.ROOT))) {
+                suggestions.add(player.getName());
+            }
+        }
+        return suggestions;
+    }
+
+    private List<String> completeArenaPlayers(String arenaNameArg, String partial) {
+        Arena arena = Arena.getByName(arenaNameArg);
+        if (arena == null) {
+            return Collections.emptyList();
+        }
+
+        List<String> players = new ArrayList<>();
+        for (PlayerInfo info : arena.getPlayersInArena()) {
+            if (info.getName().toLowerCase(Locale.ROOT).startsWith(partial.toLowerCase(Locale.ROOT))) {
+                players.add(info.getName());
+            }
+        }
+        return players;
+    }
+
+    private List<String> completeTrackIds(String partial) {
+        AudioManager audioManager = blockParty.getAudioManager();
+        if (audioManager == null) {
+            return Collections.emptyList();
+        }
+
+        List<String> trackIds = new ArrayList<>();
+        for (TrackCatalogEntry track : audioManager.getTrackCatalogService().getTracks()) {
+            if (track.id().toLowerCase(Locale.ROOT).startsWith(partial.toLowerCase(Locale.ROOT))) {
+                trackIds.add(track.id());
+            }
+        }
+        return trackIds;
+    }
+
+    private List<String> filterByPrefix(List<String> values, String partial) {
+        String loweredPartial = partial.toLowerCase(Locale.ROOT);
+        List<String> matches = new ArrayList<>();
+
+        for (String value : values) {
+            if (value.toLowerCase(Locale.ROOT).startsWith(loweredPartial)) {
+                matches.add(value);
+            }
+        }
+
+        return matches;
     }
 
     @Override
