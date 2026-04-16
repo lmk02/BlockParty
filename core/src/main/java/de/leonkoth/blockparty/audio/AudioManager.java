@@ -23,6 +23,9 @@ public class AudioManager {
     private AudioProvider provider;
 
     @Getter
+    private final TrackCatalogService trackCatalogService;
+
+    @Getter
     private boolean online;
 
     public AudioManager(BlockParty blockParty) {
@@ -33,6 +36,7 @@ public class AudioManager {
         this.providerType = enabled
                 ? AudioProviderType.fromConfig(config.getString("Audio.Provider"))
                 : AudioProviderType.NONE;
+        this.trackCatalogService = new TrackCatalogService(blockParty);
         this.provider = createProvider();
         this.online = false;
     }
@@ -67,6 +71,7 @@ public class AudioManager {
     public void initialize() {
         try {
             provider.initialize();
+            trackCatalogService.initialize(enabled, providerType);
             online = enabled && !(provider instanceof NoOpAudioProvider);
         } catch (Exception exception) {
             online = false;
@@ -81,12 +86,17 @@ public class AudioManager {
     public void shutdown() {
         try {
             provider.shutdown();
+            trackCatalogService.shutdown();
         } catch (Exception exception) {
             Bukkit.getConsoleSender().sendMessage("§c[BlockParty] Couldn't stop AudioProvider");
             if (BlockParty.DEBUG) {
                 exception.printStackTrace();
             }
         }
+    }
+
+    public void reload() {
+        trackCatalogService.reload(enabled, providerType);
     }
 
     public void playTrackForPlayer(Player player, Arena arena, String trackIdentifier) {
