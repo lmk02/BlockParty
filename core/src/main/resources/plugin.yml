@@ -18,4 +18,4 @@ permissions:
     default: true
     description: Access to the main command.
 
-api-version: 1.13
+api-version: 1.20

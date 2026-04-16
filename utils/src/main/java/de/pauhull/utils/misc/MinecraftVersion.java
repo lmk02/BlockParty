@@ -155,11 +155,10 @@ public class MinecraftVersion {
      */
     public MinecraftVersion() {
         String[] split = Bukkit.getBukkitVersion().split("-")[0].split("\\.");
-        String pack = Bukkit.getServer().getClass().getPackage().getName();
-        this.version = pack.substring(pack.lastIndexOf('.') + 1);
         this.major = 1;
         this.minor = Integer.parseInt(split[1]);
         this.patch = split.length > 2 ? Integer.parseInt(split[2]) : 0;
+        this.version = this.minor >= 21 ? "v1_21_R1" : "v1_20_R1";
     }
 
     /**

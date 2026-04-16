@@ -1,6 +1,5 @@
 package de.pauhull.utils.misc;
 
-import de.leonkoth.blockparty.version.VersionHandler;
 import de.leonkoth.blockparty.version.VersionedMaterial;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,9 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionType;
-
 import java.util.Arrays;
 import java.util.List;
 

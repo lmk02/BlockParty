@@ -51,7 +51,7 @@ public class VersionHandler {
         if (classI == BlockPartyMaterial.class)
             isBlockPartyMaterial = true;
 
-        while (obj == null && currentVersion.isGreaterOrEquals(Version.v1_8_4)) {
+        while (obj == null && i < Version.versionList.size()) {
             try {
                 Class<?> clazz = Class.forName("de.leonkoth.blockparty.version." + currentVersion.getVersion() + "." + className);
                 if (!classI.isAssignableFrom(clazz)) {
@@ -68,6 +68,9 @@ public class VersionHandler {
             } catch (ReflectiveOperationException e) {
                 if (e instanceof ClassNotFoundException) {
                     i++;
+                    if (i >= Version.versionList.size()) {
+                        break;
+                    }
                     currentVersion = Version.versionList.get(i);
                     continue;
                 }

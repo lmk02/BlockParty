@@ -2,7 +2,6 @@ package de.pauhull.utils.locale;
 
 import de.pauhull.utils.locale.storage.LocaleSection;
 import de.pauhull.utils.locale.storage.LocaleString;
-import de.pauhull.utils.misc.Reflection;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -98,7 +97,7 @@ public abstract class Locale {
         }
 
         for (Field field : writeTo.getFields()) { // Write those strings to fields
-            if (Reflection.extendsFrom(LocaleString.class, field.getType())) {
+            if (LocaleString.class.isAssignableFrom(field.getType())) {
 
                 String name = convertName(field.getName());
                 if (strings.containsKey(name)) {

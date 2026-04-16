@@ -5,7 +5,6 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.display.DisplayScoreboard;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.util.Util;
-import de.pauhull.utils.misc.MinecraftVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -15,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
-import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
-
 /**
  * Created by Leon on 15.03.2018.
  * Project Blockparty2
@@ -42,15 +39,7 @@ public class LobbyPhase implements Runnable {
         this.countdown = arena.getLobbyCountdown();
 
         try {
-            if (MinecraftVersion.CURRENT_VERSION.isGreaterOrEquals(MinecraftVersion.v1_9)) {
-                if (MinecraftVersion.CURRENT_VERSION.isLower(v1_13)) {
-                    sound = Sound.valueOf("BLOCK_NOTE_HARP");
-                } else {
-                    sound = Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");
-                }
-            } else {
-                sound = Sound.valueOf("NOTE_PIANO");
-            }
+            sound = Sound.BLOCK_NOTE_BLOCK_HARP;
         } catch (IllegalArgumentException e) {
             Bukkit.getConsoleSender().sendMessage("§c" + e.getMessage());
         }

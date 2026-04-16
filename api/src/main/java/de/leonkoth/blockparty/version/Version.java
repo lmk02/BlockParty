@@ -21,94 +21,18 @@ public class Version { // package-private
     public static final Version v1_21_4 = new Version(1, 21, 4, "v1_21_R1");
     public static final Version v1_21_1 = new Version(1, 21, 1, "v1_21_R1");
     public static final Version v1_21 = new Version(1, 21, "v1_21_R1");
-    public static final Version v1_20_6 = new Version(1, 20, 6, "v1_20_R4");
-    public static final Version v1_20_4 = new Version(1, 20, 4, "v1_20_R3");
-    public static final Version v1_20_2 = new Version(1, 20, 2, "v1_20_R2");
+    public static final Version v1_20_6 = new Version(1, 20, 6, "v1_20_R1");
+    public static final Version v1_20_4 = new Version(1, 20, 4, "v1_20_R1");
+    public static final Version v1_20_2 = new Version(1, 20, 2, "v1_20_R1");
     public static final Version v1_20_1 = new Version(1, 20, 1, "v1_20_R1");
     public static final Version v1_20 = new Version(1, 20, "v1_20_R1");
-    public static final Version v1_19_4 = new Version(1, 19, 4, "v1_19_R3");
-    public static final Version v1_19_3 = new Version(1, 19, 3, "v1_19_R3");
-    public static final Version v1_19_2 = new Version(1, 19, 2, "v1_19_R2");
-    public static final Version v1_19_1 = new Version(1, 19, 1, "v1_19_R1");
-    public static final Version v1_19 = new Version(1, 19, "v1_19_R1");
-    public static final Version v1_18_2 = new Version(1, 18, 2, "v1_18_R2");
-    public static final Version v1_18_1 = new Version(1, 18, 1, "v1_18_R1");
-    public static final Version v1_18 = new Version(1, 18, "v1_18_R1");
-    public static final Version v1_17 = new Version(1, 17, "v1_17_R1");
-    public static final Version v1_16_5 = new Version(1, 16, 5, "v1_16_R3");
-    public static final Version v1_16_4 = new Version(1, 16, 4, "v1_16_R3");
-    public static final Version v1_16_3 = new Version(1, 16, 3, "v1_16_R2");
-    public static final Version v1_16_2 = new Version(1, 16, 2, "v1_16_R2");
-    public static final Version v1_16_1 = new Version(1, 16, 1, "v1_16_R1");
-    public static final Version v1_15_2 = new Version(1, 15, 2, "v1_15_R1");
-    public static final Version v1_15_1 = new Version(1, 15, 1, "v1_15_R1");
-    public static final Version v1_15 = new Version(1, 15, "v1_15_R1");
-    public static final Version v1_14_4 = new Version(1, 14, 4, "v1_14_R1");
-    public static final Version v1_14_3 = new Version(1, 14, 3, "v1_14_R1");
-    public static final Version v1_14_2 = new Version(1, 14, 2, "v1_14_R1");
-    public static final Version v1_14_1 = new Version(1, 14, 1, "v1_14_R1");
-    public static final Version v1_14 = new Version(1, 14, "v1_14_R1");
-    public static final Version v1_13_2 = new Version(1, 13, 2, "v1_13_R2");
-    public static final Version v1_13_1 = new Version(1, 13, 1, "v1_13_R2");
-    public static final Version v1_13 = new Version(1, 13, "v1_13_R1");
-    public static final Version v1_12_2 = new Version(1, 12, 2, "v1_12_R1");
-    public static final Version v1_12_1 = new Version(1, 12, 1, "v1_12_R1");
-    public static final Version v1_12 = new Version(1, 12, "v1_12_R1");
-    public static final Version v1_11_2 = new Version(1, 11, 2, "v1_11_R1");
-    public static final Version v1_11_1 = new Version(1, 11, 1, "v1_11_R1");
-    public static final Version v1_11 = new Version(1, 11, "v1_11_R1");
-    public static final Version v1_10_2 = new Version(1, 10, 2, "v1_10_R1");
-    public static final Version v1_10_1 = new Version(1, 10, 1, "v1_10_R1");
-    public static final Version v1_10 = new Version(1, 10, "v1_10_R1");
-    public static final Version v1_9_4 = new Version(1, 9, 4, "v1_9_R2");
-    public static final Version v1_9_3 = new Version(1, 9, 3, "v1_9_R1");
-    public static final Version v1_9_2 = new Version(1, 9, 2, "v1_9_R1");
-    public static final Version v1_9_1 = new Version(1, 9, 1, "v1_9_R1");
-    public static final Version v1_9 = new Version(1, 9, "v1_9_R1");
-    public static final Version v1_8_9 = new Version(1, 8, 9, "v1_8_R3");
-    public static final Version v1_8_8 = new Version(1, 8, 8, "v1_8_R3");
-    public static final Version v1_8_7 = new Version(1, 8, 7, "v1_8_R3");
-    public static final Version v1_8_6 = new Version(1, 8, 6, "v1_8_R3");
-    public static final Version v1_8_5 = new Version(1, 8, 5, "v1_8_R3");
-    public static final Version v1_8_4 = new Version(1, 8, 4, "v1_8_R3");
-    public static final Version v1_8_3 = new Version(1, 8, 3, "v1_8_R2");
-    public static final Version v1_8_2 = new Version(1, 8, 2, "v1_8_R1");
-    public static final Version v1_8_1 = new Version(1, 8, 1, "v1_8_R1");
-    public static final Version v1_8 = new Version(1, 8, "v1_8_R1");
-    public static final Version v1_7_10 = new Version(1, 7, 10);
-    public static final Version v1_7_9 = new Version(1, 7, 9);
-    public static final Version v1_7_8 = new Version(1, 7, 8);
-    public static final Version v1_7_7 = new Version(1, 7, 7);
-    public static final Version v1_7_6 = new Version(1, 7, 6);
-    public static final Version v1_7_5 = new Version(1, 7, 5);
-    public static final Version v1_7_4 = new Version(1, 7, 4);
-    public static final Version v1_7_2 = new Version(1, 7, 2);
     //endregion
 
     public static List<Version> versionList = new ArrayList<>();
 
     static {
         versionList.add(v1_21);
-        versionList.add(v1_20_4);
-        versionList.add(v1_20);
-        versionList.add(v1_19_3);
-        versionList.add(v1_19);
-        versionList.add(v1_18_2);
-        versionList.add(v1_18);
-        versionList.add(v1_16_5);
-        versionList.add(v1_16_1);
-        versionList.add(v1_15);
-        versionList.add(v1_14);
-        versionList.add(v1_13_1);
-        versionList.add(v1_13);
-        versionList.add(v1_12);
-        versionList.add(v1_11);
-        versionList.add(v1_10);
-        versionList.add(v1_9_4);
-        versionList.add(v1_9);
-        versionList.add(v1_8_4);
-        versionList.add(v1_8_3);
-        versionList.add(v1_8);
+        versionList.add(v1_20_6);
     }
 
     @Getter
@@ -156,11 +80,14 @@ public class Version { // package-private
      */
     public Version() {
         String[] split = Bukkit.getBukkitVersion().split("-")[0].split("\\.");
-        String pack = Bukkit.getServer().getClass().getPackage().getName();
-        this.version = pack.substring(pack.lastIndexOf('.') + 1);
         this.major = 1;
         this.minor = Integer.parseInt(split[1]);
         this.patch = split.length > 2 ? Integer.parseInt(split[2]) : 0;
+        this.version = resolveModuleVersion(this.minor);
+    }
+
+    private static String resolveModuleVersion(int minor) {
+        return minor >= 21 ? "v1_21_R1" : "v1_20_R1";
     }
 
     /**

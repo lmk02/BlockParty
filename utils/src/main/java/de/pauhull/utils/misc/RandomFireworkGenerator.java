@@ -31,7 +31,7 @@ public class RandomFireworkGenerator {
         if (amount < 1)
             return;
 
-        Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
+        Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK_ROCKET);
         FireworkMeta meta = firework.getFireworkMeta();
 
         FireworkEffect.Type type = getRandomFireworkEffectType();

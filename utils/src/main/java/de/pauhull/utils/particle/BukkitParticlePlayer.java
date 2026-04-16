@@ -32,8 +32,8 @@ class BukkitParticlePlayer implements ParticlePlayer {
         switch (particles) {
             case CLOUD: return Particle.CLOUD;
             case CRIT: return Particle.CRIT;
-            case EXPLOSION_NORMAL: return Particle.EXPLOSION_NORMAL;
-            case SPELL: return Particle.SPELL;
+            case EXPLOSION_NORMAL: return Particle.EXPLOSION;
+            case SPELL: return Particle.EFFECT;
             default: throw new IllegalArgumentException("Unknown particle");
         }
     }

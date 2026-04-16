@@ -6,26 +6,17 @@ import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.BlockPartyMaterial;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.VersionedMaterial;
-import de.pauhull.utils.misc.MinecraftVersion;
-import org.bukkit.Location;
-import org.bukkit.Material;
 
-import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-
-import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
 
 public class AreaGenerator implements FloorGenerator {
 
     private Random random = new Random();
 
-    private boolean useLegacy;
-
     private IBlockPlacer blockPlacer;
 
     public AreaGenerator() {
-        this.useLegacy = MinecraftVersion.CURRENT_VERSION.isLower(v1_13);
         this.blockPlacer = BlockParty.getInstance().getBlockPlacer();
     }
 

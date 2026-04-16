@@ -1,6 +1,5 @@
 package de.pauhull.utils.message.type;
 
-import de.pauhull.utils.message.NMSClasses;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
@@ -11,8 +10,6 @@ import org.bukkit.entity.Player;
  * @version 1.0
  */
 public class TitleMessage implements MessageType {
-
-    private static final boolean SEND_TITLE;
 
     @Getter
     private String title;
@@ -47,19 +44,6 @@ public class TitleMessage implements MessageType {
      */
     @Override
     public void send(Player player) {
-        if (SEND_TITLE) {
-            player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
-        } else {
-            NMSClasses.sendTitlesNMS(player, title, subTitle, fadeIn, stay, fadeOut);
-        }
-    }
-
-    static {
-        boolean sendTitle = false;
-        try {
-            Player.class.getMethod("sendTitle", String.class, String.class, int.class, int.class, int.class);
-            sendTitle = true;
-        } catch (NoSuchMethodException ignored) {}
-        SEND_TITLE = sendTitle;
+        player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
     }
 }

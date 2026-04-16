@@ -6,7 +6,7 @@
 
     <groupId>de.leonkoth</groupId>
     <artifactId>blockparty-parent</artifactId>
-    <version>2.0.5-RELEASE</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>BlockParty</name>
 
@@ -14,12 +14,6 @@
         <module>api</module>
         <module>utils</module>
         <module>core</module>
-        <module>spigot_v1_8_R3</module>
-        <module>spigot_v1_13_R1</module>
-        <module>spigot_v1_14_R1</module>
-        <module>spigot_v1_16_R3</module>
-        <module>spigot_v1_18_R2</module>
-        <module>spigot_v1_19_R3</module>
         <module>spigot_v1_20_R1</module>
         <module>spigot_v1_21_R1</module>
         <module>expansion</module>
@@ -28,14 +22,14 @@
 
     <properties>
         <lombok.version>1.18.38</lombok.version>
-        <spigot.version>1.17-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.20.6-R0.1-SNAPSHOT</spigot.version>
         <jetty.version>9.4.57.v20241219</jetty.version>
         <java-websocket.version>1.6.0</java-websocket.version>
         <bstats.version>3.1.0</bstats.version>
         <timocloud.version>6.7.9</timocloud.version>
         <placeholderapi.version>2.12.2</placeholderapi.version>
         <!-- Explicit property avoids ${project.version} resolving to expansion's 1.0.3 -->
-        <blockparty.version>2.0.5-RELEASE</blockparty.version>
+        <blockparty.version>3.0.0-SNAPSHOT</blockparty.version>
     </properties>
 
     <repositories>
@@ -140,36 +134,6 @@
             </dependency>
             <dependency>
                 <groupId>de.leonkoth</groupId>
-                <artifactId>blockparty-spigot_v1_8_R3</artifactId>
-                <version>${blockparty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.leonkoth</groupId>
-                <artifactId>blockparty-spigot_v1_13_R1</artifactId>
-                <version>${blockparty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.leonkoth</groupId>
-                <artifactId>blockparty-spigot_v1_14_R1</artifactId>
-                <version>${blockparty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.leonkoth</groupId>
-                <artifactId>blockparty-spigot_v1_16_R3</artifactId>
-                <version>${blockparty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.leonkoth</groupId>
-                <artifactId>blockparty-spigot_v1_18_R2</artifactId>
-                <version>${blockparty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.leonkoth</groupId>
-                <artifactId>blockparty-spigot_v1_19_R3</artifactId>
-                <version>${blockparty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.leonkoth</groupId>
                 <artifactId>blockparty-spigot_v1_20_R1</artifactId>
                 <version>${blockparty.version}</version>
             </dependency>
@@ -199,7 +163,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.13.0</version>
                     <configuration>
-                        <release>8</release>
+                        <release>21</release>
                         <encoding>UTF-8</encoding>
                         <annotationProcessorPaths>
                             <path>
