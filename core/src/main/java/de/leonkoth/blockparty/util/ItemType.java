@@ -50,7 +50,7 @@ public enum ItemType {
         i = new ItemStack(this.type);
         ItemMeta m = i.getItemMeta();
         if (this.lore != null) {
-            ArrayList l = new ArrayList();
+            ArrayList<String> l = new ArrayList<>();
             l.add(this.lore);
             m.setLore(l);
         }
@@ -87,4 +87,3 @@ public enum ItemType {
         return this.name;
     }
 }
-

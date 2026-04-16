@@ -4,6 +4,7 @@ import de.leonkoth.blockparty.arena.Arena;
 import de.leonkoth.blockparty.arena.ArenaState;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import org.bukkit.Bukkit;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -27,7 +28,7 @@ public class DisplayScoreboard {
             return;
 
         Scoreboard playerboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        Objective objective = playerboard.registerNewObjective("Score", "dummy");
+        Objective objective = playerboard.registerNewObjective("Score", Criteria.DUMMY, "");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(SCOREBOARD_TEXT.getValue(0)
                 .replace("%LEVEL%", level + "")

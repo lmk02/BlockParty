@@ -10,7 +10,7 @@ public class VersionHandler {
 
     public static void init() {
 
-        blockPlacer = (IBlockPlacer) load("BlockPlacer", IBlockPlacer.class);
+        blockPlacer = load("BlockPlacer", IBlockPlacer.class);
 
         if(blockPlacer != null) {
             Bukkit.getConsoleSender().sendMessage("§a[BlockParty] Loading VersionedMaterial.");
@@ -19,7 +19,7 @@ public class VersionHandler {
 
     }
 
-    public static Object load(String className, Class<?> classI)
+    public static <T> T load(String className, Class<T> classI)
     {
         Version currentVersion = Version.CURRENT_VERSION;
         int i = 0;
@@ -46,35 +46,22 @@ public class VersionHandler {
             currentVersion = Version.versionList.get(i);
         }
 
-        Object obj = null;
-        boolean isBlockPartyMaterial = false;
-        if (classI == BlockPartyMaterial.class)
-            isBlockPartyMaterial = true;
+        T obj = null;
 
         while (obj == null && i < Version.versionList.size()) {
             try {
-                Class<?> clazz = Class.forName("de.leonkoth.blockparty.version." + currentVersion.getVersion() + "." + className);
-                if (!classI.isAssignableFrom(clazz)) {
-                    throw new RuntimeException("Incompatible class: " + clazz.getName());
-                } else {
-                    if(isBlockPartyMaterial) {
-                        Class<? extends BlockPartyMaterial> dynClass = (Class<? extends BlockPartyMaterial>) clazz;
-                        obj = dynClass.newInstance();
-                    } else {
-                        Class<? extends IBlockPlacer> dynClass = (Class<? extends IBlockPlacer>) clazz;
-                        obj = dynClass.newInstance();
-                    }
+                Class<? extends T> clazz = Class.forName(
+                        "de.leonkoth.blockparty.version." + currentVersion.getVersion() + "." + className
+                ).asSubclass(classI);
+                obj = clazz.getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException e) {
+                i++;
+                if (i >= Version.versionList.size()) {
+                    break;
                 }
+                currentVersion = Version.versionList.get(i);
+                continue;
             } catch (ReflectiveOperationException e) {
-                if (e instanceof ClassNotFoundException) {
-                    i++;
-                    if (i >= Version.versionList.size()) {
-                        break;
-                    }
-                    currentVersion = Version.versionList.get(i);
-                    continue;
-                }
-
                 e.printStackTrace();
             }
         }

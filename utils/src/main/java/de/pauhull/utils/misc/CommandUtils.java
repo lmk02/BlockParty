@@ -28,7 +28,7 @@ public class CommandUtils {
                 Field knownCommands = map.getClass().getDeclaredField("knownCommands");
                 knownCommands.setAccessible(true);
 
-                Map<String, Command> commands = (Map<String, Command>) knownCommands.get(map);
+                Map<String, Command> commands = getKnownCommands(knownCommands, map);
 
                 for (String name : commands.keySet()) {
                     for (String checkName : commandsToUnregister) {
@@ -46,6 +46,11 @@ public class CommandUtils {
             }
 
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Map<String, Command> getKnownCommands(Field knownCommands, SimpleCommandMap map) throws IllegalAccessException {
+        return (Map<String, Command>) knownCommands.get(map);
     }
 
 }
