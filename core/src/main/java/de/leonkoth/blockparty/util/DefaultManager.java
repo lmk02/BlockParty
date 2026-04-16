@@ -14,10 +14,6 @@ public class DefaultManager {
         copy("Songs/readme.md");
         copy("Floors/start.floor");
         copy("Floors/example.floor");
-        copy("web/index.html");
-        copy("web/songs/readme.md");
-        copy("web/bootstrap/css/bootstrap.css");
-        copy("web/bootstrap/js/bootstrap.js");
     }
 
     public static void copy(String resource) {

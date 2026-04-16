@@ -88,6 +88,11 @@ public class PlayerJoinArenaListener implements Listener {
 
         if (arena.isEnableJoinMessage())
             JOINED_GAME.message(PREFIX, player, "%ARENA%", arena.getName());
+
+        if (this.blockParty.getAudioManager() != null) {
+            this.blockParty.getAudioManager().handlePlayerJoin(player, arena);
+        }
+
         arena.getPhaseHandler().startLobbyPhase();
 
     }

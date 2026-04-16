@@ -34,6 +34,10 @@ public class PlayerLeaveArenaListener implements Listener {
         playerInfo.setPlayerState(PlayerState.DEFAULT);
         playerInfo.setCurrentArena(null);
 
+        if (this.blockParty.getAudioManager() != null) {
+            this.blockParty.getAudioManager().handlePlayerLeave(player, arena);
+        }
+
         if (!blockParty.isBungee() && playerInfo.getPlayerData() != null) {
             playerInfo.getPlayerData().apply(player);
             playerInfo.setPlayerData(null);

@@ -193,14 +193,4 @@ public class GamePhase implements Runnable {
         return this.currentTimeToSearch + this.preparingTime - this.currentTime;
     }
 
-    private void sendNetworkMessage(String message) {
-        for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
-            if (playerInfo.getPlayerState() == PlayerState.INGAME) {
-                if (this.blockParty.getWebServer() != null) {
-                    this.blockParty.getWebServer().send(playerInfo.asPlayer().getAddress().getHostName(), arena.getName(), "song", message);
-                }
-            }
-        }
-    }
-
 }
