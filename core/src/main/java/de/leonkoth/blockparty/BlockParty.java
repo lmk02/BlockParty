@@ -332,6 +332,10 @@ public class BlockParty {
             signsEnabled = !config.getConfig().isBoolean("JoinSigns.Enabled") || config.getConfig().isBoolean("JoinSigns.Enabled");
             debugEnabled = config.getConfig().getBoolean("Debug.Enabled");
 
+            if (audioManager != null) {
+                audioManager.reload();
+            }
+
             if(Bukkit.getScheduler().isCurrentlyRunning(signUpdaterTask)) {
                 Bukkit.getScheduler().cancelTask(signUpdaterTask);
             }

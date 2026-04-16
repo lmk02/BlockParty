@@ -23,7 +23,6 @@ public class CentralHubAudioProvider implements AudioProvider {
     private HttpClient httpClient;
     private String apiBaseUrl;
     private String frontendBaseUrl;
-    private String cdnBaseUrl;
     private String serverKey;
 
     public CentralHubAudioProvider(BlockParty blockParty) {
@@ -40,7 +39,6 @@ public class CentralHubAudioProvider implements AudioProvider {
         FileConfiguration config = blockParty.getConfig().getConfig();
         this.apiBaseUrl = sanitizeBaseUrl(config.getString("Audio.CentralHub.ApiBaseUrl"));
         this.frontendBaseUrl = sanitizeBaseUrl(config.getString("Audio.CentralHub.FrontendBaseUrl"));
-        this.cdnBaseUrl = sanitizeBaseUrl(config.getString("Audio.CdnBaseUrl"));
         this.serverKey = ensureServerKey(config);
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
@@ -136,8 +134,16 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .append("\"action\":\"").append(escapeJson(action)).append("\"");
 
         if (trackIdentifier != null && !trackIdentifier.isBlank()) {
-            builder.append(",\"track_url\":\"").append(escapeJson(cdnBaseUrl + trackIdentifier)).append("\"")
-                    .append(",\"track_name\":\"").append(escapeJson(trackIdentifier)).append("\"");
+            builder.append(",\"track_id\":\"").append(escapeJson(trackIdentifier)).append("\"");
+
+            TrackCatalogService trackCatalogService = blockParty.getAudioManager() != null
+                    ? blockParty.getAudioManager().getTrackCatalogService()
+                    : null;
+            String trackName = trackCatalogService != null
+                    ? trackCatalogService.getDisplayName(trackIdentifier)
+                    : trackIdentifier;
+
+            builder.append(",\"track_name\":\"").append(escapeJson(trackName)).append("\"");
         }
 
         if (player != null) {
