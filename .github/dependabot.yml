@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "org.spigotmc:spigot-api"
+        versions:
+          - "*" # Prevent Spigot API from being auto-updated, as it changes targeted server versions
