@@ -6,5 +6,7 @@ updates:
       interval: "weekly"
     ignore:
       - dependency-name: "org.spigotmc:spigot-api"
-        versions:
-          - "*" # Prevent Spigot API from being auto-updated, as it changes targeted server versions
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
