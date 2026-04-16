@@ -45,7 +45,7 @@ public class BlockPartyDebugCommand extends SubCommand {
             case "audio" -> handleAudio(sender, args);
             case "status" -> status(sender, args);
             case "connect-url" -> connectUrl(sender, args);
-            default -> syntax(sender);
+            default -> sendDebugHelp(sender);
         };
     }
 
@@ -115,7 +115,7 @@ public class BlockPartyDebugCommand extends SubCommand {
 
     private boolean handleAudio(CommandSender sender, String[] args) {
         if (args.length < 3) {
-            return syntax(sender);
+            return sendAudioHelp(sender);
         }
 
         return switch (args[2].toLowerCase(Locale.ROOT)) {
@@ -123,7 +123,7 @@ public class BlockPartyDebugCommand extends SubCommand {
             case "pause" -> audioPause(sender, args);
             case "resume" -> audioResume(sender, args);
             case "stop" -> audioStop(sender, args);
-            default -> syntax(sender);
+            default -> sendAudioHelp(sender);
         };
     }
 
@@ -387,7 +387,27 @@ public class BlockPartyDebugCommand extends SubCommand {
     }
 
     private boolean syntax(CommandSender sender) {
-        ERROR_SYNTAX.message(PREFIX, sender, "%SYNTAX%", SYNTAX);
+        return sendDebugHelp(sender);
+    }
+
+    private boolean sendDebugHelp(CommandSender sender) {
+        sender.sendMessage(PREFIX + "Debug commands:");
+        sender.sendMessage("§8- §e/bp debug force-start [arena] §7Start a game even with one player");
+        sender.sendMessage("§8- §e/bp debug force-win [arena] [player] §7Force a winner");
+        sender.sendMessage("§8- §e/bp debug skip-round [arena] §7Jump into the stop phase");
+        sender.sendMessage("§8- §e/bp debug next-round [arena] §7Advance from stop to the next round");
+        sender.sendMessage("§8- §e/bp debug status [arena] §7Show arena, round, song, and provider state");
+        sender.sendMessage("§8- §e/bp debug connect-url [arena] [player] §7Send the Central Hub player URL");
+        sender.sendMessage("§8- §e/bp debug audio ... §7Show audio debug commands");
+        return false;
+    }
+
+    private boolean sendAudioHelp(CommandSender sender) {
+        sender.sendMessage(PREFIX + "Debug audio commands:");
+        sender.sendMessage("§8- §e/bp debug audio play <arena> <track> §7Play a specific track");
+        sender.sendMessage("§8- §e/bp debug audio pause [arena] §7Pause the current track");
+        sender.sendMessage("§8- §e/bp debug audio resume [arena] §7Resume the current track");
+        sender.sendMessage("§8- §e/bp debug audio stop [arena] §7Stop the current track");
         return false;
     }
 
