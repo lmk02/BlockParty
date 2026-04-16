@@ -2,8 +2,6 @@ package de.leonkoth.blockparty.song;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.arena.Arena;
-import de.leonkoth.blockparty.player.PlayerInfo;
-import de.leonkoth.blockparty.player.PlayerState;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -68,11 +66,16 @@ public class WebSong implements Song {
     }
 
     private void completeAction(BlockParty blockParty, Arena arena, String action) {
-        for (PlayerInfo playerInfo : arena.getPlayersInArena()) {
-            if (playerInfo.getPlayerState() == PlayerState.INGAME) {
-                if (blockParty.getWebServer() != null) {
-                    blockParty.getWebServer().send(playerInfo.asPlayer().getAddress().getHostName(), arena.getName(), name, action);
-                }
+        if (blockParty.getAudioManager() == null) {
+            return;
+        }
+
+        switch (action.toLowerCase()) {
+            case "play", "start" -> blockParty.getAudioManager().playTrackForArena(arena, name);
+            case "pause" -> blockParty.getAudioManager().pauseArena(arena);
+            case "continue", "resume" -> blockParty.getAudioManager().resumeArena(arena);
+            case "stop" -> blockParty.getAudioManager().stopArena(arena);
+            default -> {
             }
         }
     }

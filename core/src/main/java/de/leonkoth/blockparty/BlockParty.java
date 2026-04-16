@@ -1,6 +1,7 @@
 package de.leonkoth.blockparty;
 
 import de.leonkoth.blockparty.arena.Arena;
+import de.leonkoth.blockparty.audio.AudioManager;
 import de.leonkoth.blockparty.boost.Boost;
 import de.leonkoth.blockparty.command.BlockPartyCommand;
 import de.leonkoth.blockparty.command.BlockPartyUndoCommand;
@@ -15,7 +16,6 @@ import de.leonkoth.blockparty.util.DefaultManager;
 import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.VersionHandler;
-import de.leonkoth.blockparty.web.server.*;
 import de.leonkoth.utils.web.GitHub.Issue;
 import de.pauhull.utils.file.FileUtils;
 import de.pauhull.utils.misc.MinecraftVersion;
@@ -27,7 +27,6 @@ import org.eclipse.jetty.client.HttpClient;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
@@ -80,7 +79,7 @@ public class BlockParty {
     private List<PlayerInfo> players;
 
     @Getter
-    private WebServer webServer;
+    private AudioManager audioManager;
 
     @Getter
     private PlayerInfoManager playerInfoManager;
@@ -135,7 +134,7 @@ public class BlockParty {
         this.tablePrefix = config.getConfig().getString("Database.TablePrefix");
 
         this.database = initDatabase();
-        this.webServer = initWebServer();
+        this.audioManager = initAudioManager();
 
         BlockPartyLocale.loadLocale(new File(PLUGIN_FOLDER + "Locale/" + config.getConfig().getString("LocaleFileName")));
 
@@ -221,12 +220,8 @@ public class BlockParty {
         if (config.getConfig().getBoolean("SaveOnDisable"))
             Arena.saveAll();
 
-        if (webServer != null) {
-            try {
-                this.webServer.stop();
-            } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§c[BlockParty] Couldn't stop MusicServer");
-            }
+        if (audioManager != null) {
+            audioManager.shutdown();
         }
 
         this.getPlayerInfoManager().saveAllPlayerInfos(this.getPlayers());
@@ -236,53 +231,15 @@ public class BlockParty {
         Bukkit.getConsoleSender().sendMessage("§8*******************************");
         Bukkit.getConsoleSender().sendMessage("§8*  §7BlockParty §6v" + plugin.getDescription().getVersion());
         Bukkit.getConsoleSender().sendMessage("§8*  §7Authors: §6" + Arrays.toString(plugin.getDescription().getAuthors().toArray()));
-        Bukkit.getConsoleSender().sendMessage("§8*  §7Music Server: " + (online ? "§aOnline" : "§cOffline"));
+        Bukkit.getConsoleSender().sendMessage("§8*  §7Audio Provider: " + (online ? "§aOnline" : "§cOffline"));
         Bukkit.getConsoleSender().sendMessage("§8*******************************");
     }
 
-    private WebServer initWebServer() {
-        WebServer webServer = null;
-
-        if (config.getConfig().getBoolean("MusicServer.Enabled")) {
-            switch (config.getConfig().getString("MusicServer.WebSocketLibrary").toLowerCase()) {
-
-                case "websocket":
-                    webServer = new WebSocketServer(new InetSocketAddress(config.getConfig().getInt("MusicServer.Port")), this);
-                    break;
-
-                case "jetty":
-                    webServer = new JettyWebServer(config.getConfig().getInt("MusicServer.Port"));
-                    break;
-
-                case "tcp/ip":
-                    webServer = new XWebSocketServer(config.getConfig().getInt("MusicServer.Port"));
-                    break;
-
-                case "mcjukebox":
-                    webServer = new MCJukeboxConnector(this);
-                    break;
-
-                default:
-                    logStartMessage(false);
-                    break;
-            }
-
-            boolean started = false;
-
-            if (webServer != null) {
-                try {
-                    webServer.start();
-                    started = true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            logStartMessage(started);
-        } else {
-            logStartMessage(false);
-        }
-
-        return webServer;
+    private AudioManager initAudioManager() {
+        AudioManager audioManager = new AudioManager(this);
+        audioManager.initialize();
+        logStartMessage(audioManager.isOnline());
+        return audioManager;
     }
 
     private Database initDatabase() {
