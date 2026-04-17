@@ -95,6 +95,9 @@ Audio:
     # Auto-generated on first startup when using the central hub provider
     ServerKey: ""
 
+    # Stable per-installation fingerprint used by Aura to detect free-tier key reuse
+    InstallationFingerprint: ""
+
 Debug:
   # Enables admin-only debug tools such as force-starting solo games and testing audio actions
   Enabled: False

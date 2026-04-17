@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TrackCatalogService {
+    private static final String PUBLIC_TRACKS_QUERY =
+            "query PublicTracks { publicTracks { tracks { id title } errors { code message field } } }";
 
     private final BlockParty blockParty;
     private final Map<String, TrackCatalogEntry> tracksById = new ConcurrentHashMap<>();
@@ -83,10 +85,11 @@ public class TrackCatalogService {
         }
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(apiBaseUrl + "api/v1/tracks"))
+                .uri(URI.create(apiBaseUrl + "graphql"))
                 .timeout(Duration.ofSeconds(5))
                 .header("Accept", "application/json")
-                .GET()
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(buildGraphQlBody(PUBLIC_TRACKS_QUERY)))
                 .build();
 
         httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -142,8 +145,28 @@ public class TrackCatalogService {
 
     private Map<String, TrackCatalogEntry> parseTracks(String json) {
         JsonObject root = JsonParser.parseString(json).getAsJsonObject();
-        JsonArray tracks = root.has("tracks") && root.get("tracks").isJsonArray()
-                ? root.getAsJsonArray("tracks")
+        if (hasTopLevelErrors(root)) {
+            throw new IllegalStateException("GraphQL request failed: " + extractGraphQlMessages(root.getAsJsonArray("errors")));
+        }
+
+        JsonObject payload = root.has("data") && root.get("data").isJsonObject()
+                ? root.getAsJsonObject("data").getAsJsonObject("publicTracks")
+                : null;
+
+        if (payload == null) {
+            throw new IllegalStateException("GraphQL response did not include publicTracks data.");
+        }
+
+        JsonArray payloadErrors = payload.has("errors") && payload.get("errors").isJsonArray()
+                ? payload.getAsJsonArray("errors")
+                : new JsonArray();
+
+        if (!payloadErrors.isEmpty()) {
+            throw new IllegalStateException("GraphQL request failed: " + extractGraphQlMessages(payloadErrors));
+        }
+
+        JsonArray tracks = payload.has("tracks") && payload.get("tracks").isJsonArray()
+                ? payload.getAsJsonArray("tracks")
                 : new JsonArray();
         Map<String, TrackCatalogEntry> parsedTracks = new ConcurrentHashMap<>();
 
@@ -181,6 +204,32 @@ public class TrackCatalogService {
         return audioEnabled && providerType == AudioProviderType.CENTRAL_HUB;
     }
 
+    private boolean hasTopLevelErrors(JsonObject root) {
+        return root.has("errors") && root.get("errors").isJsonArray() && !root.getAsJsonArray("errors").isEmpty();
+    }
+
+    private String extractGraphQlMessages(JsonArray errors) {
+        List<String> messages = new ArrayList<>();
+
+        for (JsonElement element : errors) {
+            if (!element.isJsonObject()) {
+                continue;
+            }
+
+            JsonObject object = element.getAsJsonObject();
+            String message = getAsString(object, "message");
+            if (message != null && !message.isBlank()) {
+                messages.add(message);
+            }
+        }
+
+        return messages.isEmpty() ? "unknown GraphQL error" : String.join("; ", messages);
+    }
+
+    private String buildGraphQlBody(String query) {
+        return "{\"query\":\"" + escapeJson(query) + "\"}";
+    }
+
     private void clearState() {
         this.httpClient = null;
         this.apiBaseUrl = null;
@@ -196,6 +245,10 @@ public class TrackCatalogService {
         }
 
         return baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
+    }
+
+    private String escapeJson(String value) {
+        return value.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
 }
