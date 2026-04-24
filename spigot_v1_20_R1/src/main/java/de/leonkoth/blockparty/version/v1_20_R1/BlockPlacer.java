@@ -3,6 +3,7 @@ package de.leonkoth.blockparty.version.v1_20_R1;
 import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.BlockPartyMaterial;
 import de.leonkoth.blockparty.version.IBlockPlacer;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -42,7 +43,7 @@ public class BlockPlacer implements IBlockPlacer {
 
     @Override
     public void place(World world, int x, int y, int z, Material material, byte data) {
-        world.getBlockAt(x, y, z).setType(material);
+        world.getBlockAt(x, y, z).setType(getMaterialByData(material, data));
     }
 
     @Override
@@ -52,7 +53,7 @@ public class BlockPlacer implements IBlockPlacer {
 
     @Override
     public void place(Location location, Material material, byte data) {
-        location.getBlock().setType(material);
+        location.getBlock().setType(getMaterialByData(material, data));
     }
 
     @Override
@@ -62,12 +63,12 @@ public class BlockPlacer implements IBlockPlacer {
 
     @Override
     public void place(Block block, Material material, byte data) {
-        block.setType(material);
+        block.setType(getMaterialByData(material, data));
     }
 
     @Override
     public BlockInfo getBlockInfo(Location loc, Block block) {
-        return new BlockInfo(loc, block.getType(), (byte) 0);
+        return new BlockInfo(loc, block.getType(), getDataByMaterial(block.getType()));
     }
 
     @Override
@@ -76,11 +77,9 @@ public class BlockPlacer implements IBlockPlacer {
     }
 
     private byte getDataByMaterial(Material material) {
-        String materialName = material.name();
-        int last = materialName.indexOf('_');
+        String prefix = getMaterialColorPrefix(material);
 
-        if (last > -1) {
-            String prefix = materialName.substring(0, last);
+        if (prefix != null) {
             for (Map.Entry<Byte, String> entry : dataAndMaterialColorPrefix.entrySet()) {
                 if (entry.getValue().equals(prefix)) {
                     return entry.getKey();
@@ -89,5 +88,29 @@ public class BlockPlacer implements IBlockPlacer {
         }
 
         return 0;
+    }
+
+    private Material getMaterialByData(Material material, byte data) {
+        String currentPrefix = getMaterialColorPrefix(material);
+        String newPrefix = dataAndMaterialColorPrefix.get(data);
+
+        if (currentPrefix == null || newPrefix == null) {
+            return material;
+        }
+
+        Material newMaterial = Material.matchMaterial(newPrefix + material.name().substring(currentPrefix.length()));
+        return newMaterial != null ? newMaterial : material;
+    }
+
+    private String getMaterialColorPrefix(Material material) {
+        String materialName = material.name();
+
+        for (String suffix : VersionedMaterial.getColorableMaterialSuffix()) {
+            if (materialName.endsWith(suffix)) {
+                return materialName.substring(0, materialName.length() - suffix.length());
+            }
+        }
+
+        return null;
     }
 }
