@@ -21,6 +21,9 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class CentralHubAudioProvider implements AudioProvider {
     private static final String BROADCAST_AUDIO_EVENT_MUTATION =
@@ -29,6 +32,9 @@ public class CentralHubAudioProvider implements AudioProvider {
     private static final String CREATE_PLAYER_JOIN_TOKEN_MUTATION =
             "mutation CreatePlayerJoinToken($arenaId: String!) { " +
                     "createPlayerJoinToken(arenaId: $arenaId) { status token serverId arenaId errors { code message field } } }";
+    private static final String CLAIM_RUNTIME_LEASE_MUTATION =
+            "mutation ClaimRuntimeLease($input: ClaimRuntimeLeaseInput!) { " +
+                    "claimRuntimeLease(input: $input) { status runtimeLeaseToken expiresAt errors { code message field } } }";
 
     private final BlockParty blockParty;
 
@@ -38,6 +44,10 @@ public class CentralHubAudioProvider implements AudioProvider {
     private String serverKey;
     private String installationFingerprint;
     private String installationSecret;
+    private String runtimeInstanceId;
+    private volatile String runtimeLeaseToken;
+    private volatile boolean runtimeLeaseActive;
+    private ScheduledFuture<?> leaseRefreshTask;
 
     public CentralHubAudioProvider(BlockParty blockParty) {
         this.blockParty = blockParty;
@@ -56,14 +66,28 @@ public class CentralHubAudioProvider implements AudioProvider {
         this.serverKey = ensureServerKey(config);
         this.installationFingerprint = ensureInstallationFingerprint(config);
         this.installationSecret = ensureInstallationSecret(config);
+        this.runtimeInstanceId = UUID.randomUUID().toString();
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
                 .executor(blockParty.getExecutorService())
                 .build();
+        claimRuntimeLease();
+        this.leaseRefreshTask = blockParty.getScheduledExecutorService().scheduleAtFixedRate(
+                this::claimRuntimeLease,
+                45L,
+                45L,
+                TimeUnit.SECONDS
+        );
     }
 
     @Override
     public void shutdown() {
+        if (leaseRefreshTask != null) {
+            leaseRefreshTask.cancel(false);
+            leaseRefreshTask = null;
+        }
+        this.runtimeLeaseActive = false;
+        this.runtimeLeaseToken = null;
         this.httpClient = null;
     }
 
@@ -143,6 +167,11 @@ public class CentralHubAudioProvider implements AudioProvider {
         if (httpClient == null || arena == null) {
             return;
         }
+        if (!hasRuntimeLease()) {
+            blockParty.getPlugin().getLogger().warning("Central Hub audio is disabled until this runtime claims an active Aura lease.");
+            claimRuntimeLease();
+            return;
+        }
 
         String payload = buildPayload(arena, action, trackIdentifier, player);
         HttpRequest request = HttpRequest.newBuilder()
@@ -150,6 +179,7 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
+                .header("x-runtime-lease-token", runtimeLeaseToken)
                 .header("x-installation-fingerprint", installationFingerprint)
                 .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
@@ -262,9 +292,106 @@ public class CentralHubAudioProvider implements AudioProvider {
         return generatedSecret;
     }
 
-    private java.util.concurrent.CompletableFuture<String> requestPlayerJoinUrl(Arena arena) {
+    private void claimRuntimeLease() {
+        if (httpClient == null) {
+            return;
+        }
+
+        String payload = buildRuntimeLeasePayload();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiBaseUrl + "graphql"))
+                .timeout(Duration.ofSeconds(5))
+                .header("Content-Type", "application/json")
+                .header("x-server-key", serverKey)
+                .header("x-installation-fingerprint", installationFingerprint)
+                .header("x-installation-secret", installationSecret)
+                .POST(HttpRequest.BodyPublishers.ofString(payload))
+                .build();
+
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenAccept(this::handleRuntimeLeaseResponse)
+                .exceptionally(throwable -> {
+                    runtimeLeaseActive = false;
+                    blockParty.getPlugin().getLogger().warning("Failed to claim Aura runtime lease: " + throwable.getMessage());
+                    return null;
+                });
+    }
+
+    private String buildRuntimeLeasePayload() {
+        return new StringBuilder("{")
+                .append("\"query\":\"").append(escapeJson(CLAIM_RUNTIME_LEASE_MUTATION)).append("\",")
+                .append("\"variables\":{\"input\":{")
+                .append("\"installationFingerprint\":\"").append(escapeJson(installationFingerprint)).append("\",")
+                .append("\"installationSecret\":\"").append(escapeJson(installationSecret)).append("\",")
+                .append("\"runtimeInstanceId\":\"").append(escapeJson(runtimeInstanceId)).append("\"")
+                .append("}}}")
+                .toString();
+    }
+
+    private void handleRuntimeLeaseResponse(HttpResponse<String> response) {
+        if (response.statusCode() < 200 || response.statusCode() >= 300) {
+            runtimeLeaseActive = false;
+            blockParty.getPlugin().getLogger().warning("Failed to claim Aura runtime lease: HTTP " + response.statusCode());
+            return;
+        }
+
+        JsonObject root = JsonParser.parseString(response.body()).getAsJsonObject();
+        if (hasTopLevelErrors(root)) {
+            runtimeLeaseActive = false;
+            blockParty.getPlugin().getLogger().warning("Failed to claim Aura runtime lease: " + extractGraphQlMessages(root.getAsJsonArray("errors")));
+            return;
+        }
+
+        JsonObject data = root.has("data") && root.get("data").isJsonObject()
+                ? root.getAsJsonObject("data")
+                : null;
+        JsonObject payload = data != null && data.has("claimRuntimeLease") && data.get("claimRuntimeLease").isJsonObject()
+                ? data.getAsJsonObject("claimRuntimeLease")
+                : null;
+
+        if (payload == null) {
+            runtimeLeaseActive = false;
+            blockParty.getPlugin().getLogger().warning("Failed to claim Aura runtime lease: missing payload.");
+            return;
+        }
+
+        JsonArray payloadErrors = payload.has("errors") && payload.get("errors").isJsonArray()
+                ? payload.getAsJsonArray("errors")
+                : new JsonArray();
+
+        if (!payloadErrors.isEmpty()) {
+            runtimeLeaseActive = false;
+            runtimeLeaseToken = null;
+            blockParty.getPlugin().getLogger().warning("Failed to claim Aura runtime lease: " + extractGraphQlMessages(payloadErrors));
+            return;
+        }
+
+        String token = payload.has("runtimeLeaseToken") && !payload.get("runtimeLeaseToken").isJsonNull()
+                ? payload.get("runtimeLeaseToken").getAsString()
+                : null;
+
+        if (token == null || token.isBlank()) {
+            runtimeLeaseActive = false;
+            runtimeLeaseToken = null;
+            blockParty.getPlugin().getLogger().warning("Failed to claim Aura runtime lease: incomplete payload.");
+            return;
+        }
+
+        runtimeLeaseToken = token;
+        runtimeLeaseActive = true;
+    }
+
+    private boolean hasRuntimeLease() {
+        return runtimeLeaseActive && runtimeLeaseToken != null && !runtimeLeaseToken.isBlank();
+    }
+
+    private CompletableFuture<String> requestPlayerJoinUrl(Arena arena) {
         if (httpClient == null || arena == null) {
-            return java.util.concurrent.CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(null);
+        }
+        if (!hasRuntimeLease()) {
+            claimRuntimeLease();
+            return CompletableFuture.completedFuture(null);
         }
 
         String payload = buildPlayerJoinTokenPayload(arena);
@@ -273,6 +400,7 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
+                .header("x-runtime-lease-token", runtimeLeaseToken)
                 .header("x-installation-fingerprint", installationFingerprint)
                 .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
