@@ -26,6 +26,9 @@ public class CentralHubAudioProvider implements AudioProvider {
     private static final String BROADCAST_AUDIO_EVENT_MUTATION =
             "mutation BroadcastAudioEvent($input: BroadcastAudioEventInput!) { " +
                     "broadcastAudioEvent(input: $input) { status action topic errors { code message field } } }";
+    private static final String CREATE_PLAYER_JOIN_TOKEN_MUTATION =
+            "mutation CreatePlayerJoinToken($arenaId: String!) { " +
+                    "createPlayerJoinToken(arenaId: $arenaId) { status token serverId arenaId errors { code message field } } }";
 
     private final BlockParty blockParty;
 
@@ -34,6 +37,7 @@ public class CentralHubAudioProvider implements AudioProvider {
     private String frontendBaseUrl;
     private String serverKey;
     private String installationFingerprint;
+    private String installationSecret;
 
     public CentralHubAudioProvider(BlockParty blockParty) {
         this.blockParty = blockParty;
@@ -51,6 +55,7 @@ public class CentralHubAudioProvider implements AudioProvider {
         this.frontendBaseUrl = sanitizeBaseUrl(config.getString("Audio.CentralHub.FrontendBaseUrl"));
         this.serverKey = ensureServerKey(config);
         this.installationFingerprint = ensureInstallationFingerprint(config);
+        this.installationSecret = ensureInstallationSecret(config);
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
                 .executor(blockParty.getExecutorService())
@@ -98,10 +103,21 @@ public class CentralHubAudioProvider implements AudioProvider {
             return;
         }
 
-        String url = buildFrontendUrl(arena);
-        TextComponent message = new TextComponent("§6[BlockParty] §eOpen the audio player for arena §f" + arena.getName() + "§e.");
-        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-        player.spigot().sendMessage(message);
+        requestPlayerJoinUrl(arena)
+                .thenAccept(url -> {
+                    if (url == null || url.isBlank()) {
+                        blockParty.getPlugin().getLogger().warning("Failed to create Central Hub player join URL.");
+                        return;
+                    }
+
+                    TextComponent message = new TextComponent("§6[BlockParty] §eOpen the audio player for arena §f" + arena.getName() + "§e.");
+                    message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+                    player.spigot().sendMessage(message);
+                })
+                .exceptionally(throwable -> {
+                    blockParty.getPlugin().getLogger().warning("Failed to create Central Hub player join URL: " + throwable.getMessage());
+                    return null;
+                });
     }
 
     @Override
@@ -115,7 +131,12 @@ public class CentralHubAudioProvider implements AudioProvider {
             return null;
         }
 
-        return buildFrontendUrl(arena);
+        try {
+            return requestPlayerJoinUrl(arena).get();
+        } catch (Exception exception) {
+            blockParty.getPlugin().getLogger().warning("Failed to create Central Hub player join URL: " + exception.getMessage());
+            return null;
+        }
     }
 
     private void publishAudioEvent(Arena arena, String action, String trackIdentifier, Player player) {
@@ -130,6 +151,7 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
                 .header("x-installation-fingerprint", installationFingerprint)
+                .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
 
@@ -228,9 +250,98 @@ public class CentralHubAudioProvider implements AudioProvider {
         return generatedFingerprint;
     }
 
-    private String buildFrontendUrl(Arena arena) {
-        return frontendBaseUrl + "?serverKey="
-                + encode(serverKey)
+    private String ensureInstallationSecret(FileConfiguration config) {
+        String configuredSecret = config.getString("Audio.CentralHub.InstallationSecret");
+        if (configuredSecret != null && !configuredSecret.isBlank()) {
+            return configuredSecret;
+        }
+
+        String generatedSecret = UUID.randomUUID().toString() + UUID.randomUUID();
+        config.set("Audio.CentralHub.InstallationSecret", generatedSecret);
+        blockParty.getConfig().save();
+        return generatedSecret;
+    }
+
+    private java.util.concurrent.CompletableFuture<String> requestPlayerJoinUrl(Arena arena) {
+        if (httpClient == null || arena == null) {
+            return java.util.concurrent.CompletableFuture.completedFuture(null);
+        }
+
+        String payload = buildPlayerJoinTokenPayload(arena);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiBaseUrl + "graphql"))
+                .timeout(Duration.ofSeconds(5))
+                .header("Content-Type", "application/json")
+                .header("x-server-key", serverKey)
+                .header("x-installation-fingerprint", installationFingerprint)
+                .header("x-installation-secret", installationSecret)
+                .POST(HttpRequest.BodyPublishers.ofString(payload))
+                .build();
+
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> parsePlayerJoinUrl(response, arena));
+    }
+
+    private String buildPlayerJoinTokenPayload(Arena arena) {
+        return new StringBuilder("{")
+                .append("\"query\":\"").append(escapeJson(CREATE_PLAYER_JOIN_TOKEN_MUTATION)).append("\",")
+                .append("\"variables\":{\"arenaId\":\"").append(escapeJson(arena.getName())).append("\"}}")
+                .toString();
+    }
+
+    private String parsePlayerJoinUrl(HttpResponse<String> response, Arena arena) {
+        if (response.statusCode() < 200 || response.statusCode() >= 300) {
+            blockParty.getPlugin().getLogger().warning("Failed to create Central Hub player join token: HTTP " + response.statusCode());
+            return null;
+        }
+
+        JsonObject root = JsonParser.parseString(response.body()).getAsJsonObject();
+        if (hasTopLevelErrors(root)) {
+            blockParty.getPlugin().getLogger().warning("Failed to create Central Hub player join token: " + extractGraphQlMessages(root.getAsJsonArray("errors")));
+            return null;
+        }
+
+        JsonObject data = root.has("data") && root.get("data").isJsonObject()
+                ? root.getAsJsonObject("data")
+                : null;
+        JsonObject payload = data != null && data.has("createPlayerJoinToken") && data.get("createPlayerJoinToken").isJsonObject()
+                ? data.getAsJsonObject("createPlayerJoinToken")
+                : null;
+
+        if (payload == null) {
+            blockParty.getPlugin().getLogger().warning("Failed to create Central Hub player join token: missing payload.");
+            return null;
+        }
+
+        JsonArray payloadErrors = payload.has("errors") && payload.get("errors").isJsonArray()
+                ? payload.getAsJsonArray("errors")
+                : new JsonArray();
+
+        if (!payloadErrors.isEmpty()) {
+            blockParty.getPlugin().getLogger().warning("Failed to create Central Hub player join token: " + extractGraphQlMessages(payloadErrors));
+            return null;
+        }
+
+        String token = payload.has("token") && !payload.get("token").isJsonNull()
+                ? payload.get("token").getAsString()
+                : null;
+        String serverId = payload.has("serverId") && !payload.get("serverId").isJsonNull()
+                ? payload.get("serverId").getAsString()
+                : null;
+
+        if (token == null || token.isBlank() || serverId == null || serverId.isBlank()) {
+            blockParty.getPlugin().getLogger().warning("Failed to create Central Hub player join token: incomplete payload.");
+            return null;
+        }
+
+        return buildFrontendUrl(arena, serverId, token);
+    }
+
+    private String buildFrontendUrl(Arena arena, String serverId, String token) {
+        return frontendBaseUrl + "?token="
+                + encode(token)
+                + "&serverId="
+                + encode(serverId)
                 + "&arena="
                 + encode(arena.getName());
     }
