@@ -98,6 +98,9 @@ Audio:
     # Stable per-installation fingerprint used by Aura to detect free-tier key reuse
     InstallationFingerprint: ""
 
+    # Stable per-installation secret used with the fingerprint to bind free-tier runtime access
+    InstallationSecret: ""
+
 Debug:
   # Enables admin-only debug tools such as force-starting solo games and testing audio actions
   Enabled: False
