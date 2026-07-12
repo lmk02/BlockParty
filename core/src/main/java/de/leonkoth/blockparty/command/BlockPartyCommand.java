@@ -65,9 +65,6 @@ public class BlockPartyCommand implements CommandExecutor, TabCompleter {
         commands.add(new BlockPartyPlacePatternCommand(blockParty));
         commands.add(new BlockPartyUndoCommand(blockParty));
         commands.add(new BlockPartyLoadImageCommand(blockParty));
-        if(this.blockParty.getIssue() != null)
-            commands.add(new BlockPartyReportBugCommand(blockParty));
-        //commands.add(new BlockPartyConfigUICommand(blockParty));
 
         if (BlockParty.DEBUG) {
             commands.add(new BlockPartyTestCommand(blockParty));

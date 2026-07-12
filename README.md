@@ -1,5 +1,5 @@
 # BlockParty 3.x
-![Jenkins](https://img.shields.io/jenkins/build/https/jenkins.simpleunity.org/job/BlockParty) [![GitHub license](https://img.shields.io/github/license/Leon167/BlockParty-2.0)](https://github.com/Leon167/BlockParty-2.0/blob/master/LICENSE) ![GitHub release](https://img.shields.io/github/release/Leon167/BlockParty-2.0)
+[![Build](https://github.com/lmk02/BlockParty/actions/workflows/build.yml/badge.svg)](https://github.com/lmk02/BlockParty/actions/workflows/build.yml) [![GitHub license](https://img.shields.io/github/license/Leon167/BlockParty-2.0)](https://github.com/Leon167/BlockParty-2.0/blob/master/LICENSE) ![GitHub release](https://img.shields.io/github/release/Leon167/BlockParty-2.0)
 
 BlockParty 3 is the modernized BlockParty line for current Minecraft servers, built on a Java 21 baseline with a Paper-first compatibility target.
 
@@ -94,15 +94,15 @@ BungeeCord:
   # Arena players will connect to when BungeeCord is enabled. Please note the spelling and case sensitivity
   DefaultArena: Arena
 
-MusicServer:
-  # When "True", music playback in browser will be activated. You will need a web server for this
+Audio:
+  # Enables external web audio playback providers
   Enabled: False
 
-  # Available libraries: "websocket", "jetty", "tcp/ip", "mcjukebox"
-  WebSocketLibrary: jetty
+  # Available providers: "openaudiomc", "central_hub"
+  Provider: central_hub
 
-  # Web server port (Not Minecraft server port!)
-  Port: 8080
+  # Public base URL where your audio files are hosted
+  CdnBaseUrl: "https://cdn.example.com/blockparty/"
 
 Database:
   # Use "MySQL" to enable MySQL, "SQL" to store data locally
@@ -249,41 +249,20 @@ In BlockParty we are using our own format to save block data. We are making use 
 * Remove a paattern
   * Use **/bp removepattern \<arenaName> \<patternName>** to list all active patterns for this arena
 
-## Web player setup
+## Audio setup
 
-This is a basic tutorial on how to set up the build in web player.
+Music playback is handled by an external audio provider. Two providers are supported:
 
-* Enable the web player
-  * Head over to the config.yml located in you `plugins/BlockParty/` folder
-  * Make sure to enable your enable the MusicServer
-  * Make sure to use jetty, other librarys are in development, and a non-blocked port
-  * Your section should look like this now:
-```yaml
-MusicServer:
-  # When "True", music playback in browser will be activated. You will need a web server for this
-  Enabled: True
+* **OpenAudioMc** — requires the [OpenAudioMc](https://openaudiomc.net/) plugin on the same server. Audio files are served from your `CdnBaseUrl`.
+* **Central Hub (Aura)** — connects to a hosted Aura instance. Configure `ApiBaseUrl` and `FrontendBaseUrl`; a `ServerKey` is generated automatically on first startup. Both URLs must use `https://`.
 
-  # Available libraries: "websocket", "jetty", "tcp/ip", "mcjukebox"
-  WebSocketLibrary: jetty
+Enable and choose a provider in the `Audio` section of `config.yml`, then:
 
-  # Web server port (Not Minecraft server port!)
-  Port: 8080
-```
-#### Adding songs
-
-* Add songs to your web player songs folder
-  * Head over to `plugins/BlockParty/web/songs/`
-  * Place any songs here (e.g. example.mp3)
 * Add songs to your arena
-  * Add them ingame by typing **/bp addsong \<arenaName> \<songName>**
-    * **Important:** Make sure to also include the file type. You command should look something like this: /bp addsong exampleArena example.mp3
-  * Add them to your arena config. The config section should look something like this:
-```yaml
-  SongManager:
-  - examplesong.mp3
-```
-* Enable the use of web player songs
-  * Make sure `UseWebSongs: true` is set to true in your arena config
+  * Ingame: **/bp addsong \<arenaName> \<trackName>** (with the Central Hub provider, track names are validated against the synced catalog — use **/bp songs** to browse it)
+  * Or add them to the `SongManager` list in your arena config
+* Enable the use of web songs
+  * Make sure `UseWebSongs: true` is set in your arena config
   
 ## Sign setup
 

@@ -152,7 +152,6 @@ public class German extends Language {
     public static final LocaleString COMMAND_TUTORIAL = new LocaleString(COMMANDS, "Zeigt, wie man das Spiel aufsetzt");
     public static final LocaleString COMMAND_UNDO = new LocaleString(COMMANDS, "Macht Änderungen rückgängig");
     public static final LocaleString COMMAND_WAND = new LocaleString(COMMANDS, "Auswählwerkzeug erhalten");
-    public static final LocaleString COMMAND_REPORT_BUG = new LocaleString(COMMANDS, "Poste einen Bug auf GitHub");
 
     public static final LocaleString HEADER_HELP = new LocaleString(HEADERS, "BlockParty Befehle");
     public static final LocaleString HEADER_ADMIN = new LocaleString(HEADERS, "Admin Befehle");

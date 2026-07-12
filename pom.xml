@@ -25,8 +25,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lombok.version>1.18.38</lombok.version>
         <spigot.version>1.20.6-R0.1-SNAPSHOT</spigot.version>
-        <jetty.version>9.4.57.v20241219</jetty.version>
-        <java-websocket.version>1.6.0</java-websocket.version>
         <bstats.version>3.1.0</bstats.version>
         <timocloud.version>6.7.9</timocloud.version>
         <placeholderapi.version>2.12.2</placeholderapi.version>
@@ -50,23 +48,6 @@
                 <groupId>org.spigotmc</groupId>
                 <artifactId>spigot-api</artifactId>
                 <version>${spigot.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <!-- Jetty uber JAR -->
-            <dependency>
-                <groupId>org.eclipse.jetty.aggregate</groupId>
-                <artifactId>jetty-all</artifactId>
-                <version>${jetty.version}</version>
-                <classifier>uber</classifier>
-                <scope>compile</scope>
-            </dependency>
-
-            <!-- Java-WebSocket -->
-            <dependency>
-                <groupId>org.java-websocket</groupId>
-                <artifactId>Java-WebSocket</artifactId>
-                <version>${java-websocket.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -99,14 +80,6 @@
                 <groupId>me.clip</groupId>
                 <artifactId>placeholderapi</artifactId>
                 <version>${placeholderapi.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <!-- MCJukebox -->
-            <dependency>
-                <groupId>com.github.oliverdunk</groupId>
-                <artifactId>JukeboxAPI</artifactId>
-                <version>v2.5.3</version>
                 <scope>provided</scope>
             </dependency>
 

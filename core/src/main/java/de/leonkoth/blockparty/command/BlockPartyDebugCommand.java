@@ -439,10 +439,6 @@ public class BlockPartyDebugCommand extends SubCommand {
         return null;
     }
 
-    private boolean syntax(CommandSender sender) {
-        return sendDebugHelp(sender);
-    }
-
     private boolean sendDebugHelp(CommandSender sender) {
         sender.sendMessage(PREFIX + "Debug commands:");
         sender.sendMessage("§8- §e/bp debug force-start [arena] §7Start a game even with one player");

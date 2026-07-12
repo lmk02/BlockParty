@@ -29,15 +29,6 @@
             <version>1.20.6-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.jetty.aggregate</groupId>
-            <artifactId>jetty-all</artifactId>
-            <classifier>uber</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.github.oliverdunk</groupId>
-            <artifactId>JukeboxAPI</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.github.koca2000</groupId>
             <artifactId>NoteBlockAPI</artifactId>
         </dependency>

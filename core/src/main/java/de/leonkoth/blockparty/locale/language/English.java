@@ -153,7 +153,6 @@ public class English extends Language {
     public static final LocaleString COMMAND_TUTORIAL = new LocaleString(COMMANDS, "Shows a tutorial on how to set up the game");
     public static final LocaleString COMMAND_UNDO = new LocaleString(COMMANDS, "Reverts changes");
     public static final LocaleString COMMAND_WAND = new LocaleString(COMMANDS, "Get wand tool");
-    public static final LocaleString COMMAND_REPORT_BUG = new LocaleString(COMMANDS, "Report a bug to GitHub");
 
     public static final LocaleString HEADER_HELP = new LocaleString(HEADERS, "BlockParty Commands");
     public static final LocaleString HEADER_ADMIN = new LocaleString(HEADERS, "Admin Commands");

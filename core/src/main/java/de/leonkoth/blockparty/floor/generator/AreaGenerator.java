@@ -2,13 +2,11 @@ package de.leonkoth.blockparty.floor.generator;
 
 import de.leonkoth.blockparty.BlockParty;
 import de.leonkoth.blockparty.floor.Floor;
-import de.leonkoth.blockparty.version.BlockInfo;
 import de.leonkoth.blockparty.version.BlockPartyMaterial;
 import de.leonkoth.blockparty.version.IBlockPlacer;
 import de.leonkoth.blockparty.version.VersionedMaterial;
 
 import java.util.Random;
-import java.util.Set;
 
 public class AreaGenerator implements FloorGenerator {
 
@@ -47,11 +45,6 @@ public class AreaGenerator implements FloorGenerator {
                 }
             }
         }
-    }
-
-    @Override
-    public Set<BlockInfo> getBlocks(Floor floor) {
-        return null;
     }
 
 }
