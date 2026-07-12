@@ -35,14 +35,11 @@ public class FloorPattern {
     @Getter
     private byte[] data;
 
-    private IBlockPlacer blockPlacer;
-
     public FloorPattern(String name, Size size, Material[] materials, byte[] data) {
         this.name = name;
         this.size = size;
         this.materials = materials;
         this.data = data;
-        this.blockPlacer = BlockParty.getInstance().getBlockPlacer();
     }
 
     public static FloorPattern createFromSelection(String name, Bounds bounds) throws FloorLoaderException {
@@ -93,18 +90,29 @@ public class FloorPattern {
     }
 
     public Set<BlockInfo> place(Location location) {
+        IBlockPlacer blockPlacer = BlockParty.getInstance().getBlockPlacer();
         Set<BlockInfo> blocks = new HashSet<>();
 
+        World world = location.getWorld();
+        int minX = location.getBlockX();
+        int y = location.getBlockY();
+        int minZ = location.getBlockZ();
         int width = size.getBlockWidth();
         int length = size.getBlockLength();
 
-        for (int x = 0; x < width; x++) {
-            for (int z = 0; z < length; z++) {
-                Location loc = location.clone().add(x, 0, z);
-                Block block = loc.getBlock();
+        for (int z = 0; z < length; z++) {
+            for (int x = 0; x < width; x++) {
+                int index = x + z * width;
+                Block block = world.getBlockAt(minX + x, y, minZ + z);
 
-                blocks.add(this.blockPlacer.getBlockInfo(loc, block));
-                this.blockPlacer.place(block, materials[x + z * width], data[x + z * width]);
+                // Skip blocks that already match: avoids redundant world writes
+                // and keeps the undo snapshot down to what actually changed
+                if (block.getType() == materials[index]) {
+                    continue;
+                }
+
+                blocks.add(blockPlacer.getBlockInfo(block.getLocation(), block));
+                blockPlacer.place(block, materials[index], data[index], false);
             }
         }
         return blocks;

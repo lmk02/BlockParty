@@ -1,50 +1,31 @@
 package de.leonkoth.blockparty.floor.generator;
 
-import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.floor.Floor;
-import de.leonkoth.blockparty.version.BlockPartyMaterial;
-import de.leonkoth.blockparty.version.IBlockPlacer;
-import de.leonkoth.blockparty.version.VersionedMaterial;
+import org.bukkit.Material;
 
 import java.util.Random;
 
 public class AreaGenerator implements FloorGenerator {
 
-    private Random random = new Random();
-
-    private IBlockPlacer blockPlacer;
-
-    public AreaGenerator() {
-        this.blockPlacer = BlockParty.getInstance().getBlockPlacer();
-    }
-
     @Override
-    public void generateFloor(Floor floor) {
-
-        int minX = floor.getBounds().getA().getBlockX();
-        int maxX = floor.getBounds().getB().getBlockX();
-        int minY = floor.getBounds().getA().getBlockY();
-        int minZ = floor.getBounds().getA().getBlockZ();
-        int maxZ = floor.getBounds().getB().getBlockZ();
-
+    public Material[] generate(int width, int length, Material[] palette, Random random) {
+        Material[] materials = new Material[width * length];
         int areaSize = random.nextInt(3) + 2;
 
-        for (int x = minX; x <= maxX; x += areaSize) {
-            for (int z = minZ; z <= maxZ; z += areaSize) {
+        for (int x = 0; x < width; x += areaSize) {
+            for (int z = 0; z < length; z += areaSize) {
 
-                byte data = (byte) random.nextInt(16);
+                Material material = palette[random.nextInt(palette.length)];
 
                 // Fill out area with dimensions areaSize x areaSize
-
-                BlockPartyMaterial def = VersionedMaterial.TERRACOTTA.get();
-
-                for (int offX = x; offX <= Math.min(maxX, x + areaSize); offX++) {
-                    for (int offZ = z; offZ <= Math.min(maxZ, z + areaSize); offZ++) {
-                        this.blockPlacer.place(floor.getWorld(), offX, minY, offZ, def, data);
+                for (int offX = x; offX <= Math.min(width - 1, x + areaSize); offX++) {
+                    for (int offZ = z; offZ <= Math.min(length - 1, z + areaSize); offZ++) {
+                        materials[offX + offZ * width] = material;
                     }
                 }
             }
         }
+
+        return materials;
     }
 
 }

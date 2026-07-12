@@ -1,30 +1,20 @@
 package de.leonkoth.blockparty.floor.generator;
 
-import de.leonkoth.blockparty.BlockParty;
-import de.leonkoth.blockparty.floor.Floor;
-import de.leonkoth.blockparty.version.BlockPartyMaterial;
-import de.leonkoth.blockparty.version.IBlockPlacer;
-import de.leonkoth.blockparty.version.VersionedMaterial;
-import org.bukkit.block.Block;
+import org.bukkit.Material;
 
 import java.util.Random;
 
 public class SingleBlockGenerator implements FloorGenerator {
 
-    private Random random = new Random();
-
-    private IBlockPlacer blockPlacer;
-
-    public SingleBlockGenerator(){
-        this.blockPlacer = BlockParty.getInstance().getBlockPlacer();
-    }
-
     @Override
-    public void generateFloor(Floor floor) {
-        BlockPartyMaterial def = VersionedMaterial.TERRACOTTA.get();
-        for (Block block : floor.getFloorBlocks()) {
-            this.blockPlacer.place(block, def, (byte) random.nextInt(16));
+    public Material[] generate(int width, int length, Material[] palette, Random random) {
+        Material[] materials = new Material[width * length];
+
+        for (int i = 0; i < materials.length; i++) {
+            materials[i] = palette[random.nextInt(palette.length)];
         }
+
+        return materials;
     }
 
 }

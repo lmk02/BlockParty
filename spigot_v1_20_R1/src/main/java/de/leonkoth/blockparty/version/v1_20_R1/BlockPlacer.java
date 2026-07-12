@@ -66,6 +66,16 @@ public class BlockPlacer implements IBlockPlacer {
     }
 
     @Override
+    public void place(Block block, BlockPartyMaterial material, byte data, boolean applyPhysics) {
+        block.setType(material.get(data), applyPhysics);
+    }
+
+    @Override
+    public void place(Block block, Material material, byte data, boolean applyPhysics) {
+        block.setType(material, applyPhysics);
+    }
+
+    @Override
     public BlockInfo getBlockInfo(Location loc, Block block) {
         return new BlockInfo(loc, block.getType(), (byte) 0);
     }

@@ -1,9 +1,16 @@
 package de.leonkoth.blockparty.floor.generator;
 
-import de.leonkoth.blockparty.floor.Floor;
+import org.bukkit.Material;
+
+import java.util.Random;
 
 public interface FloorGenerator {
 
-    void generateFloor(Floor floor);
+    /**
+     * Generates a floor as a {@code width * length} material array
+     * (index = {@code x + z * width}), using only materials from the
+     * given palette. Implementations must fill every entry.
+     */
+    Material[] generate(int width, int length, Material[] palette, Random random);
 
 }

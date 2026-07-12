@@ -12,6 +12,9 @@ import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.util.Bounds;
 import de.leonkoth.blockparty.util.ColorBlock;
 import de.leonkoth.blockparty.util.Size;
+import de.leonkoth.blockparty.version.BlockPartyMaterial;
+import de.leonkoth.blockparty.version.IBlockPlacer;
+import de.leonkoth.blockparty.version.VersionedMaterial;
 import de.pauhull.utils.particle.ParticlePlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,20 +46,28 @@ public class Floor {
     private Arena arena;
 
     @Getter
-    @Setter
     private World world;
 
     @Getter
     @Setter
     private Block currentBlock;
 
-    @Setter
     @Getter
     private Size size;
 
-    @Setter
     @Getter
     private Bounds bounds;
+
+    /**
+     * Snapshot of the material layout written by the last floor placement,
+     * used to pick random blocks without scanning the world.
+     */
+    private record PlacedFloor(Material[] materials, int width, int length) {
+    }
+
+    private PlacedFloor placedFloor;
+
+    private List<Block> floorBlockCache;
 
     @Setter
     @Getter
@@ -118,6 +129,26 @@ public class Floor {
         return true;
     }
 
+    public void setWorld(World world) {
+        this.world = world;
+        invalidateBlockCaches();
+    }
+
+    public void setSize(Size size) {
+        this.size = size;
+        invalidateBlockCaches();
+    }
+
+    public void setBounds(Bounds bounds) {
+        this.bounds = bounds;
+        invalidateBlockCaches();
+    }
+
+    private void invalidateBlockCaches() {
+        this.floorBlockCache = null;
+        this.placedFloor = null;
+    }
+
     public void placeFloor() {
         if (arena.isUsePatternFloors()) {
 
@@ -125,16 +156,16 @@ public class Floor {
                 int index = random.nextInt(floorPatterns.size() + generators.size());
 
                 if (index < floorPatterns.size()) {
-                    floorPatterns.get(index).place(bounds.getA());
+                    placePattern(floorPatterns.get(index));
                 } else {
                     FloorGenerator generator = generators.get(index - floorPatterns.size());
-                    generator.generateFloor(this);
+                    generateFloor(generator);
 
                     if (BlockParty.DEBUG)
                         Bukkit.getConsoleSender().sendMessage("Using generator: " + generator.getClass().getName());
                 }
             } else {
-                floorPatterns.get(random.nextInt(floorPatterns.size())).place(bounds.getA());
+                placePattern(floorPatterns.get(random.nextInt(floorPatterns.size())));
             }
 
         } else {
@@ -144,6 +175,12 @@ public class Floor {
 
             generateFloor();
         }
+    }
+
+    private void placePattern(FloorPattern pattern) {
+        pattern.place(bounds.getA());
+        this.placedFloor = new PlacedFloor(pattern.getMaterials(),
+                pattern.getSize().getBlockWidth(), pattern.getSize().getBlockLength());
     }
 
     public void setStartFloor() {
@@ -156,11 +193,11 @@ public class Floor {
 
             for (FloorPattern floorPattern : this.getFloorPatterns()) {
                 if (floorPattern.getName().equalsIgnoreCase("start")) {
-                    floorPattern.place(bounds.getA());
+                    placePattern(floorPattern);
                     return;
                 }
             }
-            floorPatterns.get(random.nextInt(floorPatterns.size())).place(bounds.getA());
+            placePattern(floorPatterns.get(random.nextInt(floorPatterns.size())));
         } else {
             generateFloor();
         }
@@ -176,38 +213,79 @@ public class Floor {
 
             for (FloorPattern floorPattern : this.getFloorPatterns()) {
                 if (floorPattern.getName().equalsIgnoreCase("end")) {
-                    floorPattern.place(bounds.getA());
+                    placePattern(floorPattern);
                     return;
                 }
             }
-            floorPatterns.get(random.nextInt(floorPatterns.size())).place(bounds.getA());
+            placePattern(floorPatterns.get(random.nextInt(floorPatterns.size())));
         } else {
             generateFloor();
         }
     }
 
     private void generateFloor() {
-        FloorGenerator generator = generators.get(random.nextInt(generators.size()));
-        generator.generateFloor(this);
+        generateFloor(generators.get(random.nextInt(generators.size())));
+    }
+
+    private void generateFloor(FloorGenerator generator) {
+        BlockPartyMaterial terracotta = VersionedMaterial.TERRACOTTA.get();
+        Material[] palette = new Material[16];
+        for (int data = 0; data < 16; data++) {
+            palette[data] = terracotta.get(data);
+        }
+
+        int width = size.getBlockWidth();
+        int length = size.getBlockLength();
+        Material[] materials = generator.generate(width, length, palette, random);
+        applyFloor(materials, width, length);
+    }
+
+    private void applyFloor(Material[] materials, int width, int length) {
+        IBlockPlacer blockPlacer = BlockParty.getInstance().getBlockPlacer();
+
+        int minX = bounds.getA().getBlockX();
+        int y = bounds.getA().getBlockY();
+        int minZ = bounds.getA().getBlockZ();
+
+        for (int z = 0; z < length; z++) {
+            for (int x = 0; x < width; x++) {
+                Material material = materials[x + z * width];
+                Block block = world.getBlockAt(minX + x, y, minZ + z);
+
+                if (block.getType() != material) {
+                    blockPlacer.place(block, material, (byte) 0, false);
+                }
+            }
+        }
+
+        this.placedFloor = new PlacedFloor(materials, width, length);
     }
 
     public void removeBlocks() {
+        IBlockPlacer blockPlacer = BlockParty.getInstance().getBlockPlacer();
         Material material = currentBlock.getType();
 
         for (Block block : getFloorBlocks()) {
             if (block.getType() != material) {
-                block.setType(Material.AIR);
+                blockPlacer.place(block, Material.AIR, (byte) 0, false);
             }
         }
     }
 
     public void clear() {
+        IBlockPlacer blockPlacer = BlockParty.getInstance().getBlockPlacer();
+
         for (Block block : getFloorBlocks()) {
-            block.setType(Material.AIR);
+            if (block.getType() != Material.AIR) {
+                blockPlacer.place(block, Material.AIR, (byte) 0, false);
+            }
         }
     }
 
     public List<Block> getFloorBlocks() {
+        if (floorBlockCache != null) {
+            return floorBlockCache;
+        }
 
         int minX = bounds.getA().getBlockX();
         int minZ = bounds.getA().getBlockZ();
@@ -223,6 +301,7 @@ public class Floor {
             }
         }
 
+        this.floorBlockCache = blocks;
         return blocks;
     }
 
@@ -256,8 +335,65 @@ public class Floor {
     }
 
     private Block getRandomBlock() {
-        Block block = getRandomLocation().getBlock();
-        return block.getType() == Material.AIR ? getRandomBlock() : block;
+        if (placedFloor != null) {
+            int index = pickRandomNonAirIndex(placedFloor.materials(), random);
+            if (index >= 0) {
+                int x = index % placedFloor.width();
+                int z = index / placedFloor.width();
+                return world.getBlockAt(bounds.getA().getBlockX() + x,
+                        bounds.getA().getBlockY(), bounds.getA().getBlockZ() + z);
+            }
+        }
+
+        // Fallback for floors modified outside placeFloor(): bounded world
+        // probing instead of unbounded recursion
+        for (int attempt = 0; attempt < 32; attempt++) {
+            Block block = getRandomLocation().getBlock();
+            if (block.getType() != Material.AIR) {
+                return block;
+            }
+        }
+
+        for (Block block : getFloorBlocks()) {
+            if (block.getType() != Material.AIR) {
+                return block;
+            }
+        }
+
+        return getRandomLocation().getBlock();
+    }
+
+    static int pickRandomNonAirIndex(Material[] materials, Random random) {
+        if (materials.length == 0) {
+            return -1;
+        }
+
+        for (int attempt = 0; attempt < 8; attempt++) {
+            int index = random.nextInt(materials.length);
+            if (materials[index] != Material.AIR) {
+                return index;
+            }
+        }
+
+        int nonAir = 0;
+        for (Material material : materials) {
+            if (material != Material.AIR) {
+                nonAir++;
+            }
+        }
+
+        if (nonAir == 0) {
+            return -1;
+        }
+
+        int target = random.nextInt(nonAir);
+        for (int index = 0; index < materials.length; index++) {
+            if (materials[index] != Material.AIR && target-- == 0) {
+                return index;
+            }
+        }
+
+        return -1;
     }
 
     public Location getRandomLocation() {
