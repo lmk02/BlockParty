@@ -227,7 +227,9 @@ public class TrackCatalogService {
     }
 
     private String buildGraphQlBody(String query) {
-        return "{\"query\":\"" + escapeJson(query) + "\"}";
+        JsonObject request = new JsonObject();
+        request.addProperty("query", query);
+        return request.toString();
     }
 
     private void clearState() {
@@ -244,11 +246,13 @@ public class TrackCatalogService {
             throw new IllegalStateException("Audio.CentralHub.ApiBaseUrl must be configured for track catalog sync.");
         }
 
-        return baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
-    }
+        String normalized = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
 
-    private String escapeJson(String value) {
-        return value.replace("\\", "\\\\").replace("\"", "\\\"");
+        if (!CentralHubAudioProvider.isSecureBaseUrl(normalized)) {
+            throw new IllegalStateException("Audio.CentralHub.ApiBaseUrl must use https:// (plain http is only allowed for localhost): " + baseUrl);
+        }
+
+        return normalized;
     }
 
 }

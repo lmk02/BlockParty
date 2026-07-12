@@ -86,10 +86,10 @@ Audio:
     NotifyMissingClient: True
 
   CentralHub:
-    # Base URL of the hosted Aura API
+    # Base URL of the hosted Aura API (must be https://; plain http is only allowed for localhost)
     ApiBaseUrl: "https://aura-api.example.com"
 
-    # Public URL of the hosted Aura web player
+    # Public URL of the hosted Aura web player (must be https://; plain http is only allowed for localhost)
     FrontendBaseUrl: "https://aura.example.com"
 
     # Auto-generated on first startup when using the central hub provider

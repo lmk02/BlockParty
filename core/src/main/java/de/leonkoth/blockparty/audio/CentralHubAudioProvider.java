@@ -25,6 +25,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Audio provider backed by the hosted Aura ("Central Hub") GraphQL API.
+ *
+ * <p>Security model: the server key, installation fingerprint, and
+ * installation secret are generated client-side and are therefore
+ * self-asserted — they identify an installation but cannot prove it.
+ * Actual entitlement enforcement (lease validation, free-tier reuse
+ * detection) happens in the Aura backend; everything here is best-effort
+ * cooperation with that backend, not a tamper-proof client-side gate.
+ */
 public class CentralHubAudioProvider implements AudioProvider {
     private static final String BROADCAST_AUDIO_EVENT_MUTATION =
             "mutation BroadcastAudioEvent($input: BroadcastAudioEventInput!) { " +
@@ -156,7 +166,9 @@ public class CentralHubAudioProvider implements AudioProvider {
         }
 
         try {
-            return requestPlayerJoinUrl(arena).get();
+            // Bounded wait: only the admin debug command uses this synchronous
+            // variant; player-facing flows go through handlePlayerJoin() async
+            return requestPlayerJoinUrl(arena).get(5, TimeUnit.SECONDS);
         } catch (Exception exception) {
             blockParty.getPlugin().getLogger().warning("Failed to create Central Hub player join URL: " + exception.getMessage());
             return null;
@@ -167,7 +179,11 @@ public class CentralHubAudioProvider implements AudioProvider {
         if (httpClient == null || arena == null) {
             return;
         }
-        if (!hasRuntimeLease()) {
+
+        // Snapshot the volatile token so a concurrent lease failure between
+        // the check and the header build can't inject a null header value
+        String leaseToken = runtimeLeaseToken;
+        if (!runtimeLeaseActive || leaseToken == null || leaseToken.isBlank()) {
             blockParty.getPlugin().getLogger().warning("Central Hub audio is disabled until this runtime claims an active Aura lease.");
             claimRuntimeLease();
             return;
@@ -179,7 +195,7 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
-                .header("x-runtime-lease-token", runtimeLeaseToken)
+                .header("x-runtime-lease-token", leaseToken)
                 .header("x-installation-fingerprint", installationFingerprint)
                 .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
@@ -227,12 +243,12 @@ public class CentralHubAudioProvider implements AudioProvider {
     }
 
     private String buildPayload(Arena arena, String action, String trackIdentifier, Player player) {
-        StringBuilder inputBuilder = new StringBuilder("{")
-                .append("\"arenaId\":\"").append(escapeJson(arena.getName())).append("\",")
-                .append("\"action\":\"").append(escapeJson(action)).append("\"");
+        JsonObject input = new JsonObject();
+        input.addProperty("arenaId", arena.getName());
+        input.addProperty("action", action);
 
         if (trackIdentifier != null && !trackIdentifier.isBlank()) {
-            inputBuilder.append(",\"trackId\":\"").append(escapeJson(trackIdentifier)).append("\"");
+            input.addProperty("trackId", trackIdentifier);
 
             TrackCatalogService trackCatalogService = blockParty.getAudioManager() != null
                     ? blockParty.getAudioManager().getTrackCatalogService()
@@ -241,19 +257,27 @@ public class CentralHubAudioProvider implements AudioProvider {
                     ? trackCatalogService.getDisplayName(trackIdentifier)
                     : trackIdentifier;
 
-            inputBuilder.append(",\"trackName\":\"").append(escapeJson(trackName)).append("\"");
+            input.addProperty("trackName", trackName);
         }
 
         if (player != null) {
-            inputBuilder.append(",\"playerUuid\":\"").append(player.getUniqueId()).append("\"");
+            input.addProperty("playerUuid", player.getUniqueId().toString());
         }
 
-        inputBuilder.append("}");
+        return buildGraphQlRequest(BROADCAST_AUDIO_EVENT_MUTATION, wrapInput(input));
+    }
 
-        return new StringBuilder("{")
-                .append("\"query\":\"").append(escapeJson(BROADCAST_AUDIO_EVENT_MUTATION)).append("\",")
-                .append("\"variables\":{\"input\":").append(inputBuilder).append("}}")
-                .toString();
+    private static JsonObject wrapInput(JsonObject input) {
+        JsonObject variables = new JsonObject();
+        variables.add("input", input);
+        return variables;
+    }
+
+    private static String buildGraphQlRequest(String query, JsonObject variables) {
+        JsonObject request = new JsonObject();
+        request.addProperty("query", query);
+        request.add("variables", variables);
+        return request.toString();
     }
 
     private String ensureServerKey(FileConfiguration config) {
@@ -318,14 +342,11 @@ public class CentralHubAudioProvider implements AudioProvider {
     }
 
     private String buildRuntimeLeasePayload() {
-        return new StringBuilder("{")
-                .append("\"query\":\"").append(escapeJson(CLAIM_RUNTIME_LEASE_MUTATION)).append("\",")
-                .append("\"variables\":{\"input\":{")
-                .append("\"installationFingerprint\":\"").append(escapeJson(installationFingerprint)).append("\",")
-                .append("\"installationSecret\":\"").append(escapeJson(installationSecret)).append("\",")
-                .append("\"runtimeInstanceId\":\"").append(escapeJson(runtimeInstanceId)).append("\"")
-                .append("}}}")
-                .toString();
+        JsonObject input = new JsonObject();
+        input.addProperty("installationFingerprint", installationFingerprint);
+        input.addProperty("installationSecret", installationSecret);
+        input.addProperty("runtimeInstanceId", runtimeInstanceId);
+        return buildGraphQlRequest(CLAIM_RUNTIME_LEASE_MUTATION, wrapInput(input));
     }
 
     private void handleRuntimeLeaseResponse(HttpResponse<String> response) {
@@ -381,15 +402,13 @@ public class CentralHubAudioProvider implements AudioProvider {
         runtimeLeaseActive = true;
     }
 
-    private boolean hasRuntimeLease() {
-        return runtimeLeaseActive && runtimeLeaseToken != null && !runtimeLeaseToken.isBlank();
-    }
-
     private CompletableFuture<String> requestPlayerJoinUrl(Arena arena) {
         if (httpClient == null || arena == null) {
             return CompletableFuture.completedFuture(null);
         }
-        if (!hasRuntimeLease()) {
+
+        String leaseToken = runtimeLeaseToken;
+        if (!runtimeLeaseActive || leaseToken == null || leaseToken.isBlank()) {
             claimRuntimeLease();
             return CompletableFuture.completedFuture(null);
         }
@@ -400,7 +419,7 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
-                .header("x-runtime-lease-token", runtimeLeaseToken)
+                .header("x-runtime-lease-token", leaseToken)
                 .header("x-installation-fingerprint", installationFingerprint)
                 .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
@@ -411,10 +430,9 @@ public class CentralHubAudioProvider implements AudioProvider {
     }
 
     private String buildPlayerJoinTokenPayload(Arena arena) {
-        return new StringBuilder("{")
-                .append("\"query\":\"").append(escapeJson(CREATE_PLAYER_JOIN_TOKEN_MUTATION)).append("\",")
-                .append("\"variables\":{\"arenaId\":\"").append(escapeJson(arena.getName())).append("\"}}")
-                .toString();
+        JsonObject variables = new JsonObject();
+        variables.addProperty("arenaId", arena.getName());
+        return buildGraphQlRequest(CREATE_PLAYER_JOIN_TOKEN_MUTATION, variables);
     }
 
     private String parsePlayerJoinUrl(HttpResponse<String> response, Arena arena) {
@@ -479,7 +497,39 @@ public class CentralHubAudioProvider implements AudioProvider {
             throw new IllegalStateException("Central Hub audio requires all configured base URLs.");
         }
 
-        return baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
+        String normalized = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
+
+        // Server key, installation secret, and lease tokens travel as headers:
+        // never allow them over cleartext HTTP (loopback excepted for dev)
+        if (!isSecureBaseUrl(normalized)) {
+            throw new IllegalStateException("Central Hub base URLs must use https:// (plain http is only allowed for localhost): " + baseUrl);
+        }
+
+        return normalized;
+    }
+
+    static boolean isSecureBaseUrl(String url) {
+        String lower = url.toLowerCase();
+        if (lower.startsWith("https://")) {
+            return true;
+        }
+
+        if (!lower.startsWith("http://")) {
+            return false;
+        }
+
+        String host = lower.substring("http://".length());
+        int end = host.length();
+        for (int i = 0; i < host.length(); i++) {
+            char c = host.charAt(i);
+            if (c == '/' || c == ':' || c == '?' || c == '#') {
+                end = i;
+                break;
+            }
+        }
+        host = host.substring(0, end);
+
+        return host.equals("localhost") || host.equals("127.0.0.1") || host.equals("[::1]");
     }
 
     private String encode(String value) {
@@ -505,10 +555,6 @@ public class CentralHubAudioProvider implements AudioProvider {
         }
 
         return messages.isEmpty() ? "unknown GraphQL error" : String.join("; ", messages);
-    }
-
-    private String escapeJson(String value) {
-        return value.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
 }
