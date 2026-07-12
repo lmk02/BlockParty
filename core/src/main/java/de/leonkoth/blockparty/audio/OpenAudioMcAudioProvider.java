@@ -32,6 +32,23 @@ public class OpenAudioMcAudioProvider implements AudioProvider {
     private boolean notifyMissingClient;
     private String cdnBaseUrl;
 
+    // Reflection handles resolved once in initialize() — never per call
+    private Class<?> mediaClass;
+    private Class<?> mediaOptionsClass;
+    private Method clientApiGetInstance;
+    private Method mediaApiGetInstance;
+    private Method playForMethod;
+    private Method stopForMethod;
+    private Method getClientMethod;
+    private Method isConnectedMethod;
+    private Constructor<?> mediaConstructor;
+    private Constructor<?> mediaOptionsConstructor;
+    private Method setIdMethod;
+    private Method setStartAtMillisMethod;
+    private Method setVolumeMethod;
+    private Method applySettingsMethod;
+    private Class<?> clientClass;
+
     public OpenAudioMcAudioProvider(BlockParty blockParty) {
         this.blockParty = blockParty;
     }
@@ -49,12 +66,26 @@ public class OpenAudioMcAudioProvider implements AudioProvider {
         }
 
         try {
-            Class.forName(CLIENT_API_CLASS);
-            Class.forName(MEDIA_API_CLASS);
-            Class.forName(CLIENT_CLASS);
-            Class.forName(MEDIA_CLASS);
-            Class.forName(MEDIA_OPTIONS_CLASS);
-        } catch (ClassNotFoundException exception) {
+            Class<?> clientApiClass = Class.forName(CLIENT_API_CLASS);
+            Class<?> mediaApiClass = Class.forName(MEDIA_API_CLASS);
+            this.clientClass = Class.forName(CLIENT_CLASS);
+            this.mediaClass = Class.forName(MEDIA_CLASS);
+            this.mediaOptionsClass = Class.forName(MEDIA_OPTIONS_CLASS);
+
+            Class<?> clientArrayClass = Array.newInstance(clientClass, 0).getClass();
+            this.clientApiGetInstance = clientApiClass.getMethod("getInstance");
+            this.mediaApiGetInstance = mediaApiClass.getMethod("getInstance");
+            this.playForMethod = mediaApiClass.getMethod("playFor", mediaClass, clientArrayClass);
+            this.stopForMethod = mediaApiClass.getMethod("stopFor", String.class, clientArrayClass);
+            this.getClientMethod = clientApiClass.getMethod("getClient", UUID.class);
+            this.isConnectedMethod = clientClass.getMethod("isConnected");
+            this.mediaConstructor = mediaClass.getConstructor(String.class);
+            this.mediaOptionsConstructor = mediaOptionsClass.getConstructor();
+            this.setIdMethod = mediaOptionsClass.getMethod("setId", String.class);
+            this.setStartAtMillisMethod = mediaOptionsClass.getMethod("setStartAtMillis", int.class);
+            this.setVolumeMethod = mediaOptionsClass.getMethod("setVolume", int.class);
+            this.applySettingsMethod = mediaClass.getMethod("applySettings", mediaOptionsClass);
+        } catch (ReflectiveOperationException exception) {
             throw new IllegalStateException("OpenAudioMc API classes are not available.", exception);
         }
 
@@ -212,38 +243,33 @@ public class OpenAudioMcAudioProvider implements AudioProvider {
     private void playMedia(Object client, Arena arena, String trackIdentifier, int startAtMillis) {
         try {
             Object media = createConfiguredMedia(resolveTrackUrl(trackIdentifier), arena, startAtMillis);
-            Object mediaApi = getStaticInstance(MEDIA_API_CLASS);
-            Method playFor = mediaApi.getClass().getMethod("playFor", Class.forName(MEDIA_CLASS), Array.newInstance(Class.forName(CLIENT_CLASS), 0).getClass());
-            Object clientsArray = Array.newInstance(Class.forName(CLIENT_CLASS), 1);
+            Object mediaApi = mediaApiGetInstance.invoke(null);
+            Object clientsArray = Array.newInstance(clientClass, 1);
             Array.set(clientsArray, 0, client);
-            playFor.invoke(mediaApi, media, clientsArray);
+            playForMethod.invoke(mediaApi, media, clientsArray);
         } catch (ReflectiveOperationException exception) {
             throw new IllegalStateException("Failed to play media via OpenAudioMc.", exception);
         }
     }
 
     private Object createConfiguredMedia(String source, Arena arena, int startAtMillis) throws ReflectiveOperationException {
-        Class<?> mediaClass = Class.forName(MEDIA_CLASS);
-        Constructor<?> mediaConstructor = mediaClass.getConstructor(String.class);
         Object media = mediaConstructor.newInstance(source);
 
-        Class<?> mediaOptionsClass = Class.forName(MEDIA_OPTIONS_CLASS);
-        Object mediaOptions = mediaOptionsClass.getConstructor().newInstance();
-        mediaOptionsClass.getMethod("setId", String.class).invoke(mediaOptions, getMediaId(arena));
-        mediaOptionsClass.getMethod("setStartAtMillis", int.class).invoke(mediaOptions, Math.max(0, startAtMillis));
-        mediaOptionsClass.getMethod("setVolume", int.class).invoke(mediaOptions, 100);
-        mediaClass.getMethod("applySettings", mediaOptionsClass).invoke(media, mediaOptions);
+        Object mediaOptions = mediaOptionsConstructor.newInstance();
+        setIdMethod.invoke(mediaOptions, getMediaId(arena));
+        setStartAtMillisMethod.invoke(mediaOptions, Math.max(0, startAtMillis));
+        setVolumeMethod.invoke(mediaOptions, 100);
+        applySettingsMethod.invoke(media, mediaOptions);
 
         return media;
     }
 
     private void stopClientMedia(Object client, String mediaId) {
         try {
-            Object mediaApi = getStaticInstance(MEDIA_API_CLASS);
-            Method stopFor = mediaApi.getClass().getMethod("stopFor", String.class, Array.newInstance(Class.forName(CLIENT_CLASS), 0).getClass());
-            Object clientsArray = Array.newInstance(Class.forName(CLIENT_CLASS), 1);
+            Object mediaApi = mediaApiGetInstance.invoke(null);
+            Object clientsArray = Array.newInstance(clientClass, 1);
             Array.set(clientsArray, 0, client);
-            stopFor.invoke(mediaApi, mediaId, clientsArray);
+            stopForMethod.invoke(mediaApi, mediaId, clientsArray);
         } catch (ReflectiveOperationException exception) {
             throw new IllegalStateException("Failed to stop media via OpenAudioMc.", exception);
         }
@@ -251,9 +277,8 @@ public class OpenAudioMcAudioProvider implements AudioProvider {
 
     private Object getKnownClient(Player player) {
         try {
-            Object clientApi = getStaticInstance(CLIENT_API_CLASS);
-            Method getClient = clientApi.getClass().getMethod("getClient", UUID.class);
-            return getClient.invoke(clientApi, player.getUniqueId());
+            Object clientApi = clientApiGetInstance.invoke(null);
+            return getClientMethod.invoke(clientApi, player.getUniqueId());
         } catch (ReflectiveOperationException exception) {
             throw new IllegalStateException("Failed to resolve OpenAudioMc client.", exception);
         }
@@ -266,18 +291,11 @@ public class OpenAudioMcAudioProvider implements AudioProvider {
         }
 
         try {
-            Method isConnected = client.getClass().getMethod("isConnected");
-            boolean connected = (boolean) isConnected.invoke(client);
+            boolean connected = (boolean) isConnectedMethod.invoke(client);
             return connected ? client : null;
         } catch (ReflectiveOperationException exception) {
             throw new IllegalStateException("Failed to inspect OpenAudioMc client state.", exception);
         }
-    }
-
-    private Object getStaticInstance(String className) throws ReflectiveOperationException {
-        Class<?> type = Class.forName(className);
-        Method getInstance = type.getMethod("getInstance");
-        return getInstance.invoke(null);
     }
 
     private String resolveTrackUrl(String trackIdentifier) {

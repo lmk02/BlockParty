@@ -39,7 +39,11 @@ public class NoteblockSong implements Song {
 
     @Override
     public void play(BlockParty blockParty, Arena arena) throws FileNotFoundException {
-        song = NBSDecoder.parse(new File(BlockParty.PLUGIN_FOLDER + "Songs/", name + ".nbs"));
+        // Parse the .nbs file once and reuse it: NBSDecoder reads from disk,
+        // and play() runs on the main thread at round start
+        if (song == null) {
+            song = NBSDecoder.parse(new File(BlockParty.PLUGIN_FOLDER + "Songs/", name + ".nbs"));
+        }
         sp = new RadioSongPlayer(song);
         sp.setAutoDestroy(true);
         for (PlayerInfo pi : arena.getPlayersInArena())
