@@ -3,7 +3,6 @@ package de.leonkoth.blockparty.data;
 import de.leonkoth.blockparty.player.PlayerInfo;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,55 +15,29 @@ public class PlayerInfoManager {
     @Getter
     private Database database;
 
-    @Getter
-    private String tableName;
-
     public PlayerInfoManager(Database database) {
         this.database = database;
     }
 
     public List<PlayerInfo> loadAll() {
-        this.database.openReadable(true);
-        List<PlayerInfo> playerInfos = new ArrayList<>();
-        PlayerInfo pi;
-        while ((pi = this.database.readPlayerInfo()) != null) {
-            playerInfos.add(pi);
-        }
-
-        this.database.closeReadable();
-        return playerInfos;
+        return this.database.loadAll();
     }
 
-    public PlayerInfo load(PlayerInfo playerInfo)
-    {
-        this.database.openReadable(false);
-        playerInfo = this.database.updateStats(playerInfo);
-        this.database.closeReadable();
-        return playerInfo;
+    public PlayerInfo load(PlayerInfo playerInfo) {
+        return this.database.updateStats(playerInfo);
     }
 
     public void savePlayerInfo(PlayerInfo playerInfo) {
-        this.database.openWriteable();
-        if (this.database.exists(playerInfo)) {
-            this.database.updatePlayerInfo(playerInfo);
-        } else {
-            this.database.insertPlayerInfo(playerInfo);
-        }
-        this.database.closeWriteable();
+        this.database.save(playerInfo);
     }
 
     public void createPlayerInfo(PlayerInfo playerInfo) {
-        this.database.openWriteable();
-        if (!this.database.exists(playerInfo))
-            this.database.insertPlayerInfo(playerInfo);
-        this.database.closeWriteable();
+        this.database.saveIfAbsent(playerInfo);
     }
 
     public void saveAllPlayerInfos(List<PlayerInfo> playerInfos) {
-
         for (PlayerInfo playerInfo : playerInfos) {
             savePlayerInfo(playerInfo);
         }
-
     }
 }

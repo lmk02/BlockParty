@@ -31,6 +31,19 @@ public class BlockPartyLoadImageCommand extends SubCommand {
         String path = BlockParty.PLUGIN_FOLDER + args[1];
         File file = new File(path);
 
+        // Resolve the user-supplied path and refuse anything that escapes the
+        // plugin folder (e.g. via "..") before touching the file
+        try {
+            File pluginFolder = new File(BlockParty.PLUGIN_FOLDER).getCanonicalFile();
+            if (!file.getCanonicalFile().toPath().startsWith(pluginFolder.toPath())) {
+                ERROR_FILE_NOT_EXIST.message(PREFIX, sender, "%FILE%", args[1]);
+                return false;
+            }
+        } catch (IOException e) {
+            ERROR_FILE_NOT_EXIST.message(PREFIX, sender, "%FILE%", args[1]);
+            return false;
+        }
+
         if (!file.exists() || file.isDirectory()) {
             ERROR_FILE_NOT_EXIST.message(PREFIX, sender, "%FILE%", path);
             return false;
@@ -44,7 +57,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
             return false;
         }
 
-        if (!mimetype.startsWith("image")) {
+        if (mimetype == null || !mimetype.startsWith("image")) {
             ERROR_NO_IMAGE.message(PREFIX, sender);
             return false;
         }
