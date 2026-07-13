@@ -127,6 +127,48 @@ public class BlockPartyLocale extends Locale {
     public static LocaleString COMMAND_WAND;
     public static LocaleString COMMAND_SONGS;
 
+    public static LocaleString DEBUG_STATUS_HEADER;
+    public static LocaleString DEBUG_STATUS_INFO;
+    public static LocaleString DEBUG_STATUS_CATALOG;
+    public static LocaleString DEBUG_STATUS_ROUND;
+    public static LocaleString DEBUG_TRACKS_STATUS_HEADER;
+    public static LocaleString DEBUG_TRACKS_STATUS_INFO;
+    public static LocaleString DEBUG_CONNECT_URL_CLICK;
+    public static LocaleString DEBUG_VALUE_NONE;
+    public static LocaleString DEBUG_VALUE_NEVER;
+
+    public static LocaleString DEBUG_DISABLED;
+    public static LocaleString DEBUG_FORCE_START_FAILED;
+    public static LocaleString DEBUG_FORCE_WIN_NO_WINNER;
+    public static LocaleString DEBUG_SKIP_ROUND_FAILED;
+    public static LocaleString DEBUG_NEXT_ROUND_FAILED;
+    public static LocaleString DEBUG_AUDIO_PLAY_FAILED;
+    public static LocaleString DEBUG_AUDIO_NOT_INITIALIZED;
+    public static LocaleString DEBUG_NO_ACTIVE_SONG;
+    public static LocaleString DEBUG_TRACKS_REFRESH_UNSUPPORTED;
+    public static LocaleString DEBUG_TRACKS_REFRESH_FAILED;
+    public static LocaleString DEBUG_CONNECT_URL_UNSUPPORTED;
+    public static LocaleString DEBUG_CONNECT_URL_NO_TARGET;
+    public static LocaleString DEBUG_CONNECT_URL_FAILED;
+
+    public static LocaleString DEBUG_FORCE_START_SUCCESS;
+    public static LocaleString DEBUG_FORCE_WIN_SUCCESS;
+    public static LocaleString DEBUG_SKIP_ROUND_SUCCESS;
+    public static LocaleString DEBUG_NEXT_ROUND_SUCCESS;
+    public static LocaleString DEBUG_AUDIO_PLAY_SUCCESS;
+    public static LocaleString DEBUG_AUDIO_PAUSE_SUCCESS;
+    public static LocaleString DEBUG_AUDIO_RESUME_SUCCESS;
+    public static LocaleString DEBUG_AUDIO_STOP_SUCCESS;
+    public static LocaleString DEBUG_TRACKS_REFRESH_SUCCESS;
+    public static LocaleString DEBUG_CONNECT_URL_SENT;
+
+    public static LocaleString DEBUG_HELP_HEADER;
+    public static LocaleString DEBUG_HELP;
+    public static LocaleString DEBUG_AUDIO_HELP_HEADER;
+    public static LocaleString DEBUG_AUDIO_HELP;
+    public static LocaleString DEBUG_TRACKS_HELP_HEADER;
+    public static LocaleString DEBUG_TRACKS_HELP;
+
     public static LocaleString HEADER_ADMIN;
     public static LocaleString HEADER_HELP;
     public static LocaleString HEADER_LIST_ARENAS;

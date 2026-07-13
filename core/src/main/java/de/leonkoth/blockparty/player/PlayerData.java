@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Created by Leon on 19.03.2018.
@@ -97,7 +98,7 @@ public class PlayerData {
             return playerData;
 
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not load player data from file \"" + file.getName() + "\"", e);
             return null;
         }
 
@@ -156,7 +157,7 @@ public class PlayerData {
             config.save(file);
 
         } catch (IOException | IllegalAccessException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not save player data to file \"" + file.getName() + "\"", e);
         }
     }
 

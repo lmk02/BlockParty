@@ -1,6 +1,7 @@
 package de.pauhull.utils.file;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -9,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
 
 /**
  * Easy-to-use config for your plugin
@@ -71,7 +73,7 @@ public class Config {
                 config = new YamlConfiguration();
                 config.loadFromString(string);
             } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().log(Level.SEVERE, "Could not load config file " + file.getName(), e);
             }
         } else {
             config = YamlConfiguration.loadConfiguration(file);
@@ -86,7 +88,7 @@ public class Config {
         try {
             config.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Could not save config file " + file.getName(), e);
         }
 
         load(file);

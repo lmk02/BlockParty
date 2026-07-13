@@ -3,10 +3,12 @@ package de.leonkoth.blockparty.locale.language;
 import de.pauhull.utils.locale.Language;
 import de.pauhull.utils.locale.storage.LocaleSection;
 import de.pauhull.utils.locale.storage.LocaleString;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 public class German extends Language {
 
@@ -72,6 +74,81 @@ public class German extends Language {
     public static final LocaleString WAND_GIVEN = new LocaleString(INFO, "Linksklick, um Position 1 zu setzen; Rechtsklick für Position 2");
     public static final LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Spieler &e%PLAYER% &7hat gewonnen");
     public static final LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aDu hast das Spiel gewonnen!");
+    public static final LocaleString DEBUG_STATUS_HEADER = new LocaleString(INFO, "Debug-Status für Arena %ARENA%:");
+    public static final LocaleString DEBUG_STATUS_INFO = new LocaleString(INFO,
+            "&8- &7ArenaState: &e%ARENA_STATE%",
+            "&8- &7GameState: &e%GAME_STATE%",
+            "&8- &7Spieler: &e%PLAYERS_TOTAL% gesamt / %PLAYERS_INGAME% im Spiel",
+            "&8- &7Song: &e%SONG%",
+            "&8- &7Audio-Provider: &e%PROVIDER%"
+    );
+    public static final LocaleString DEBUG_STATUS_CATALOG = new LocaleString(INFO,
+            "&8- &7Katalog-Tracks: &e%TRACKS%",
+            "&8- &7Katalog verfügbar: &e%AVAILABLE%"
+    );
+    public static final LocaleString DEBUG_STATUS_ROUND = new LocaleString(INFO,
+            "&8- &7Runde: &e%ROUND%",
+            "&8- &7Phase: &e%STAGE%",
+            "&8- &7Verbleibende Zeit: &e%TIME%s"
+    );
+    public static final LocaleString DEBUG_TRACKS_STATUS_HEADER = new LocaleString(INFO, "Aura-Track-Katalog:");
+    public static final LocaleString DEBUG_TRACKS_STATUS_INFO = new LocaleString(INFO,
+            "&8- &7Provider: &e%PROVIDER%",
+            "&8- &7Verfügbar: &e%AVAILABLE%",
+            "&8- &7Tracks: &e%TRACKS%",
+            "&8- &7Letzte Aktualisierung: &e%LAST_REFRESH%",
+            "&8- &7Letzter Fehler: &e%LAST_ERROR%"
+    );
+    public static final LocaleString DEBUG_CONNECT_URL_CLICK = new LocaleString(INFO, "&6[BlockParty] &eÖffne den Audio-Player für Arena &f%ARENA%&e.");
+    public static final LocaleString DEBUG_VALUE_NONE = new LocaleString(INFO, "keiner");
+    public static final LocaleString DEBUG_VALUE_NEVER = new LocaleString(INFO, "nie");
+
+    public static final LocaleString DEBUG_DISABLED = new LocaleString(ERROR, "Der Debug-Modus ist in der Config deaktiviert.");
+    public static final LocaleString DEBUG_FORCE_START_FAILED = new LocaleString(ERROR, "Arena %ARENA% konnte nicht gestartet werden.");
+    public static final LocaleString DEBUG_FORCE_WIN_NO_WINNER = new LocaleString(ERROR, "Für Arena %ARENA% konnte kein Gewinner bestimmt werden.");
+    public static final LocaleString DEBUG_SKIP_ROUND_FAILED = new LocaleString(ERROR, "Arena %ARENA% befindet sich bereits im Stopp-Übergang.");
+    public static final LocaleString DEBUG_NEXT_ROUND_FAILED = new LocaleString(ERROR, "Arena %ARENA% befindet sich derzeit nicht im Stopp-Fenster.");
+    public static final LocaleString DEBUG_AUDIO_PLAY_FAILED = new LocaleString(ERROR, "Track %TRACK% konnte in Arena %ARENA% nicht abgespielt werden.");
+    public static final LocaleString DEBUG_AUDIO_NOT_INITIALIZED = new LocaleString(ERROR, "Audio ist nicht initialisiert.");
+    public static final LocaleString DEBUG_NO_ACTIVE_SONG = new LocaleString(ERROR, "Arena %ARENA% hat keinen aktiven Song.");
+    public static final LocaleString DEBUG_TRACKS_REFRESH_UNSUPPORTED = new LocaleString(ERROR, "Die Katalog-Synchronisierung ist nur mit dem Central-Hub-Provider verfügbar.");
+    public static final LocaleString DEBUG_TRACKS_REFRESH_FAILED = new LocaleString(ERROR, "Eine Katalog-Aktualisierung konnte gerade nicht gestartet werden.");
+    public static final LocaleString DEBUG_CONNECT_URL_UNSUPPORTED = new LocaleString(ERROR, "Der aktuelle Audio-Provider unterstützt keine Verbindungs-URLs.");
+    public static final LocaleString DEBUG_CONNECT_URL_NO_TARGET = new LocaleString(ERROR, "Für Arena %ARENA% konnte kein Zielspieler bestimmt werden.");
+    public static final LocaleString DEBUG_CONNECT_URL_FAILED = new LocaleString(ERROR, "Für Arena %ARENA% konnte keine Verbindungs-URL erzeugt werden.");
+    public static final LocaleString DEBUG_FORCE_START_SUCCESS = new LocaleString(SUCCESS, "Arena %ARENA% wurde zwangsgestartet.");
+    public static final LocaleString DEBUG_FORCE_WIN_SUCCESS = new LocaleString(SUCCESS, "Sieg für %PLAYER% in Arena %ARENA% erzwungen.");
+    public static final LocaleString DEBUG_SKIP_ROUND_SUCCESS = new LocaleString(SUCCESS, "Die aktive Runde in Arena %ARENA% wird übersprungen.");
+    public static final LocaleString DEBUG_NEXT_ROUND_SUCCESS = new LocaleString(SUCCESS, "Arena %ARENA% wird in die nächste Runde versetzt.");
+    public static final LocaleString DEBUG_AUDIO_PLAY_SUCCESS = new LocaleString(SUCCESS, "Track %TRACK% wird in Arena %ARENA% abgespielt.");
+    public static final LocaleString DEBUG_AUDIO_PAUSE_SUCCESS = new LocaleString(SUCCESS, "Audio in Arena %ARENA% pausiert.");
+    public static final LocaleString DEBUG_AUDIO_RESUME_SUCCESS = new LocaleString(SUCCESS, "Audio in Arena %ARENA% fortgesetzt.");
+    public static final LocaleString DEBUG_AUDIO_STOP_SUCCESS = new LocaleString(SUCCESS, "Audio in Arena %ARENA% gestoppt.");
+    public static final LocaleString DEBUG_TRACKS_REFRESH_SUCCESS = new LocaleString(SUCCESS, "Der Aura-Track-Katalog wird im Hintergrund aktualisiert.");
+    public static final LocaleString DEBUG_CONNECT_URL_SENT = new LocaleString(SUCCESS, "Audio-Verbindungs-URL an %PLAYER% gesendet.");
+    public static final LocaleString DEBUG_HELP_HEADER = new LocaleString(COMMANDS, "Debug-Befehle:");
+    public static final LocaleString DEBUG_HELP = new LocaleString(COMMANDS,
+            "&8- &e/bp debug force-start [arena] &7Startet ein Spiel auch mit einem Spieler",
+            "&8- &e/bp debug force-win [arena] [spieler] &7Erzwingt einen Gewinner",
+            "&8- &e/bp debug skip-round [arena] &7Springt in die Stopp-Phase",
+            "&8- &e/bp debug next-round [arena] &7Wechselt von Stopp zur nächsten Runde",
+            "&8- &e/bp debug status [arena] &7Zeigt Arena-, Runden-, Song- und Provider-Status",
+            "&8- &e/bp debug connect-url [arena] [spieler] &7Sendet die Central-Hub-Spieler-URL",
+            "&8- &e/bp debug tracks ... &7Zeigt die Aura-Katalog-Debug-Befehle",
+            "&8- &e/bp debug audio ... &7Zeigt die Audio-Debug-Befehle"
+    );
+    public static final LocaleString DEBUG_AUDIO_HELP_HEADER = new LocaleString(COMMANDS, "Audio-Debug-Befehle:");
+    public static final LocaleString DEBUG_AUDIO_HELP = new LocaleString(COMMANDS,
+            "&8- &e/bp debug audio play <arena> <track> &7Spielt einen bestimmten Track ab",
+            "&8- &e/bp debug audio pause [arena] &7Pausiert den aktuellen Track",
+            "&8- &e/bp debug audio resume [arena] &7Setzt den aktuellen Track fort",
+            "&8- &e/bp debug audio stop [arena] &7Stoppt den aktuellen Track"
+    );
+    public static final LocaleString DEBUG_TRACKS_HELP_HEADER = new LocaleString(COMMANDS, "Track-Katalog-Debug-Befehle:");
+    public static final LocaleString DEBUG_TRACKS_HELP = new LocaleString(COMMANDS,
+            "&8- &e/bp debug tracks refresh &7Aktualisiert den Aura-Track-Katalog",
+            "&8- &e/bp debug tracks status &7Zeigt Cache-Status und letztes Aktualisierungsergebnis"
+    );
 
     public static final LocaleString ERROR_ARENA_CREATE = new LocaleString(ERROR, "Arena \"%ARENA%\" existiert bereits");
     public static final LocaleString ERROR_ARENA_DISABLED = new LocaleString(ERROR, "Diese Arena ist ausgeschaltet");
@@ -177,7 +254,7 @@ public class German extends Language {
         try {
             writeTo(German.class, file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Could not write German locale to " + file, e);
         }
     }
 

@@ -13,8 +13,8 @@ public class Bounds {
     public Bounds(Location a, Location b) {
 
         if (BlockParty.DEBUG) {
-            System.out.println("a=" + (a == null ? "null" : a.toString()));
-            System.out.println("b=" + (b == null ? "null" : b.toString()));
+            BlockParty.getInstance().getPlugin().getLogger().info("a=" + (a == null ? "null" : a.toString()));
+            BlockParty.getInstance().getPlugin().getLogger().info("b=" + (b == null ? "null" : b.toString()));
         }
 
         if (!a.getWorld().getName().equals(b.getWorld().getName())) {

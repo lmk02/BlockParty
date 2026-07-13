@@ -6,6 +6,8 @@ import de.pauhull.utils.particle.IParticles;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static de.pauhull.utils.misc.MinecraftVersion.v1_14;
 
@@ -55,7 +57,7 @@ public enum Particles implements IParticles {
         try {
             particle = clazz.getField(id).get(null);
         } catch (IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
+            Logger.getLogger("BlockParty").log(Level.SEVERE, "Could not resolve 1.14 NMS particle field \"" + id + "\"", e);
         }
 
         particles.put(id, particle);

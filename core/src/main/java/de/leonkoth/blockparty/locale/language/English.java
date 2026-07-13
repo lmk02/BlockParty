@@ -3,10 +3,12 @@ package de.leonkoth.blockparty.locale.language;
 import de.pauhull.utils.locale.Language;
 import de.pauhull.utils.locale.storage.LocaleSection;
 import de.pauhull.utils.locale.storage.LocaleString;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 public class English extends Language {
 
@@ -72,6 +74,34 @@ public class English extends Language {
     public static final LocaleString WAND_GIVEN = new LocaleString(INFO, "Left click to set position 1, right for position 2");
     public static final LocaleString WINNER_ANNOUNCE_ALL = new LocaleString(INFO, "Player &e%PLAYER% &7won the game");
     public static final LocaleString WINNER_ANNOUNCE_SELF = new LocaleString(INFO, "&aCongratulations! You won the game");
+    public static final LocaleString DEBUG_STATUS_HEADER = new LocaleString(INFO, "Debug status for arena %ARENA%:");
+    public static final LocaleString DEBUG_STATUS_INFO = new LocaleString(INFO,
+            "&8- &7ArenaState: &e%ARENA_STATE%",
+            "&8- &7GameState: &e%GAME_STATE%",
+            "&8- &7Players: &e%PLAYERS_TOTAL% total / %PLAYERS_INGAME% ingame",
+            "&8- &7Song: &e%SONG%",
+            "&8- &7AudioProvider: &e%PROVIDER%"
+    );
+    public static final LocaleString DEBUG_STATUS_CATALOG = new LocaleString(INFO,
+            "&8- &7CatalogTracks: &e%TRACKS%",
+            "&8- &7CatalogAvailable: &e%AVAILABLE%"
+    );
+    public static final LocaleString DEBUG_STATUS_ROUND = new LocaleString(INFO,
+            "&8- &7Round: &e%ROUND%",
+            "&8- &7Stage: &e%STAGE%",
+            "&8- &7TimeRemaining: &e%TIME%s"
+    );
+    public static final LocaleString DEBUG_TRACKS_STATUS_HEADER = new LocaleString(INFO, "Aura track catalog:");
+    public static final LocaleString DEBUG_TRACKS_STATUS_INFO = new LocaleString(INFO,
+            "&8- &7Provider: &e%PROVIDER%",
+            "&8- &7Available: &e%AVAILABLE%",
+            "&8- &7Tracks: &e%TRACKS%",
+            "&8- &7LastRefresh: &e%LAST_REFRESH%",
+            "&8- &7LastError: &e%LAST_ERROR%"
+    );
+    public static final LocaleString DEBUG_CONNECT_URL_CLICK = new LocaleString(INFO, "&6[BlockParty] &eOpen the audio player for arena &f%ARENA%&e.");
+    public static final LocaleString DEBUG_VALUE_NONE = new LocaleString(INFO, "none");
+    public static final LocaleString DEBUG_VALUE_NEVER = new LocaleString(INFO, "never");
 
     public static final LocaleString ERROR_ARENA_CREATE = new LocaleString(ERROR, "Arena \"%ARENA%\" already exists");
     public static final LocaleString ERROR_ARENA_DISABLED = new LocaleString(ERROR, "This arena is disabled");
@@ -104,6 +134,19 @@ public class English extends Language {
     public static final LocaleString ERROR_VOTE = new LocaleString(ERROR, "Voting for song \"%SONG%\" failed");
     public static final LocaleString ERROR_WRONG_SIZE = new LocaleString(ERROR, "This pattern isn't the right size");
     public static final LocaleString ERROR_ISSUE_SEND = new LocaleString(ERROR, "An error occurred while posting on GitHub! Head over to https://github.com/Leon167/BlockParty/issues !");
+    public static final LocaleString DEBUG_DISABLED = new LocaleString(ERROR, "Debug mode is disabled in config.");
+    public static final LocaleString DEBUG_FORCE_START_FAILED = new LocaleString(ERROR, "Couldn't force-start arena %ARENA%.");
+    public static final LocaleString DEBUG_FORCE_WIN_NO_WINNER = new LocaleString(ERROR, "Couldn't determine a winner for arena %ARENA%.");
+    public static final LocaleString DEBUG_SKIP_ROUND_FAILED = new LocaleString(ERROR, "Arena %ARENA% is already in the stop transition.");
+    public static final LocaleString DEBUG_NEXT_ROUND_FAILED = new LocaleString(ERROR, "Arena %ARENA% is not currently in the stop window.");
+    public static final LocaleString DEBUG_AUDIO_PLAY_FAILED = new LocaleString(ERROR, "Couldn't play track %TRACK% in arena %ARENA%.");
+    public static final LocaleString DEBUG_AUDIO_NOT_INITIALIZED = new LocaleString(ERROR, "Audio is not initialized.");
+    public static final LocaleString DEBUG_NO_ACTIVE_SONG = new LocaleString(ERROR, "Arena %ARENA% has no active song.");
+    public static final LocaleString DEBUG_TRACKS_REFRESH_UNSUPPORTED = new LocaleString(ERROR, "Track catalog sync is only available with the Central Hub provider.");
+    public static final LocaleString DEBUG_TRACKS_REFRESH_FAILED = new LocaleString(ERROR, "Couldn't start a track catalog refresh right now.");
+    public static final LocaleString DEBUG_CONNECT_URL_UNSUPPORTED = new LocaleString(ERROR, "The current audio provider does not support connection URLs.");
+    public static final LocaleString DEBUG_CONNECT_URL_NO_TARGET = new LocaleString(ERROR, "Couldn't determine a target player for arena %ARENA%.");
+    public static final LocaleString DEBUG_CONNECT_URL_FAILED = new LocaleString(ERROR, "Couldn't generate a connection URL for arena %ARENA%.");
 
 
     public static final LocaleString SUCCESS_ARENA_CREATE = new LocaleString(SUCCESS, "Successfully created arena \"%ARENA%\"");
@@ -121,6 +164,16 @@ public class English extends Language {
     public static final LocaleString SUCCESS_SIGN_ADDED = new LocaleString(SUCCESS, "Added sign to arena \"%ARENA%\"");
     public static final LocaleString SUCCESS_SIGN_REMOVED = new LocaleString(SUCCESS, "Removed sign from arena \"%ARENA%\"");
     public static final LocaleString SUCCESS_ISSUE_SEND = new LocaleString(SUCCESS, "Bug successfully posted on GitHub ( https://github.com/Leon167/BlockParty/issues )");
+    public static final LocaleString DEBUG_FORCE_START_SUCCESS = new LocaleString(SUCCESS, "Force-started arena %ARENA%.");
+    public static final LocaleString DEBUG_FORCE_WIN_SUCCESS = new LocaleString(SUCCESS, "Forced win for %PLAYER% in arena %ARENA%.");
+    public static final LocaleString DEBUG_SKIP_ROUND_SUCCESS = new LocaleString(SUCCESS, "Skipping the active round in arena %ARENA%.");
+    public static final LocaleString DEBUG_NEXT_ROUND_SUCCESS = new LocaleString(SUCCESS, "Advancing arena %ARENA% to the next round.");
+    public static final LocaleString DEBUG_AUDIO_PLAY_SUCCESS = new LocaleString(SUCCESS, "Playing track %TRACK% in arena %ARENA%.");
+    public static final LocaleString DEBUG_AUDIO_PAUSE_SUCCESS = new LocaleString(SUCCESS, "Paused audio in arena %ARENA%.");
+    public static final LocaleString DEBUG_AUDIO_RESUME_SUCCESS = new LocaleString(SUCCESS, "Resumed audio in arena %ARENA%.");
+    public static final LocaleString DEBUG_AUDIO_STOP_SUCCESS = new LocaleString(SUCCESS, "Stopped audio in arena %ARENA%.");
+    public static final LocaleString DEBUG_TRACKS_REFRESH_SUCCESS = new LocaleString(SUCCESS, "Refreshing the Aura track catalog in the background.");
+    public static final LocaleString DEBUG_CONNECT_URL_SENT = new LocaleString(SUCCESS, "Sent audio connection URL to %PLAYER%.");
 
     public static final LocaleString COMMAND_FORMAT = new LocaleString(COMMANDS, "&e%SYNTAX% &7- %DESCRIPTION%");
     public static final LocaleString COMMAND_BLOCK_PARTY = new LocaleString(COMMANDS, "See plugin info");
@@ -154,6 +207,30 @@ public class English extends Language {
     public static final LocaleString COMMAND_UNDO = new LocaleString(COMMANDS, "Reverts changes");
     public static final LocaleString COMMAND_WAND = new LocaleString(COMMANDS, "Get wand tool");
 
+    public static final LocaleString DEBUG_HELP_HEADER = new LocaleString(COMMANDS, "Debug commands:");
+    public static final LocaleString DEBUG_HELP = new LocaleString(COMMANDS,
+            "&8- &e/bp debug force-start [arena] &7Start a game even with one player",
+            "&8- &e/bp debug force-win [arena] [player] &7Force a winner",
+            "&8- &e/bp debug skip-round [arena] &7Jump into the stop phase",
+            "&8- &e/bp debug next-round [arena] &7Advance from stop to the next round",
+            "&8- &e/bp debug status [arena] &7Show arena, round, song, and provider state",
+            "&8- &e/bp debug connect-url [arena] [player] &7Send the Central Hub player URL",
+            "&8- &e/bp debug tracks ... &7Show Aura catalog debug commands",
+            "&8- &e/bp debug audio ... &7Show audio debug commands"
+    );
+    public static final LocaleString DEBUG_AUDIO_HELP_HEADER = new LocaleString(COMMANDS, "Debug audio commands:");
+    public static final LocaleString DEBUG_AUDIO_HELP = new LocaleString(COMMANDS,
+            "&8- &e/bp debug audio play <arena> <track> &7Play a specific track",
+            "&8- &e/bp debug audio pause [arena] &7Pause the current track",
+            "&8- &e/bp debug audio resume [arena] &7Resume the current track",
+            "&8- &e/bp debug audio stop [arena] &7Stop the current track"
+    );
+    public static final LocaleString DEBUG_TRACKS_HELP_HEADER = new LocaleString(COMMANDS, "Debug track catalog commands:");
+    public static final LocaleString DEBUG_TRACKS_HELP = new LocaleString(COMMANDS,
+            "&8- &e/bp debug tracks refresh &7Refresh the Aura track catalog",
+            "&8- &e/bp debug tracks status &7Show cache state and last refresh result"
+    );
+
     public static final LocaleString HEADER_HELP = new LocaleString(HEADERS, "BlockParty Commands");
     public static final LocaleString HEADER_ADMIN = new LocaleString(HEADERS, "Admin Commands");
     public static final LocaleString HEADER_TUTORIAL = new LocaleString(HEADERS, "BlockParty Setup");
@@ -178,7 +255,7 @@ public class English extends Language {
         try {
             writeTo(English.class, file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Could not write English locale to " + file, e);
         }
     }
 

@@ -4,6 +4,7 @@ import de.pauhull.utils.message.type.MessageType;
 import de.pauhull.utils.misc.MinecraftVersion;
 import de.pauhull.utils.misc.Reflection;
 import lombok.NonNull;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
@@ -11,6 +12,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import static de.pauhull.utils.misc.MinecraftVersion.v1_11;
 import static de.pauhull.utils.misc.MinecraftVersion.v1_12;
@@ -74,7 +76,7 @@ public class NMSClasses {
                 }
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Could not initialize NMS chat/title classes", e);
         }
     }
     //endregion
@@ -110,7 +112,7 @@ public class NMSClasses {
             }
 
         } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.WARNING, "Could not send title to player " + player.getName(), e);
         }
     }
 
@@ -136,7 +138,7 @@ public class NMSClasses {
             Reflection.sendPacket(player, packet);
 
         } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.WARNING, "Could not send action bar to player " + player.getName(), e);
         }
     }
 

@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 /**
@@ -92,7 +93,7 @@ public class LobbyPhase implements Runnable {
             try {
                 Util.showActionBar(ACTIONBAR_COUNTDOWN.toString("%NUMBER%", Integer.toString(countdown)), arena, false);
             } catch (Exception e) {
-                e.printStackTrace();
+                blockParty.getPlugin().getLogger().log(Level.WARNING, "Could not show countdown action bar", e);
             }
 
             this.blockParty.getDisplayScoreboard().setScoreboard(countdown, 0, arena);

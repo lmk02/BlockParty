@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 
 import static de.leonkoth.blockparty.arena.ArenaState.LOBBY;
 
@@ -229,7 +230,7 @@ public class Arena {
         try {
             arenaDataManager.save();
         } catch (IOException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not save arena \"" + getName() + "\"", e);
         }
     }
 
@@ -282,7 +283,7 @@ public class Arena {
             try {
                 arenaDataManager.save();
             } catch (IOException e) {
-                e.printStackTrace();
+                BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not save arena \"" + getName() + "\" after removing pattern \"" + name + "\"", e);
                 return false;
             }
 

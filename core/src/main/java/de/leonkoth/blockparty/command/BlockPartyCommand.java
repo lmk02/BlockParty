@@ -36,6 +36,10 @@ public class BlockPartyCommand implements CommandExecutor, TabCompleter {
         blockParty.getPlugin().getCommand("blockparty").setExecutor(this);
         blockParty.getPlugin().getCommand("blockparty").setTabCompleter(this);
 
+        // The list is static: clear it so a plugin reload doesn't duplicate
+        // every subcommand
+        commands.clear();
+
         commands.add(new BlockPartySetFloorCommand(blockParty));
         commands.add(new BlockPartyListArenasCommand(blockParty));
         commands.add(new BlockPartyWandCommand(blockParty));
@@ -79,6 +83,10 @@ public class BlockPartyCommand implements CommandExecutor, TabCompleter {
                 user.getChildren().put(command.permission, true);
             }
         }
+        // Remove first: addPermission throws if the permission survived a
+        // previous enable of this plugin
+        Bukkit.getPluginManager().removePermission(admin.getName());
+        Bukkit.getPluginManager().removePermission(user.getName());
         Bukkit.getPluginManager().addPermission(admin);
         Bukkit.getPluginManager().addPermission(user);
     }

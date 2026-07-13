@@ -14,6 +14,8 @@ import de.leonkoth.blockparty.player.PlayerInfo;
 import de.leonkoth.blockparty.player.PlayerState;
 import de.leonkoth.blockparty.song.Song;
 import de.pauhull.utils.locale.storage.LocaleString;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,7 +38,7 @@ public class BlockPartyDebugCommand extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
         if (!blockParty.isDebugEnabled()) {
-            sender.sendMessage(PREFIX + "Debug mode is disabled in config.");
+            DEBUG_DISABLED.message(PREFIX, sender);
             return false;
         }
 
@@ -60,11 +62,11 @@ public class BlockPartyDebugCommand extends SubCommand {
         }
 
         if (!arena.getPhaseHandler().forceStartGamePhase()) {
-            sender.sendMessage(PREFIX + "Couldn't force-start arena " + arena.getName() + ".");
+            DEBUG_FORCE_START_FAILED.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
-        sender.sendMessage(PREFIX + "Force-started arena " + arena.getName() + ".");
+        DEBUG_FORCE_START_SUCCESS.message(PREFIX, sender, "%ARENA%", arena.getName());
         return true;
     }
 
@@ -76,14 +78,14 @@ public class BlockPartyDebugCommand extends SubCommand {
 
         PlayerInfo winner = resolveWinner(sender, arena, args);
         if (winner == null) {
-            sender.sendMessage(PREFIX + "Couldn't determine a winner for arena " + arena.getName() + ".");
+            DEBUG_FORCE_WIN_NO_WINNER.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
         List<PlayerInfo> winners = new ArrayList<>();
         winners.add(winner);
         Bukkit.getPluginManager().callEvent(new PlayerWinEvent(arena, winners));
-        sender.sendMessage(PREFIX + "Forced win for " + winner.getName() + " in arena " + arena.getName() + ".");
+        DEBUG_FORCE_WIN_SUCCESS.message(PREFIX, sender, "%PLAYER%", winner.getName(), "%ARENA%", arena.getName());
         return true;
     }
 
@@ -94,11 +96,11 @@ public class BlockPartyDebugCommand extends SubCommand {
         }
 
         if (!arena.getPhaseHandler().debugSkipCurrentRound()) {
-            sender.sendMessage(PREFIX + "Arena " + arena.getName() + " is already in the stop transition.");
+            DEBUG_SKIP_ROUND_FAILED.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
-        sender.sendMessage(PREFIX + "Skipping the active round in arena " + arena.getName() + ".");
+        DEBUG_SKIP_ROUND_SUCCESS.message(PREFIX, sender, "%ARENA%", arena.getName());
         return true;
     }
 
@@ -109,11 +111,11 @@ public class BlockPartyDebugCommand extends SubCommand {
         }
 
         if (!arena.getPhaseHandler().debugAdvanceToNextRound()) {
-            sender.sendMessage(PREFIX + "Arena " + arena.getName() + " is not currently in the stop window.");
+            DEBUG_NEXT_ROUND_FAILED.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
-        sender.sendMessage(PREFIX + "Advancing arena " + arena.getName() + " to the next round.");
+        DEBUG_NEXT_ROUND_SUCCESS.message(PREFIX, sender, "%ARENA%", arena.getName());
         return true;
     }
 
@@ -143,11 +145,11 @@ public class BlockPartyDebugCommand extends SubCommand {
         }
 
         if (!arena.getSongManager().debugPlayTrack(blockParty, args[4])) {
-            sender.sendMessage(PREFIX + "Couldn't play track " + args[4] + " in arena " + arena.getName() + ".");
+            DEBUG_AUDIO_PLAY_FAILED.message(PREFIX, sender, "%TRACK%", args[4], "%ARENA%", arena.getName());
             return false;
         }
 
-        sender.sendMessage(PREFIX + "Playing track " + arena.getSongManager().getCurrentSongDisplayName() + " in arena " + arena.getName() + ".");
+        DEBUG_AUDIO_PLAY_SUCCESS.message(PREFIX, sender, "%TRACK%", arena.getSongManager().getCurrentSongDisplayName(), "%ARENA%", arena.getName());
         return true;
     }
 
@@ -166,33 +168,36 @@ public class BlockPartyDebugCommand extends SubCommand {
     private boolean refreshTracks(CommandSender sender) {
         AudioManager audioManager = blockParty.getAudioManager();
         if (audioManager == null || audioManager.getProviderType() != AudioProviderType.CENTRAL_HUB) {
-            sender.sendMessage(PREFIX + "Track catalog sync is only available with the Central Hub provider.");
+            DEBUG_TRACKS_REFRESH_UNSUPPORTED.message(PREFIX, sender);
             return false;
         }
 
         if (!audioManager.getTrackCatalogService().refreshAsync()) {
-            sender.sendMessage(PREFIX + "Couldn't start a track catalog refresh right now.");
+            DEBUG_TRACKS_REFRESH_FAILED.message(PREFIX, sender);
             return false;
         }
 
-        sender.sendMessage(PREFIX + "Refreshing the Aura track catalog in the background.");
+        DEBUG_TRACKS_REFRESH_SUCCESS.message(PREFIX, sender);
         return true;
     }
 
     private boolean tracksStatus(CommandSender sender) {
         AudioManager audioManager = blockParty.getAudioManager();
         if (audioManager == null) {
-            sender.sendMessage(PREFIX + "Audio is not initialized.");
+            DEBUG_AUDIO_NOT_INITIALIZED.message(PREFIX, sender);
             return false;
         }
 
         TrackCatalogService catalogService = audioManager.getTrackCatalogService();
-        sender.sendMessage(PREFIX + "Aura track catalog:");
-        sender.sendMessage("§8- §7Provider: §e" + audioManager.getProviderType().name().toLowerCase(Locale.ROOT));
-        sender.sendMessage("§8- §7Available: §e" + catalogService.isCatalogAvailable());
-        sender.sendMessage("§8- §7Tracks: §e" + catalogService.getTracks().size());
-        sender.sendMessage("§8- §7LastRefresh: §e" + (catalogService.getLastRefreshMillis() > 0 ? catalogService.getLastRefreshMillis() : "never"));
-        sender.sendMessage("§8- §7LastError: §e" + (catalogService.getLastError() != null ? catalogService.getLastError() : "none"));
+        DEBUG_TRACKS_STATUS_HEADER.message(PREFIX, sender);
+        DEBUG_TRACKS_STATUS_INFO.message(null, sender,
+                "%PROVIDER%", audioManager.getProviderType().name().toLowerCase(Locale.ROOT),
+                "%AVAILABLE%", String.valueOf(catalogService.isCatalogAvailable()),
+                "%TRACKS%", String.valueOf(catalogService.getTracks().size()),
+                "%LAST_REFRESH%", catalogService.getLastRefreshMillis() > 0
+                        ? String.valueOf(catalogService.getLastRefreshMillis()) : DEBUG_VALUE_NEVER.getValue(),
+                "%LAST_ERROR%", catalogService.getLastError() != null
+                        ? catalogService.getLastError() : DEBUG_VALUE_NONE.getValue());
         return true;
     }
 
@@ -203,12 +208,12 @@ public class BlockPartyDebugCommand extends SubCommand {
         }
 
         if (arena.getSongManager().getVotedSong() == null) {
-            sender.sendMessage(PREFIX + "Arena " + arena.getName() + " has no active song.");
+            DEBUG_NO_ACTIVE_SONG.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
         arena.getSongManager().pause(blockParty);
-        sender.sendMessage(PREFIX + "Paused audio in arena " + arena.getName() + ".");
+        DEBUG_AUDIO_PAUSE_SUCCESS.message(PREFIX, sender, "%ARENA%", arena.getName());
         return true;
     }
 
@@ -219,12 +224,12 @@ public class BlockPartyDebugCommand extends SubCommand {
         }
 
         if (arena.getSongManager().getVotedSong() == null) {
-            sender.sendMessage(PREFIX + "Arena " + arena.getName() + " has no active song.");
+            DEBUG_NO_ACTIVE_SONG.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
         arena.getSongManager().continuePlay(blockParty);
-        sender.sendMessage(PREFIX + "Resumed audio in arena " + arena.getName() + ".");
+        DEBUG_AUDIO_RESUME_SUCCESS.message(PREFIX, sender, "%ARENA%", arena.getName());
         return true;
     }
 
@@ -235,12 +240,12 @@ public class BlockPartyDebugCommand extends SubCommand {
         }
 
         if (arena.getSongManager().getVotedSong() == null) {
-            sender.sendMessage(PREFIX + "Arena " + arena.getName() + " has no active song.");
+            DEBUG_NO_ACTIVE_SONG.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
         arena.getSongManager().stop(blockParty);
-        sender.sendMessage(PREFIX + "Stopped audio in arena " + arena.getName() + ".");
+        DEBUG_AUDIO_STOP_SUCCESS.message(PREFIX, sender, "%ARENA%", arena.getName());
         return true;
     }
 
@@ -261,21 +266,25 @@ public class BlockPartyDebugCommand extends SubCommand {
             }
         }
 
-        sender.sendMessage(PREFIX + "Debug status for arena " + arena.getName() + ":");
-        sender.sendMessage("§8- §7ArenaState: §e" + arena.getArenaState().name());
-        sender.sendMessage("§8- §7GameState: §e" + arena.getGameState().name());
-        sender.sendMessage("§8- §7Players: §e" + arena.getPlayersInArena().size() + " total / " + ingamePlayers + " ingame");
-        sender.sendMessage("§8- §7Song: §e" + (votedSong != null ? arena.getSongManager().getDisplayName(votedSong) : "none"));
-        sender.sendMessage("§8- §7AudioProvider: §e" + (audioManager != null ? audioManager.getProviderType().name().toLowerCase(Locale.ROOT) : "none"));
+        DEBUG_STATUS_HEADER.message(PREFIX, sender, "%ARENA%", arena.getName());
+        DEBUG_STATUS_INFO.message(null, sender,
+                "%ARENA_STATE%", arena.getArenaState().name(),
+                "%GAME_STATE%", arena.getGameState().name(),
+                "%PLAYERS_TOTAL%", String.valueOf(arena.getPlayersInArena().size()),
+                "%PLAYERS_INGAME%", String.valueOf(ingamePlayers),
+                "%SONG%", votedSong != null ? arena.getSongManager().getDisplayName(votedSong) : DEBUG_VALUE_NONE.getValue(),
+                "%PROVIDER%", audioManager != null ? audioManager.getProviderType().name().toLowerCase(Locale.ROOT) : DEBUG_VALUE_NONE.getValue());
         if (audioManager != null) {
-            sender.sendMessage("§8- §7CatalogTracks: §e" + audioManager.getTrackCatalogService().getTracks().size());
-            sender.sendMessage("§8- §7CatalogAvailable: §e" + audioManager.getTrackCatalogService().isCatalogAvailable());
+            DEBUG_STATUS_CATALOG.message(null, sender,
+                    "%TRACKS%", String.valueOf(audioManager.getTrackCatalogService().getTracks().size()),
+                    "%AVAILABLE%", String.valueOf(audioManager.getTrackCatalogService().isCatalogAvailable()));
         }
 
         if (arena.getPhaseHandler().isGamePhaseActive() && gamePhase != null) {
-            sender.sendMessage("§8- §7Round: §e" + gamePhase.getCurrentLevelDisplay());
-            sender.sendMessage("§8- §7Stage: §e" + gamePhase.getDebugStage());
-            sender.sendMessage("§8- §7TimeRemaining: §e" + String.format(Locale.US, "%.1f", gamePhase.getTimeRemaining()) + "s");
+            DEBUG_STATUS_ROUND.message(null, sender,
+                    "%ROUND%", String.valueOf(gamePhase.getCurrentLevelDisplay()),
+                    "%STAGE%", gamePhase.getDebugStage(),
+                    "%TIME%", String.format(Locale.US, "%.1f", gamePhase.getTimeRemaining()));
         }
 
         return true;
@@ -289,71 +298,79 @@ public class BlockPartyDebugCommand extends SubCommand {
 
         AudioManager audioManager = blockParty.getAudioManager();
         if (audioManager == null || audioManager.getProviderType() != AudioProviderType.CENTRAL_HUB) {
-            sender.sendMessage(PREFIX + "The current audio provider does not support connection URLs.");
+            DEBUG_CONNECT_URL_UNSUPPORTED.message(PREFIX, sender);
             return false;
         }
 
         Player target = resolveTargetPlayer(sender, arena, args, 3);
         if (target == null) {
-            sender.sendMessage(PREFIX + "Couldn't determine a target player for arena " + arena.getName() + ".");
+            DEBUG_CONNECT_URL_NO_TARGET.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
         AudioProvider provider = audioManager.getProvider();
         String url = provider.getConnectUrl(arena);
         if (url == null || url.isBlank()) {
-            sender.sendMessage(PREFIX + "Couldn't generate a connection URL for arena " + arena.getName() + ".");
+            DEBUG_CONNECT_URL_FAILED.message(PREFIX, sender, "%ARENA%", arena.getName());
             return false;
         }
 
-        net.md_5.bungee.api.chat.TextComponent message = new net.md_5.bungee.api.chat.TextComponent("§6[BlockParty] §eOpen the audio player for arena §f" + arena.getName() + "§e.");
-        message.setClickEvent(new net.md_5.bungee.api.chat.ClickEvent(net.md_5.bungee.api.chat.ClickEvent.Action.OPEN_URL, url));
+        TextComponent message = new TextComponent(DEBUG_CONNECT_URL_CLICK.toString("%ARENA%", arena.getName()));
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         target.spigot().sendMessage(message);
-        sender.sendMessage(PREFIX + "Sent audio connection URL to " + target.getName() + ".");
+        DEBUG_CONNECT_URL_SENT.message(PREFIX, sender, "%PLAYER%", target.getName());
         return true;
     }
 
     private Arena resolveArena(CommandSender sender, String[] args, int arenaArgIndex) {
-        if (args.length > arenaArgIndex) {
-            Arena arena = Arena.getByName(args[arenaArgIndex]);
-            if (arena == null) {
-                ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[arenaArgIndex]);
-            }
-            return arena;
-        }
-
-        if (sender instanceof Player player) {
-            PlayerInfo info = PlayerInfo.getFromPlayer(player);
-            if (info != null && info.getCurrentArena() != null) {
-                return info.getCurrentArena();
-            }
-        }
-
-        ERROR_NOT_IN_ARENA.message(PREFIX, sender);
-        return null;
+        return resolveArena(sender, args, arenaArgIndex, false);
     }
 
     private Arena resolveArenaForPlayerTarget(CommandSender sender, String[] args, int arenaArgIndex) {
-        if (args.length > arenaArgIndex) {
-            Arena explicitArena = Arena.getByName(args[arenaArgIndex]);
-            if (explicitArena != null) {
-                return explicitArena;
+        return resolveArena(sender, args, arenaArgIndex, true);
+    }
+
+    /**
+     * Resolves the target arena from an explicit argument or the sender's
+     * current arena. With {@code argMayBeSomethingElse}, an argument that is
+     * not an arena name (e.g. a player name in "[arena] [player]" syntaxes)
+     * falls through to the sender's arena instead of failing immediately.
+     */
+    private Arena resolveArena(CommandSender sender, String[] args, int arenaArgIndex, boolean argMayBeSomethingElse) {
+        boolean hasArg = args.length > arenaArgIndex;
+
+        if (hasArg) {
+            Arena arena = Arena.getByName(args[arenaArgIndex]);
+            if (arena != null) {
+                return arena;
+            }
+            if (!argMayBeSomethingElse) {
+                ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[arenaArgIndex]);
+                return null;
             }
         }
 
-        if (sender instanceof Player player) {
-            PlayerInfo info = PlayerInfo.getFromPlayer(player);
-            if (info != null && info.getCurrentArena() != null) {
-                return info.getCurrentArena();
-            }
+        Arena senderArena = getSenderArena(sender);
+        if (senderArena != null) {
+            return senderArena;
         }
 
-        if (args.length > arenaArgIndex) {
+        if (hasArg) {
             ERROR_ARENA_NOT_EXIST.message(PREFIX, sender, "%ARENA%", args[arenaArgIndex]);
         } else {
             ERROR_NOT_IN_ARENA.message(PREFIX, sender);
         }
 
+        return null;
+    }
+
+    private Arena getSenderArena(CommandSender sender) {
+        if (sender instanceof Player player) {
+            PlayerInfo info = PlayerInfo.getFromPlayer(player);
+            if (info != null) {
+                return info.getCurrentArena();
+            }
+        }
         return null;
     }
 
@@ -384,23 +401,15 @@ public class BlockPartyDebugCommand extends SubCommand {
         int playerArgIndex = hasExplicitArena ? 3 : 2;
 
         if (args.length > playerArgIndex) {
-            Player target = Bukkit.getPlayerExact(args[playerArgIndex]);
-            if (target == null) {
-                PLAYER_DOES_NOT_EXIST.message(PREFIX, sender, "%PLAYER%", args[playerArgIndex]);
-                return null;
-            }
-
-            PlayerInfo info = PlayerInfo.getFromPlayer(target);
-            return info != null && arena.getPlayersInArena().contains(info) ? info : null;
+            return resolveExplicitArenaMember(sender, arena, args[playerArgIndex]);
         }
 
-        if (sender instanceof Player player) {
-            PlayerInfo info = PlayerInfo.getFromPlayer(player);
-            if (info != null && arena.getPlayersInArena().contains(info)) {
-                return info;
-            }
+        PlayerInfo senderInfo = getSenderArenaMember(sender, arena);
+        if (senderInfo != null) {
+            return senderInfo;
         }
 
+        // Fall back to the only ingame player, if unambiguous
         PlayerInfo onlyIngame = null;
         for (PlayerInfo info : arena.getPlayersInArena()) {
             if (info.getPlayerState() == PlayerState.INGAME) {
@@ -418,53 +427,49 @@ public class BlockPartyDebugCommand extends SubCommand {
         boolean hasExplicitArena = args.length > 2 && Arena.getByName(args[2]) != null;
         int resolvedIndex = hasExplicitArena ? playerArgIndex : 2;
 
-        if (args.length > resolvedIndex) {
-            Player player = Bukkit.getPlayerExact(args[resolvedIndex]);
-            if (player == null) {
-                PLAYER_DOES_NOT_EXIST.message(PREFIX, sender, "%PLAYER%", args[resolvedIndex]);
-                return null;
-            }
+        PlayerInfo info = args.length > resolvedIndex
+                ? resolveExplicitArenaMember(sender, arena, args[resolvedIndex])
+                : getSenderArenaMember(sender, arena);
 
-            PlayerInfo info = PlayerInfo.getFromPlayer(player);
-            return info != null && arena.getPlayersInArena().contains(info) ? player : null;
+        return info != null ? info.asPlayer() : null;
+    }
+
+    private PlayerInfo resolveExplicitArenaMember(CommandSender sender, Arena arena, String playerName) {
+        Player target = Bukkit.getPlayerExact(playerName);
+        if (target == null) {
+            PLAYER_DOES_NOT_EXIST.message(PREFIX, sender, "%PLAYER%", playerName);
+            return null;
         }
 
+        PlayerInfo info = PlayerInfo.getFromPlayer(target);
+        return info != null && arena.getPlayersInArena().contains(info) ? info : null;
+    }
+
+    private PlayerInfo getSenderArenaMember(CommandSender sender, Arena arena) {
         if (sender instanceof Player player) {
             PlayerInfo info = PlayerInfo.getFromPlayer(player);
             if (info != null && arena.getPlayersInArena().contains(info)) {
-                return player;
+                return info;
             }
         }
-
         return null;
     }
 
     private boolean sendDebugHelp(CommandSender sender) {
-        sender.sendMessage(PREFIX + "Debug commands:");
-        sender.sendMessage("§8- §e/bp debug force-start [arena] §7Start a game even with one player");
-        sender.sendMessage("§8- §e/bp debug force-win [arena] [player] §7Force a winner");
-        sender.sendMessage("§8- §e/bp debug skip-round [arena] §7Jump into the stop phase");
-        sender.sendMessage("§8- §e/bp debug next-round [arena] §7Advance from stop to the next round");
-        sender.sendMessage("§8- §e/bp debug status [arena] §7Show arena, round, song, and provider state");
-        sender.sendMessage("§8- §e/bp debug connect-url [arena] [player] §7Send the Central Hub player URL");
-        sender.sendMessage("§8- §e/bp debug tracks ... §7Show Aura catalog debug commands");
-        sender.sendMessage("§8- §e/bp debug audio ... §7Show audio debug commands");
+        DEBUG_HELP_HEADER.message(PREFIX, sender);
+        DEBUG_HELP.message(null, sender);
         return false;
     }
 
     private boolean sendAudioHelp(CommandSender sender) {
-        sender.sendMessage(PREFIX + "Debug audio commands:");
-        sender.sendMessage("§8- §e/bp debug audio play <arena> <track> §7Play a specific track");
-        sender.sendMessage("§8- §e/bp debug audio pause [arena] §7Pause the current track");
-        sender.sendMessage("§8- §e/bp debug audio resume [arena] §7Resume the current track");
-        sender.sendMessage("§8- §e/bp debug audio stop [arena] §7Stop the current track");
+        DEBUG_AUDIO_HELP_HEADER.message(PREFIX, sender);
+        DEBUG_AUDIO_HELP.message(null, sender);
         return false;
     }
 
     private boolean sendTracksHelp(CommandSender sender) {
-        sender.sendMessage(PREFIX + "Debug track catalog commands:");
-        sender.sendMessage("§8- §e/bp debug tracks refresh §7Refresh the Aura track catalog");
-        sender.sendMessage("§8- §e/bp debug tracks status §7Show cache state and last refresh result");
+        DEBUG_TRACKS_HELP_HEADER.message(PREFIX, sender);
+        DEBUG_TRACKS_HELP.message(null, sender);
         return false;
     }
 

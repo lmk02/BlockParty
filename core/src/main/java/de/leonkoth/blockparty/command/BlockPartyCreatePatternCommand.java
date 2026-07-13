@@ -11,6 +11,8 @@ import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.logging.Level;
+
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
 public class BlockPartyCreatePatternCommand extends SubCommand {
@@ -55,8 +57,8 @@ public class BlockPartyCreatePatternCommand extends SubCommand {
         } catch (FloorLoaderException e) {
             switch (e.getError()) {
                 case NO_SIZE:
-                    //unlikely. print stacktrace
-                    e.printStackTrace();
+                    //unlikely
+                    BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not write floor pattern \"" + args[1] + "\": selection has no size", e);
                     break;
                 case WRONG_HEIGHT:
                     ERROR_FLOOR_HEIGHT.message(PREFIX, sender);

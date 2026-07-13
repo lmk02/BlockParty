@@ -11,6 +11,7 @@ import java.io.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.logging.Level;
 
 public class PatternLoader {
 
@@ -23,13 +24,13 @@ public class PatternLoader {
         long timeMillis = System.currentTimeMillis();
 
         if (BlockParty.DEBUG)
-            System.out.println("[BlockParty] Writing pattern \"" + file.getPath() + "\"...");
+            BlockParty.getInstance().getPlugin().getLogger().info("Writing pattern \"" + file.getPath() + "\"...");
 
         PrintWriter printWriter;
         try {
             printWriter = new PrintWriter(file);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not write floor pattern file \"" + file.getPath() + "\"", e);
             return false;
         }
 
@@ -96,7 +97,7 @@ public class PatternLoader {
         printWriter.flush();
 
         if (BlockParty.DEBUG)
-            System.out.println("[BlockParty] Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
+            BlockParty.getInstance().getPlugin().getLogger().info("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
 
         return true;
 
@@ -111,7 +112,7 @@ public class PatternLoader {
         long timeMillis = System.currentTimeMillis();
 
         if (BlockParty.DEBUG)
-            System.out.println("[BlockParty] Reading pattern \"" + file.getPath() + "\"...");
+            BlockParty.getInstance().getPlugin().getLogger().info("Reading pattern \"" + file.getPath() + "\"...");
 
         int width = 0, length = 0;
         byte[] data;
@@ -174,7 +175,7 @@ public class PatternLoader {
         }
 
         if (BlockParty.DEBUG)
-            System.out.println("[BlockParty] Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
+            BlockParty.getInstance().getPlugin().getLogger().info("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
 
         return new FloorPattern(FileUtils.removeExtension(file.getName()), new Size(width, 1, length), materials, data);
     }
@@ -198,7 +199,7 @@ public class PatternLoader {
             reader.close();
             bufferedReader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not read floor pattern file \"" + file.getPath() + "\"", e);
         }
 
         return lines;

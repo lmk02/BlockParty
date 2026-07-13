@@ -2,6 +2,7 @@ package de.leonkoth.blockparty.data;
 
 import de.leonkoth.blockparty.util.DefaultManager;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -9,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
 
 public class Config {
 
@@ -45,7 +47,7 @@ public class Config {
                 config = new YamlConfiguration();
                 config.loadFromString(string);
             } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().log(Level.SEVERE, "[BlockParty] Could not load config file \"" + file.getName() + "\"", e);
             }
         } else {
             config = YamlConfiguration.loadConfiguration(file);
@@ -57,7 +59,7 @@ public class Config {
         try {
             config.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "[BlockParty] Could not save config file \"" + file.getName() + "\"", e);
         }
 
         load(file);

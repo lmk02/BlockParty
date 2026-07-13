@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Utility for easy locales for your plugin.
@@ -43,7 +44,7 @@ public abstract class Locale {
             writeToMethod.invoke(null, writeTo);
             return true;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Could not write language file " + writeTo.getName(), e);
             return false;
         }
     }
@@ -78,7 +79,7 @@ public abstract class Locale {
 
                     field.set(null, value);
                 } catch (IllegalAccessException | NoSuchFieldException e) {
-                    e.printStackTrace();
+                    Bukkit.getLogger().log(Level.WARNING, "Could not apply default locale value for field " + field.getName(), e);
                 }
             }
 
@@ -120,7 +121,7 @@ public abstract class Locale {
                         try {
                             localeString = (LocaleString) defaultLanguage.getField(field.getName()).get(null);
                         } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
+                            Bukkit.getLogger().log(Level.WARNING, "Could not read default locale value for field " + field.getName(), e);
                             continue;
                         }
                     }
@@ -128,7 +129,7 @@ public abstract class Locale {
                     try {
                         field.set(null, localeString);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        Bukkit.getLogger().log(Level.WARNING, "Could not set locale field " + field.getName(), e);
                     }
 
                 } else {
@@ -137,8 +138,7 @@ public abstract class Locale {
                     try {
                         field.set(null, defaultLanguage.getField(field.getName()).get(null));
                     } catch (NoSuchFieldException | IllegalAccessException e) {
-                        Bukkit.getLogger().severe("Couldn't find default message in \"" + defaultLanguage.getName() + "\". (" + e.getMessage() + ")");
-                        e.printStackTrace();
+                        Bukkit.getLogger().log(Level.SEVERE, "Couldn't find default message in \"" + defaultLanguage.getName() + "\"", e);
                     }
                 }
             }

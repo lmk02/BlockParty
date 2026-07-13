@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
@@ -37,7 +38,7 @@ public class BlockPartyPlacePatternCommand extends SubCommand {
             return false;
         } catch (FloorLoaderException e) {
             //unusual
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not load floor pattern \"" + args[1] + ".floor\"", e);
             return false;
         }
 

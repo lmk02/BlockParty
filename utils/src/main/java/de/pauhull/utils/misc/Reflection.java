@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
 
 /**
  * Reflection Utility
@@ -25,7 +26,7 @@ public class Reflection {
         try {
             return Class.forName("net.minecraft.server." + version + name);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Could not find NMS class " + name, e);
             return null;
         }
     }
@@ -42,7 +43,7 @@ public class Reflection {
         try {
             return Class.forName("org.bukkit.craftbukkit." + version + name);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Could not find CraftBukkit class " + name, e);
             return null;
         }
     }
@@ -61,7 +62,7 @@ public class Reflection {
             playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, packet);
             return true;
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | NoSuchFieldException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.WARNING, "Could not send packet to player " + player.getName(), e);
             return false;
         }
     }

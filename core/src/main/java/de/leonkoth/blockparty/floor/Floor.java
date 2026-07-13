@@ -32,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -96,7 +97,7 @@ public class Floor {
                 floorPatterns.add(pattern);
             } catch (FileNotFoundException | FloorLoaderException e) {
                 Bukkit.getConsoleSender().sendMessage("§c[BlockParty] Couldn't find file \"Floors/" + name + ".floor\"");
-                //e.printStackTrace();
+                BlockParty.getInstance().getPlugin().getLogger().log(Level.FINE, "Could not load floor pattern \"" + name + "\"", e);
             }
         }
 
@@ -122,7 +123,7 @@ public class Floor {
         try {
             arena.setFloor(floor);
         } catch (Exception e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not set floor for arena \"" + arena.getName() + "\"", e);
             return false;
         }
 
@@ -437,7 +438,7 @@ public class Floor {
         } catch (FileNotFoundException e) {
             return null;
         } catch (FloorLoaderException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not load floor pattern \"" + name + "\"", e);
             return null;
         }
     }

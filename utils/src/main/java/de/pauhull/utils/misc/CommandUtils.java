@@ -7,6 +7,7 @@ import org.bukkit.plugin.SimplePluginManager;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Created by Paul
@@ -42,7 +43,7 @@ public class CommandUtils {
                     commands.remove(command);
                 }
             } catch (IllegalAccessException | NoSuchFieldException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().log(Level.WARNING, "Could not unregister commands from command map", e);
             }
 
         }

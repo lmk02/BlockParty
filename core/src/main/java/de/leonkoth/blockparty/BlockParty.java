@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.logging.Level;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -117,8 +118,8 @@ public class BlockParty {
         blockPlacer = VersionHandler.getBlockPlacer();
 
         if (DEBUG) {
-            System.out.println("[BlockParty] Using DEBUG mode");
-            System.out.println("[BlockParty] Detected Minecraft Version: " + MinecraftVersion.CURRENT_VERSION);
+            plugin.getLogger().info("Using DEBUG mode");
+            plugin.getLogger().info("Detected Minecraft Version: " + MinecraftVersion.CURRENT_VERSION);
         }
     }
 
@@ -182,10 +183,12 @@ public class BlockParty {
             Bukkit.getScheduler().cancelTask(this.signUpdaterTask);
         }
 
-        Iterator<Boost> iterator = Boost.boosts.iterator();
-        while(iterator.hasNext()) {
-            iterator.next().remove();
+        // Copy first: Boost.remove() removes the boost from Boost.boosts,
+        // which would throw ConcurrentModificationException while iterating it
+        for (Boost boost : new ArrayList<>(Boost.boosts)) {
+            boost.remove();
         }
+        Boost.boosts.clear();
 
         for (Set<BlockInfo> blocks : BlockPartyUndoCommand.oldBlocks.values()) {
             for (BlockInfo blockInfo : blocks) {
@@ -208,6 +211,10 @@ public class BlockParty {
         }
 
         this.getPlayerInfoManager().saveAllPlayerInfos(this.getPlayers());
+
+        // Static registries survive a plugin reload — clear them so the next
+        // enable starts from a clean slate
+        PlayerInfo.getAllPlayerInfos().clear();
     }
 
     public void logStartMessage(boolean online) {
@@ -270,7 +277,7 @@ public class BlockParty {
                 Bukkit.getConsoleSender().sendMessage("§c[BlockParty] File \"" + file.getName() + "\" couldn't be loaded!");
 
                 if (DEBUG)
-                    e.printStackTrace();
+                    plugin.getLogger().log(Level.WARNING, "Could not load arena file \"" + file.getName() + "\"", e);
             }
         }
 
@@ -323,7 +330,7 @@ public class BlockParty {
             this.signUpdaterTask = Arena.startUpdatingSigns(signUpdateMillis  / 50);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Could not reload BlockParty configuration", e);
         }
     }
 

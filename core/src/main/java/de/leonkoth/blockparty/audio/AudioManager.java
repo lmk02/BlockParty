@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
+import java.util.logging.Level;
 
 public class AudioManager {
 
@@ -62,7 +63,7 @@ public class AudioManager {
                     "Could not create audio provider \"" + providerType.name().toLowerCase() + "\". Audio will stay disabled."
             );
             if (BlockParty.DEBUG) {
-                throwable.printStackTrace();
+                blockParty.getPlugin().getLogger().log(Level.WARNING, "Could not create audio provider \"" + providerType.name().toLowerCase() + "\"", throwable);
             }
             return new NoOpAudioProvider();
         }
@@ -78,7 +79,7 @@ public class AudioManager {
             provider = new NoOpAudioProvider();
             blockParty.getPlugin().getLogger().severe("Could not initialize audio provider: " + exception.getMessage());
             if (BlockParty.DEBUG) {
-                exception.printStackTrace();
+                blockParty.getPlugin().getLogger().log(Level.SEVERE, "Could not initialize audio provider", exception);
             }
         }
     }
@@ -90,7 +91,7 @@ public class AudioManager {
         } catch (Exception exception) {
             Bukkit.getConsoleSender().sendMessage("§c[BlockParty] Couldn't stop AudioProvider");
             if (BlockParty.DEBUG) {
-                exception.printStackTrace();
+                blockParty.getPlugin().getLogger().log(Level.WARNING, "Could not stop audio provider", exception);
             }
         }
     }

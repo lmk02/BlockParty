@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.logging.Level;
 
 import static de.leonkoth.blockparty.locale.BlockPartyLocale.*;
 
@@ -53,7 +54,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
         try {
             mimetype = Files.probeContentType(file.toPath());
         } catch (IOException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.WARNING, "Could not determine content type of image file " + path, e);
             return false;
         }
 
@@ -68,7 +69,7 @@ public class BlockPartyLoadImageCommand extends SubCommand {
             FloorPattern pattern = FloorPattern.createFromImage(file, true);
             PatternLoader.writeFloorPattern(patternFile, pattern);
         } catch (Exception e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not create floor pattern from image " + path, e);
             return true;
         }
 

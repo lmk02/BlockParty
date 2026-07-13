@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 public class CachedUUIDFetcher implements UUIDFetcher {
 
@@ -103,7 +104,7 @@ public class CachedUUIDFetcher implements UUIDFetcher {
             cache.save(result, retrievedName);
             return new Profile(retrievedName, result);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.WARNING, "Could not fetch UUID for player " + playerName + " from Mojang API", e);
             return null;
         }
     }
@@ -174,7 +175,7 @@ public class CachedUUIDFetcher implements UUIDFetcher {
             cache.save(uuid, result);
             return new Profile(result, uuid);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.WARNING, "Could not fetch name for UUID " + uuid + " from Mojang API", e);
             return null;
         }
     }

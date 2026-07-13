@@ -1,6 +1,7 @@
 package de.leonkoth.utils.ui;
 
 import de.pauhull.utils.misc.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  * Package de.leonkoth.utils.ui
@@ -37,7 +39,7 @@ public class ConfigUI {
                     try {
                         menuItems.add(new UIItem(an, field.get(object), field.getName()));
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        Bukkit.getLogger().log(Level.WARNING, "Could not read config UI field " + field.getName(), e);
                     }
                 }
             } else if (field.getType() == String.class) {
@@ -50,7 +52,7 @@ public class ConfigUI {
                         ItemStack right = new ItemBuilder(uiInfo.rightItem()).setDisplayName(uiInfo.rightItemTitle()).build();
                         uiBuilder = new UIBuilder(INVENTORY_SIZE, name).setLeftNavigator(left).setRightNavigator(right);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        Bukkit.getLogger().log(Level.WARNING, "Could not read config UI title field " + field.getName(), e);
                     }
                 }
             }

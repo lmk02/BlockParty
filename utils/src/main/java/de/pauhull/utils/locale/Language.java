@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.logging.Level;
 
 /**
  * Extend this class to create a new language
@@ -38,8 +39,7 @@ public abstract class Language {
         try {
             configuration.load(file);
         } catch (InvalidConfigurationException e) {
-            Bukkit.getLogger().severe("Cannot load \"" + file.getName() + "\". Using default values.");
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Cannot load \"" + file.getName() + "\". Using default values.", e);
         }
         for (Field field : languageClass.getFields()) {
             if (field.getType() == LocaleSection.class) {
@@ -51,7 +51,7 @@ public abstract class Language {
                         configuration.set("Sections." + localeSection, localeSection.getPrefixColor().name());
                     }
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    Bukkit.getLogger().log(Level.WARNING, "Could not read locale section field " + field.getName(), e);
                 }
 
             } else if (field.getType() == LocaleString.class) {
@@ -70,7 +70,7 @@ public abstract class Language {
                     }
 
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    Bukkit.getLogger().log(Level.WARNING, "Could not read locale string field " + field.getName(), e);
                 }
 
             }

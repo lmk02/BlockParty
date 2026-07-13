@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class FloorPattern {
 
@@ -84,7 +85,7 @@ public class FloorPattern {
 
             return new FloorPattern(FileUtils.removeExtension(image.getName()), new Size(info.getWidth(), 1, info.getHeight()), materials, info.getData());
         } catch (IOException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not create floor pattern from image \"" + image.getName() + "\"", e);
             return null;
         }
     }

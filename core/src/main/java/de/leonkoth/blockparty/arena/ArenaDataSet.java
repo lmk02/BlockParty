@@ -16,6 +16,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.logging.Level;
 
 public class ArenaDataSet {
 
@@ -64,7 +65,7 @@ public class ArenaDataSet {
             try {
                 field.set(this, value);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not load arena setting \"" + field.getName() + "\"", e);
             }
         }
     }
@@ -87,7 +88,7 @@ public class ArenaDataSet {
                     Bukkit.getConsoleSender().sendMessage("§a4: " + path);
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not write arena settings to configuration", e);
         }
     }
 
@@ -99,7 +100,7 @@ public class ArenaDataSet {
                     try {
                         return field.get(arena.getData());
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        BlockParty.getInstance().getPlugin().getLogger().log(Level.WARNING, "Could not read default value for arena setting \"" + fieldName + "\"", e);
                         return null;
                     }
                 }

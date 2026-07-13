@@ -1,12 +1,14 @@
 package de.pauhull.utils.particle;
 
 import de.pauhull.utils.misc.MinecraftVersion;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.logging.Level;
 
 import static de.pauhull.utils.misc.MinecraftVersion.v1_13;
 import static de.pauhull.utils.misc.MinecraftVersion.v1_15;
@@ -41,7 +43,7 @@ class NmsParticlePlayer implements ParticlePlayer {
                 valueOf = enumParticleClass.getMethod("valueOf", String.class);
                 packetConstructor = packetPlayOutWorldParticlesClass.getConstructor(enumParticleClass, boolean.class, float.class, float.class, float.class, float.class, float.class, float.class, float.class, int.class, int[].class);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().log(Level.SEVERE, "Could not resolve pre-1.13 particle packet constructor", e);
             }
         } else if (MinecraftVersion.CURRENT_VERSION.isLower(v1_15)) {
             particleParamClass = getNMSClass("ParticleParam");
@@ -49,7 +51,7 @@ class NmsParticlePlayer implements ParticlePlayer {
             try {
                 packetConstructor = packetPlayOutWorldParticlesClass.getConstructor(particleParamClass, boolean.class, float.class, float.class, float.class, float.class, float.class, float.class, float.class, int.class);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().log(Level.SEVERE, "Could not resolve 1.13/1.14 particle packet constructor", e);
             }
         } else {
             particleParamClass = getNMSClass("ParticleParam");
@@ -57,7 +59,7 @@ class NmsParticlePlayer implements ParticlePlayer {
             try {
                 packetConstructor = packetPlayOutWorldParticlesClass.getConstructor(particleParamClass, boolean.class, double.class, double.class, double.class, float.class, float.class, float.class, float.class, int.class);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().log(Level.SEVERE, "Could not resolve 1.15+ particle packet constructor", e);
             }
         }
     }
@@ -78,7 +80,7 @@ class NmsParticlePlayer implements ParticlePlayer {
                 this.particle = particle.get();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Could not resolve NMS particle " + particle.name(), e);
         }
     }
 
@@ -121,7 +123,7 @@ class NmsParticlePlayer implements ParticlePlayer {
                 return packetConstructor.newInstance(particle, true, (double) x, (double) y, (double) z, xOffset, yOffset, zOffset, data, amount);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.SEVERE, "Could not create particle packet", e);
             return null;
         }
     }

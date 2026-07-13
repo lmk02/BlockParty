@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  * Created by Leon on 14.03.2018.
@@ -27,7 +28,7 @@ public class ArenaDataManager {
         try {
             setup();
         } catch (IOException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not create arena data file for \"" + arena.getName() + "\"", e);
         }
     }
 
@@ -68,7 +69,7 @@ public class ArenaDataManager {
         try {
             this.save();
         } catch (IOException e) {
-            e.printStackTrace();
+            BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not save arena data for \"" + arena.getName() + "\"", e);
         }
     }
 

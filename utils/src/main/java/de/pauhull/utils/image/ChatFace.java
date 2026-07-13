@@ -2,6 +2,7 @@ package de.pauhull.utils.image;
 
 import de.pauhull.utils.scheduler.Scheduler;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import javax.imageio.ImageIO;
@@ -12,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 /**
  * Displays face of player in chat
@@ -88,7 +90,7 @@ public class ChatFace {
             return arr;
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.WARNING, "Invalid skin URL for player " + player, e);
             return null;
         }
     }
@@ -132,7 +134,7 @@ public class ChatFace {
             });
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.WARNING, "Invalid skin URL for player " + player, e);
             consumer.accept(null);
         }
     }
@@ -217,7 +219,7 @@ public class ChatFace {
         try {
             return ImageIO.read(url);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().log(Level.WARNING, "Could not download skin image from " + url, e);
             return null;
         }
     }
@@ -233,7 +235,7 @@ public class ChatFace {
             try {
                 consumer.accept(ImageIO.read(url));
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().log(Level.WARNING, "Could not download skin image from " + url, e);
                 consumer.accept(null);
             }
         });
