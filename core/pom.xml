@@ -59,6 +59,11 @@
             <artifactId>blockparty-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -82,6 +87,12 @@
                                 <relocation>
                                     <pattern>org.bstats</pattern>
                                     <shadedPattern>de.leonkoth.blockparty.bstats</shadedPattern>
+                                </relocation>
+                                <!-- Relocate bundled gson so it can't clash with other
+                                     plugins or server-internal versions -->
+                                <relocation>
+                                    <pattern>com.google.gson</pattern>
+                                    <shadedPattern>de.leonkoth.blockparty.libs.gson</shadedPattern>
                                 </relocation>
                             </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>

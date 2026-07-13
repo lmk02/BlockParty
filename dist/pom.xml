@@ -15,6 +15,23 @@
         <dependency>
             <groupId>de.leonkoth</groupId>
             <artifactId>blockparty-core</artifactId>
+            <!-- core already bundles these relocated (de.leonkoth.blockparty.libs.gson /
+                 .bstats); exclude the transitive originals so the final jar doesn't
+                 also contain unrelocated copies -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bstats</groupId>
+                    <artifactId>bstats-bukkit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bstats</groupId>
+                    <artifactId>bstats-base</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>de.leonkoth</groupId>

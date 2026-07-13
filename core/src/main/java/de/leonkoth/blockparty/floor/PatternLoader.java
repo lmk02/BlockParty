@@ -26,21 +26,33 @@ public class PatternLoader {
         if (BlockParty.DEBUG)
             BlockParty.getInstance().getPlugin().getLogger().info("Writing pattern \"" + file.getPath() + "\"...");
 
-        PrintWriter printWriter;
-        try {
-            printWriter = new PrintWriter(file);
+        String pluginVersion = BlockParty.getInstance().getPlugin().getDescription().getVersion();
+        String minecraftVersion = String.valueOf(MinecraftVersion.CURRENT_VERSION);
+
+        try (PrintWriter printWriter = new PrintWriter(file)) {
+            writeFloorPattern(printWriter, pattern, pluginVersion, minecraftVersion);
         } catch (FileNotFoundException e) {
             BlockParty.getInstance().getPlugin().getLogger().log(Level.SEVERE, "Could not write floor pattern file \"" + file.getPath() + "\"", e);
             return false;
         }
+
+        patternCache.remove(cacheKey(file));
+
+        if (BlockParty.DEBUG)
+            BlockParty.getInstance().getPlugin().getLogger().info("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
+
+        return true;
+
+    }
+
+    static void writeFloorPattern(Writer writer, FloorPattern pattern, String pluginVersion, String minecraftVersion) {
+        PrintWriter printWriter = writer instanceof PrintWriter pw ? pw : new PrintWriter(writer);
 
         Size size = pattern.getSize();
         int width = size.getBlockWidth();
         int length = size.getBlockLength();
 
         // METADATA
-        MinecraftVersion minecraftVersion = MinecraftVersion.CURRENT_VERSION;
-        String pluginVersion = BlockParty.getInstance().getPlugin().getDescription().getVersion();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss O");
         ZonedDateTime now = ZonedDateTime.now();
         printWriter.println("# Created at: " + formatter.format(now));
@@ -93,20 +105,31 @@ public class PatternLoader {
             printWriter.println(line);
         }
 
-        printWriter.close();
         printWriter.flush();
-
-        if (BlockParty.DEBUG)
-            BlockParty.getInstance().getPlugin().getLogger().info("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
-
-        return true;
-
     }
 
-    public static FloorPattern readFloorPattern(File file) throws FileNotFoundException, FloorLoaderException { //TODO: Called twice on plugin init
+    /**
+     * Cache keyed by path + lastModified: arena init reads the same pattern
+     * files more than once (construction and reload), so repeated reads of an
+     * unchanged file skip the disk entirely.
+     */
+    private static final Map<String, Map.Entry<Long, FloorPattern>> patternCache = new HashMap<>();
+
+    private static String cacheKey(File file) {
+        return file.getAbsolutePath();
+    }
+
+    public static FloorPattern readFloorPattern(File file) throws FileNotFoundException, FloorLoaderException {
 
         if (!file.exists()) {
             throw new FileNotFoundException();
+        }
+
+        String key = cacheKey(file);
+        long lastModified = file.lastModified();
+        Map.Entry<Long, FloorPattern> cached = patternCache.get(key);
+        if (cached != null && cached.getKey() == lastModified) {
+            return cached.getValue();
         }
 
         long timeMillis = System.currentTimeMillis();
@@ -114,10 +137,20 @@ public class PatternLoader {
         if (BlockParty.DEBUG)
             BlockParty.getInstance().getPlugin().getLogger().info("Reading pattern \"" + file.getPath() + "\"...");
 
+        FloorPattern pattern = parseFloorPattern(FileUtils.removeExtension(file.getName()), readLines(file));
+        patternCache.put(key, new AbstractMap.SimpleEntry<>(lastModified, pattern));
+
+        if (BlockParty.DEBUG)
+            BlockParty.getInstance().getPlugin().getLogger().info("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
+
+        return pattern;
+    }
+
+    static FloorPattern parseFloorPattern(String name, List<String> lines) throws FloorLoaderException {
+
         int width = 0, length = 0;
         byte[] data;
         Material[] materials;
-        List<String> lines = readLines(file);
 
         for (String line : lines) {
             String[] splitted = line.split(" ");
@@ -174,10 +207,7 @@ public class PatternLoader {
             }
         }
 
-        if (BlockParty.DEBUG)
-            BlockParty.getInstance().getPlugin().getLogger().info("Took " + ((System.currentTimeMillis() - timeMillis) / 1000f) + " Seconds!");
-
-        return new FloorPattern(FileUtils.removeExtension(file.getName()), new Size(width, 1, length), materials, data);
+        return new FloorPattern(name, new Size(width, 1, length), materials, data);
     }
 
     public static boolean exists(String name) {
