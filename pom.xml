@@ -139,6 +139,31 @@
     </dependencies>
 
     <build>
+        <plugins>
+            <!-- Point git at the versioned .githooks/ dir on the first build so every
+                 contributor gets the pre-commit / commit-msg / pre-push hooks with no
+                 manual setup. inherited=false keeps it on the aggregator only. -->
+            <plugin>
+                <groupId>com.rudikershaw.gitbuildhook</groupId>
+                <artifactId>git-build-hook-maven-plugin</artifactId>
+                <version>3.6.0</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <gitConfig>
+                        <core.hooksPath>.githooks/</core.hooksPath>
+                    </gitConfig>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>configure</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
         <pluginManagement>
             <plugins>
                 <plugin>

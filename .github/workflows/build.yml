@@ -1,31 +1,74 @@
-name: Build
+name: CI
 
 on:
   push:
     branches: [ "main", "v3" ]
+    # Docs-only pushes don't affect the build. (Not applied to pull_request /
+    # merge_group: "build" is a required check there and must always report.)
+    paths-ignore: [ "**/*.md", "docs/**", ".githooks/**" ]
   pull_request:
     branches: [ "main", "v3" ]
+  merge_group:
+    branches: [ "main", "v3" ]
+
+# Cancel superseded runs for the same ref (merge-queue refs are unique, so
+# queued entries are never cancelled).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Least privilege: the build only needs to read the repo.
+permissions:
+  contents: read
 
 jobs:
-  build:
+  # Fast gate — reuses the exact script the local commit-msg hook runs, so the
+  # rule has a single source of truth and is enforced even if hooks are bypassed.
+  commit-lint:
+    name: Commit messages
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-
+    timeout-minutes: 5
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Validate Conventional Commits
+        run: |
+          base='${{ github.event.pull_request.base.sha }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          status=0
+          for sha in $(git rev-list --no-merges "$base..$head"); do
+            git log -1 --format=%B "$sha" | ./scripts/lint-commit-msg.sh - || status=1
+          done
+          exit $status
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: 'maven'
+  build:
+    name: Build & test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Build and test with Maven
-      run: mvn -B clean verify --file pom.xml
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: blockparty-plugin
-        path: target/BlockParty-*.jar
-        retention-days: 14
+      # Same command as the pre-push hook: -T1C parallelises the reactor,
+      # --no-transfer-progress trims download noise from the logs.
+      - name: Build and test with Maven
+        run: mvn -B --no-transfer-progress -T1C clean verify --file pom.xml
+
+      # The distributable jar is only worth keeping for real branch builds /
+      # merge-queue runs — skip it on PRs to keep feedback fast.
+      - name: Upload Artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: blockparty-plugin
+          path: target/BlockParty-*.jar
+          retention-days: 14

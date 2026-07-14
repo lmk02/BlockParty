@@ -16,6 +16,40 @@ See [COMPATIBILITY.md](COMPATIBILITY.md) for the runtime matrix and release spli
 Download the jar file and place it into your plugins folder. A new folder is created (named BlockParty) after the server is started.
 A few file and sub-folders should be located there.
 
+## Building from source
+
+Requires JDK 21 and Maven.
+
+```bash
+mvn clean verify
+```
+
+The distributable plugin jar is produced at `target/BlockParty-<version>.jar`.
+
+## Development
+
+Git hooks are versioned in [`.githooks/`](.githooks) and install themselves on your
+**first Maven build** (`mvn` sets `core.hooksPath` via the `git-build-hook` plugin).
+To enable them without building, run once:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+| Hook         | When         | What it does                                                            |
+|--------------|--------------|-------------------------------------------------------------------------|
+| `pre-commit` | `git commit` | Blocks conflict markers, whitespace errors, and >5 MiB files (instant). |
+| `commit-msg` | `git commit` | Enforces [Conventional Commits](https://www.conventionalcommits.org).   |
+| `pre-push`   | `git push`   | Runs `mvn clean verify` so red never reaches the remote.                |
+
+The `commit-msg` rule is defined once in [`scripts/lint-commit-msg.sh`](scripts/lint-commit-msg.sh)
+and reused by CI's `commit-lint` job, so local and CI checks can never drift apart.
+Allowed types: `feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, security`.
+
+Bypass a hook only when you must: `git commit --no-verify`, `git push --no-verify`
+(or `SKIP_HOOKS=1 git push`). CI re-checks everything regardless, and the `build`
+status check must be green before a PR can merge.
+
 ## Configuration
 
 #### config.yml
