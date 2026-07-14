@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+#
+# commit-msg hook: enforce Conventional Commits so history stays clean and CI's
+# commit-lint job never rejects what was already committed locally.
+#
+# Bypass (discouraged):  git commit --no-verify
+
+exec "$(git rev-parse --show-toplevel)/scripts/lint-commit-msg.sh" "$1"

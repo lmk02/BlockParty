@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+#
+# pre-commit hook: fast, purely textual guards so the commit loop stays instant.
+# Anything that needs a JVM (compile/tests) runs in pre-push instead.
+#
+# Bypass (discouraged):  git commit --no-verify
+
+set -eu
+
+# Nothing staged yet (e.g. initial commit) -> let git handle it.
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  against=HEAD
+else
+  against=$(git hash-object -t tree /dev/null)
+fi
+
+status=0
+
+# 1. Unresolved merge-conflict markers and whitespace errors on staged content.
+if ! git diff --cached --check "$against" --; then
+  echo "✖ Fix the whitespace errors / conflict markers above before committing." >&2
+  status=1
+fi
+
+# 2. Guard against accidentally committing large binaries (>5 MiB).
+max_bytes=$((5 * 1024 * 1024))
+while IFS= read -r file; do
+  [ -f "$file" ] || continue
+  size=$(git cat-file -s ":$file" 2>/dev/null || echo 0)
+  if [ "$size" -gt "$max_bytes" ]; then
+    echo "✖ $file is $((size / 1024 / 1024)) MiB (>5 MiB). Commit with --no-verify if intentional." >&2
+    status=1
+  fi
+done <<EOF
+$(git diff --cached --name-only --diff-filter=ACM)
+EOF
+
+exit $status

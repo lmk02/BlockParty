@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+#
+# pre-push hook: run the same build CI runs, so red never reaches the remote and
+# the required "build" status check passes on the first try.
+#
+# Bypass (discouraged):  git push --no-verify
+# Skip once:             SKIP_HOOKS=1 git push
+
+set -eu
+
+if [ "${SKIP_HOOKS:-}" = "1" ]; then
+  echo "pre-push: SKIP_HOOKS=1 set — skipping build." >&2
+  exit 0
+fi
+
+# Only build when we are actually pushing commits (skip branch/tag deletions).
+pushing=0
+while read -r _local_ref local_sha _remote_ref _remote_sha; do
+  case "$local_sha" in
+    0000000000000000000000000000000000000000|"") ;; # deletion / no ref
+    *) pushing=1 ;;
+  esac
+done
+[ "$pushing" -eq 1 ] || exit 0
+
+root=$(git rev-parse --show-toplevel)
+
+if ! command -v mvn >/dev/null 2>&1; then
+  echo "✖ pre-push: 'mvn' not found on PATH. Install Maven or push with --no-verify." >&2
+  exit 1
+fi
+
+echo "pre-push: running 'mvn clean verify' (bypass with 'git push --no-verify')…" >&2
+# -T1C parallelises the reactor across cores; mirrors the CI command.
+mvn -B --no-transfer-progress -T1C clean verify --file "$root/pom.xml"
