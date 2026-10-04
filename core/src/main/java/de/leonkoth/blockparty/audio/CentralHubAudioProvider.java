@@ -45,6 +45,10 @@ public class CentralHubAudioProvider implements AudioProvider {
     private static final String CLAIM_RUNTIME_LEASE_MUTATION =
             "mutation ClaimRuntimeLease($input: ClaimRuntimeLeaseInput!) { " +
                     "claimRuntimeLease(input: $input) { status runtimeLeaseToken expiresAt errors { code message field } } }";
+    private static final String RELEASE_RUNTIME_LEASE_MUTATION =
+            "mutation ReleaseRuntimeLease { releaseRuntimeLease { status errors { code message field } } }";
+    // Audio events and joins retry a missing lease; keep that from hammering the API
+    private static final long LEASE_RECLAIM_THROTTLE_MILLIS = 10_000L;
 
     private final BlockParty blockParty;
 
@@ -57,6 +61,7 @@ public class CentralHubAudioProvider implements AudioProvider {
     private String runtimeInstanceId;
     private volatile String runtimeLeaseToken;
     private volatile boolean runtimeLeaseActive;
+    private volatile long lastLeaseClaimMillis;
     private ScheduledFuture<?> leaseRefreshTask;
 
     public CentralHubAudioProvider(BlockParty blockParty) {
@@ -96,6 +101,7 @@ public class CentralHubAudioProvider implements AudioProvider {
             leaseRefreshTask.cancel(false);
             leaseRefreshTask = null;
         }
+        releaseRuntimeLease();
         this.runtimeLeaseActive = false;
         this.runtimeLeaseToken = null;
         this.httpClient = null;
@@ -317,9 +323,11 @@ public class CentralHubAudioProvider implements AudioProvider {
     }
 
     private void claimRuntimeLease() {
-        if (httpClient == null) {
+        long now = System.currentTimeMillis();
+        if (httpClient == null || now - lastLeaseClaimMillis < LEASE_RECLAIM_THROTTLE_MILLIS) {
             return;
         }
+        lastLeaseClaimMillis = now;
 
         String payload = buildRuntimeLeasePayload();
         HttpRequest request = HttpRequest.newBuilder()
@@ -339,6 +347,37 @@ public class CentralHubAudioProvider implements AudioProvider {
                     blockParty.getPlugin().getLogger().warning("Failed to claim Aura runtime lease: " + throwable.getMessage());
                     return null;
                 });
+    }
+
+    /**
+     * Blocking on purpose: runs during plugin disable, and an async request
+     * would die with the executor. Without it a restarted runtime waits up to
+     * the lease TTL before audio works again.
+     */
+    private void releaseRuntimeLease() {
+        String leaseToken = runtimeLeaseToken;
+        if (httpClient == null || !runtimeLeaseActive || leaseToken == null || leaseToken.isBlank()) {
+            return;
+        }
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiBaseUrl + "graphql"))
+                .timeout(Duration.ofSeconds(2))
+                .header("Content-Type", "application/json")
+                .header("x-server-key", serverKey)
+                .header("x-runtime-lease-token", leaseToken)
+                .header("x-installation-fingerprint", installationFingerprint)
+                .header("x-installation-secret", installationSecret)
+                .POST(HttpRequest.BodyPublishers.ofString(buildGraphQlRequest(RELEASE_RUNTIME_LEASE_MUTATION, new JsonObject())))
+                .build();
+
+        try {
+            httpClient.send(request, HttpResponse.BodyHandlers.discarding());
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+        } catch (Exception exception) {
+            blockParty.getPlugin().getLogger().warning("Failed to release Aura runtime lease: " + exception.getMessage());
+        }
     }
 
     private String buildRuntimeLeasePayload() {
