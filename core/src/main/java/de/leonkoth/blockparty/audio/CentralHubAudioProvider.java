@@ -77,7 +77,7 @@ public class CentralHubAudioProvider implements AudioProvider {
         FileConfiguration config = blockParty.getConfig().getConfig();
         this.apiBaseUrl = sanitizeBaseUrl(config.getString("Audio.CentralHub.ApiBaseUrl"));
         this.frontendBaseUrl = sanitizeBaseUrl(config.getString("Audio.CentralHub.FrontendBaseUrl"));
-        this.serverKey = ensureServerKey(config);
+        this.serverKey = requireServerKey(config);
         this.installationFingerprint = ensureInstallationFingerprint(config);
         this.runtimeInstanceId = UUID.randomUUID().toString();
         this.httpClient = HttpClient.newBuilder()
@@ -282,16 +282,14 @@ public class CentralHubAudioProvider implements AudioProvider {
         return request.toString();
     }
 
-    private String ensureServerKey(FileConfiguration config) {
+    // Aura issues keys; a locally generated one could never authenticate
+    private static String requireServerKey(FileConfiguration config) {
         String configuredKey = config.getString("Audio.CentralHub.ServerKey");
-        if (configuredKey != null && !configuredKey.isBlank()) {
-            return configuredKey;
+        if (configuredKey == null || configuredKey.isBlank()) {
+            throw new IllegalStateException("Audio.CentralHub.ServerKey is empty. Create a server in the Aura dashboard and paste its key into config.yml.");
         }
 
-        String generatedKey = UUID.randomUUID().toString();
-        config.set("Audio.CentralHub.ServerKey", generatedKey);
-        blockParty.getConfig().save();
-        return generatedKey;
+        return configuredKey.trim();
     }
 
     private String ensureInstallationFingerprint(FileConfiguration config) {
