@@ -18,6 +18,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -49,6 +50,8 @@ public class CentralHubAudioProvider implements AudioProvider {
             "mutation ReleaseRuntimeLease { releaseRuntimeLease { status errors { code message field } } }";
     // Audio events and joins retry a missing lease; keep that from hammering the API
     private static final long LEASE_RECLAIM_THROTTLE_MILLIS = 10_000L;
+    // Floor for the expiry retry, so a fast local clock can't cause a request loop
+    private static final long MIN_LEASE_RETRY_DELAY_MILLIS = 5_000L;
 
     private final BlockParty blockParty;
 
@@ -62,6 +65,7 @@ public class CentralHubAudioProvider implements AudioProvider {
     private volatile boolean runtimeLeaseActive;
     private volatile long lastLeaseClaimMillis;
     private ScheduledFuture<?> leaseRefreshTask;
+    private ScheduledFuture<?> leaseRetryTask;
 
     public CentralHubAudioProvider(BlockParty blockParty) {
         this.blockParty = blockParty;
@@ -99,6 +103,7 @@ public class CentralHubAudioProvider implements AudioProvider {
             leaseRefreshTask.cancel(false);
             leaseRefreshTask = null;
         }
+        cancelLeaseRetry();
         releaseRuntimeLease();
         this.runtimeLeaseActive = false;
         this.runtimeLeaseToken = null;
@@ -310,6 +315,13 @@ public class CentralHubAudioProvider implements AudioProvider {
             return;
         }
         lastLeaseClaimMillis = now;
+        sendRuntimeLeaseClaim();
+    }
+
+    private void sendRuntimeLeaseClaim() {
+        if (httpClient == null) {
+            return;
+        }
 
         String payload = buildRuntimeLeasePayload();
         HttpRequest request = HttpRequest.newBuilder()
@@ -400,6 +412,9 @@ public class CentralHubAudioProvider implements AudioProvider {
             runtimeLeaseActive = false;
             runtimeLeaseToken = null;
             blockParty.getPlugin().getLogger().warning("Failed to claim Aura runtime lease: " + extractGraphQlMessages(payloadErrors));
+            if (hasErrorCode(payloadErrors, "runtime_lease_conflict")) {
+                scheduleRetryAt(payload.get("expiresAt"));
+            }
             return;
         }
 
@@ -416,6 +431,42 @@ public class CentralHubAudioProvider implements AudioProvider {
 
         runtimeLeaseToken = token;
         runtimeLeaseActive = true;
+    }
+
+    /**
+     * After a crash, this runtime's own previous lease blocks it until it
+     * expires; retry right then instead of waiting for the next refresh.
+     */
+    private synchronized void scheduleRetryAt(JsonElement expiresAt) {
+        if (expiresAt == null || expiresAt.isJsonNull()) {
+            return;
+        }
+
+        long delayMillis = Duration.between(Instant.now(), Instant.parse(expiresAt.getAsString())).toMillis() + 1_000L;
+        cancelLeaseRetry();
+        leaseRetryTask = blockParty.getScheduledExecutorService().schedule(
+                this::sendRuntimeLeaseClaim,
+                Math.max(delayMillis, MIN_LEASE_RETRY_DELAY_MILLIS),
+                TimeUnit.MILLISECONDS
+        );
+    }
+
+    private synchronized void cancelLeaseRetry() {
+        if (leaseRetryTask != null) {
+            leaseRetryTask.cancel(false);
+            leaseRetryTask = null;
+        }
+    }
+
+    private static boolean hasErrorCode(JsonArray errors, String code) {
+        for (JsonElement element : errors) {
+            if (element.isJsonObject()
+                    && element.getAsJsonObject().has("code")
+                    && code.equals(element.getAsJsonObject().get("code").getAsString())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private CompletableFuture<String> requestPlayerJoinUrl(Arena arena) {
