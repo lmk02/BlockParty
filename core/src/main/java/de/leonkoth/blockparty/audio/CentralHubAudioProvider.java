@@ -28,9 +28,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Audio provider backed by the hosted Aura ("Central Hub") GraphQL API.
  *
- * <p>Security model: the server key, installation fingerprint, and
- * installation secret are generated client-side and are therefore
- * self-asserted — they identify an installation but cannot prove it.
+ * <p>Security model: the installation fingerprint is generated client-side
+ * and therefore self-asserted — it identifies an installation but cannot
+ * prove it.
  * Actual entitlement enforcement (one runtime lease per server) happens
  * in the Aura backend; everything here is best-effort cooperation
  * with that backend, not a tamper-proof client-side gate.
@@ -57,7 +57,6 @@ public class CentralHubAudioProvider implements AudioProvider {
     private String frontendBaseUrl;
     private String serverKey;
     private String installationFingerprint;
-    private String installationSecret;
     private String runtimeInstanceId;
     private volatile String runtimeLeaseToken;
     private volatile boolean runtimeLeaseActive;
@@ -80,7 +79,6 @@ public class CentralHubAudioProvider implements AudioProvider {
         this.frontendBaseUrl = sanitizeBaseUrl(config.getString("Audio.CentralHub.FrontendBaseUrl"));
         this.serverKey = ensureServerKey(config);
         this.installationFingerprint = ensureInstallationFingerprint(config);
-        this.installationSecret = ensureInstallationSecret(config);
         this.runtimeInstanceId = UUID.randomUUID().toString();
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
@@ -308,18 +306,6 @@ public class CentralHubAudioProvider implements AudioProvider {
         return generatedFingerprint;
     }
 
-    private String ensureInstallationSecret(FileConfiguration config) {
-        String configuredSecret = config.getString("Audio.CentralHub.InstallationSecret");
-        if (configuredSecret != null && !configuredSecret.isBlank()) {
-            return configuredSecret;
-        }
-
-        String generatedSecret = UUID.randomUUID().toString() + UUID.randomUUID();
-        config.set("Audio.CentralHub.InstallationSecret", generatedSecret);
-        blockParty.getConfig().save();
-        return generatedSecret;
-    }
-
     private void claimRuntimeLease() {
         long now = System.currentTimeMillis();
         if (httpClient == null || now - lastLeaseClaimMillis < LEASE_RECLAIM_THROTTLE_MILLIS) {
@@ -377,7 +363,6 @@ public class CentralHubAudioProvider implements AudioProvider {
     private String buildRuntimeLeasePayload() {
         JsonObject input = new JsonObject();
         input.addProperty("installationFingerprint", installationFingerprint);
-        input.addProperty("installationSecret", installationSecret);
         input.addProperty("runtimeInstanceId", runtimeInstanceId);
         return buildGraphQlRequest(CLAIM_RUNTIME_LEASE_MUTATION, wrapInput(input));
     }
