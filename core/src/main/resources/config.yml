@@ -92,14 +92,11 @@ Audio:
     # Public URL of the hosted Aura web player (must be https://; plain http is only allowed for localhost)
     FrontendBaseUrl: "https://aura.example.com"
 
-    # Auto-generated on first startup when using the central hub provider
+    # Key of this server from the Aura dashboard (shown once when the server is created)
     ServerKey: ""
 
-    # Stable per-installation fingerprint used by Aura to detect free-tier key reuse
+    # Stable per-installation ID; lets a restarted server reclaim its own Aura lease
     InstallationFingerprint: ""
-
-    # Stable per-installation secret used with the fingerprint to bind free-tier runtime access
-    InstallationSecret: ""
 
 Debug:
   # Enables admin-only debug tools such as force-starting solo games and testing audio actions

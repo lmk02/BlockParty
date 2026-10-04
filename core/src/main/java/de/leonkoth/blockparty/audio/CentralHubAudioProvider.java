@@ -18,6 +18,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -28,12 +29,12 @@ import java.util.concurrent.TimeUnit;
 /**
  * Audio provider backed by the hosted Aura ("Central Hub") GraphQL API.
  *
- * <p>Security model: the server key, installation fingerprint, and
- * installation secret are generated client-side and are therefore
- * self-asserted — they identify an installation but cannot prove it.
- * Actual entitlement enforcement (lease validation, free-tier reuse
- * detection) happens in the Aura backend; everything here is best-effort
- * cooperation with that backend, not a tamper-proof client-side gate.
+ * <p>Security model: the installation fingerprint is generated client-side
+ * and therefore self-asserted — it identifies an installation but cannot
+ * prove it.
+ * Actual entitlement enforcement (one runtime lease per server) happens
+ * in the Aura backend; everything here is best-effort cooperation
+ * with that backend, not a tamper-proof client-side gate.
  */
 public class CentralHubAudioProvider implements AudioProvider {
     private static final String BROADCAST_AUDIO_EVENT_MUTATION =
@@ -45,6 +46,12 @@ public class CentralHubAudioProvider implements AudioProvider {
     private static final String CLAIM_RUNTIME_LEASE_MUTATION =
             "mutation ClaimRuntimeLease($input: ClaimRuntimeLeaseInput!) { " +
                     "claimRuntimeLease(input: $input) { status runtimeLeaseToken expiresAt errors { code message field } } }";
+    private static final String RELEASE_RUNTIME_LEASE_MUTATION =
+            "mutation ReleaseRuntimeLease { releaseRuntimeLease { status errors { code message field } } }";
+    // Audio events and joins retry a missing lease; keep that from hammering the API
+    private static final long LEASE_RECLAIM_THROTTLE_MILLIS = 10_000L;
+    // Floor for the expiry retry, so a fast local clock can't cause a request loop
+    private static final long MIN_LEASE_RETRY_DELAY_MILLIS = 5_000L;
 
     private final BlockParty blockParty;
 
@@ -53,11 +60,12 @@ public class CentralHubAudioProvider implements AudioProvider {
     private String frontendBaseUrl;
     private String serverKey;
     private String installationFingerprint;
-    private String installationSecret;
     private String runtimeInstanceId;
     private volatile String runtimeLeaseToken;
     private volatile boolean runtimeLeaseActive;
+    private volatile long lastLeaseClaimMillis;
     private ScheduledFuture<?> leaseRefreshTask;
+    private ScheduledFuture<?> leaseRetryTask;
 
     public CentralHubAudioProvider(BlockParty blockParty) {
         this.blockParty = blockParty;
@@ -73,9 +81,8 @@ public class CentralHubAudioProvider implements AudioProvider {
         FileConfiguration config = blockParty.getConfig().getConfig();
         this.apiBaseUrl = sanitizeBaseUrl(config.getString("Audio.CentralHub.ApiBaseUrl"));
         this.frontendBaseUrl = sanitizeBaseUrl(config.getString("Audio.CentralHub.FrontendBaseUrl"));
-        this.serverKey = ensureServerKey(config);
+        this.serverKey = requireServerKey(config);
         this.installationFingerprint = ensureInstallationFingerprint(config);
-        this.installationSecret = ensureInstallationSecret(config);
         this.runtimeInstanceId = UUID.randomUUID().toString();
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
@@ -96,6 +103,8 @@ public class CentralHubAudioProvider implements AudioProvider {
             leaseRefreshTask.cancel(false);
             leaseRefreshTask = null;
         }
+        cancelLeaseRetry();
+        releaseRuntimeLease();
         this.runtimeLeaseActive = false;
         this.runtimeLeaseToken = null;
         this.httpClient = null;
@@ -196,8 +205,6 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
                 .header("x-runtime-lease-token", leaseToken)
-                .header("x-installation-fingerprint", installationFingerprint)
-                .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
 
@@ -280,16 +287,14 @@ public class CentralHubAudioProvider implements AudioProvider {
         return request.toString();
     }
 
-    private String ensureServerKey(FileConfiguration config) {
+    // Aura issues keys; a locally generated one could never authenticate
+    private static String requireServerKey(FileConfiguration config) {
         String configuredKey = config.getString("Audio.CentralHub.ServerKey");
-        if (configuredKey != null && !configuredKey.isBlank()) {
-            return configuredKey;
+        if (configuredKey == null || configuredKey.isBlank()) {
+            throw new IllegalStateException("Audio.CentralHub.ServerKey is empty. Create a server in the Aura dashboard and paste its key into config.yml.");
         }
 
-        String generatedKey = UUID.randomUUID().toString();
-        config.set("Audio.CentralHub.ServerKey", generatedKey);
-        blockParty.getConfig().save();
-        return generatedKey;
+        return configuredKey.trim();
     }
 
     private String ensureInstallationFingerprint(FileConfiguration config) {
@@ -304,19 +309,16 @@ public class CentralHubAudioProvider implements AudioProvider {
         return generatedFingerprint;
     }
 
-    private String ensureInstallationSecret(FileConfiguration config) {
-        String configuredSecret = config.getString("Audio.CentralHub.InstallationSecret");
-        if (configuredSecret != null && !configuredSecret.isBlank()) {
-            return configuredSecret;
+    private void claimRuntimeLease() {
+        long now = System.currentTimeMillis();
+        if (httpClient == null || now - lastLeaseClaimMillis < LEASE_RECLAIM_THROTTLE_MILLIS) {
+            return;
         }
-
-        String generatedSecret = UUID.randomUUID().toString() + UUID.randomUUID();
-        config.set("Audio.CentralHub.InstallationSecret", generatedSecret);
-        blockParty.getConfig().save();
-        return generatedSecret;
+        lastLeaseClaimMillis = now;
+        sendRuntimeLeaseClaim();
     }
 
-    private void claimRuntimeLease() {
+    private void sendRuntimeLeaseClaim() {
         if (httpClient == null) {
             return;
         }
@@ -327,8 +329,6 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
-                .header("x-installation-fingerprint", installationFingerprint)
-                .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
 
@@ -341,10 +341,38 @@ public class CentralHubAudioProvider implements AudioProvider {
                 });
     }
 
+    /**
+     * Blocking on purpose: runs during plugin disable, and an async request
+     * would die with the executor. Without it a restarted runtime waits up to
+     * the lease TTL before audio works again.
+     */
+    private void releaseRuntimeLease() {
+        String leaseToken = runtimeLeaseToken;
+        if (httpClient == null || !runtimeLeaseActive || leaseToken == null || leaseToken.isBlank()) {
+            return;
+        }
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiBaseUrl + "graphql"))
+                .timeout(Duration.ofSeconds(2))
+                .header("Content-Type", "application/json")
+                .header("x-server-key", serverKey)
+                .header("x-runtime-lease-token", leaseToken)
+                .POST(HttpRequest.BodyPublishers.ofString(buildGraphQlRequest(RELEASE_RUNTIME_LEASE_MUTATION, new JsonObject())))
+                .build();
+
+        try {
+            httpClient.send(request, HttpResponse.BodyHandlers.discarding());
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+        } catch (Exception exception) {
+            blockParty.getPlugin().getLogger().warning("Failed to release Aura runtime lease: " + exception.getMessage());
+        }
+    }
+
     private String buildRuntimeLeasePayload() {
         JsonObject input = new JsonObject();
         input.addProperty("installationFingerprint", installationFingerprint);
-        input.addProperty("installationSecret", installationSecret);
         input.addProperty("runtimeInstanceId", runtimeInstanceId);
         return buildGraphQlRequest(CLAIM_RUNTIME_LEASE_MUTATION, wrapInput(input));
     }
@@ -384,6 +412,9 @@ public class CentralHubAudioProvider implements AudioProvider {
             runtimeLeaseActive = false;
             runtimeLeaseToken = null;
             blockParty.getPlugin().getLogger().warning("Failed to claim Aura runtime lease: " + extractGraphQlMessages(payloadErrors));
+            if (hasErrorCode(payloadErrors, "runtime_lease_conflict")) {
+                scheduleRetryAt(payload.get("expiresAt"));
+            }
             return;
         }
 
@@ -400,6 +431,42 @@ public class CentralHubAudioProvider implements AudioProvider {
 
         runtimeLeaseToken = token;
         runtimeLeaseActive = true;
+    }
+
+    /**
+     * After a crash, this runtime's own previous lease blocks it until it
+     * expires; retry right then instead of waiting for the next refresh.
+     */
+    private synchronized void scheduleRetryAt(JsonElement expiresAt) {
+        if (expiresAt == null || expiresAt.isJsonNull()) {
+            return;
+        }
+
+        long delayMillis = Duration.between(Instant.now(), Instant.parse(expiresAt.getAsString())).toMillis() + 1_000L;
+        cancelLeaseRetry();
+        leaseRetryTask = blockParty.getScheduledExecutorService().schedule(
+                this::sendRuntimeLeaseClaim,
+                Math.max(delayMillis, MIN_LEASE_RETRY_DELAY_MILLIS),
+                TimeUnit.MILLISECONDS
+        );
+    }
+
+    private synchronized void cancelLeaseRetry() {
+        if (leaseRetryTask != null) {
+            leaseRetryTask.cancel(false);
+            leaseRetryTask = null;
+        }
+    }
+
+    private static boolean hasErrorCode(JsonArray errors, String code) {
+        for (JsonElement element : errors) {
+            if (element.isJsonObject()
+                    && element.getAsJsonObject().has("code")
+                    && code.equals(element.getAsJsonObject().get("code").getAsString())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private CompletableFuture<String> requestPlayerJoinUrl(Arena arena) {
@@ -420,8 +487,6 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
                 .header("x-runtime-lease-token", leaseToken)
-                .header("x-installation-fingerprint", installationFingerprint)
-                .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
 
