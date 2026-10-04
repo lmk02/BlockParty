@@ -31,9 +31,9 @@ import java.util.concurrent.TimeUnit;
  * <p>Security model: the server key, installation fingerprint, and
  * installation secret are generated client-side and are therefore
  * self-asserted — they identify an installation but cannot prove it.
- * Actual entitlement enforcement (lease validation, free-tier reuse
- * detection) happens in the Aura backend; everything here is best-effort
- * cooperation with that backend, not a tamper-proof client-side gate.
+ * Actual entitlement enforcement (one runtime lease per server) happens
+ * in the Aura backend; everything here is best-effort cooperation
+ * with that backend, not a tamper-proof client-side gate.
  */
 public class CentralHubAudioProvider implements AudioProvider {
     private static final String BROADCAST_AUDIO_EVENT_MUTATION =
@@ -202,8 +202,6 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
                 .header("x-runtime-lease-token", leaseToken)
-                .header("x-installation-fingerprint", installationFingerprint)
-                .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
 
@@ -335,8 +333,6 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
-                .header("x-installation-fingerprint", installationFingerprint)
-                .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
 
@@ -366,8 +362,6 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
                 .header("x-runtime-lease-token", leaseToken)
-                .header("x-installation-fingerprint", installationFingerprint)
-                .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(buildGraphQlRequest(RELEASE_RUNTIME_LEASE_MUTATION, new JsonObject())))
                 .build();
 
@@ -459,8 +453,6 @@ public class CentralHubAudioProvider implements AudioProvider {
                 .header("Content-Type", "application/json")
                 .header("x-server-key", serverKey)
                 .header("x-runtime-lease-token", leaseToken)
-                .header("x-installation-fingerprint", installationFingerprint)
-                .header("x-installation-secret", installationSecret)
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
 
